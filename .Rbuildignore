@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+.DS_Store
+.gitignore
+.git/.*
+^xlsx
