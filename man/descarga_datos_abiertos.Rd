@@ -2,7 +2,7 @@
 % Please edit documentation in R/descarga_datos_abiertos.R
 \name{descarga_datos_abiertos}
 \alias{descarga_datos_abiertos}
-\title{Descarga base de datos abiertos}
+\title{Descarga base de datos abiertos de la DGE}
 \usage{
 descarga_datos_abiertos(
   download_method = "curl",
@@ -11,6 +11,7 @@ descarga_datos_abiertos(
   remove_zip_after_download = TRUE,
   quiet = FALSE,
   parse_dictionary = TRUE,
+  parse_warnings = FALSE,
   language = "English"
 )
 }
@@ -37,6 +38,9 @@ else the data is downloaded and presented as is. / Se agregan etiquetas
 a partir del diccionario? Default = TRUE en caso contrario solo se presentan los
 datos descargados como estan.}
 
+\item{parse_warnings}{If show parsing errors when reading csv /
+Si muestra errores cuando lee el csv}
+
 \item{language}{('Espanol', 'English') Message languages/ Idiomas del mensaje.}
 }
 \description{
@@ -59,4 +63,5 @@ This is not an official product / este no es un producto oficial
 \dontrun{
 datos_covid <- descarga_datos_abiertos(language = "Espanol")
 }
+
 }

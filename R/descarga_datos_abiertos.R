@@ -32,19 +32,28 @@
 #' @param remove_zip_after_download If the downloaded zip file should be saved /
 #' Si los archivos zip descargados deben ser almacenados.
 #' @param quiet Show messages? / Mostrar mensajes?
+#' @param parse_warnings If show parsing errors when reading csv /
+#' Si muestra errores cuando lee el csv
 #' @param language ('Espanol', 'English') Message languages/ Idiomas del mensaje.
 #'
 #'@examples
 #'\dontrun{
 #'datos_covid <- descarga_datos_abiertos(language = "Espanol")
 #'}
+#'
+#' @export
 descarga_datos_abiertos <- function(download_method = "curl",
                                     file_download_data = tempfile(),
                                     file_download_dictionary = tempfile(),
                                     remove_zip_after_download = TRUE,
                                     quiet = FALSE,
                                     parse_dictionary = TRUE,
+                                    parse_warnings = FALSE,
                                     language = "English") {
+
+  if (stringr::str_detect(toupper(language),"ESPA.*OL")){
+    language <- "Espa\u00f1ol"
+  }
 
   if (!quiet){
     if (language == "Espa\u00f1ol"){
@@ -82,54 +91,66 @@ descarga_datos_abiertos <- function(download_method = "curl",
 
   # Lectura de la base
   options(readr.show_progress = !quiet)
-  dats <- readr::read_csv(unz(
-    file_download_data,
-    unzip(file_download_data, list = TRUE)["Name"]
-  ),
-  locale = readr::locale(encoding = "UTF-8"),
-  col_types = readr::cols(
-    FECHA_ACTUALIZACION   = readr::col_date(format = "%Y-%m-%d"),
-    ID_REGISTRO           = readr::col_character(),
-    ORIGEN                = readr::col_double(),
-    SECTOR                = readr::col_double(),
-    ENTIDAD_UM            = readr::col_character(),
-    SEXO                  = readr::col_double(),
-    ENTIDAD_NAC           = readr::col_character(),
-    ENTIDAD_RES           = readr::col_character(),
-    MUNICIPIO_RES         = readr::col_character(),
-    TIPO_PACIENTE         = readr::col_double(),
-    FECHA_INGRESO         = readr::col_date(format = "%Y-%m-%d"),
-    FECHA_SINTOMAS        = readr::col_date(format = "%Y-%m-%d"),
-    FECHA_DEF             = readr::col_date(format = "%Y-%m-%d"),
-    INTUBADO              = readr::col_double(),
-    NEUMONIA              = readr::col_double(),
-    EDAD                  = readr::col_double(),
-    NACIONALIDAD          = readr::col_double(),
-    EMBARAZO              = readr::col_double(),
-    HABLA_LENGUA_INDIG    = readr::col_double(),
-    INDIGENA              = readr::col_double(),
-    DIABETES              = readr::col_double(),
-    EPOC                  = readr::col_double(),
-    ASMA                  = readr::col_double(),
-    INMUSUPR              = readr::col_double(),
-    HIPERTENSION          = readr::col_double(),
-    OTRA_COM              = readr::col_double(),
-    CARDIOVASCULAR        = readr::col_double(),
-    OBESIDAD              = readr::col_double(),
-    RENAL_CRONICA         = readr::col_double(),
-    TABAQUISMO            = readr::col_double(),
-    OTRO_CASO             = readr::col_double(),
-    TOMA_MUESTRA_LAB      = readr::col_double(),
-    RESULTADO_LAB         = readr::col_double(),
-    TOMA_MUESTRA_ANTIGENO = readr::col_double(),
-    RESULTADO_ANTIGENO    = readr::col_double(),
-    CLASIFICACION_FINAL   = readr::col_double(),
-    MIGRANTE              = readr::col_double(),
-    PAIS_NACIONALIDAD     = readr::col_character(),
-    PAIS_ORIGEN           = readr::col_character(),
-    UCI                   = readr::col_double()
-    )
-  )
+  if (!parse_warnings){
+    suppressWarnings({
+      dats <- readr::read_csv(unz(
+        file_download_data,
+        unzip(file_download_data, list = TRUE)["Name"]
+      ),
+      locale = readr::locale(encoding = "UTF-8"),
+      col_types = readr::cols(
+        FECHA_ACTUALIZACION   = readr::col_date(format = "%Y-%m-%d"),
+        ID_REGISTRO           = readr::col_character(),
+        ORIGEN                = readr::col_double(),
+        SECTOR                = readr::col_double(),
+        ENTIDAD_UM            = readr::col_character(),
+        SEXO                  = readr::col_double(),
+        ENTIDAD_NAC           = readr::col_character(),
+        ENTIDAD_RES           = readr::col_character(),
+        MUNICIPIO_RES         = readr::col_character(),
+        TIPO_PACIENTE         = readr::col_double(),
+        FECHA_INGRESO         = readr::col_date(format = "%Y-%m-%d"),
+        FECHA_SINTOMAS        = readr::col_date(format = "%Y-%m-%d"),
+        FECHA_DEF             = readr::col_date(format = "%Y-%m-%d"),
+        INTUBADO              = readr::col_double(),
+        NEUMONIA              = readr::col_double(),
+        EDAD                  = readr::col_double(),
+        NACIONALIDAD          = readr::col_double(),
+        EMBARAZO              = readr::col_double(),
+        HABLA_LENGUA_INDIG    = readr::col_double(),
+        INDIGENA              = readr::col_double(),
+        DIABETES              = readr::col_double(),
+        EPOC                  = readr::col_double(),
+        ASMA                  = readr::col_double(),
+        INMUSUPR              = readr::col_double(),
+        HIPERTENSION          = readr::col_double(),
+        OTRA_COM              = readr::col_double(),
+        CARDIOVASCULAR        = readr::col_double(),
+        OBESIDAD              = readr::col_double(),
+        RENAL_CRONICA         = readr::col_double(),
+        TABAQUISMO            = readr::col_double(),
+        OTRO_CASO             = readr::col_double(),
+        TOMA_MUESTRA_LAB      = readr::col_double(),
+        RESULTADO_LAB         = readr::col_double(),
+        TOMA_MUESTRA_ANTIGENO = readr::col_double(),
+        RESULTADO_ANTIGENO    = readr::col_double(),
+        CLASIFICACION_FINAL   = readr::col_double(),
+        MIGRANTE              = readr::col_double(),
+        PAIS_NACIONALIDAD     = readr::col_character(),
+        PAIS_ORIGEN           = readr::col_character(),
+        UCI                   = readr::col_double()
+        )
+      )
+    })
+  }
+
+  if (language == "Espa\u00f1ol"){
+    dats$Fuente         <- site.covid
+    dats$Fecha_descarga <- date()
+  } else {
+    dats$Source        <- site.covid
+    dats$Download_date <- date()
+  }
 
   if (remove_zip_after_download) {
     unlink(file_download_data)
@@ -378,13 +399,13 @@ descarga_datos_abiertos <- function(download_method = "curl",
     dats <- dats %>%
       dplyr::left_join(diccionario.covid,
                        by = c("CLASIFICACION_FINAL" = "CLAVE")) %>%
-      dplyr::select(-.data$CLASIFICACION_FINAL,
-                    -.data$matches("DESCRIPCI\u00d3N")) %>%
+      dplyr::select(-.data$CLASIFICACION_FINAL) %>%
       dplyr::rename_with(.cols = dplyr::matches("\bCLASIFICACI\u00d3N\b"),
                          function(x) "CLASIFICACION_FINAL")
 
     if (remove_zip_after_download) {
       unlink(file_download_dictionary)
+      unlink(fname)
     }
   }
 
