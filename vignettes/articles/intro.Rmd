@@ -48,9 +48,7 @@ descarga_datos_abiertos(language = "Español",
   glimpse()
 ```
 
-# Funcionamiento general
-
-Basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. Por ejemplo:
+Una vez descargados, basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. Por ejemplo:
 
 ```{r, eval = FALSE}
 datos_covid %>% casos()
@@ -163,7 +161,7 @@ datos_covid %>%
 
 En cada sección se explica una variable de interés o un método asociado.
 
-### Positividad 
+## Positividad 
 
 Definimos la positividad como:
 $$
@@ -205,7 +203,7 @@ datos_covid %>%
  covid_plot()
 ```
 
-### Número de pruebas
+## Número de pruebas
 
 El número de pruebas se calcula como:
 
@@ -259,7 +257,7 @@ datos_covid %>%
   covid_plot()
 ```
 
-### Casos
+## Casos
 
 Los casos se cuentan como cada una de las filas en el registro de datos abiertos. Las funciones relevantes son:
 
@@ -325,7 +323,7 @@ datos_covid %>%
 ```
 
 
-### Defunciones
+## Defunciones
 
 Las funciones de `defunciones` son idénticas a las de casos sólo que por default están organizadas por `FECHA_DEF`. Están disponibles:
 
@@ -395,7 +393,7 @@ datos_covid %>%
   head()
 ```
 
-### Suavizamiento
+## Suavizamiento
 
 Los datos observados pueden suavizarse usando `splines` (`method = "splines"`), un `kernel` (`method = "kernel"`), local weighted (`method = "lowess"`) y media móvil (`method = "rollmean"`). La siguiente gráfica muestra los métodos:
 
@@ -445,7 +443,7 @@ Los parámetros de ajuste son como siguen:
 
 + `rollmean` se pueden cambiar los días a incluir en la media móvil con `k`. Por default se tiene `k = 7`. Con `k = 1` se obtienen los datos originales. A mayor `k` mayor suavizamiento. 
 
-### Tasa de cambio
+## Tasa de cambio
 
 La tasa de cambio para cualquiera de las variables se refiere a la variable del día $t$ menos la del día $t-1$. Por ejemplo, en el caso de casos: 
 
@@ -477,7 +475,7 @@ la cual resulta en una mejor aproximación a la derivada.
 > **Ojo** Una tasa de cambio positiva implica que los casos van en aumento; negativa implica reducción y cero implica que permanecen constantes. 
 
 
-### Acumulados
+## Acumulados
 
 Los casos acumulados se pueden obtener mediante el comando `acumulados`. Estos corresponden a todos los casos que han ocurrido hasta antes del tiempo $t$ (incluyendo dicho momento). Es decir:
 
@@ -500,7 +498,7 @@ datos_covid %>%
   covid_plot()
 ```
 
-### Otras funciones de interés
+## Otras funciones de interés
 
 Faltan por desarrollar las siguientes funciones:
 

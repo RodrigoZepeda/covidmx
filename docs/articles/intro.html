@@ -22,7 +22,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
@@ -88,11 +88,11 @@
 <span class="co">#&gt; Por favor se paciente todo el proceso toma ~10 minutos.</span>
 <span class="co">#&gt; Descargando datos de:</span>
 <span class="co">#&gt; http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip</span>
-<span class="co">#&gt; Descargado en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpqeFqQx/file3c03223cf4e8</span>
+<span class="co">#&gt; Descargado en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpsndMx9/file446b2bd34fa5</span>
 <span class="co">#&gt; Termine de leer los datos.</span>
 <span class="co">#&gt; Descargando diccionario de:</span>
 <span class="co">#&gt; http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/diccionario_datos_covid19.zip</span>
-<span class="co">#&gt; Descarga de diccionario en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpqeFqQx/file3c0349500ab2</span>
+<span class="co">#&gt; Descarga de diccionario en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpsndMx9/file446bbab1fc1</span>
 <span class="co">#&gt; + ORIGEN</span>
 <span class="co">#&gt; + SECTOR</span>
 <span class="co">#&gt; + SEXO</span>
@@ -140,7 +140,7 @@
 <span class="co">#&gt; $ PAIS_NACIONALIDAD     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "México", "México", "México", "México", "México"…</span>
 <span class="co">#&gt; $ PAIS_ORIGEN           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "97", "97", "97", "97", "97", "97", "97", "97", …</span>
 <span class="co">#&gt; $ Fuente                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "http://datosabiertos.salud.gob.mx/gobmx/salud/d…</span>
-<span class="co">#&gt; $ Fecha_descarga        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Wed Dec 22 14:51:10 2021", "Wed Dec 22 14:51:10…</span>
+<span class="co">#&gt; $ Fecha_descarga        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Wed Dec 22 15:58:27 2021", "Wed Dec 22 15:58:27…</span>
 <span class="co">#&gt; $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "USMER", "USMER", "USMER", "USMER", "USMER", "US…</span>
 <span class="co">#&gt; $ SECTOR                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "SSA", "SSA", "SSA", "SSA", "SSA", "SSA", "SSA",…</span>
 <span class="co">#&gt; $ SEXO                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "MUJER", "MUJER", "MUJER", "MUJER", "MUJER", "MU…</span>
@@ -182,7 +182,7 @@
 <span class="co">#&gt; Por favor se paciente todo el proceso toma ~10 minutos.</span>
 <span class="co">#&gt; Descargando datos de:</span>
 <span class="co">#&gt; http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip</span>
-<span class="co">#&gt; Descargado en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpqeFqQx/file3c038abe457</span>
+<span class="co">#&gt; Descargado en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpsndMx9/file446b792bacd2</span>
 <span class="co">#&gt; Termine de leer los datos.</span>
 <span class="co">#&gt; Por favor no olvides citar este paquete. Ve citation('covidmx').</span>
 <span class="co">#&gt; Rows: 12,196,712</span>
@@ -228,12 +228,8 @@
 <span class="co">#&gt; $ PAIS_ORIGEN           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "97", "97", "97", "97", "97", "97", "97", "97", …</span>
 <span class="co">#&gt; $ UCI                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, …</span>
 <span class="co">#&gt; $ Fuente                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "http://datosabiertos.salud.gob.mx/gobmx/salud/d…</span>
-<span class="co">#&gt; $ Fecha_descarga        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Wed Dec 22 15:01:57 2021", "Wed Dec 22 15:01:57…</span></code></pre></div>
-</div>
-<div class="section level1">
-<h1 id="funcionamiento-general">Funcionamiento general<a class="anchor" aria-label="anchor" href="#funcionamiento-general"></a>
-</h1>
-<p>Basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. Por ejemplo:</p>
+<span class="co">#&gt; $ Fecha_descarga        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Wed Dec 22 16:13:21 2021", "Wed Dec 22 16:13:21…</span></code></pre></div>
+<p>Una vez descargados, basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. Por ejemplo:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span>
@@ -328,9 +324,10 @@
     <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <p>En cada sección se explica una variable de interés o un método asociado.</p>
-<div class="section level3">
-<h3 id="positividad">Positividad<a class="anchor" aria-label="anchor" href="#positividad"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="positividad">Positividad<a class="anchor" aria-label="anchor" href="#positividad"></a>
+</h2>
 <p>Definimos la positividad como: <span class="math display">\[
 \text{Positividad}(t) = \frac{\textrm{Número de pruebas positivas en día }t}{\textrm{Número de pruebas positivas en día }t + \textrm{Número de pruebas negativas en día }t}
 \]</span></p>
@@ -373,9 +370,9 @@
  <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 </div>
-<div class="section level3">
-<h3 id="número-de-pruebas">Número de pruebas<a class="anchor" aria-label="anchor" href="#n%C3%BAmero-de-pruebas"></a>
-</h3>
+<div class="section level2">
+<h2 id="número-de-pruebas">Número de pruebas<a class="anchor" aria-label="anchor" href="#n%C3%BAmero-de-pruebas"></a>
+</h2>
 <p>El número de pruebas se calcula como:</p>
 <p><span class="math display">\[
 \text{Pruebas}(t) = \textrm{Número de pruebas positivas} + \textrm{Número de pruebas negativas} + \textrm{Número de pruebas inconclusas}
@@ -425,9 +422,9 @@
   <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
-<div class="section level3">
-<h3 id="casos">Casos<a class="anchor" aria-label="anchor" href="#casos"></a>
-</h3>
+<div class="section level2">
+<h2 id="casos">Casos<a class="anchor" aria-label="anchor" href="#casos"></a>
+</h2>
 <p>Los casos se cuentan como cada una de las filas en el registro de datos abiertos. Las funciones relevantes son:</p>
 <ul>
 <li>
@@ -487,9 +484,9 @@
   <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-25-1.png" width="100%"></p>
 </div>
-<div class="section level3">
-<h3 id="defunciones">Defunciones<a class="anchor" aria-label="anchor" href="#defunciones"></a>
-</h3>
+<div class="section level2">
+<h2 id="defunciones">Defunciones<a class="anchor" aria-label="anchor" href="#defunciones"></a>
+</h2>
 <p>Las funciones de <code>defunciones</code> son idénticas a las de casos sólo que por default están organizadas por <code>FECHA_DEF</code>. Están disponibles:</p>
 <ul>
 <li>
@@ -561,9 +558,9 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">5</span> COLIMA     2020-07-09          -<span style="color: #BB0000;">0.060</span><span style="color: #BB0000; text-decoration: underline;">2</span>  </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">6</span> COLIMA     2020-07-11          -<span style="color: #BB0000;">0.007</span><span style="color: #BB0000; text-decoration: underline;">61</span></span></code></pre>
 </div>
-<div class="section level3">
-<h3 id="suavizamiento">Suavizamiento<a class="anchor" aria-label="anchor" href="#suavizamiento"></a>
-</h3>
+<div class="section level2">
+<h2 id="suavizamiento">Suavizamiento<a class="anchor" aria-label="anchor" href="#suavizamiento"></a>
+</h2>
 <p>Los datos observados pueden suavizarse usando <code>splines</code> (<code>method = "splines"</code>), un <code>kernel</code> (<code>method = "kernel"</code>), local weighted (<code>method = "lowess"</code>) y media móvil (<code>method = "rollmean"</code>). La siguiente gráfica muestra los métodos:</p>
 <p><img src="intro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 <p>Los parámetros de ajuste son como siguen:</p>
@@ -574,9 +571,9 @@
 <li><p><code>rollmean</code> se pueden cambiar los días a incluir en la media móvil con <code>k</code>. Por default se tiene <code>k = 7</code>. Con <code>k = 1</code> se obtienen los datos originales. A mayor <code>k</code> mayor suavizamiento.</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3 id="tasa-de-cambio">Tasa de cambio<a class="anchor" aria-label="anchor" href="#tasa-de-cambio"></a>
-</h3>
+<div class="section level2">
+<h2 id="tasa-de-cambio">Tasa de cambio<a class="anchor" aria-label="anchor" href="#tasa-de-cambio"></a>
+</h2>
 <p>La tasa de cambio para cualquiera de las variables se refiere a la variable del día <span class="math inline">\(t\)</span> menos la del día <span class="math inline">\(t-1\)</span>. Por ejemplo, en el caso de casos:</p>
 <p><span class="math display">\[
 \textrm{Tasa de Cambio}_{\text{Casos}}(t) = \text{Casos}(t) -  \text{Casos}(t-1)
@@ -603,9 +600,9 @@
 <p><strong>Ojo</strong> Una tasa de cambio positiva implica que los casos van en aumento; negativa implica reducción y cero implica que permanecen constantes.</p>
 </blockquote>
 </div>
-<div class="section level3">
-<h3 id="acumulados">Acumulados<a class="anchor" aria-label="anchor" href="#acumulados"></a>
-</h3>
+<div class="section level2">
+<h2 id="acumulados">Acumulados<a class="anchor" aria-label="anchor" href="#acumulados"></a>
+</h2>
 <p>Los casos acumulados se pueden obtener mediante el comando <code>acumulados</code>. Estos corresponden a todos los casos que han ocurrido hasta antes del tiempo <span class="math inline">\(t\)</span> (incluyendo dicho momento). Es decir:</p>
 <p><span class="math display">\[
 \textrm{Acumulados(t)} = \sum\limits_{s = t_0}^t \textrm{Casos}(s)
@@ -622,9 +619,9 @@
   <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
 </div>
-<div class="section level3">
-<h3 id="otras-funciones-de-interés">Otras funciones de interés<a class="anchor" aria-label="anchor" href="#otras-funciones-de-inter%C3%A9s"></a>
-</h3>
+<div class="section level2">
+<h2 id="otras-funciones-de-interés">Otras funciones de interés<a class="anchor" aria-label="anchor" href="#otras-funciones-de-inter%C3%A9s"></a>
+</h2>
 <p>Faltan por desarrollar las siguientes funciones:</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">cfr</span><span class="op">(</span><span class="op">)</span>                       <span class="co">#Case fatality rate</span>
@@ -634,7 +631,6 @@
 <span class="fu">descarga_datos_vacunacion</span><span class="op">(</span><span class="op">)</span> <span class="co">#Descarga de datos de vacunación</span>
 <span class="fu">descarga_datos_cdmx</span><span class="op">(</span><span class="op">)</span>       <span class="co">#Descarga de datos abiertos cdmx</span>
 <span class="fu">tasa</span><span class="op">(</span><span class="op">)</span>                      <span class="co">#Convierte casos en tasas</span></code></pre></div>
-</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
