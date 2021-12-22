@@ -58,7 +58,7 @@ tasa_cambio <- function(covid_dataset, variable = NULL, quiet = FALSE){
     covid_dataset <- covid_dataset %>%
       dplyr::arrange_at(fecha_col) %>%
       dplyr::mutate(TASA_CAMBIO =  get(variable) - dplyr::lag(get(variable),
-                                                              default = 0))
+                                                              default = 0)) %>%
       dplyr::select_at(c(fecha_col,"TASA_CAMBIO")) %>%
       dplyr::rename_with(.cols = dplyr::matches("TASA_CAMBIO"),
                            function(x) paste0(x,"_", variable))
@@ -66,7 +66,7 @@ tasa_cambio <- function(covid_dataset, variable = NULL, quiet = FALSE){
     covid_dataset <- covid_dataset %>%
       dplyr::arrange_at(fecha_col) %>%
       dplyr::mutate(TASA_CAMBIO =  get(variable) - dplyr::lag(get(variable),
-                                                              default = 0))
+                                                              default = 0)) %>%
       dplyr::select_at(c(fecha_col,"TASA_CAMBIO")) %>%
       dplyr::rename_with(.cols = dplyr::matches("TASA_CAMBIO"),
                          function(x) paste0(x,"_", variable))

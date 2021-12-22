@@ -69,16 +69,16 @@
     
     
 <p>La librería de <code>covidmx</code> está para ayudarte a analizar los datos abiertos de COVID-19 de México, generar estadísticos de interés y visualizaciones rápidas. La idea es ahorrarte tiempo.</p>
-<div class="section level1">
-<h1 id="instalación">Instalación<a class="anchor" aria-label="anchor" href="#instalaci%C3%B3n"></a>
-</h1>
+<div class="section level2">
+<h2 id="instalación">Instalación<a class="anchor" aria-label="anchor" href="#instalaci%C3%B3n"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"RodrigoZepeda/covidmx"</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level1">
-<h1 id="descarga-de-datos-de-la-dirección-general-de-epidemiología">Descarga de datos de la Dirección General de Epidemiología<a class="anchor" aria-label="anchor" href="#descarga-de-datos-de-la-direcci%C3%B3n-general-de-epidemiolog%C3%ADa"></a>
-</h1>
+<div class="section level2">
+<h2 id="descarga-de-datos-de-la-dirección-general-de-epidemiología">Descarga de datos de la Dirección General de Epidemiología<a class="anchor" aria-label="anchor" href="#descarga-de-datos-de-la-direcci%C3%B3n-general-de-epidemiolog%C3%ADa"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">covidmx</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></code></pre></div>
@@ -88,11 +88,11 @@
 <span class="co">#&gt; Por favor se paciente todo el proceso toma ~10 minutos.</span>
 <span class="co">#&gt; Descargando datos de:</span>
 <span class="co">#&gt; http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip</span>
-<span class="co">#&gt; Descargado en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpjbGZQq/file2b101136f8aa</span>
+<span class="co">#&gt; Descargado en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpqeFqQx/file3c03223cf4e8</span>
 <span class="co">#&gt; Termine de leer los datos.</span>
 <span class="co">#&gt; Descargando diccionario de:</span>
 <span class="co">#&gt; http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/diccionario_datos_covid19.zip</span>
-<span class="co">#&gt; Descarga de diccionario en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpjbGZQq/file2b1029764af4</span>
+<span class="co">#&gt; Descarga de diccionario en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpqeFqQx/file3c0349500ab2</span>
 <span class="co">#&gt; + ORIGEN</span>
 <span class="co">#&gt; + SECTOR</span>
 <span class="co">#&gt; + SEXO</span>
@@ -140,7 +140,7 @@
 <span class="co">#&gt; $ PAIS_NACIONALIDAD     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "México", "México", "México", "México", "México"…</span>
 <span class="co">#&gt; $ PAIS_ORIGEN           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "97", "97", "97", "97", "97", "97", "97", "97", …</span>
 <span class="co">#&gt; $ Fuente                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "http://datosabiertos.salud.gob.mx/gobmx/salud/d…</span>
-<span class="co">#&gt; $ Fecha_descarga        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Wed Dec 22 13:10:27 2021", "Wed Dec 22 13:10:27…</span>
+<span class="co">#&gt; $ Fecha_descarga        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Wed Dec 22 14:51:10 2021", "Wed Dec 22 14:51:10…</span>
 <span class="co">#&gt; $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "USMER", "USMER", "USMER", "USMER", "USMER", "US…</span>
 <span class="co">#&gt; $ SECTOR                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "SSA", "SSA", "SSA", "SSA", "SSA", "SSA", "SSA",…</span>
 <span class="co">#&gt; $ SEXO                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "MUJER", "MUJER", "MUJER", "MUJER", "MUJER", "MU…</span>
@@ -176,12 +176,13 @@
 <span class="co">#&gt; $ DESCRIPCIÓN           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Confirmado aplica cuando:\r\nEl caso tiene mues…</span></code></pre></div>
 <p>esta opción puede cancelarse tomando <code>parse_dictionary = FALSE</code> en la descarga. Sin embargo, activar dicha opción puede tener problemas para algunos de los análisis que vienen después por lo que se recomienda no tenerla apagada.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"Español"</span>, parse_dictionary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"Español"</span>, 
+                        parse_dictionary <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Por favor se paciente todo el proceso toma ~10 minutos.</span>
 <span class="co">#&gt; Descargando datos de:</span>
 <span class="co">#&gt; http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip</span>
-<span class="co">#&gt; Descargado en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpjbGZQq/file2b105361b027</span>
+<span class="co">#&gt; Descargado en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpqeFqQx/file3c038abe457</span>
 <span class="co">#&gt; Termine de leer los datos.</span>
 <span class="co">#&gt; Por favor no olvides citar este paquete. Ve citation('covidmx').</span>
 <span class="co">#&gt; Rows: 12,196,712</span>
@@ -227,7 +228,7 @@
 <span class="co">#&gt; $ PAIS_ORIGEN           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "97", "97", "97", "97", "97", "97", "97", "97", …</span>
 <span class="co">#&gt; $ UCI                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, …</span>
 <span class="co">#&gt; $ Fuente                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "http://datosabiertos.salud.gob.mx/gobmx/salud/d…</span>
-<span class="co">#&gt; $ Fecha_descarga        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Wed Dec 22 13:18:07 2021", "Wed Dec 22 13:18:07…</span></code></pre></div>
+<span class="co">#&gt; $ Fecha_descarga        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Wed Dec 22 15:01:57 2021", "Wed Dec 22 15:01:57…</span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="funcionamiento-general">Funcionamiento general<a class="anchor" aria-label="anchor" href="#funcionamiento-general"></a>
@@ -254,8 +255,8 @@
 <p>lo cual es equivalente a:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ENTIDAD_UM</span> <span class="op">==</span> <span class="st">"QUINTANA ROO"</span> <span class="op">|</span> <span class="va">ENTIDAD_UM</span> <span class="op">==</span> <span class="st">"AGUASCALIENTES"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span> </code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ENTIDAD_UM</span> <span class="op">==</span> <span class="st">"QUINTANA ROO"</span> <span class="op">|</span> <span class="va">ENTIDAD_UM</span> <span class="op">==</span> <span class="st">"AGUASCALIENTES"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span> </code></pre></div>
 <p>Si se quiere filtrar por entidad de nacimiento y que la fecha sea la de ingreso, por ejemplo:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
@@ -267,7 +268,7 @@
 <p>lo cual es equivalente a:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ENTIDAD_NAC</span> <span class="op">==</span> <span class="st">"QUINTANA ROO"</span> <span class="op">|</span> <span class="va">ENTIDAD_NAC</span> <span class="op">==</span> <span class="st">"AGUASCALIENTES"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ENTIDAD_NAC</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>, <span class="st">"AGUASCALIENTES"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">FECHA_INGRESO</span>, <span class="va">ENTIDAD_NAC</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">tally</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Finalmente, si sólo se desean casos confirmados:</p>
@@ -291,8 +292,8 @@
 <p><img src="intro_files/figure-html/unnamed-chunk-9-1.png" width="700"> Esto es equivalente a:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ENTIDAD_NAC</span> <span class="op">==</span> <span class="st">"QUINTANA ROO"</span> <span class="op">|</span> <span class="va">ENTIDAD_NAC</span> <span class="op">==</span> <span class="st">"AGUASCALIENTES"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">CLASIFICACIÓN</span> <span class="op">==</span> <span class="st">"CASO DE SARS-COV-2  CONFIRMADO"</span><span class="op">)</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ENTIDAD_NAC</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>, <span class="st">"AGUASCALIENTES"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">CLASIFICACIÓN</span> <span class="op">==</span> <span class="st">"CASO DE SARS-COV-2  CONFIRMADO"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">FECHA_INGRESO</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">tally</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Podemos suavizar estos datos con la función <code>smooth</code></p>
@@ -327,9 +328,9 @@
     <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <p>En cada sección se explica una variable de interés o un método asociado.</p>
-<div class="section level2">
-<h2 id="positividad">Positividad<a class="anchor" aria-label="anchor" href="#positividad"></a>
-</h2>
+<div class="section level3">
+<h3 id="positividad">Positividad<a class="anchor" aria-label="anchor" href="#positividad"></a>
+</h3>
 <p>Definimos la positividad como: <span class="math display">\[
 \text{Positividad}(t) = \frac{\textrm{Número de pruebas positivas en día }t}{\textrm{Número de pruebas positivas en día }t + \textrm{Número de pruebas negativas en día }t}
 \]</span></p>
@@ -365,15 +366,16 @@
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Contraste contra antígenos en ambulatorios nacionales que fallecieron</span>
 <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">TIPO_PACIENTE</span> <span class="op">==</span> <span class="st">"AMBULATORIO"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/positividad_antigenos.html">positividad_antigenos</a></span><span class="op">(</span>fecha_tipo <span class="op">=</span> <span class="st">"Defunción"</span>, group_by_entidad <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/smooth.html">smooth</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+ <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">TIPO_PACIENTE</span> <span class="op">==</span> <span class="st">"AMBULATORIO"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+ <span class="fu"><a href="../reference/positividad_antigenos.html">positividad_antigenos</a></span><span class="op">(</span>fecha_tipo <span class="op">=</span> <span class="st">"Defunción"</span>, 
+                       group_by_entidad <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+ <span class="fu"><a href="../reference/smooth.html">smooth</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+ <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 </div>
-<div class="section level2">
-<h2 id="número-de-pruebas">Número de pruebas<a class="anchor" aria-label="anchor" href="#n%C3%BAmero-de-pruebas"></a>
-</h2>
+<div class="section level3">
+<h3 id="número-de-pruebas">Número de pruebas<a class="anchor" aria-label="anchor" href="#n%C3%BAmero-de-pruebas"></a>
+</h3>
 <p>El número de pruebas se calcula como:</p>
 <p><span class="math display">\[
 \text{Pruebas}(t) = \textrm{Número de pruebas positivas} + \textrm{Número de pruebas negativas} + \textrm{Número de pruebas inconclusas}
@@ -423,9 +425,9 @@
   <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
-<div class="section level2">
-<h2 id="casos">Casos<a class="anchor" aria-label="anchor" href="#casos"></a>
-</h2>
+<div class="section level3">
+<h3 id="casos">Casos<a class="anchor" aria-label="anchor" href="#casos"></a>
+</h3>
 <p>Los casos se cuentan como cada una de las filas en el registro de datos abiertos. Las funciones relevantes son:</p>
 <ul>
 <li>
@@ -485,9 +487,9 @@
   <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-25-1.png" width="100%"></p>
 </div>
-<div class="section level2">
-<h2 id="defunciones">Defunciones<a class="anchor" aria-label="anchor" href="#defunciones"></a>
-</h2>
+<div class="section level3">
+<h3 id="defunciones">Defunciones<a class="anchor" aria-label="anchor" href="#defunciones"></a>
+</h3>
 <p>Las funciones de <code>defunciones</code> son idénticas a las de casos sólo que por default están organizadas por <code>FECHA_DEF</code>. Están disponibles:</p>
 <ul>
 <li>
@@ -559,9 +561,9 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">5</span> COLIMA     2020-07-09          -<span style="color: #BB0000;">0.060</span><span style="color: #BB0000; text-decoration: underline;">2</span>  </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">6</span> COLIMA     2020-07-11          -<span style="color: #BB0000;">0.007</span><span style="color: #BB0000; text-decoration: underline;">61</span></span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="suavizamiento">Suavizamiento<a class="anchor" aria-label="anchor" href="#suavizamiento"></a>
-</h2>
+<div class="section level3">
+<h3 id="suavizamiento">Suavizamiento<a class="anchor" aria-label="anchor" href="#suavizamiento"></a>
+</h3>
 <p>Los datos observados pueden suavizarse usando <code>splines</code> (<code>method = "splines"</code>), un <code>kernel</code> (<code>method = "kernel"</code>), local weighted (<code>method = "lowess"</code>) y media móvil (<code>method = "rollmean"</code>). La siguiente gráfica muestra los métodos:</p>
 <p><img src="intro_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 <p>Los parámetros de ajuste son como siguen:</p>
@@ -571,6 +573,67 @@
 <li><p><code>lowess</code> se puede cambiar el parámetro <code>f</code>. Más alto <code>f</code> más suavizado.</p></li>
 <li><p><code>rollmean</code> se pueden cambiar los días a incluir en la media móvil con <code>k</code>. Por default se tiene <code>k = 7</code>. Con <code>k = 1</code> se obtienen los datos originales. A mayor <code>k</code> mayor suavizamiento.</p></li>
 </ul>
+</div>
+<div class="section level3">
+<h3 id="tasa-de-cambio">Tasa de cambio<a class="anchor" aria-label="anchor" href="#tasa-de-cambio"></a>
+</h3>
+<p>La tasa de cambio para cualquiera de las variables se refiere a la variable del día <span class="math inline">\(t\)</span> menos la del día <span class="math inline">\(t-1\)</span>. Por ejemplo, en el caso de casos:</p>
+<p><span class="math display">\[
+\textrm{Tasa de Cambio}_{\text{Casos}}(t) = \text{Casos}(t) -  \text{Casos}(t-1)
+\]</span></p>
+<p>Por el mismo ruido de los datos la tasa de cambio tiende a oscilar en torno a cero por lo que en sí misma no es muy informativa:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/tasa_cambio.html">tasa_cambio</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Warning in tasa_cambio(.): Para la tasa de cambio se sugieresuavizar primero con smooth: </span>
+<span class="co">#&gt; covid_dataset %&gt;% smooth() %&gt;% tasa_cambio('SMOOTH')</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
+<p>La recomendación (de acuerdo con el <code>Warning</code>) es tomar la tasa de cambio pero de la variable suavizada:</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/smooth.html">smooth</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/tasa_cambio.html">tasa_cambio</a></span><span class="op">(</span>variable <span class="op">=</span> <span class="st">"SMOOTH"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
+<p>la cual resulta en una mejor aproximación a la derivada.</p>
+<blockquote>
+<p><strong>Ojo</strong> Una tasa de cambio positiva implica que los casos van en aumento; negativa implica reducción y cero implica que permanecen constantes.</p>
+</blockquote>
+</div>
+<div class="section level3">
+<h3 id="acumulados">Acumulados<a class="anchor" aria-label="anchor" href="#acumulados"></a>
+</h3>
+<p>Los casos acumulados se pueden obtener mediante el comando <code>acumulados</code>. Estos corresponden a todos los casos que han ocurrido hasta antes del tiempo <span class="math inline">\(t\)</span> (incluyendo dicho momento). Es decir:</p>
+<p><span class="math display">\[
+\textrm{Acumulados(t)} = \sum\limits_{s = t_0}^t \textrm{Casos}(s)
+\]</span></p>
+<p>donde <span class="math inline">\(t_0\)</span> es el inicio de los registros. Por ejemplo, los casos acumulados en el tercer día de pandemia (suponiendo empezó en <span class="math inline">\(t_0 = 0\)</span>) serían:</p>
+<p><span class="math display">\[
+\textrm{Acumulados(3)} = \textrm{Casos}(0) + \textrm{Casos}(1) + \textrm{Casos}(2) + \textrm{Casos}(3)
+\]</span></p>
+<p>Como ejemplo se tiene:</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/acumulados.html">acumulados</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="otras-funciones-de-interés">Otras funciones de interés<a class="anchor" aria-label="anchor" href="#otras-funciones-de-inter%C3%A9s"></a>
+</h3>
+<p>Faltan por desarrollar las siguientes funciones:</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">cfr</span><span class="op">(</span><span class="op">)</span>                       <span class="co">#Case fatality rate</span>
+<span class="fu">chr</span><span class="op">(</span><span class="op">)</span>                       <span class="co">#Case hospitalization rate</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">rt</a></span><span class="op">(</span><span class="op">)</span>                        <span class="co">#Effective reproductive number</span>
+<span class="fu">descarga_datos_ocupacion</span><span class="op">(</span><span class="op">)</span>  <span class="co">#Descarga de datos de ocupación hospitalaria</span>
+<span class="fu">descarga_datos_vacunacion</span><span class="op">(</span><span class="op">)</span> <span class="co">#Descarga de datos de vacunación</span>
+<span class="fu">descarga_datos_cdmx</span><span class="op">(</span><span class="op">)</span>       <span class="co">#Descarga de datos abiertos cdmx</span>
+<span class="fu">tasa</span><span class="op">(</span><span class="op">)</span>                      <span class="co">#Convierte casos en tasas</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

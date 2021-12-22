@@ -1,4 +1,4 @@
-#' Descarga base de datos abiertos de la DGE
+#' DESCARGA BASE DE DATOS ABIERTOS DE LA DIRECCION GENERAL DE EPIDEMIOLOGIA
 #'
 #' @description
 #' `descarga_datos_abiertos` downloads and labels
@@ -14,6 +14,7 @@
 #' `parsing`: the dataset has issues.
 #' En la lectura de datos es normal tener un `Warning` por `parsing`:
 #' la base viene chueca.
+#'
 #' This is not an official product / este no es un producto oficial
 #'
 #' @param download_method Methods for download file (default = "curl"). Other

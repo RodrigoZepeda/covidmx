@@ -2,7 +2,7 @@
 % Please edit documentation in R/smooth.R
 \name{smooth}
 \alias{smooth}
-\title{Suavizamiento de los casos}
+\title{SUAVIZAMIENTO DE LOS CASOS}
 \usage{
 smooth(
   covid_dataset,
@@ -34,7 +34,7 @@ smooth(
 \code{smooth} Suaviza los casos reportados
 }
 \details{
-Por ahora solo esta la opcion de splines, lowess y kernel.
+Por ahora solo esta la opcion de splines, lowess, kernel y media movil (rollmean).
 
 This is not an official product / este no es un producto oficial
 }

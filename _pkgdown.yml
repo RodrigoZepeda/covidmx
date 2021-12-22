@@ -1,6 +1,5 @@
 url: https://rodrigozepeda.github.io/covidmx/
 template:
   bootstrap: 5
-  bootswatch: lux
   lang: es
 

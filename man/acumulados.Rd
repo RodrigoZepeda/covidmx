@@ -23,8 +23,10 @@ This is not an official product / este no es un producto oficial
 datos_covid <- descarga_datos_abiertos(language = "Espanol")
 
 Casos acumulados en COAHUILA
-datos_covid \%>\% casos(entidades = c("COAHUILA")) \%>\% acumulados() \%>\%
-covid_plot()
+datos_covid \%>\%
+  casos(entidades = c("COAHUILA")) \%>\%
+  acumulados() \%>\%
+  covid_plot()
 
 datos_covid \%>\% casos() \%>\% acumulados() \%>\% covid_plot()
 }

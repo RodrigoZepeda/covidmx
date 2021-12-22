@@ -1,10 +1,10 @@
-#' Suavizamiento de los casos
+#' SUAVIZAMIENTO DE LOS CASOS
 #'
 #' @description
 #' `smooth` Suaviza los casos reportados
 #'
 #' @details
-#' Por ahora solo esta la opcion de splines, lowess y kernel.
+#' Por ahora solo esta la opcion de splines, lowess, kernel y media movil (rollmean).
 #'
 #' This is not an official product / este no es un producto oficial
 #'

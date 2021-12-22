@@ -2,7 +2,7 @@
 % Please edit documentation in R/descarga_datos_abiertos.R
 \name{descarga_datos_abiertos}
 \alias{descarga_datos_abiertos}
-\title{Descarga base de datos abiertos de la DGE}
+\title{DESCARGA BASE DE DATOS ABIERTOS DE LA DIRECCION GENERAL DE EPIDEMIOLOGIA}
 \usage{
 descarga_datos_abiertos(
   download_method = "curl",
@@ -57,6 +57,7 @@ While reading the data it is perfectly normal to get a \code{Warning} for
 \code{parsing}: the dataset has issues.
 En la lectura de datos es normal tener un \code{Warning} por \code{parsing}:
 la base viene chueca.
+
 This is not an official product / este no es un producto oficial
 }
 \examples{

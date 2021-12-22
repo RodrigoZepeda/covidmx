@@ -43,8 +43,9 @@ Sin embargo, activar dicha opción puede tener problemas para algunos de los
 análisis que vienen después por lo que se recomienda no tenerla apagada.
 
 ```{r glimpse-2}
-descarga_datos_abiertos(language = "Español", parse_dictionary = FALSE) %>%
-  dplyr::glimpse()
+descarga_datos_abiertos(language = "Español", 
+                        parse_dictionary = FALSE) %>%
+  glimpse()
 ```
 
 # Funcionamiento general
@@ -69,8 +70,8 @@ datos_covid %>%
 lo cual es equivalente a:
 ```{r, eval = FALSE}
 datos_covid %>% 
-    filter(ENTIDAD_UM == "QUINTANA ROO" | ENTIDAD_UM == "AGUASCALIENTES") %>%
-    casos() 
+  filter(ENTIDAD_UM == "QUINTANA ROO" | ENTIDAD_UM == "AGUASCALIENTES") %>%
+  casos() 
 ```
 
 Si se quiere filtrar por entidad de nacimiento y que la fecha sea la de ingreso, por ejemplo:
@@ -86,7 +87,7 @@ datos_covid %>%
 lo cual es equivalente a:
 ```{r, eval = FALSE}
 datos_covid %>% 
-    filter(ENTIDAD_NAC == "QUINTANA ROO" | ENTIDAD_NAC == "AGUASCALIENTES") %>%
+    filter(ENTIDAD_NAC %in% c("QUINTANA ROO", "AGUASCALIENTES")) %>%
     group_by(FECHA_INGRESO, ENTIDAD_NAC) %>%
     tally()
 ```
@@ -118,8 +119,8 @@ Esto es equivalente a:
 
 ```{r, eval = FALSE}
 datos_covid %>% 
-    filter(ENTIDAD_NAC == "QUINTANA ROO" | ENTIDAD_NAC == "AGUASCALIENTES") %>%
-    filter(CLASIFICACIÓN == "CASO DE SARS-COV-2  CONFIRMADO")
+    filter(ENTIDAD_NAC %in% c("QUINTANA ROO", "AGUASCALIENTES")) %>%
+    filter(CLASIFICACIÓN == "CASO DE SARS-COV-2  CONFIRMADO") %>%
     group_by(FECHA_INGRESO) %>%
     tally()
 ```
@@ -162,7 +163,7 @@ datos_covid %>%
 
 En cada sección se explica una variable de interés o un método asociado.
 
-## Positividad 
+### Positividad 
 
 Definimos la positividad como:
 $$
@@ -197,13 +198,14 @@ Podemos analizar la positividad de ambulatorios, dentro de fallecidos
 ```{r}
 #Contraste contra antígenos en ambulatorios nacionales que fallecieron
 datos_covid %>% 
-  filter(TIPO_PACIENTE == "AMBULATORIO") %>%
-  positividad_antigenos(fecha_tipo = "Defunción", group_by_entidad = F) %>%
-  smooth() %>%
-  covid_plot()
+ filter(TIPO_PACIENTE == "AMBULATORIO") %>%
+ positividad_antigenos(fecha_tipo = "Defunción", 
+                       group_by_entidad = F) %>%
+ smooth() %>%
+ covid_plot()
 ```
 
-## Número de pruebas
+### Número de pruebas
 
 El número de pruebas se calcula como:
 
@@ -257,7 +259,7 @@ datos_covid %>%
   covid_plot()
 ```
 
-## Casos
+### Casos
 
 Los casos se cuentan como cada una de las filas en el registro de datos abiertos. Las funciones relevantes son:
 
@@ -323,7 +325,7 @@ datos_covid %>%
 ```
 
 
-## Defunciones
+### Defunciones
 
 Las funciones de `defunciones` son idénticas a las de casos sólo que por default están organizadas por `FECHA_DEF`. Están disponibles:
 
@@ -393,7 +395,7 @@ datos_covid %>%
   head()
 ```
 
-## Suavizamiento
+### Suavizamiento
 
 Los datos observados pueden suavizarse usando `splines` (`method = "splines"`), un `kernel` (`method = "kernel"`), local weighted (`method = "lowess"`) y media móvil (`method = "rollmean"`). La siguiente gráfica muestra los métodos:
 
@@ -442,4 +444,74 @@ Los parámetros de ajuste son como siguen:
 + `lowess` se puede cambiar el parámetro `f`. Más alto `f` más suavizado. 
 
 + `rollmean` se pueden cambiar los días a incluir en la media móvil con `k`. Por default se tiene `k = 7`. Con `k = 1` se obtienen los datos originales. A mayor `k` mayor suavizamiento. 
+
+### Tasa de cambio
+
+La tasa de cambio para cualquiera de las variables se refiere a la variable del día $t$ menos la del día $t-1$. Por ejemplo, en el caso de casos: 
+
+$$
+\textrm{Tasa de Cambio}_{\text{Casos}}(t) = \text{Casos}(t) -  \text{Casos}(t-1)
+$$
+
+Por el mismo ruido de los datos la tasa de cambio tiende a oscilar en torno a cero por lo que en sí misma no es muy informativa:
+
+```{r}
+datos_covid %>% 
+  casos(group_by_entidad = F) %>%
+  tasa_cambio() %>%
+  covid_plot()
+```
+
+La recomendación (de acuerdo con el `Warning`) es tomar la tasa de cambio pero de la variable suavizada:
+
+```{r}
+datos_covid %>% 
+  casos(group_by_entidad = F) %>%
+  smooth() %>%
+  tasa_cambio(variable = "SMOOTH") %>%
+  covid_plot()
+```
+
+la cual resulta en una mejor aproximación a la derivada. 
+
+> **Ojo** Una tasa de cambio positiva implica que los casos van en aumento; negativa implica reducción y cero implica que permanecen constantes. 
+
+
+### Acumulados
+
+Los casos acumulados se pueden obtener mediante el comando `acumulados`. Estos corresponden a todos los casos que han ocurrido hasta antes del tiempo $t$ (incluyendo dicho momento). Es decir:
+
+$$
+\textrm{Acumulados(t)} = \sum\limits_{s = t_0}^t \textrm{Casos}(s)
+$$
+
+donde $t_0$ es el inicio de los registros. Por ejemplo, los casos acumulados en el tercer día de pandemia (suponiendo empezó en $t_0 = 0$) serían:
+
+$$
+\textrm{Acumulados(3)} = \textrm{Casos}(0) + \textrm{Casos}(1) + \textrm{Casos}(2) + \textrm{Casos}(3)
+$$
+
+Como ejemplo se tiene: 
+
+```{r}
+datos_covid %>% 
+  casos(group_by_entidad = F) %>%
+  acumulados() %>%
+  covid_plot()
+```
+
+### Otras funciones de interés
+
+Faltan por desarrollar las siguientes funciones:
+
+```{r, eval = FALSE}
+cfr()                       #Case fatality rate
+chr()                       #Case hospitalization rate
+rt()                        #Effective reproductive number
+descarga_datos_ocupacion()  #Descarga de datos de ocupación hospitalaria
+descarga_datos_vacunacion() #Descarga de datos de vacunación
+descarga_datos_cdmx()       #Descarga de datos abiertos cdmx
+tasa()                      #Convierte casos en tasas
+```
+
 
