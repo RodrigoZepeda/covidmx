@@ -1,0 +1,10 @@
+pandoc: 2.14.0.3
+pkgdown: 2.0.1
+pkgdown_sha: ~
+articles:
+  intro: intro.html
+last_built: 2021-12-22T19:06Z
+urls:
+  reference: https://rodrigozepeda.github.io/covidmx/reference
+  article: https://rodrigozepeda.github.io/covidmx/articles
+
