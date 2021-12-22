@@ -1,0 +1,445 @@
+---
+title: "Introducción a covidmx"
+author: "Rodrigo Zepeda-Tello"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+La librería de `covidmx` está para ayudarte a analizar los datos abiertos de COVID-19 de México, generar estadísticos de interés y visualizaciones rápidas. La idea es ahorrarte tiempo. 
+
+## Instalación
+
+```{r install, eval = FALSE}
+#install.packages("devtools")
+devtools::install_github("RodrigoZepeda/covidmx")
+```
+
+## Descarga de datos de la Dirección General de Epidemiología 
+
+```{r setup, message=FALSE, warning=FALSE, results='hide'}
+library(covidmx)
+library(dplyr)
+```
+
+Lo más importante es comenzar descargando la base de datos pública. Esto lo puedes hacer como sigue: 
+
+```{r descarga}
+datos_covid <- descarga_datos_abiertos(language = "Español")
+```
+
+Por default se agregan las etiquetas a los datos: 
+
+```{r glimpse-1}
+datos_covid %>% dplyr::glimpse()
+```
+
+esta opción puede cancelarse tomando `parse_dictionary = FALSE` en la descarga.
+Sin embargo, activar dicha opción puede tener problemas para algunos de los 
+análisis que vienen después por lo que se recomienda no tenerla apagada.
+
+```{r glimpse-2}
+descarga_datos_abiertos(language = "Español", parse_dictionary = FALSE) %>%
+  dplyr::glimpse()
+```
+
+# Funcionamiento general
+
+Basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. Por ejemplo:
+
+```{r, eval = FALSE}
+datos_covid %>% casos()
+```
+
+```{r, echo = FALSE}
+datos_covid %>% casos() %>% head()
+```
+
+Se puede filtar por entidad:
+```{r, eval = TRUE}
+datos_covid %>% 
+  casos(entidades = c("QUINTANA ROO","AGUASCALIENTES")) %>%
+  covid_plot()
+```
+
+lo cual es equivalente a:
+```{r, eval = FALSE}
+datos_covid %>% 
+    filter(ENTIDAD_UM == "QUINTANA ROO" | ENTIDAD_UM == "AGUASCALIENTES") %>%
+    casos() 
+```
+
+Si se quiere filtrar por entidad de nacimiento y que la fecha sea la de ingreso, por ejemplo:
+
+```{r, eval = TRUE}
+datos_covid %>% 
+    casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"),
+          entidad_tipo = "Nacimiento",
+          fecha_tipo   = "Ingreso") %>%
+    covid_plot()
+```
+
+lo cual es equivalente a:
+```{r, eval = FALSE}
+datos_covid %>% 
+    filter(ENTIDAD_NAC == "QUINTANA ROO" | ENTIDAD_NAC == "AGUASCALIENTES") %>%
+    group_by(FECHA_INGRESO, ENTIDAD_NAC) %>%
+    tally()
+```
+
+Finalmente, si sólo se desean casos confirmados:
+
+```{r, eval = TRUE}
+datos_covid %>% 
+    casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"),
+          entidad_tipo = "Nacimiento",
+          fecha_tipo   = "Ingreso",
+          tipo_caso    = "Confirmados COVID") %>%
+    covid_plot()
+```
+
+Si se desea que los casos vengan agregados (es decir `QUINTANA ROO + AGUASCALIENTES`)
+se puede cambiar la opción de `group_by_entidad`:
+
+```{r}
+datos_covid %>% 
+    casos(entidades        = c("QUINTANA ROO","AGUASCALIENTES"),
+          entidad_tipo     = "Nacimiento",
+          fecha_tipo       = "Ingreso",
+          tipo_caso        = "Confirmados COVID",
+          group_by_entidad = FALSE) %>%
+    covid_plot()
+```
+Esto es equivalente a:
+
+```{r, eval = FALSE}
+datos_covid %>% 
+    filter(ENTIDAD_NAC == "QUINTANA ROO" | ENTIDAD_NAC == "AGUASCALIENTES") %>%
+    filter(CLASIFICACIÓN == "CASO DE SARS-COV-2  CONFIRMADO")
+    group_by(FECHA_INGRESO) %>%
+    tally()
+```
+
+Podemos suavizar estos datos con la función `smooth`
+```{r}
+datos_covid %>% 
+    casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"),
+          entidad_tipo = "Nacimiento",
+          fecha_tipo   = "Ingreso",
+          tipo_caso    = "Confirmados COVID") %>%
+    smooth() %>%
+    covid_plot()
+```
+
+Podemos obtener su derivada usando `tasa_cambio` y a su vez suavizarla:
+
+```{r}
+datos_covid %>% 
+    casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"),
+          entidad_tipo = "Nacimiento",
+          fecha_tipo   = "Ingreso",
+          tipo_caso    = "Confirmados COVID") %>%
+    smooth() %>%
+    tasa_cambio(variable = "SMOOTH") %>% 
+    covid_plot()
+```
+
+Los casos acumulados se obtienen con la función `acumulados`:
+
+```{r}
+datos_covid %>% 
+    casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"),
+          entidad_tipo = "Nacimiento",
+          fecha_tipo   = "Ingreso",
+          tipo_caso    = "Confirmados COVID") %>%
+    acumulados() %>%
+    covid_plot()
+```
+
+En cada sección se explica una variable de interés o un método asociado.
+
+## Positividad 
+
+Definimos la positividad como:
+$$
+\text{Positividad}(t) = \frac{\textrm{Número de pruebas positivas en día }t}{\textrm{Número de pruebas positivas en día }t + \textrm{Número de pruebas negativas en día }t}
+$$
+
+> **Ojo** Hay gente que en el denominador de la positividad incluye también las pruebas inconclusas. Aquí no las usamos pues consideramos ser inconcluso es igualmente probable para positivos y negativos. 
+
+Las funciones importantes de positividad son:
+
+- `positividad` para todas las pruebas `pcr` y `antígeno`.
+- `positividad_pcr` para pruebas de `pcr`
+- `positividad_antigenos` para pruebas de `antígeno`
+
+```{r}
+#Positividad general en sonora
+datos_covid %>% 
+  positividad(entidades = "SONORA") %>% 
+  covid_plot()
+```
+
+Podemos analizar la positividad sólo de PCR
+```{r}
+#Positividad de pcr (lab) dentro de los muertos en sonora
+datos_covid %>% 
+  positividad_pcr(entidades = "SONORA", fecha_tipo = "Defunción") %>%
+  smooth() %>%
+  covid_plot()
+```
+
+Podemos analizar la positividad de ambulatorios, dentro de fallecidos
+```{r}
+#Contraste contra antígenos en ambulatorios nacionales que fallecieron
+datos_covid %>% 
+  filter(TIPO_PACIENTE == "AMBULATORIO") %>%
+  positividad_antigenos(fecha_tipo = "Defunción", group_by_entidad = F) %>%
+  smooth() %>%
+  covid_plot()
+```
+
+## Número de pruebas
+
+El número de pruebas se calcula como:
+
+$$
+\text{Pruebas}(t) = \textrm{Número de pruebas positivas} + \textrm{Número de pruebas negativas} + \textrm{Número de pruebas inconclusas}
+$$
+esto para cada día. 
+
+Las funciones importantes de número de pruebas son:
+
+- `numero_pruebas` para todas las pruebas `pcr` y `antígeno`.
+- `numero_pruebas_pcr` para pruebas de `pcr`
+- `numero_pruebas_antigenos` para pruebas de `antígeno`
+- `numero_pruebas_esperando_resultado` para pruebas de `pcr` (antígeno, por su naturaleza, no tiene `pendiente`)
+
+
+```{r}
+#Total de pruebas en sonora y sinaloa
+datos_covid %>% 
+  numero_pruebas(entidades = c("SONORA","SINALOA")) %>% 
+  covid_plot()
+```
+
+Total de pruebas PCR:
+
+```{r}
+#Pruebas PCR dedicadas a embarazadas
+datos_covid %>% 
+  filter(EMBARAZO == "SI") %>%
+  numero_pruebas_pcr(group_by_entidad = F) %>%
+  smooth() %>%
+  covid_plot()
+```
+
+Pruebas de antígeno:
+```{r}
+#Pruebas antígeno en CDMX / Tlalpan
+datos_covid %>% 
+  filter(MUNICIPIO_RES == "TLALPAN") %>%
+  numero_pruebas_antigeno(entidades = "CIUDAD DE MÉXICO") %>%
+  covid_plot()
+```
+
+Pruebas que están esperando resultado:
+
+```{r}
+#Pruebas esperando resultado (acumuladas)
+datos_covid %>% 
+  numero_pruebas_esperando_resultado(group_by_entidad = F) %>%
+  acumulados() %>%
+  covid_plot()
+```
+
+## Casos
+
+Los casos se cuentan como cada una de las filas en el registro de datos abiertos. Las funciones relevantes son:
+
+- `casos` para todos los casos. 
+- `casos_hospitalizados` para aquellos con `TIPO_PACIENTE` hospitalizado.
+- `casos_ambulatorios` para aquellos con `TIPO_PACIENTE` ambulatorio.
+- `casos_uci` para aquellos con `TIPO_PACIENTE` hospitalizado y marca de Unidad de Cuidados Intensivos. 
+
+```{r, out.width='100%', fig.width = 10, fig.height = 8}
+datos_covid %>% 
+  casos() %>%
+  smooth() %>%
+  covid_plot()
+```
+Para obtener los nacionales basta con la opción `group_by_entidad = FALSE`:
+
+```{r, out.width='100%', fig.width = 6, fig.height = 4}
+datos_covid %>% 
+  casos(group_by_entidad = FALSE) %>%
+  smooth() %>%
+  covid_plot()
+```
+
+Se puede filtrar por tipo de entidad (`Unidad Médica`, `Residencia` o `Nacimiento`), por fecha de `Síntomas`, `Ingreso` ó `Defunción` (esta última regresa sólo defunciones) y por tipo de caso: `Todos`, `Sospechosos`, `Confirmados COVID`, `Sospechosos y Confirmados COVID` y
+`Negativo a COVID`:
+
+```{r, out.width='100%', fig.width = 6, fig.height = 4}
+datos_covid %>% 
+  casos_hospitalizados(
+    entidad_tipo = "Residencia",
+    fecha_tipo   = "Ingreso",
+    tipo_caso    = "Sospechosos y Confirmados COVID",
+    group_by_entidad = FALSE
+  ) %>%
+  smooth() %>%
+  covid_plot()
+```
+
+Las mismas funciones aplican para UCI y ambulatorios:
+
+```{r, out.width='100%', fig.width = 6, fig.height = 4}
+datos_covid %>% 
+  casos_ambulatorios(
+    entidad_tipo = "Residencia",
+    fecha_tipo   = "Ingreso",
+    tipo_caso    = "Sospechosos y Confirmados COVID",
+    group_by_entidad = FALSE
+  ) %>%
+  smooth() %>%
+  covid_plot()
+```
+
+```{r, out.width='100%', fig.width = 6, fig.height = 4}
+datos_covid %>% 
+  casos_uci(
+    entidad_tipo = "Residencia",
+    fecha_tipo   = "Ingreso",
+    tipo_caso    = "Sospechosos y Confirmados COVID",
+    group_by_entidad = FALSE
+  ) %>%
+  smooth() %>%
+  covid_plot()
+```
+
+
+## Defunciones
+
+Las funciones de `defunciones` son idénticas a las de casos sólo que por default están organizadas por `FECHA_DEF`. Están disponibles:
+
+- `defunciones` para todos los pacientes 
+- `defunciones_hospitalizados` para aquellos con `TIPO_PACIENTE` hospitalizado.
+- `defunciones_ambulatorios` para aquellos con `TIPO_PACIENTE` ambulatorio.
+- `defunciones_uci` para aquellos con `TIPO_PACIENTE` hospitalizado y marca de Unidad de Cuidados Intensivos. 
+
+Las opciones son las mismas que para `casos`:
+
+```{r, out.width='100%', fig.width = 6, fig.height = 4}
+datos_covid %>% 
+  defunciones(
+    entidad_tipo = "Residencia",
+    fecha_tipo   = "Ingreso",
+    tipo_caso    = "Sospechosos y Confirmados COVID",
+    group_by_entidad = FALSE
+  ) %>%
+  smooth() %>%
+  covid_plot()
+```
+
+Podemos ver, por ejemplo, las defunciones acumuladas de Tuxtla Gutiérrez:
+```{r, eval = FALSE}
+datos_covid %>% 
+  filter(MUNICIPIO_RES == "TUXTLA GUTIÉRREZ") %>%
+  defunciones_hospitalizados(entidades = "CHIAPAS") %>%
+  acumulados()
+```
+
+```{r, echo = FALSE}
+datos_covid %>% 
+  filter(MUNICIPIO_RES == "TUXTLA GUTIÉRREZ") %>%
+  defunciones_hospitalizados(entidades = "CHIAPAS") %>%
+  acumulados() %>% 
+  head()
+```
+
+O la tasa de cambio de las defunciones en UCI en COLIMA:
+```{r, eval = F}
+datos_covid %>% 
+  defunciones_uci(entidades = "COLIMA") %>%
+  tasa_cambio() 
+```
+
+```{r, echo = F}
+datos_covid %>% 
+  defunciones_uci(entidades = "COLIMA") %>%
+  tasa_cambio(quiet = T) %>%
+  head()
+```
+
+O la misma situación con ambulatorios:
+
+```{r, eval = FALSE}
+datos_covid %>% 
+  defunciones_ambulatorios(entidades = "COLIMA") %>%
+  smooth() %>%
+  tasa_cambio('SMOOTH') 
+```
+
+```{r, echo = FALSE}
+datos_covid %>% 
+  defunciones_ambulatorios(entidades = "COLIMA") %>%
+  smooth() %>%
+  tasa_cambio('SMOOTH') %>%
+  head()
+```
+
+## Suavizamiento
+
+Los datos observados pueden suavizarse usando `splines` (`method = "splines"`), un `kernel` (`method = "kernel"`), local weighted (`method = "lowess"`) y media móvil (`method = "rollmean"`). La siguiente gráfica muestra los métodos:
+
+```{r, echo = FALSE}
+#Casos observados
+casos_observados <- datos_covid %>% 
+  casos(entidades = "CHIHUAHUA") 
+
+#Default = splines
+casos_splines <- datos_covid %>% 
+  casos(entidades = "CHIHUAHUA") %>%
+  smooth() 
+
+#Method = kernel
+casos_kernel <- datos_covid %>% 
+  casos(entidades = "CHIHUAHUA") %>%
+  smooth(method = "kernel")
+
+#Method = loess
+casos_lowess <- datos_covid %>% 
+  casos(entidades = "CHIHUAHUA") %>%
+  smooth(method = "lowess")
+
+#Method = media móvil
+casos_rollmean <- datos_covid %>% 
+  casos(entidades = "CHIHUAHUA") %>%
+  smooth(method = "rollmean")
+
+#Gráfica
+library(ggplot2)
+ggplot(casos_observados, aes(x = FECHA_SINTOMAS)) +
+  geom_point(aes(y = Casos_TODOS, color = "observados"), alpha = 0.25) + 
+  geom_line(aes(y = SMOOTH, color = "splines"),  data = casos_splines) +
+  geom_line(aes(y = SMOOTH, color = "kernel"),   data = casos_kernel) +
+  geom_line(aes(y = SMOOTH, color = "lowess"),   data = casos_lowess) +
+  geom_line(aes(y = SMOOTH, color = "rollmean"), data = casos_rollmean) +
+  theme_classic()
+```
+
+Los parámetros de ajuste son como siguen:
+
++ `splines` se pueden cambiar los grados de libertad con `df` menos grados de libertad = más lineal; más grados de libertad = más curva. 
+
++ `kernel` se puede cambiar el ancho de banda con `bw`. `bw` más pequeño tiende al sobreajuste; `bw` más grande tiende al subajuste. 
+
++ `lowess` se puede cambiar el parámetro `f`. Más alto `f` más suavizado. 
+
++ `rollmean` se pueden cambiar los días a incluir en la media móvil con `k`. Por default se tiene `k = 7`. Con `k = 1` se obtienen los datos originales. A mayor `k` mayor suavizamiento. 
+

@@ -1,17 +1,16 @@
 # covidmx
-Downloads and parses COVID-19 open data for Mexico 
-_Descarga y analiza datos abiertos de COVID-19 en México_
 
-# Install | Instalación
+Descarga, etiqueta y datos abiertos de COVID-19 en México. El propósito de este paquete es hacer la descarga, análisis y graficación de manera rápida para que tú no tengas que preocuparte por bajar el archivo a tiempo, agrupar funciones o realizar visualizaciones sino en lo importante: analizar la información. 
+
+# Instalación
 
 ```{r}
 devtools::install_github("RodrigoZepeda/covidmx")
 ```
 
-# Funciones | Functions
+# Funciones
 
-Download the open dataset from the Epidemiology Directorate inside the Health Ministry
-_Descarga la base de datos abiertos de la Dirección General de Epidemiología de la Secretaría de Salud_
+Descarga la base de datos abiertos de la Dirección General de Epidemiología de la Secretaría de Salud.
 
 ```{r}
 library(covidmx)
@@ -20,8 +19,7 @@ library(covidmx)
 datos_covid <- descarga_datos_abiertos(language = "Español")
 ```
 
-As default, labels are added to the data (use `parse_dictionary = FALSE` to download only data without labels):
-_Por default, se agregan etiquetas a los datos (use `parse_dictionary = FALSE` para decargar sólo los datos sin etiquetas)_
+Por default, se agregan etiquetas a los datos (use `parse_dictionary = FALSE` para decargar sólo los datos sin etiquetas):
 
 ```{r}
 datos_covid %>% dplyr::glimpse()
@@ -72,3 +70,62 @@ datos_covid %>% dplyr::glimpse()
     $ CLASIFICACIÓN         <chr> "CASO SOSPECHOSO", "CASO SOSPECHOSO", "NEGATIVO A S…
     $ DESCRIPCIÓN           <chr> "Sospechoso aplica cuando: \r\nEl caso no tienen as…
 ```
+
+# Rápido
+
+Obtener defunciones nacionales
+```{r}
+datos_covid %>% defunciones()
+```
+
+o bien por entidad de la unidad médica:
+
+```{r}
+datos_covid %>% defunciones(entidades = c("QUINTANA ROO","AGUASCALIENTES"))
+```
+
+que es equivalente a:
+
+```{r}
+datos_covid %>% 
+    filter(ENTIDAD_UM == "QUINTANA ROO" | ENTIDAD_UM == "AGUASCALIENTES") %>%
+    defunciones()
+```
+
+Se pueden calcular las tasas de cambio (1a derivada):
+
+```{r}
+datos_covid %>% casos() %>% tasa_cambio()
+```
+
+O los acumulados
+
+```{r}
+datos_covid %>% casos() %>% acumulados()
+```
+
+O se pueden presentar de manera suavizada:
+
+```{r}
+datos_covid %>% 
+    casos() %>% 
+    smooth(tipo = "splines")
+```
+
+Y las funciones pueden componerse:
+
+```{r}
+datos_covid %>% 
+    casos() %>% 
+    tasa_cambio() %>% 
+    smooth(tipo = "splines")
+```
+
+Y se puede representar de manera gráfica
+
+```{r}
+datos_covid %>% 
+    casos() %>% 
+    covid_plot()
+```
+

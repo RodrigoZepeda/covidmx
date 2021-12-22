@@ -44,18 +44,18 @@ Si muestra errores cuando lee el csv}
 \item{language}{('Espanol', 'English') Message languages/ Idiomas del mensaje.}
 }
 \description{
-`descarga_datos_abiertos` downloads and labels
+\code{descarga_datos_abiertos} downloads and labels
 all COVID-19 data for Mexico from the Direccion General de EpidemiologIa at
 \url{https://www.gob.mx/salud/documentos/datos-abiertos-152127}.
 
-`descarga_datos_abiertos` descarga y etiqueta todos los datos de COVID-19
+\code{descarga_datos_abiertos} descarga y etiqueta todos los datos de COVID-19
 de Mexico de la Direccion General de EpidemiologIa en
 \url{https://www.gob.mx/salud/documentos/datos-abiertos-152127}.
 }
 \details{
-While reading the data it is perfectly normal to get a `Warning` for
-`parsing`: the dataset has issues.
-En la lectura de datos es normal tener un `Warning` por `parsing`:
+While reading the data it is perfectly normal to get a \code{Warning} for
+\code{parsing}: the dataset has issues.
+En la lectura de datos es normal tener un \code{Warning} por \code{parsing}:
 la base viene chueca.
 This is not an official product / este no es un producto oficial
 }

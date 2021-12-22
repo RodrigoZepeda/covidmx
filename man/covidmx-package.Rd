@@ -4,8 +4,12 @@
 \name{covidmx-package}
 \alias{covidmx}
 \alias{covidmx-package}
-\title{covidmx: What the Package Does (Title Case)}
+\title{covidmx: COVID-19 Dataset Analysis for Mexico}
 \description{
-More about what it does (maybe more than one line) Use four spaces when indenting paragraphs within the Description.
+Downloads and analyzes data for COVID-19 from the Empidemiology Directorate of Mexico. Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico.
+}
+\author{
+\strong{Maintainer}: Rodrigo Zepeda-Tello \email{rzepeda17@gmail.com} (\href{https://orcid.org/0000-0003-4471-5270}{ORCID})
+
 }
 \keyword{internal}

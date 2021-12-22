@@ -5,3 +5,7 @@
 .gitignore
 .git/.*
 ^xlsx
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^vignettes/articles$

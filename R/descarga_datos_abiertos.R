@@ -83,9 +83,9 @@ descarga_datos_abiertos <- function(download_method = "curl",
 
   if (!quiet) {
     if (language == "Espa\u00f1ol"){
-      message("Descarga completada. Estoy leyendo los datos...")
+      message(paste0("Descargado en ",file_download_data))
     } else {
-      message("Completed download. Reading data...")
+      message(paste0("Downloaded in ",file_download_data))
     }
   }
 
@@ -186,9 +186,9 @@ descarga_datos_abiertos <- function(download_method = "curl",
     )
 
     if (language == "Espa\u00f1ol"){
-      message("Etiquetando datos")
+      message(paste0("Descarga de diccionario en ",file_download_dictionary))
     } else {
-      message("Labeling data")
+      message(paste0("Downloaded dictionary in ",file_download_dictionary))
     }
 
     filenames <- unzip(zipfile = file_download_dictionary, list = TRUE)

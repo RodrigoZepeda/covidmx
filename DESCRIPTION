@@ -1,22 +1,26 @@
 Package: covidmx
-Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Title: COVID-19 Dataset Analysis for Mexico
+Version: 0.0.2.0000
+Authors@R: 
+    person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-4471-5270"))
+Description: Downloads and analyzes data for COVID-19 from the Empidemiology Directorate of Mexico. Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico. 
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+Language: es
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
 Imports: 
     dplyr,
+    ggplot2,
     magrittr,
     readr,
     readxl,
     rlang,
+    scales,
+    stats,
     stringr,
-    utils
+    tidyr,
+    zoo
 Suggests: 
-    RCurl
-RoxygenNote: 7.1.2
+    rmarkdown
