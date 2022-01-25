@@ -93,11 +93,17 @@ descarga_datos_abiertos <- function(download_method = "curl",
   # Lectura de la base
   options(readr.show_progress = !quiet)
   if (!parse_warnings){
+
+    tryCatch({
+      con <- unzip(file_download_data)
+    },
+    warning=function(cond) {
+      system2("unzip", args = c("-o",file_download_data))
+      con <- list.files(pattern = "*COVID19MEXICO.csv")[1]
+    })
+
     suppressWarnings({
-      dats <- readr::read_csv(unz(
-        file_download_data,
-        unzip(file_download_data, list = TRUE)["Name"]
-      ),
+      dats <- readr::read_csv(con,
       locale = readr::locale(encoding = "UTF-8"),
       col_types = readr::cols(
         FECHA_ACTUALIZACION   = readr::col_date(format = "%Y-%m-%d"),

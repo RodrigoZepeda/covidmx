@@ -397,7 +397,7 @@ datos_covid %>%
 
 Los datos observados pueden suavizarse usando `splines` (`method = "splines"`), un `kernel` (`method = "kernel"`), local weighted (`method = "lowess"`) y media móvil (`method = "rollmean"`). La siguiente gráfica muestra los métodos:
 
-```{r, echo = FALSE}
+```{r}
 #Casos observados
 casos_observados <- datos_covid %>% 
   casos(entidades = "CHIHUAHUA") 
