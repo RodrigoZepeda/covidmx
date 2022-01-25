@@ -99,7 +99,7 @@ descarga_datos_abiertos <- function(download_method = "curl",
     },
     warning=function(cond) {
       system2("unzip", args = c("-o",file_download_data))
-      con <- list.files(pattern = "*COVID19MEXICO.csv")[1]
+      con <- list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
     })
 
     suppressWarnings({
