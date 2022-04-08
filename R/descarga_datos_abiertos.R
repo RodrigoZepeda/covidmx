@@ -37,6 +37,13 @@
 #' @param parse_warnings If show parsing errors when reading csv /
 #' Si muestra errores cuando lee el csv
 #' @param language ('Espa\u00f1ol', 'English') Message languages/ Idiomas del mensaje.
+#' @param read_format \code{"MariaDB"} or \code{"tibble"} establishes how the database
+#' should be stored. In most computers \code{"tibble"} will result in a memory error
+#' @param user User for \code{dbConnect} i.e. your MariaDB user
+#' @param password password for \code{dbConnect} i.e. your MariaDB password
+#' @param dbname Database name for \code{dbConnect} i.e. what database is going to be stored
+#' @param host Host for \code{dbConnect} i.e. your MariaDB host (usually localhost)
+#' @param group Group for \code{dbConnect} i.e. your MariaDB group (can be NULL)
 #' @return List of values:
 #' \code{dats} Database table (if MARIADB) or database in tibble (if tibble)
 #' \code{con} Database connection (if MARIADB) or \code{NULL} (if tibble)
