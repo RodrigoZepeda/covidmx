@@ -114,6 +114,7 @@ casos <- function(datos_covid = NULL,
            "SINTOMAS"         = "FECHA_SINTOMAS",
            "Defunci\u00f3n"   = "FECHA_DEF",
            "Defuncion"        = "FECHA_DEF",
+           "DEFUNCION"        = "FECHA_DEF",
            "DEF"              = "FECHA_DEF",
            stop(paste0("Seleccione fecha_tipo como: Ingreso / S\u00edntomas",
                        "/ Defunci\u00f3n"))
