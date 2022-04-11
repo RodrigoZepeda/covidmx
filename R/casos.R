@@ -94,10 +94,13 @@ casos <- function(datos_covid = NULL,
   entidad_tipo <-
     switch(entidad_tipo[1],
            "Unidad M\u00e9dica" = "ENTIDAD_UM",
+           "ENTIDAD_UM"         = "ENTIDAD_UM",
            "Unidad Medica"      = "ENTIDAD_UM",
            "UM"                 = "ENTIDAD_UM",
+           "ENTIDAD_RES"        = "ENTIDAD_RES",
            "Residencia"         = "ENTIDAD_RES",
            "RES"                = "ENTIDAD_RES",
+           "ENTIDAD_NAC"        = "ENTIDAD_NAC",
            "Nacimiento"         = "ENTIDAD_NAC",
            "NAC"                = "ENTIDAD_NAC",
            stop(paste0("Seleccione entidad_tipo como: Unidad M\u00e9dica /",
@@ -133,8 +136,8 @@ casos <- function(datos_covid = NULL,
       "COAHUILA DE ZARAGOZA"
   }
 
-  if (any(stringr::str_detect(entidades,"\\bMEXICO\\b"))){
-    entidades[stringr::str_detect(entidades,"\\bMEXICO\\b")] <-
+  if (any(stringr::str_detect(entidades,"\\bMEXICO\\b|EDOMEX"))){
+    entidades[stringr::str_detect(entidades,"\\bMEXICO\\b|EDOMEX")] <-
       "M\u00c9XICO"
   }
 

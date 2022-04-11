@@ -11,12 +11,16 @@ Language: es
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
+    DBI,
     dplyr,
     ggplot2,
+    glue,
     magrittr,
+    RCurl,
     readr,
     readxl,
     rlang,
+    RMariaDB,
     scales,
     stats,
     stringr,
