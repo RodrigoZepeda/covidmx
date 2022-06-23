@@ -26,7 +26,6 @@
 #'          covid_plot()
 #'}
 #'
-#' @export
 
 covid_plot <- function(covid_dataset, scales = "free"){
 

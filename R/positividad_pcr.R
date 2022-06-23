@@ -42,7 +42,6 @@
 #'        covid_plot()
 #'}
 #'
-#' @export
 
 positividad_pcr <- function(datos_covid = NULL,
                             entidades = c("AGUASCALIENTES",

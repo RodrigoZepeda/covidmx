@@ -1,13 +1,11 @@
 #' CASOS
 #'
 #' @description
-#' `casos` Calcula el numero de casos registrados por fecha
+#' `casos` Calcula el numero de casos registrados por fecha agrupando (o sin hacerlo)
+#' por covariables.
 #'
 #' @details
-#' Por default calcula el total de casos
-#' vease \code{casos_ambulatorios} y
-#' \code{casos_uci}, \code{casos_hospitalizados}, \code{defunciones}
-#'
+#' Por default calcula el total de casos.
 #' This is not an official product / este no es un producto oficial
 #'
 #' @param datos_covid If no data is available it automatically downloads COVID-19
@@ -21,75 +19,150 @@
 #' `NUEVO LEON`, `OAXACA` ,`PUEBLA`, `QUERETARO`,`QUINTANA ROO`,
 #' `SAN LUIS POTOSI`, `SINALOA`, `SONORA`, `TABASCO`, `TAMAULIPAS`,`TLAXCALA`,
 #' `VERACRUZ DE IGNACIO DE LA LLAVE`, `YUCATAN`, `ZACATECAS`
+#'
 #' @param group_by_entidad Si junta las entidades en una sola
 #' o bien las muestra por separado sin agrupar.
+#'
 #' @param entidad_tipo Selecciona `Unidad Medica`, `Nacimiento` o `Residencia`.
 #' por default incluye `Unidad Medica`
+#'
 #' @param fecha_tipo Selecciona `Ingreso`, `Sintomas` o `Defuncion` por default
 #' incluye fecha de `Sintomas`
-#' @param tipo_caso Selecciona `Todos`, `Confirmados COVID`,`Sospechosos`,
-#' `Sospechosos y Confirmados COVID`, `Negativos a COVID`
+#'
+#' @param tipo_clasificacion Vector con el tipo de clasificaciones a incluir:
+#' `Sospechosos`,`Confirmados COVID`, `Negativo a COVID`,
+#' `Inválido`, `No realizado`
+#'
+#' @param group_by_tipo_clasificacion Boolean determinando si regresa la base
+#' con cada entrada agrupada por tipo de clasificación (es decir cada fecha
+#' se generan tantos observaciones como grupos de tipo de clasificación)
+#'
+#' @param tipo_paciente Vector con el tipo de pacientes a incluir. Opciones:
+#'  `AMBULATORIO`, `HOSPITALIZADO`, `NO ESPECIFICADO`
+#'
+#' @param group_by_tipo_paciente Boolean determinando si regresa la base
+#' con cada entrada agrupada por tipo de paciente (es decir cada fecha
+#' se generan tantos observaciones como grupos de tipo de paciente)
+#'
+#' @param tipo_uci Vector con el tipo de valores para Unidad de Cuidado Intensivo a incluir:
+#'  `SI`,`NO`,`NO APLICA`,`SE IGNORA`,`NO ESPECIFICADO`
+#'
+#' @param group_by_tipo_uci Boolean determinando si regresa la base
+#' con cada entrada agrupada por tipo de uci (es decir cada fecha
+#' se generan tantos observaciones como grupos de tipo de uci)
+#'
+#' @param tipo_sector Vector con los sectores del sistema de salud a incluir:
+#' `CRUZ ROJA`,`DIF`,`ESTATAL`,`IMSS`,`IMSS-BIENESTAR`,`ISSSTE`, `MUNICIPAL`,`PEMEX`,
+#' `PRIVADA`,`SEDENA`,`SEMAR`,`SSA`, `UNIVERSITARIO`,`NO ESPECIFICADO`.
+#'
+#' @param group_by_tipo_sector Boolean determinando si regresa la base
+#' con cada entrada agrupada por tipo de sector (es decir cada fecha
+#' se generan tantos observaciones como grupos de tipo de sector)
+#'
+#' @param defunciones Boolean si incluir sólo defunciones `TRUE` o a todos
+#' `FALSE`.
+#'
+#' @param edad_cut Vector con secuencia de edades para hacer grupos. Por ejemplo
+#' `edad_cut = c(0, 10, Inf)` armaría dos grupos de edad de 0 a 10 y de 10 a infinito o bien
+#' `edad_cut = c(15, 20)` deja sólo los registros entre 15 y 20 años. Por default es NULL
+#'
+#' @param as_tibble Regresar como `tibble` el resultado. En caso de que `as_tibble`
+#' sea `FALSE` se devuelve como conexión en `MARIADB`.
+#'
+#' @param fill_zeros En caso de que el resultado sea un `tibble` regresa observaciones
+#' para todas las combinaciones de variables incluyendo como 0 donde no se observaron casos. En
+#' caso contrario no se incluyen las filas donde no se observaron casos.
+#'
+#' @param list_name Asigna un nombre en la lista de datos a la base generada
+#'
+#' @return Appends a la lista de `datos_covid` una nueva entrada de nombre `list_name`
+#' (default: `casos`) con una base de datos (`tibble` o `dbConnection`) con los
+#' resultados agregados.
+#' \itemize{
+#'   \item casos - Base de datos generara con los datos agregados (el nombre cambia si
+#'   se usa `list_name`).
+#'   \item dict - Diccionario de datos
+#'   \item dats - Datos originales (conexión a DB)
+#'   \item con  - Conexión a DB
+#' }
+#'
 #'@examples
 #'\dontrun{
 #'datos_covid <- descarga_datos_abiertos(language = "Espanol")
 #'
-#'#Positividad nacional
-#'datos_covid %>% casos()
+#'#Casos a nivel nacional
+#'mis_casos <- datos_covid %>% casos()
 #'
-#'#Positividad en Jalisco y Colima
-#'datos_covid %>% casos(entidades = c("JALISCO","COLIMA")) %>%
-#'          covid_plot()
+#'#Defunciones nacional
+#'defunciones <- datos_covid %>% casos(defunciones = TRUE)
 #'
-#'datos_covid %>%
-#'     casos(entidades = c("JALISCO","COLIMA"), tipo_caso == "Confirmados COVID") %>%
-#'     covid_plot()
+#'#Positivos en Jalisco y Colima
+#'casos_col_jal <- datos_covid %>% casos(entidades = c("JALISCO","COLIMA"))
 #'
-#'datos_covid %>% casos(entidades = c("JALISCO","COLIMA"),
-#'                             group_by_entidad = T) %>%
-#'          covid_plot()
+#'#Agrupando casos por tipo de clasificación
+#'confirmados <- datos_covid %>%
+#'     casos(entidades = c("JALISCO","COLIMA"), group_by_tipo_clasificacion = TRUE)
+#'
+#'#Regresa la suma de los de COLIMA + JALISCO
+#'casos_col_jal <- datos_covid %>%
+#'     casos(entidades = c("JALISCO","COLIMA"),
+#'           group_by_tipo_clasificacion = TRUE,
+#'           tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+#'           group_by_tipo_paciente = TRUE)
 #'}
 #'
 #' @export
 
 casos <- function(datos_covid = NULL,
-                               entidades = c("AGUASCALIENTES", "BAJA CALIFORNIA",
-                                             "BAJA CALIFORNIA SUR", "CAMPECHE",
-                                             "CHIAPAS", "CHIHUAHUA",
-                                             "CIUDAD DE M\u00c9XICO",
-                                             "COAHUILA DE ZARAGOZA" , "COLIMA",
-                                             "DURANGO", "GUANAJUATO", "GUERRERO",
-                                             "HIDALGO", "JALISCO", "M\u00c9XICO",
-                                             "MICHOAC\u00c1N DE OCAMPO", "MORELOS",
-                                             "NAYARIT", "NUEVO LE\u00d3N", "OAXACA" ,
-                                             "PUEBLA", "QUER\u00c9TARO",
-                                             "QUINTANA ROO",
-                                             "SAN LUIS POTOS\u00cd", "SINALOA",
-                                             "SONORA", "TABASCO", "TAMAULIPAS",
-                                             "TLAXCALA",
-                                             "VERACRUZ DE IGNACIO DE LA LLAVE",
-                                             "YUCAT\u00c1N", "ZACATECAS"),
-                               group_by_entidad = TRUE,
-                               entidad_tipo = c("Unidad M\u00e9dica",
-                                                "Residencia",
-                                                "Nacimiento"),
-                               fecha_tipo = c("S\u00edntomas",
-                                              "Ingreso",
-                                              "Defunci\u00f3n"),
-                               tipo_caso = c("Todos",
-                                             "Sospechosos",
-                                             "Confirmados COVID",
-                                             "Sospechosos y Confirmados COVID",
-                                             "Negativo a COVID"
-                                             )){
+                  entidades   = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
+                                  "CAMPECHE", "CHIAPAS", "CHIHUAHUA","CIUDAD DE M\u00c9XICO",
+                                  "COAHUILA DE ZARAGOZA" , "COLIMA", "DURANGO", "GUANAJUATO",
+                                  "GUERRERO","HIDALGO", "JALISCO", "M\u00c9XICO",
+                                  "MICHOAC\u00c1N DE OCAMPO", "MORELOS","NAYARIT",
+                                  "NUEVO LE\u00d3N", "OAXACA", "PUEBLA", "QUER\u00c9TARO",
+                                  "QUINTANA ROO", "SAN LUIS POTOS\u00cd", "SINALOA", "SONORA",
+                                  "TABASCO", "TAMAULIPAS", "TLAXCALA",
+                                  "VERACRUZ DE IGNACIO DE LA LLAVE", "YUCAT\u00c1N", "ZACATECAS"),
+                  group_by_entidad = TRUE,
+                  entidad_tipo  = c("Unidad M\u00e9dica", "Residencia", "Nacimiento"),
+                  fecha_tipo    = c("S\u00edntomas", "Ingreso", "Defunci\u00f3n"),
+                  tipo_clasificacion = c("Sospechosos","Confirmados COVID", "Negativo a COVID",
+                                    "Inválido", "No realizado"),
+                  group_by_tipo_clasificacion = FALSE,
+                  tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
+                  group_by_tipo_paciente = FALSE,
+                  tipo_uci      = c("SI","NO","NO APLICA","SE IGNORA","NO ESPECIFICADO"),
+                  group_by_tipo_uci  = FALSE,
+                  tipo_sector   = c("CRUZ ROJA","DIF","ESTATAL","IMSS","IMSS-BIENESTAR","ISSSTE",
+                                    "MUNICIPAL","PEMEX","PRIVADA","SEDENA","SEMAR","SSA",
+                                    "UNIVERSITARIO","NO ESPECIFICADO"),
+                  group_by_tipo_sector = FALSE,
+                  defunciones   = FALSE,
+                  edad_cut      = NULL,
+                  as_tibble     = TRUE,
+                  fill_zeros    = as_tibble,
+                  list_name     = "casos"){
+
+  #Finally bind to previous object
+  if (any(stringr::str_detect(names(datos_covid), list_name))){
+    stop(glue::glue("Impossible to create variable {list_name} ",
+                    "in datos_covid as it already exists"))
+  }
 
   #Checar la descarga
   if (is.null(datos_covid)){
     datos_covid <- descarga_datos_abiertos()
   }
 
+  if (!as_tibble & fill_zeros){
+    warning("Cannot fill zeros yet if return is not a tibble. Set as_tibble = TRUE")
+    fill_zeros <- FALSE
+  }
+
   #Entidades en mayúscula
   entidades <- toupper(entidades)
 
+  #> ENTIDAD----
   #Seleccionar la entidad
   entidad_tipo <-
     switch(entidad_tipo[1],
@@ -122,8 +195,6 @@ casos <- function(datos_covid = NULL,
            stop(paste0("Seleccione fecha_tipo como: Ingreso / S\u00edntomas",
                        "/ Defunci\u00f3n"))
     )
-
-  tipo_caso <- toupper(tipo_caso[1])
 
   #Checamos la variable de entidades
   if (any(stringr::str_detect(entidades,"CIUDAD DE MEXICO|CDMX"))){
@@ -172,54 +243,218 @@ casos <- function(datos_covid = NULL,
   }
 
   #Filtramos por entidad
-  entidades <- paste0("\\b", paste0(entidades, collapse = "\\b|\\b"),"\\b")
-  base_por_entidad <- datos_covid %>%
+  entidades <-
+    datos_covid$dict[entidad_tipo][[1]] %>%
+      dplyr::filter(
+        stringr::str_detect(get("ENTIDAD_FEDERATIVA"),
+                      paste0("\\b",
+                             paste0(entidades, collapse = "\\b|\\b"),"\\b")))
+
+  lista_entidades  <- paste0(entidades$CLAVE_ENTIDAD, collapse = "|")
+  .casos            <- datos_covid$dats %>%
     dplyr::filter(
-      stringr::str_detect(get(entidad_tipo), entidades)
+      stringr::str_detect(!!as.symbol(entidad_tipo), lista_entidades)
     )
 
+  #> CLASIFICACIÓN FINAL----
+  #Filtramos por tipo de caso
+  clasificaciones_finales <- c()
 
-  #Calculamos los casos totales
-  if (tipo_caso == "TODOS"){
-    casos <- base_por_entidad
-  } else if (tipo_caso == "SOSPECHOSOS"){
-    casos <- base_por_entidad %>%
-      dplyr::filter(stringr::str_detect(get("CLASIFICACI\u00d3N"),
-                                        "CASO SOSPECHOSO"))
-  } else if (tipo_caso == "CONFIRMADOS COVID"){
-    casos <- base_por_entidad %>%
-      dplyr::filter(stringr::str_detect(get("CLASIFICACI\u00d3N"),
-                                        "CONFIRMADO"))
-  } else if (tipo_caso == "SOSPECHOSOS Y CONFIRMADOS COVID"){
-    casos <- base_por_entidad %>%
-      dplyr::filter(stringr::str_detect(get("CLASIFICACI\u00d3N"),
-                                        "CONFIRMADO|SOSPECHOSO"))
-  } else if (tipo_caso == "NEGATIVO A COVID"){
-    casos <- base_por_entidad %>%
-      dplyr::filter(stringr::str_detect(get("CLASIFICACI\u00d3N"),
-                                        "NEGATIVO"))
-  } else {
-    stop(paste0("Seleccione tipo_caso como: TODOS / SOSPECHOSOS / ",
-                "SOSPECHOSOS + CONFIRMADOS COVID / NEGATIVO A COVID"))
+  if (any(stringr::str_detect(tipo_clasificacion, "Sospechoso"))){
+    clasificaciones_finales <- c(clasificaciones_finales, 6) #Clasificación final = 6: sospechoso
+  }
+
+  if (any(stringr::str_detect(tipo_clasificacion, "Confirmado"))){
+    #Clasificación final = 1,2,3: confirmado
+    clasificaciones_finales <- c(clasificaciones_finales, c(1,2,3))
+  }
+
+  if (any(stringr::str_detect(tipo_clasificacion, "Negativo"))){
+    #Clasificación final = 7: negativo
+    clasificaciones_finales <- c(clasificaciones_finales, 7)
+  }
+
+  if (any(stringr::str_detect(tipo_clasificacion, "Inv.*lido"))){
+    #Clasificación final = 4: inválido
+    clasificaciones_finales <- c(clasificaciones_finales, 4)
+  }
+
+  if (any(stringr::str_detect(tipo_clasificacion, "No realizado"))){
+    #Clasificación final = 4: inválido
+    clasificaciones_finales <- c(clasificaciones_finales, 5)
+  }
+
+  if (length(clasificaciones_finales) > 0){
+    .casos            <- .casos %>%
+      dplyr::filter(!!as.symbol("CLASIFICACION_FINAL") %in% clasificaciones_finales)
+  }
+
+  #> TIPO DE PACIENTE----
+  #Filtramos por tipo de paciente
+  pacientes <-
+    datos_covid$dict["PACIENTE"][[1]] %>%
+    dplyr::filter(
+      stringr::str_detect(get("DESCRIPCIÓN"),
+                          paste0("\\b",
+                                 paste0(tipo_paciente, collapse = "\\b|\\b"),"\\b")))
+
+  lista_claves     <- as.numeric(pacientes$CLAVE)
+  .casos            <- .casos %>%
+    dplyr::filter(!!as.symbol("TIPO_PACIENTE") %in% lista_claves)
+
+  #> TIPO DE UCI----
+  #Filtramos por tipo de uci
+  ucis <-
+    datos_covid$dict["UCI"][[1]] %>%
+    dplyr::filter(
+      stringr::str_detect(get("DESCRIPCIÓN"),
+                          paste0("\\b",
+                                 paste0(tipo_uci, collapse = "\\b|\\b"),"\\b")))
+
+  lista_claves     <- as.numeric(ucis$CLAVE)
+  .casos            <- .casos %>%
+    dplyr::filter(!!as.symbol("UCI") %in% lista_claves)
+
+  #> TIPO DE SECTOR----
+  #Filtramos por tipo de uci
+  sectores <-
+    datos_covid$dict["SECTOR"][[1]] %>%
+    dplyr::filter(
+      stringr::str_detect(get("DESCRIPCIÓN"),
+                          paste0("\\b",
+                                 paste0(tipo_sector, collapse = "\\b|\\b"),"\\b")))
+
+  lista_claves      <- as.numeric(sectores$CLAVE)
+  .casos            <- .casos %>%
+    dplyr::filter(!!as.symbol("SECTOR") %in% lista_claves)
+
+  #> DEFUNCIONES
+  if (defunciones){
+    .casos            <- .casos %>%
+      dplyr::filter(!!as.symbol("FECHA_DEF") >= as.Date("2000/01/01"))
+  }
+
+  #> EDADES
+  if (!is.null(edad_cut)){
+    .casos            <- .casos %>%
+      dplyr::mutate(EDAD_CAT = cut(EDAD, breaks = edad_cut)) %>%
+      dplyr::filter(!is.na(EDAD_CAT))
+  }
+
+  #> AGRUPACIÓN
+  .casos <- .casos %>%
+    dplyr::group_by_at(fecha_tipo)
+
+  #> AGRUPACIÓN EDAD
+  if (!is.null(edad_cut)){
+    .casos <- .casos %>%
+      dplyr::group_by_at("EDAD_CAT", .add = TRUE)
   }
 
   #Tomamos el grupo
   if (group_by_entidad){
-    casos <- casos %>%
-      dplyr::group_by_at(c(entidad_tipo, fecha_tipo))
-  } else {
-    casos <- casos %>%
-      dplyr::group_by_at(fecha_tipo)
+    .casos <- .casos %>%
+      dplyr::group_by_at(entidad_tipo, .add = TRUE)
   }
 
-  tipo_caso <- stringr::str_replace_all(tipo_caso,"[:space:]","_")
+  #Tomamos el grupo
+  if (group_by_tipo_clasificacion){
+    .casos <- .casos %>%
+      dplyr::group_by_at("CLASIFICACION_FINAL", .add = TRUE)
+  }
 
-  casos <- casos %>%
+  if (group_by_tipo_paciente){
+    .casos <- .casos %>%
+      dplyr::group_by_at("TIPO_PACIENTE", .add = TRUE)
+  }
+
+  if (group_by_tipo_sector){
+    .casos <- .casos %>%
+      dplyr::group_by_at("SECTOR", .add = TRUE)
+  }
+
+  if (group_by_tipo_uci){
+    .casos <- .casos %>%
+      dplyr::group_by_at("UCI", .add = TRUE)
+  }
+
+  #Conteo de los .casos
+  .casos <- .casos %>%
     dplyr::tally() %>%
-    dplyr::rename_with(.cols = dplyr::matches("\\bn\\b"),
-                       function(x) paste0("Casos_", paste0(tipo_caso)))
+    dplyr::ungroup()
 
+  if (as_tibble){
 
-  return(casos)
+    .casos <- .casos %>%
+      dplyr::collect()
+
+    if (fill_zeros){
+
+      #Select the other variables to expand grid
+      .grouping_vars <- .casos  %>%
+        dplyr::select(-dplyr::matches("\\bn\\b")) %>%
+        dplyr::select(-dplyr::starts_with("FECHA")) %>%
+        dplyr::distinct()
+
+      #Check the dates to expand
+      .fechasminmax <- datos_covid$dats %>%
+        dplyr::select_at(fecha_tipo) %>%
+        dplyr::summarise(fechamin = min(!!as.symbol(fecha_tipo), na.rm = TRUE),
+                         fechamax = max(!!as.symbol(fecha_tipo), na.rm = TRUE)) %>%
+        dplyr::collect()
+
+      .datesq     <- seq(.fechasminmax$fechamin[1], .fechasminmax$fechamax[1], by = "1 day")
+
+      #Create grid of all possible dates
+      .grid_casos <- tidyr::expand_grid(!!as.symbol(fecha_tipo) := .datesq, .grouping_vars)
+
+      #Full join
+      .casos      <- .casos %>%
+        dplyr::full_join(.grid_casos, by = colnames(.grid_casos)) %>%
+        dplyr::mutate(!!as.symbol("n") := tidyr::replace_na(!!as.symbol("n"), 0))
+    }
+  }
+
+  if (nrow(entidades) > 0 & group_by_entidad){
+    name_join        <- c("CLAVE_ENTIDAD")
+    names(name_join) <- entidad_tipo
+    .casos <- .casos %>% dplyr::left_join(datos_covid$dict[entidad_tipo][[1]], by = name_join)
+  }
+
+  if (length(clasificaciones_finales) > 0 & group_by_tipo_clasificacion){
+    name_join        <- c("CLAVE")
+    names(name_join) <- "CLASIFICACION_FINAL"
+    .casos <- .casos %>%
+      dplyr::left_join(datos_covid$dict["CLASIFICACION_FINAL"][[1]][,c(1,2)], by = name_join)
+  }
+
+  if (nrow(pacientes) > 0 & group_by_tipo_paciente){
+    name_join        <- c("CLAVE")
+    names(name_join) <- "TIPO_PACIENTE"
+    colnames(datos_covid$dict["PACIENTE"][[1]]) <- c("CLAVE","DESCRIPCION_TIPO_PACIENTE")
+    .casos <- .casos %>%
+      dplyr::left_join(datos_covid$dict["PACIENTE"][[1]], by = name_join)
+  }
+
+  if (nrow(ucis) > 0 & group_by_tipo_uci){
+    name_join        <- c("CLAVE")
+    names(name_join) <- "UCI"
+    colnames(datos_covid$dict["UCI"][[1]]) <- c("CLAVE","DESCRIPCION_TIPO_UCI")
+    .casos <- .casos %>%
+      dplyr::left_join(datos_covid$dict["UCI"][[1]], by = name_join)
+  }
+
+  if (nrow(sectores) > 0 & group_by_tipo_sector){
+    name_join        <- c("CLAVE")
+    names(name_join) <- "SECTOR"
+    colnames(datos_covid$dict["SECTOR"][[1]]) <- c("CLAVE","DESCRIPCION_TIPO_SECTOR")
+    .casos <- .casos %>%
+      dplyr::left_join(datos_covid$dict["SECTOR"][[1]], by = name_join)
+  }
+
+  .casos        <- list(.casos)
+  names(.casos) <- list_name
+
+  return(append(datos_covid, .casos))
 
 }

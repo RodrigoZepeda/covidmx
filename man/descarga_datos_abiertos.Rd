@@ -11,7 +11,6 @@ descarga_datos_abiertos(
   file_download_dictionary = tempfile(),
   remove_zip_after_download = TRUE,
   quiet = FALSE,
-  parse_dictionary = TRUE,
   parse_warnings = FALSE,
   language = c("English", "Español"),
   read_format = c("MariaDB", "tibble"),
@@ -21,7 +20,8 @@ descarga_datos_abiertos(
   host = Sys.getenv("MariaDB_host"),
   group = Sys.getenv("MariaDB_group"),
   port = Sys.getenv("MariaDB_port"),
-  tblname = "covidmx"
+  tblname = "covidmx",
+  nthreads = max(parallel::detectCores() - 1, 1)
 )
 }
 \arguments{
@@ -41,11 +41,6 @@ Nombre del archivo donde guardar el diccioanrio.}
 Si los archivos zip descargados deben ser almacenados.}
 
 \item{quiet}{Show messages? / Mostrar mensajes?}
-
-\item{parse_dictionary}{Change labels to values of dictionary? Default = TRUE
-else the data is downloaded and presented as is. / Se agregan etiquetas
-a partir del diccionario? Default = TRUE en caso contrario solo se presentan los
-datos descargados como estan.}
 
 \item{parse_warnings}{If show parsing errors when reading csv /
 Si muestra errores cuando lee el csv}
@@ -68,11 +63,17 @@ should be stored. In most machines \code{"tibble"} will result in a memory error
 \item{port}{Port connection for MariaDB}
 
 \item{tblname}{Name of table to save in MariaDB}
+
+\item{parse_dictionary}{Change labels to values of dictionary? Default = TRUE
+else the data is downloaded and presented as is. / Se agregan etiquetas
+a partir del diccionario? Default = TRUE en caso contrario solo se presentan los
+datos descargados como estan.}
 }
 \value{
 List of values:
 \code{dats} Database table (if MARIADB) or database in tibble (if tibble)
 \code{con} Database connection (if MARIADB) or \code{NULL} (if tibble)
+\code{dict} List of tibbles containing the whole dictionnary
 }
 \description{
 \code{descarga_datos_abiertos} downloads and labels

@@ -43,8 +43,6 @@
 #'                             group_by_entidad = T) %>%
 #'    covid_plot()
 #'}
-#'
-#' @export
 
 numero_pruebas_esperando_resultado <- function(datos_covid = NULL,
                            entidades = c("AGUASCALIENTES", "BAJA CALIFORNIA",

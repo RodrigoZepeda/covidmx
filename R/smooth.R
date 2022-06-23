@@ -37,7 +37,6 @@
 #'          covid_plot()
 #'}
 #'
-#' @export
 
 smooth <- function(covid_dataset,
                    variable = NULL,

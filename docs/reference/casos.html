@@ -17,7 +17,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
@@ -59,8 +59,22 @@
   group_by_entidad <span class="op">=</span> <span class="cn">TRUE</span>,
   entidad_tipo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Unidad Médica"</span>, <span class="st">"Residencia"</span>, <span class="st">"Nacimiento"</span><span class="op">)</span>,
   fecha_tipo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Síntomas"</span>, <span class="st">"Ingreso"</span>, <span class="st">"Defunción"</span><span class="op">)</span>,
-  tipo_caso <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Todos"</span>, <span class="st">"Sospechosos"</span>, <span class="st">"Confirmados COVID"</span>,
-    <span class="st">"Sospechosos y Confirmados COVID"</span>, <span class="st">"Negativo a COVID"</span><span class="op">)</span>
+  tipo_clasificacion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sospechosos"</span>, <span class="st">"Confirmados COVID"</span>, <span class="st">"Negativo a COVID"</span>,
+    <span class="st">"Inválido"</span>, <span class="st">"No realizado"</span><span class="op">)</span>,
+  group_by_tipo_clasificacion <span class="op">=</span> <span class="cn">FALSE</span>,
+  tipo_paciente <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AMBULATORIO"</span>, <span class="st">"HOSPITALIZADO"</span>, <span class="st">"NO ESPECIFICADO"</span><span class="op">)</span>,
+  group_by_tipo_paciente <span class="op">=</span> <span class="cn">FALSE</span>,
+  tipo_uci <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SI"</span>, <span class="st">"NO"</span>, <span class="st">"NO APLICA"</span>, <span class="st">"SE IGNORA"</span>, <span class="st">"NO ESPECIFICADO"</span><span class="op">)</span>,
+  group_by_tipo_uci <span class="op">=</span> <span class="cn">FALSE</span>,
+  tipo_sector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CRUZ ROJA"</span>, <span class="st">"DIF"</span>, <span class="st">"ESTATAL"</span>, <span class="st">"IMSS"</span>, <span class="st">"IMSS-BIENESTAR"</span>, <span class="st">"ISSSTE"</span>,
+    <span class="st">"MUNICIPAL"</span>, <span class="st">"PEMEX"</span>, <span class="st">"PRIVADA"</span>, <span class="st">"SEDENA"</span>, <span class="st">"SEMAR"</span>, <span class="st">"SSA"</span>, <span class="st">"UNIVERSITARIO"</span>,
+    <span class="st">"NO ESPECIFICADO"</span><span class="op">)</span>,
+  group_by_tipo_sector <span class="op">=</span> <span class="cn">FALSE</span>,
+  defunciones <span class="op">=</span> <span class="cn">FALSE</span>,
+  edad_cut <span class="op">=</span> <span class="cn">NULL</span>,
+  as_tibble <span class="op">=</span> <span class="cn">TRUE</span>,
+  fill_zeros <span class="op">=</span> <span class="va">as_tibble</span>,
+  list_name <span class="op">=</span> <span class="st">"casos"</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -69,6 +83,8 @@
     <dl><dt>datos_covid</dt>
 <dd><p>If no data is available it automatically downloads COVID-19
 information.</p></dd>
+
+
 <dt>entidades</dt>
 <dd><p>Vector con las entidades de las unidades medicas a analizar.
 Opciones: <code>AGUASCALIENTES</code>, <code>BAJA CALIFORNIA</code>, <code>BAJA CALIFORNIA SUR</code>,
@@ -78,18 +94,47 @@ Opciones: <code>AGUASCALIENTES</code>, <code>BAJA CALIFORNIA</code>, <code>BAJA 
 <code>NUEVO LEON</code>, <code>OAXACA</code> ,<code>PUEBLA</code>, <code>QUERETARO</code>,<code>QUINTANA ROO</code>,
 <code>SAN LUIS POTOSI</code>, <code>SINALOA</code>, <code>SONORA</code>, <code>TABASCO</code>, <code>TAMAULIPAS</code>,<code>TLAXCALA</code>,
 <code>VERACRUZ DE IGNACIO DE LA LLAVE</code>, <code>YUCATAN</code>, <code>ZACATECAS</code></p></dd>
+
+
 <dt>group_by_entidad</dt>
 <dd><p>Si junta las entidades en una sola
 o bien las muestra por separado sin agrupar.</p></dd>
+
+
 <dt>entidad_tipo</dt>
 <dd><p>Selecciona <code>Unidad Medica</code>, <code>Nacimiento</code> o <code>Residencia</code>.
 por default incluye <code>Unidad Medica</code></p></dd>
+
+
 <dt>fecha_tipo</dt>
 <dd><p>Selecciona <code>Ingreso</code>, <code>Sintomas</code> o <code>Defuncion</code> por default
 incluye fecha de <code>Sintomas</code></p></dd>
+
+
+<dt>tipo_paciente</dt>
+<dd><p>Vector con el tipo de pacientes a incluir. Opciones:
+<code>AMBULATORIO</code>, <code>HOSPITALIZADO</code>, <code>NO ESPECIFICADO</code>
+@param tipo_uci Vector con el tipo de valores para Unidad de Cuidado Intensivo a incluir:
+<code>SI</code>,<code>NO</code>,<code>NO APLICA</code>,<code>SE IGNORA</code>,<code>NO ESPECIFICADO</code></p></dd>
+
+
 <dt>tipo_caso</dt>
-<dd><p>Selecciona <code>Todos</code>, <code>Confirmados COVID</code>,<code>Sospechosos</code>,
-<code>Sospechosos y Confirmados COVID</code>, <code>Negativos a COVID</code></p></dd>
+<dd><p>Vector con el tipo de clasificaciones a incluir:
+<code>Sospechosos</code>,<code>Confirmados COVID</code>, <code>Negativo a COVID</code>,
+<code>Inválido</code>, <code>No realizado</code></p></dd>
+
+
+<dt>`edad_cut`</dt>
+<dd><p>Vector con secuencia de edades para hacer grupos. Por ejemplo
+<code>edad_cut = c(0, 10, Inf)</code> armaría dos grupos de edad de 0 a 10 y de 10 a infinito o bien
+<code>edad_cut = c(15, 20)</code> deja sólo los registros entre 15 y 20 años. Por default es NULL</p></dd>
+
+
+<dt>`tipo_sector`</dt>
+<dd><p>Vector con los sectores del sistema de salud a incluir:
+<code>CRUZ ROJA</code>,<code>DIF</code>,<code>ESTATAL</code>,<code>IMSS</code>,<code>IMSS-BIENESTAR</code>,<code>ISSSTE</code>, <code>MUNICIPAL</code>,<code>PEMEX</code>,
+<code>PRIVADA</code>,<code>SEDENA</code>,<code>SEMAR</code>,<code>SSA</code>, <code>UNIVERSITARIO</code>,<code>NO ESPECIFICADO</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -104,20 +149,25 @@ vease <code>casos_ambulatorios</code> y
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"Espanol"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co">#Positividad nacional</span></span>
-<span class="r-in"><span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">casos</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="co">#Casos a nivel nacional</span></span>
+<span class="r-in"><span class="va">mis_casos</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">casos</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co">#Positividad en Jalisco y Colima</span></span>
-<span class="r-in"><span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">casos</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>,<span class="st">"COLIMA"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">         <span class="fu"><a href="covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="co">#Defunciones nacional</span></span>
+<span class="r-in"><span class="va">defunciones</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">casos</span><span class="op">(</span>defunciones <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu">casos</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>,<span class="st">"COLIMA"</span><span class="op">)</span>, <span class="va">tipo_caso</span> <span class="op">==</span> <span class="st">"Confirmados COVID"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu"><a href="covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="co">#Positivos en Jalisco y Colima</span></span>
+<span class="r-in"><span class="va">casos_col_jal</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">casos</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>,<span class="st">"COLIMA"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">casos</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>,<span class="st">"COLIMA"</span><span class="op">)</span>,</span>
-<span class="r-in">                            group_by_entidad <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">         <span class="fu"><a href="covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="co">#Agrupando casos por tipo de clasificación</span></span>
+<span class="r-in"><span class="va">confirmados</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
+<span class="r-in">    <span class="fu">casos</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>,<span class="st">"COLIMA"</span><span class="op">)</span>, group_by_tipo_clasificacion <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">#Regresa la suma de los de COLIMA + JALISCO</span></span>
+<span class="r-in"><span class="va">casos_col_jal</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
+<span class="r-in">    <span class="fu">casos</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>,<span class="st">"COLIMA"</span><span class="op">)</span>,</span>
+<span class="r-in">          group_by_tipo_clasificacion <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">          tipo_paciente <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AMBULATORIO"</span>, <span class="st">"HOSPITALIZADO"</span><span class="op">)</span>,</span>
+<span class="r-in">          group_by_tipo_paciente <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"></span>
 </code></pre></div>
@@ -131,7 +181,7 @@ vease <code>casos_ambulatorios</code> y
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

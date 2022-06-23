@@ -43,7 +43,6 @@
 #'          covid_plot()
 #'}
 #'
-#' @export
 
 numero_pruebas_pcr <- function(datos_covid = NULL,
                            entidades = c("AGUASCALIENTES", "BAJA CALIFORNIA",

@@ -20,7 +20,6 @@
 #'
 #'}
 #'
-#' @export
 
 tasa_cambio <- function(covid_dataset, variable = NULL, quiet = FALSE){
 

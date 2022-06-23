@@ -29,7 +29,7 @@
 #' Nombre del archivo donde guardar el diccioanrio.
 #' @param parse_dictionary Change labels to values of dictionary? Default = TRUE
 #' else the data is downloaded and presented as is. / Se agregan etiquetas
-#' a partir del diccionario? Default = TRUE en caso contrario solo se presentan los
+#' a partir del diccionario? `default = TRUE` en caso contrario solo se presentan los
 #' datos descargados como estan.
 #' @param remove_zip_after_download If the downloaded zip file should be saved /
 #' Si los archivos zip descargados deben ser almacenados.
@@ -39,16 +39,20 @@
 #' @param language ('Español', 'English') Message languages/ Idiomas del mensaje.
 #' @param read_format \code{"MariaDB"} or \code{"tibble"} establishes how the database
 #' should be stored. In most machines \code{"tibble"} will result in a memory error
-#' @param user User for \code{dbConnect} i.e. your MariaDB user
-#' @param password password for \code{dbConnect} i.e. your MariaDB password
+#' @param user User for \code{dbConnect} i.e. your `MariaDB` user
+#' @param password password for \code{dbConnect} i.e. your `MariaDB` password
 #' @param dbname Database name for \code{dbConnect} i.e. what database is going to be stored
-#' @param host Host for \code{dbConnect} i.e. your MariaDB host (usually localhost)
-#' @param group Group for \code{dbConnect} i.e. your MariaDB group (can be NULL)
-#' @param port Port connection for MariaDB
-#' @param tblname Name of table to save in MariaDB
+#' @param host Host for \code{dbConnect} i.e. your `MariaDB` host (usually localhost)
+#' @param group Group for \code{dbConnect} i.e. your `MariaDB` group (can be NULL)
+#' @param port Port connection for `MariaDB`
+#' @param tblname Name of table to save in `MariaDB`
+#' @param nthreads Number of threads for writing to `MariaDB`.
 #' @return List of values:
-#' \code{dats} Database table (if MARIADB) or database in tibble (if tibble)
-#' \code{con} Database connection (if MARIADB) or \code{NULL} (if tibble)
+#' \itemize{
+#'   \item dats - Database table (if MARIADB) or database in tibble (if tibble)
+#'   \item con - Database connection (if MARIADB) or \code{NULL} (if tibble)
+#'   \item dict - List of tibbles containing the whole dictionary
+#' }
 #'
 #'@examples
 #'\dontrun{
@@ -61,7 +65,6 @@ descarga_datos_abiertos <- function(download_method           = "curl",
                                     file_download_dictionary  = tempfile(),
                                     remove_zip_after_download = TRUE,
                                     quiet                     = FALSE,
-                                    parse_dictionary          = TRUE,
                                     parse_warnings            = FALSE,
                                     language                  = c("English", "Espa\u00f1ol"),
                                     read_format               = c("MariaDB","tibble"),
@@ -71,7 +74,8 @@ descarga_datos_abiertos <- function(download_method           = "curl",
                                     host                      = Sys.getenv("MariaDB_host"),
                                     group                     = Sys.getenv("MariaDB_group"),
                                     port                      = Sys.getenv("MariaDB_port"),
-                                    tblname                   = "covidmx"){
+                                    tblname                   = "covidmx",
+                                    nthreads                  = max(parallel::detectCores() - 1, 1)){
 
   #Check inputs----
   if (stringr::str_detect(toupper(language[1]),"ESPA.*OL")){
@@ -226,28 +230,49 @@ descarga_datos_abiertos <- function(download_method           = "curl",
                       statement = "SET sql_mode = 'NO_ENGINE_SUBSTITUTION,NO_AUTO_CREATE_USER';")
       DBI::dbClearResult(dbres)
 
+      DBI::dbWriteTable(conn = con, name = tblname, value = header, overwrite = T)
 
-      DBI::dbWriteTable(conn = con, name = tblname, value = header,
-                   overwrite = T)
-
-      dbres <- DBI::dbSendStatement(conn = con,
-                                    statement = glue::glue("DELETE FROM {tblname};"))
+      dbres <- DBI::dbSendStatement(conn = con, statement = glue::glue("DELETE FROM {tblname};"))
       DBI::dbClearResult(dbres)
-      #____Writing to table-----
-      query_to_writedata <- glue::glue("LOAD DATA LOCAL INFILE \'{filecon}\' ",
-                       "REPLACE INTO TABLE {tblname} ",
-                       "CHARACTER SET UTF8 ",
-                       "COLUMNS TERMINATED BY ',' ",
-                       "ENCLOSED BY '\"'",
-                       "LINES TERMINATED BY '\\n' ",
-                       "IGNORE 1 LINES;")
 
-      message(glue::glue("Created {tblname} table"))
-      dbres <- DBI::dbSendStatement(conn = con, statement = query_to_writedata)
-      DBI::dbClearResult(dbres)
+      file.rename(filecon, glue::glue("./{tblname}.csv"))
+
+      tryCatch({
+        message("Intentando crear tabla en paralelo | Attempting to create table in parallel")
+        system(glue::glue("mysqlimport --default-character-set=UTF8",
+                          " --fields-terminated-by=','",
+                          " --ignore-lines=1",
+                          " --fields-enclosed-by='\"'",
+                          " --lines-terminated-by='\\n'",
+                          " --user={user}",
+                          " --password={password}",
+                          " --use-threads={nthreads}",
+                          " --local COVID ./{tblname}.csv"))
+      },
+      error=function(e) {
+
+        #____Writing to table-----
+        query_to_writedata <- glue::glue("LOAD DATA LOCAL INFILE \'{filecon}\' ",
+                                         "REPLACE INTO TABLE {tblname} ",
+                                         "CHARACTER SET UTF8 ",
+                                         "COLUMNS TERMINATED BY ',' ",
+                                         "ENCLOSED BY '\"'",
+                                         "LINES TERMINATED BY '\\n' ",
+                                         "IGNORE 1 LINES;")
+
+        message(glue::glue("Created {tblname} table | Cree la tabla {tblname}"))
+        dbres <- DBI::dbSendStatement(conn = con, statement = query_to_writedata)
+        DBI::dbClearResult(dbres)
+
+      })
 
       dats <- dplyr::tbl(con, tblname)
-      message("Don't forget to DBI::dbDisconnect(con) at the end")
+      if (language == "Espa\u00f1ol"){
+        message(glue::glue("No olvides desconectar la base con ",
+                "DBI::dbDisconnect(datos_covid$con) cuando termines."))
+      } else {
+        message("Don't forget to DBI::dbDisconnect(datos_covid$con) at the end")
+      }
 
     } else {
       #> CSV----
@@ -306,7 +331,7 @@ descarga_datos_abiertos <- function(download_method           = "curl",
     )
 
     #Dictionary----
-    if (parse_dictionary & RCurl::url.exists(site.covid.dic)) {
+    if (RCurl::url.exists(site.covid.dic)) {
 
       if (!quiet) {
         if (language == "Espa\u00f1ol"){
@@ -334,238 +359,180 @@ descarga_datos_abiertos <- function(download_method           = "curl",
 
       unzip(zipfile = file_download_dictionary, files = fname, exdir = ".")
 
+      dic <- list()
+
       #> ORIGEN----
       if (!quiet) {
         message("+ ORIGEN")
       }
 
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo ORIGEN",
-        col_types = c("numeric", "text")
+      diccionario.covid.origen <- list("ORIGEN" =
+        readxl::read_excel(fname,
+          sheet = "Cat\u00e1logo ORIGEN",
+          col_types = c("numeric", "text")
+        )
       )
-      dats <- dats %>%
-        dplyr::left_join(diccionario.covid, by = c("ORIGEN" = "CLAVE"),
-                         copy = TRUE) %>%
-        dplyr::select(-.data$ORIGEN) %>%
-        dplyr::rename_with(.cols = dplyr::matches("DESCRIPCI\u00d3N"),
-                           function(x) "ORIGEN") %>%
-        dplyr::compute()
 
       #> SECTOR----
       if (!quiet) {
         message("+ SECTOR")
       }
 
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo SECTOR",
-        col_types = c("numeric", "text")
+      diccionario.covid.sector <- list("SECTOR" =
+        readxl::read_excel(fname,
+          sheet = "Cat\u00e1logo SECTOR",
+          col_types = c("numeric", "text")
+        )
       )
-      dats <- dats %>%
-        dplyr::left_join(diccionario.covid, by = c("SECTOR" = "CLAVE"),
-                         copy = TRUE) %>%
-        dplyr::select(-.data$SECTOR) %>%
-        dplyr::rename_with(.cols = dplyr::matches("DESCRIPCI\u00d3N"),
-                           function(x) "SECTOR") %>%
-        dplyr::compute()
 
       #> SEXO----
       if (!quiet) {
         message("+ SEXO")
       }
 
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo SEXO",
-        col_types = c("numeric", "text")
+      diccionario.covid.sexo <- list("SEXO" =
+        readxl::read_excel(fname,
+          sheet = "Cat\u00e1logo SEXO",
+          col_types = c("numeric", "text")
+        )
       )
-      dats <- dats %>%
-        dplyr::left_join(diccionario.covid, by = c("SEXO" = "CLAVE"),
-                         copy = TRUE) %>%
-        dplyr::select(-.data$SEXO) %>%
-        dplyr::rename_with(.cols = dplyr::matches("DESCRIPCI\u00d3N"),
-                           function(x) "SEXO") %>%
-        dplyr::compute()
 
       #> TIPO DE PACIENTE----
       if (!quiet) {
         message("+ TIPO_PACIENTE")
       }
 
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo TIPO_PACIENTE",
-        col_types = c("numeric", "text")
+      diccionario.covid.paciente <- list("PACIENTE" =
+        readxl::read_excel(fname,
+          sheet = "Cat\u00e1logo TIPO_PACIENTE",
+          col_types = c("numeric", "text")
+        )
       )
-      dats <- dats %>%
-        dplyr::left_join(diccionario.covid, by = c("TIPO_PACIENTE" = "CLAVE"),
-                         copy = TRUE) %>%
-        dplyr::select(-.data$TIPO_PACIENTE) %>%
-        dplyr::rename_with(.cols = dplyr::matches("DESCRIPCI\u00d3N"),
-                           function(x) "TIPO_PACIENTE") %>%
-        dplyr::compute()
-
-
-      #> CATALOGO SI/NO:----
-      # INTUBADO, NEUMONIA, EMBARAZO, HABLA LENGUA INDIGENA, INDIGENA, DIABETES
-      # EPOC, ASMA, INMUSUPR, HIPERTENSION, OTRA_COMORBILIDAD, OBESIDAD,
-      # RENAL_CRONICA, TABAQUISMO, MIGRANTE, UCI
-
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo SI_NO",
-        col_types = c("numeric", "text")
-      )
-
-
-      for (col in c(
-        "INTUBADO", "NEUMONIA", "EMBARAZO", "HABLA_LENGUA_INDIG",
-        "INDIGENA", "DIABETES", "EPOC", "ASMA", "INMUSUPR", "HIPERTENSION",
-        "OTRA_COM", "OBESIDAD", "RENAL_CRONICA", "TABAQUISMO",
-        "MIGRANTE", "UCI", "CARDIOVASCULAR","OTRO_CASO","TOMA_MUESTRA_LAB",
-        "TOMA_MUESTRA_ANTIGENO"
-      )) {
-        if (!quiet) {
-          message(paste0("+ ", col))
-        }
-
-        join_cols <- c("CLAVE")
-        names(join_cols) <- col
-
-        dats <- dats %>%
-          dplyr::left_join(diccionario.covid, by = join_cols, copy = TRUE) %>%
-          dplyr::select(-dplyr::matches(col)) %>%
-          dplyr::rename_with(.cols = dplyr::matches("DESCRIPCI\u00d3N"), function(x) {
-            col
-          }) %>%
-          dplyr::compute()
-      }
-
-      #> CATALOGO DE MUNICIPIO----
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo MUNICIPIOS",
-        col_types = c("text", "text", "text")
-      )
-
-      if (!quiet) {
-        message("+ MUNICIPIO_RES")
-      }
-
-      dats <- dats %>%
-        dplyr::left_join(diccionario.covid,
-          by = c(
-            "MUNICIPIO_RES" = "CLAVE_MUNICIPIO",
-            "ENTIDAD_RES" = "CLAVE_ENTIDAD"
-          ),
-          copy = TRUE
-        ) %>%
-        dplyr::select(-.data$MUNICIPIO_RES) %>%
-        dplyr::rename_with(.cols = dplyr::matches("MUNICIPIO"),
-                           function(x) "MUNICIPIO_RES") %>%
-        dplyr::compute()
-
-      #> CATALOGO ENTIDAD----
-      # ENTIDAD_UM, ENTIDAD_RES, ENTIDAD_NAC
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo de ENTIDADES",
-        col_types = c("text", "text", "text")
-      )
-      ent_col <- colnames(dats)[stringr::str_detect(colnames(dats), "ENTIDAD")]
-
-      for (col in ent_col) {
-        if (!quiet) {
-          message(paste0("+ ", col))
-        }
-
-        join_cols <- c("CLAVE_ENTIDAD")
-        names(join_cols) <- col
-
-        dats <- dats %>%
-          dplyr::left_join(diccionario.covid, by = join_cols, copy = TRUE) %>%
-          dplyr::select(-dplyr::matches(col), -dplyr::matches("ABREVIATURA")) %>%
-          dplyr::rename_with(
-            .cols = dplyr::matches("ENTIDAD_FEDERATIVA"),
-            function(x) {
-              col
-            }
-          ) %>%
-          dplyr::compute()
-      }
 
       #> NACIONALIDAD----
       if (!quiet) {
         message("+ NACIONALIDAD")
       }
 
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo NACIONALIDAD",
-        col_types = c("numeric", "text")
-      )
-      dats <- dats %>%
-        dplyr::left_join(diccionario.covid, by = c("NACIONALIDAD" = "CLAVE"),
-                         copy = TRUE) %>%
-        dplyr::select(-.data$NACIONALIDAD) %>%
-        dplyr::rename_with(.cols = dplyr::matches("DESCRIPCI\u00d3N"),
-                           function(x) "NACIONALIDAD") %>%
-        dplyr::compute()
+      diccionario.covid.nacionalidad <-
+        list("NACIONALIDAD" = readxl::read_excel(fname,
+                                              sheet = "Cat\u00e1logo NACIONALIDAD",
+                                              col_types = c("numeric", "text"))
+        )
+
 
       #> RESULTADO_LAB----
       if (!quiet) {
         message("+ RESULTADO_LAB")
       }
 
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo RESULTADO_LAB",
-        col_types = c("numeric", "text")
-      )
-      dats <- dats %>%
-        dplyr::left_join(diccionario.covid, by = c("RESULTADO_LAB" = "CLAVE"),
-                         copy = TRUE) %>%
-        dplyr::select(-.data$RESULTADO_LAB) %>%
-        dplyr::rename_with(.cols = dplyr::matches("DESCRIPCI\u00d3N"),
-                           function(x) "RESULTADO_LAB") %>%
-        dplyr::compute()
+      diccionario.covid.resultado_lab <-
+        list("RESULTADO_LAB" =
+               readxl::read_excel(fname,
+                                  sheet = "Cat\u00e1logo RESULTADO_LAB",
+                                  col_types = c("numeric", "text")
+               )
+             )
 
       #> RESULTADO_ANTIGENO----
       if (!quiet) {
         message("+ RESULTADO_ANTIGENO")
       }
 
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo RESULTADO_ANTIGENO",
-        col_types = c("numeric", "text")
-      )
-      dats <- dats %>%
-        dplyr::left_join(diccionario.covid,
-                         by = c("RESULTADO_ANTIGENO" = "CLAVE"),
-                         copy = TRUE) %>%
-        dplyr::select(-.data$RESULTADO_ANTIGENO) %>%
-        dplyr::rename_with(.cols = dplyr::matches("DESCRIPCI\u00d3N"),
-                           function(x) "RESULTADO_ANTIGENO") %>%
-        dplyr::compute()
+      diccionario.covid.resutlado_antigeno <-
+        list("RESULTADO_ANTIGENO" = readxl::read_excel(fname,
+                                              sheet = "Cat\u00e1logo RESULTADO_ANTIGENO",
+                                              col_types = c("numeric", "text"))
+        )
 
       #> CLASIFICACION_FINAL----
       if (!quiet) {
         message("+ CLASIFICACION_FINAL")
       }
 
-      diccionario.covid <- readxl::read_excel(fname,
-        sheet = "Cat\u00e1logo CLASIFICACION_FINAL",
-        col_types = c("numeric", "text", "text")
-      )
-      dats <- dats %>%
-        dplyr::left_join(diccionario.covid,
-                         by = c("CLASIFICACION_FINAL" = "CLAVE"),
-                         copy = TRUE) %>%
-        dplyr::select(-.data$CLASIFICACION_FINAL) %>%
-        dplyr::rename_with(.cols = dplyr::matches("\bCLASIFICACI\u00d3N\b"),
-                           function(x) "CLASIFICACION_FINAL") %>%
-        dplyr::compute()
+      diccionario.covid.clasificacion_final <- list(
+        "CLASIFICACION_FINAL" = readxl::read_excel(fname,
+                                                   sheet = "Cat\u00e1logo CLASIFICACION_FINAL",
+                                                   col_types = c("numeric", "text", "text")
+      ))
 
+      if (!quiet) {
+        message("+ MUNICIPIO_RES")
+      }
+
+      #> CATALOGO DE MUNICIPIO----
+      diccionario.covid.municipio_res <- list("MUNICIPIO_RES" =
+                                  readxl::read_excel(fname,
+                                                     sheet = "Cat\u00e1logo MUNICIPIOS",
+                                                     col_types = c("text", "text", "text")
+      ))
+
+
+      #> CATALOGO SI/NO:----
+      # INTUBADO, NEUMONIA, EMBARAZO, HABLA LENGUA INDIGENA, INDIGENA, DIABETES
+      # EPOC, ASMA, INMUSUPR, HIPERTENSION, OTRA_COMORBILIDAD, OBESIDAD,
+      # RENAL_CRONICA, TABAQUISMO, MIGRANTE, UCI
+      for (variable in c("INTUBADO", "NEUMONIA", "EMBARAZO", "HABLA LENGUA INDIGENA", "INDIGENA",
+                          "DIABETES", "EPOC", "ASMA", "INMUSUPR", "HIPERTENSION",
+                         "CARDIOVASCULAR","OTRO_CASO","TOMA_MUESTRA_LAB", "TOMA_MUESTRA_ANTIGENO",
+                         "OTRA_COMORBILIDAD", "OBESIDAD","RENAL_CRONICA","TABAQUISMO","UCI")){
+
+        if (!quiet) {
+          message(paste0("+ ", variable))
+        }
+
+        temp_list <- list()
+        temp_list[[variable]] <- readxl::read_excel(fname, sheet = "Cat\u00e1logo SI_NO",
+                                            col_types = c("numeric", "text"))
+
+        assign(paste0("diccionario.covid.", tolower(variable)), temp_list)
+      }
+
+      #> CATALOGO ENTIDAD----
+      # ENTIDAD_UM, ENTIDAD_RES, ENTIDAD_NAC
+      for (variable in c("ENTIDAD_UM", "ENTIDAD_RES", "ENTIDAD_NAC")){
+
+        if (!quiet) {
+          message(paste0("+ ", variable))
+        }
+
+        temp_list <- list()
+        temp_list[[variable]] <- readxl::read_excel(fname,
+                                                    sheet = "Cat\u00e1logo de ENTIDADES",
+                                                    col_types = c("text", "text", "text"))
+
+        assign(paste0("diccionario.covid.", tolower(variable)), temp_list)
+
+      }
+
+      dict <- c(diccionario.covid.asma, diccionario.covid.cardiovascular,
+               diccionario.covid.clasificacion_final, diccionario.covid.diabetes,
+               diccionario.covid.embarazo, diccionario.covid.entidad_nac,
+               diccionario.covid.entidad_res, diccionario.covid.entidad_um,
+               diccionario.covid.epoc, `diccionario.covid.habla lengua indigena`,
+               diccionario.covid.hipertension, diccionario.covid.indigena,
+               diccionario.covid.inmusupr, diccionario.covid.intubado,
+               diccionario.covid.municipio_res, diccionario.covid.nacionalidad,
+               diccionario.covid.neumonia, diccionario.covid.obesidad,
+               diccionario.covid.origen, diccionario.covid.otra_comorbilidad,
+               diccionario.covid.otro_caso, diccionario.covid.paciente,
+               diccionario.covid.renal_cronica, diccionario.covid.resultado_lab,
+               diccionario.covid.resutlado_antigeno, diccionario.covid.sector,
+               diccionario.covid.sexo, diccionario.covid.tabaquismo,
+               diccionario.covid.toma_muestra_antigeno, diccionario.covid.toma_muestra_lab,
+               diccionario.covid.uci)
 
       if (remove_zip_after_download) {
         unlink(file_download_dictionary)
         unlink(fname)
       }
 
-    } else if (parse_dictionary & !RCurl::url.exists(site.covid.dic)) {
-      stop("Unable to locate dictionary try again")
+    } else if (!RCurl::url.exists(site.covid.dic)) {
+      if (language == "Espa\u00f1ol"){
+        stop(glue::glue("No se pudo encontrar el diccionario en {site.covid.dic}"))
+      } else {
+        stop(glue::glue("Unable to locate dictionary try again in {site.covid.dic}"))
+      }
     }
 
     if (remove_zip_after_download) {
@@ -587,8 +554,12 @@ descarga_datos_abiertos <- function(download_method           = "curl",
     }
 
   } else {
-    stop(paste0("Unable to locate dataset at ", site.covid))
+    if (language == "Espa\u00f1ol"){
+      stop(paste0("No pude encontrar los datos en ", site.covid))
+    } else {
+      stop(paste0("Unable to locate dataset at ", site.covid))
+    }
     dats <- NULL; con <- NULL
   }
-  return(list(dats = dats, con = con))
+  return(list(dats = dats, con = con, dict = dict))
 }

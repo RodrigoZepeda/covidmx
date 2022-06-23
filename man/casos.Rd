@@ -15,8 +15,22 @@ casos(
   group_by_entidad = TRUE,
   entidad_tipo = c("Unidad Médica", "Residencia", "Nacimiento"),
   fecha_tipo = c("Síntomas", "Ingreso", "Defunción"),
-  tipo_caso = c("Todos", "Sospechosos", "Confirmados COVID",
-    "Sospechosos y Confirmados COVID", "Negativo a COVID")
+  tipo_clasificacion = c("Sospechosos", "Confirmados COVID", "Negativo a COVID",
+    "Inválido", "No realizado"),
+  group_by_tipo_clasificacion = FALSE,
+  tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
+  group_by_tipo_paciente = FALSE,
+  tipo_uci = c("SI", "NO", "NO APLICA", "SE IGNORA", "NO ESPECIFICADO"),
+  group_by_tipo_uci = FALSE,
+  tipo_sector = c("CRUZ ROJA", "DIF", "ESTATAL", "IMSS", "IMSS-BIENESTAR", "ISSSTE",
+    "MUNICIPAL", "PEMEX", "PRIVADA", "SEDENA", "SEMAR", "SSA", "UNIVERSITARIO",
+    "NO ESPECIFICADO"),
+  group_by_tipo_sector = FALSE,
+  defunciones = FALSE,
+  edad_cut = NULL,
+  as_tibble = TRUE,
+  fill_zeros = as_tibble,
+  list_name = "casos"
 )
 }
 \arguments{
@@ -41,8 +55,22 @@ por default incluye \verb{Unidad Medica}}
 \item{fecha_tipo}{Selecciona \code{Ingreso}, \code{Sintomas} o \code{Defuncion} por default
 incluye fecha de \code{Sintomas}}
 
-\item{tipo_caso}{Selecciona \code{Todos}, \verb{Confirmados COVID},\code{Sospechosos},
-\verb{Sospechosos y Confirmados COVID}, \verb{Negativos a COVID}}
+\item{tipo_paciente}{Vector con el tipo de pacientes a incluir. Opciones:
+\code{AMBULATORIO}, \code{HOSPITALIZADO}, \verb{NO ESPECIFICADO}
+@param tipo_uci Vector con el tipo de valores para Unidad de Cuidado Intensivo a incluir:
+\code{SI},\code{NO},\verb{NO APLICA},\verb{SE IGNORA},\verb{NO ESPECIFICADO}}
+
+\item{tipo_caso}{Vector con el tipo de clasificaciones a incluir:
+\code{Sospechosos},\verb{Confirmados COVID}, \verb{Negativo a COVID},
+\code{Inválido}, \verb{No realizado}}
+
+\item{`edad_cut`}{Vector con secuencia de edades para hacer grupos. Por ejemplo
+\code{edad_cut = c(0, 10, Inf)} armaría dos grupos de edad de 0 a 10 y de 10 a infinito o bien
+\code{edad_cut = c(15, 20)} deja sólo los registros entre 15 y 20 años. Por default es NULL}
+
+\item{`tipo_sector`}{Vector con los sectores del sistema de salud a incluir:
+\verb{CRUZ ROJA},\code{DIF},\code{ESTATAL},\code{IMSS},\code{IMSS-BIENESTAR},\code{ISSSTE}, \code{MUNICIPAL},\code{PEMEX},
+\code{PRIVADA},\code{SEDENA},\code{SEMAR},\code{SSA}, \code{UNIVERSITARIO},\verb{NO ESPECIFICADO}.}
 }
 \description{
 \code{casos} Calcula el numero de casos registrados por fecha
@@ -58,20 +86,25 @@ This is not an official product / este no es un producto oficial
 \dontrun{
 datos_covid <- descarga_datos_abiertos(language = "Espanol")
 
-#Positividad nacional
-datos_covid \%>\% casos()
+#Casos a nivel nacional
+mis_casos <- datos_covid \%>\% casos()
 
-#Positividad en Jalisco y Colima
-datos_covid \%>\% casos(entidades = c("JALISCO","COLIMA")) \%>\%
-         covid_plot()
+#Defunciones nacional
+defunciones <- datos_covid \%>\% casos(defunciones = TRUE)
 
-datos_covid \%>\%
-    casos(entidades = c("JALISCO","COLIMA"), tipo_caso == "Confirmados COVID") \%>\%
-    covid_plot()
+#Positivos en Jalisco y Colima
+casos_col_jal <- datos_covid \%>\% casos(entidades = c("JALISCO","COLIMA"))
 
-datos_covid \%>\% casos(entidades = c("JALISCO","COLIMA"),
-                            group_by_entidad = T) \%>\%
-         covid_plot()
+#Agrupando casos por tipo de clasificación
+confirmados <- datos_covid \%>\%
+    casos(entidades = c("JALISCO","COLIMA"), group_by_tipo_clasificacion = TRUE)
+
+#Regresa la suma de los de COLIMA + JALISCO
+casos_col_jal <- datos_covid \%>\%
+    casos(entidades = c("JALISCO","COLIMA"),
+          group_by_tipo_clasificacion = TRUE,
+          tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+          group_by_tipo_paciente = TRUE)
 }
 
 }

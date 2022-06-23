@@ -33,7 +33,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
@@ -74,8 +74,8 @@
 
 <span class="co">#~10 mins</span>
 <span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"Español"</span><span class="op">)</span></code></pre>
-<p>Por default, se agregan etiquetas a los datos (use <code>parse_dictionary = FALSE</code> para decargar sólo los datos sin etiquetas):</p>
-<pre class="{r}"><code>datos_covid %&gt;% dplyr::glimpse()
+<p>Por default, no se agregan etiquetas a los datos pues es muy lento hacerlo:</p>
+<pre class="{r}"><code>datos_covid$dats %&gt;% dplyr::glimpse()
 
     Rows: ---------
     Columns: 43
@@ -122,35 +122,70 @@
     $ RESULTADO_ANTIGENO    &lt;chr&gt; "NO APLICA (CASO SIN MUESTRA)", "NO APLICA (CASO SI…
     $ CLASIFICACIÓN         &lt;chr&gt; "CASO SOSPECHOSO", "CASO SOSPECHOSO", "NEGATIVO A S…
     $ DESCRIPCIÓN           &lt;chr&gt; "Sospechoso aplica cuando: \r\nEl caso no tienen as…</code></pre>
+<p>sin embargo el diccionario se incluye en la lista devuelta</p>
+<pre class="{r}"><code><span class="va">datos_covid</span><span class="op">$</span><span class="va">dict</span></code></pre>
 </div>
 <div class="section level1">
 <h1 id="rápido">Rápido<a class="anchor" aria-label="anchor" href="#r%C3%A1pido"></a>
 </h1>
-<p>Obtener defunciones nacionales</p>
-<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/defunciones.html">defunciones</a></span><span class="op">(</span><span class="op">)</span></code></pre>
-<p>o bien por entidad de la unidad médica:</p>
-<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/defunciones.html">defunciones</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span><span class="op">)</span></code></pre>
-<p>que es equivalente a:</p>
-<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ENTIDAD_UM</span> <span class="op">==</span> <span class="st">"QUINTANA ROO"</span> <span class="op">|</span> <span class="va">ENTIDAD_UM</span> <span class="op">==</span> <span class="st">"AGUASCALIENTES"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-    <span class="fu"><a href="reference/defunciones.html">defunciones</a></span><span class="op">(</span><span class="op">)</span></code></pre>
-<p>Se pueden calcular las tasas de cambio (1a derivada):</p>
-<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/tasa_cambio.html">tasa_cambio</a></span><span class="op">(</span><span class="op">)</span></code></pre>
-<p>O los acumulados</p>
-<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/acumulados.html">acumulados</a></span><span class="op">(</span><span class="op">)</span></code></pre>
-<p>O se pueden presentar de manera suavizada:</p>
-<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="reference/smooth.html">smooth</a></span><span class="op">(</span>tipo <span class="op">=</span> <span class="st">"splines"</span><span class="op">)</span></code></pre>
-<p>Y las funciones pueden componerse:</p>
-<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="reference/tasa_cambio.html">tasa_cambio</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="reference/smooth.html">smooth</a></span><span class="op">(</span>tipo <span class="op">=</span> <span class="st">"splines"</span><span class="op">)</span></code></pre>
-<p>Y se puede representar de manera gráfica</p>
-<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-    <span class="fu"><a href="reference/covid_plot.html">covid_plot</a></span><span class="op">(</span><span class="op">)</span></code></pre>
+<p>Obtener casos agrupados por estado</p>
+<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></code></pre>
+<p>o bien sólo para algunas entidades de la unidad médica:</p>
+<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span><span class="op">)</span></code></pre>
+<p>Todas las opciones:</p>
+<p>```{r, eval = TRUE} datos_covid %&gt;% casos( #Lista de entidades que deseas entidades = c(“AGUASCALIENTES”, “BAJA CALIFORNIA”, “BAJA CALIFORNIA SUR”, “CAMPECHE”, “CHIAPAS”, “CHIHUAHUA”,“CIUDAD DE M0c9XICO”, “COAHUILA DE ZARAGOZA” , “COLIMA”, “DURANGO”, “GUANAJUATO”, “GUERRERO”,“HIDALGO”, “JALISCO”, “M0c9XICO”, “MICHOAC0c1N DE OCAMPO”, “MORELOS”,“NAYARIT”, “NUEVO LE0d3N”, “OAXACA”, “PUEBLA”, “QUER0c9TARO”, “QUINTANA ROO”, “SAN LUIS POTOS0cd”, “SINALOA”, “SONORA”, “TABASCO”, “TAMAULIPAS”, “TLAXCALA”, “VERACRUZ DE IGNACIO DE LA LLAVE”, “YUCAT0c1N”, “ZACATECAS”),</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Si quieres que los resultados salgan por entidad = TRUE o ya agregados = FALSE</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>group_by_entidad    <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona esas entidades a qué tipo de entidad refieren: Unidad Médica, Residencia, </span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Nacimiento</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>entidad_tipo        <span class="ot">=</span> <span class="st">"Residencia"</span>, <span class="co">#c("Unidad M\u00e9dica", "Residencia", "Nacimiento"),</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona la fecha para la base de datos: Síntomas, Ingreso, Defunción</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>fecha_tipo          <span class="ot">=</span> <span class="st">"Ingreso"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona todas las variables de clasificación que deseas agregar:</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>tipo_clasificacion  <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Sospechosos"</span>,<span class="st">"Confirmados COVID"</span>, <span class="st">"Negativo a COVID"</span>, <span class="st">"Inválido"</span>, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"No realizado"</span>),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si deseas agrupar por la variable tipo_clasificacion</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>group_by_tipo_clasificacion <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona todos los pacientes quieres incluir:</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>tipo_paciente      <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"AMBULATORIO"</span>, <span class="st">"HOSPITALIZADO"</span>, <span class="st">"NO ESPECIFICADO"</span>),</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si agrupar por tipo de paciente</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>group_by_tipo_paciente <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona todas las opciones de Unidad de Cuidado Intensivo del paciente:</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>tipo_uci           <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"SI"</span>,<span class="st">"NO"</span>,<span class="st">"NO APLICA"</span>,<span class="st">"SE IGNORA"</span>,<span class="st">"NO ESPECIFICADO"</span>),</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si agrupar por tipo de unidad</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>group_by_tipo_uci  <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona los sectores del sistema de salud a incluir</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>tipo_sector   <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"CRUZ ROJA"</span>, <span class="st">"DIF"</span>, <span class="st">"ESTATAL"</span>, <span class="st">"IMSS"</span>, <span class="st">"IMSS-BIENESTAR"</span>, <span class="st">"ISSSTE"</span>, </span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"MUNICIPAL"</span>, <span class="st">"PEMEX"</span>, <span class="st">"PRIVADA"</span>, <span class="st">"SEDENA"</span>, <span class="st">"SEMAR"</span>, <span class="st">"SSA"</span>, </span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"UNIVERSITARIO"</span>,<span class="st">"NO ESPECIFICADO"</span>),</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si deseas agrupar por tipo de sector</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>group_by_tipo_sector <span class="ot">=</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si deseas sólo los que tuvieron defunción</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>defunciones   <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona los grupos de edad que deseas incluir en rango</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>edad_cut      <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>), <span class="co">#Edades 20-40 y 40-60</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si devolver el objeto como tibble</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>as_tibble     <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si rellenar los conteos (n) con ceros cuando no haya observaciones.</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>fill_zeros    <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="co">#Nombre para llamarle en el objeto lista que regresa</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>list_name     <span class="ot">=</span> <span class="st">"Ejemplo defunciones"</span><span class="er">)</span></span></code></pre></div>
+<p>```</p>
 </div>
 
   </main><aside class="col-md-3"><div class="license">
@@ -189,7 +224,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer>

@@ -23,7 +23,6 @@
 #'datos_covid %>% casos() %>% acumulados() %>% covid_plot()
 #'}
 #'
-#' @export
 
 acumulados <- function(covid_dataset, variable = NULL){
 
