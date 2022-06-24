@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,15 +60,14 @@
 <div class="page-header"><h1 id="covidmx">covidmx<a class="anchor" aria-label="anchor" href="#covidmx"></a>
 </h1></div>
 <p>Descarga, etiqueta y datos abiertos de COVID-19 en México. El propósito de este paquete es hacer la descarga, análisis y graficación de manera rápida para que tú no tengas que preocuparte por bajar el archivo a tiempo, agrupar funciones o realizar visualizaciones sino en lo importante: analizar la información.</p>
+<blockquote>
+<p><span class="emoji" data-emoji="warning">⚠️</span> Necesitas tener una instalación de <code>MariaDB</code> o bien muchísima <code>RAM</code>.</p>
+</blockquote>
 </div>
 <div class="section level1">
 <h1 id="instalación">Instalación<a class="anchor" aria-label="anchor" href="#instalaci%C3%B3n"></a>
 </h1>
 <pre class="{r}"><code><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"RodrigoZepeda/covidmx"</span><span class="op">)</span></code></pre>
-</div>
-<div class="section level1">
-<h1 id="funciones">Funciones<a class="anchor" aria-label="anchor" href="#funciones"></a>
-</h1>
 <p>Descarga la base de datos abiertos de la Dirección General de Epidemiología de la Secretaría de Salud.</p>
 <pre class="{r}"><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">covidmx</span><span class="op">)</span>
 
@@ -124,68 +123,155 @@
     $ DESCRIPCIÓN           &lt;chr&gt; "Sospechoso aplica cuando: \r\nEl caso no tienen as…</code></pre>
 <p>sin embargo el diccionario se incluye en la lista devuelta</p>
 <pre class="{r}"><code><span class="va">datos_covid</span><span class="op">$</span><span class="va">dict</span></code></pre>
+<p>Si ya los descargaste una vez puedes usar la siguiente función para leerlos de memoria:</p>
+<pre class="{r}"><code><span class="va">datos_covid</span><span class="op">$</span><span class="va">dict</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span><span class="op">)</span></code></pre>
 </div>
 <div class="section level1">
-<h1 id="rápido">Rápido<a class="anchor" aria-label="anchor" href="#r%C3%A1pido"></a>
+<h1 id="introducción-rápida">Introducción rápida<a class="anchor" aria-label="anchor" href="#introducci%C3%B3n-r%C3%A1pida"></a>
 </h1>
 <p>Obtener casos agrupados por estado</p>
-<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></code></pre>
+<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="co">#&gt; # A tibble: </span>
+<span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM       n ENTIDAD_FEDERATIVA   ABREVIATURA</span>
+<span class="co">#&gt;   &lt;date&gt;         &lt;chr&gt;      &lt;int64&gt; &lt;chr&gt;                &lt;chr&gt;      </span>
+<span class="co">#&gt; 1 2020-01-01     01               5 AGUASCALIENTES       AS         </span>
+<span class="co">#&gt; 2 2020-01-01     02               4 BAJA CALIFORNIA      BC         </span>
+<span class="co">#&gt; 3 2020-01-01     03               4 BAJA CALIFORNIA SUR  BS         </span>
+<span class="co">#&gt; 4 2020-01-01     05               6 COAHUILA DE ZARAGOZA CL         </span>
+<span class="co">#&gt; 5 2020-01-01     06               3 COLIMA               CM         </span>
+<span class="co">#&gt; 6 2020-01-01     08              11 CHIHUAHUA            CH</span></code></pre>
 <p>o bien sólo para algunas entidades de la unidad médica:</p>
-<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span><span class="op">)</span></code></pre>
+<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span><span class="op">)</span>
+  
+<span class="co">#&gt; # A tibble:</span>
+<span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM       n ENTIDAD_FEDERATIVA ABREVIATURA</span>
+<span class="co">#&gt;   &lt;date&gt;         &lt;chr&gt;      &lt;int64&gt; &lt;chr&gt;              &lt;chr&gt;      </span>
+<span class="co">#&gt; 1 2020-01-01     01               5 AGUASCALIENTES     AS         </span>
+<span class="co">#&gt; 2 2020-01-01     23               7 QUINTANA ROO       QR         </span>
+<span class="co">#&gt; 3 2020-01-02     23               9 QUINTANA ROO       QR         </span>
+<span class="co">#&gt; 4 2020-01-03     01               1 AGUASCALIENTES     AS         </span>
+<span class="co">#&gt; 5 2020-01-03     23              11 QUINTANA ROO       QR         </span>
+<span class="co">#&gt; 6 2020-01-04     01               2 AGUASCALIENTES     AS  </span></code></pre>
+<p>Para evitar agrupar por estado y que se generen los nacionales:</p>
+<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+  
+<span class="co">#&gt; # A tibble: </span>
+<span class="co">#&gt;   FECHA_SINTOMAS   n </span>
+<span class="co">#&gt;   &lt;date&gt;         &lt;int64&gt; </span>
+<span class="co">#&gt; 1 2020-01-01       10  </span>
+<span class="co">#&gt; 2 2020-01-02       14  </span>
+<span class="co">#&gt; 3 2020-01-03       22  </span>
+<span class="co">#&gt; 4 2020-01-04       13  </span>
+<span class="co">#&gt; 5 2020-01-05       15  </span>
+<span class="co">#&gt; 6 2020-01-06       18</span></code></pre>
 <p>Todas las opciones:</p>
-<p>```{r, eval = TRUE} datos_covid %&gt;% casos( #Lista de entidades que deseas entidades = c(“AGUASCALIENTES”, “BAJA CALIFORNIA”, “BAJA CALIFORNIA SUR”, “CAMPECHE”, “CHIAPAS”, “CHIHUAHUA”,“CIUDAD DE M0c9XICO”, “COAHUILA DE ZARAGOZA” , “COLIMA”, “DURANGO”, “GUANAJUATO”, “GUERRERO”,“HIDALGO”, “JALISCO”, “M0c9XICO”, “MICHOAC0c1N DE OCAMPO”, “MORELOS”,“NAYARIT”, “NUEVO LE0d3N”, “OAXACA”, “PUEBLA”, “QUER0c9TARO”, “QUINTANA ROO”, “SAN LUIS POTOS0cd”, “SINALOA”, “SONORA”, “TABASCO”, “TAMAULIPAS”, “TLAXCALA”, “VERACRUZ DE IGNACIO DE LA LLAVE”, “YUCAT0c1N”, “ZACATECAS”),</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Si quieres que los resultados salgan por entidad = TRUE o ya agregados = FALSE</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>group_by_entidad    <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona esas entidades a qué tipo de entidad refieren: Unidad Médica, Residencia, </span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Nacimiento</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>entidad_tipo        <span class="ot">=</span> <span class="st">"Residencia"</span>, <span class="co">#c("Unidad M\u00e9dica", "Residencia", "Nacimiento"),</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona la fecha para la base de datos: Síntomas, Ingreso, Defunción</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>fecha_tipo          <span class="ot">=</span> <span class="st">"Ingreso"</span>,</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona todas las variables de clasificación que deseas agregar:</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>tipo_clasificacion  <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Sospechosos"</span>,<span class="st">"Confirmados COVID"</span>, <span class="st">"Negativo a COVID"</span>, <span class="st">"Inválido"</span>, </span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"No realizado"</span>),</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si deseas agrupar por la variable tipo_clasificacion</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>group_by_tipo_clasificacion <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona todos los pacientes quieres incluir:</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>tipo_paciente      <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"AMBULATORIO"</span>, <span class="st">"HOSPITALIZADO"</span>, <span class="st">"NO ESPECIFICADO"</span>),</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si agrupar por tipo de paciente</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>group_by_tipo_paciente <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona todas las opciones de Unidad de Cuidado Intensivo del paciente:</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>tipo_uci           <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"SI"</span>,<span class="st">"NO"</span>,<span class="st">"NO APLICA"</span>,<span class="st">"SE IGNORA"</span>,<span class="st">"NO ESPECIFICADO"</span>),</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si agrupar por tipo de unidad</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>group_by_tipo_uci  <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona los sectores del sistema de salud a incluir</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>tipo_sector   <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"CRUZ ROJA"</span>, <span class="st">"DIF"</span>, <span class="st">"ESTATAL"</span>, <span class="st">"IMSS"</span>, <span class="st">"IMSS-BIENESTAR"</span>, <span class="st">"ISSSTE"</span>, </span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"MUNICIPAL"</span>, <span class="st">"PEMEX"</span>, <span class="st">"PRIVADA"</span>, <span class="st">"SEDENA"</span>, <span class="st">"SEMAR"</span>, <span class="st">"SSA"</span>, </span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"UNIVERSITARIO"</span>,<span class="st">"NO ESPECIFICADO"</span>),</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si deseas agrupar por tipo de sector</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>group_by_tipo_sector <span class="ot">=</span> <span class="cn">FALSE</span>,</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si deseas sólo los que tuvieron defunción</span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>defunciones   <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona los grupos de edad que deseas incluir en rango</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>edad_cut      <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>), <span class="co">#Edades 20-40 y 40-60</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si devolver el objeto como tibble</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>as_tibble     <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecciona si rellenar los conteos (n) con ceros cuando no haya observaciones.</span></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>fill_zeros    <span class="ot">=</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="co">#Nombre para llamarle en el objeto lista que regresa</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>list_name     <span class="ot">=</span> <span class="st">"Ejemplo defunciones"</span><span class="er">)</span></span></code></pre></div>
-<p>```</p>
+<pre class="{r}"><code><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span>
+    <span class="co">#Lista de entidades que deseas</span>
+    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AGUASCALIENTES"</span>, <span class="st">"BAJA CALIFORNIA"</span>, 
+                  <span class="st">"BAJA CALIFORNIA SUR"</span>,<span class="st">"CAMPECHE"</span>, <span class="st">"CHIAPAS"</span>, 
+                  <span class="st">"CHIHUAHUA"</span>,<span class="st">"CIUDAD DE M\u00c9XICO"</span>,
+                  <span class="st">"COAHUILA DE ZARAGOZA"</span> , <span class="st">"COLIMA"</span>, <span class="st">"DURANGO"</span>, 
+                  <span class="st">"GUANAJUATO"</span>, <span class="st">"GUERRERO"</span>,<span class="st">"HIDALGO"</span>, <span class="st">"JALISCO"</span>, 
+                  <span class="st">"M\u00c9XICO"</span>, <span class="st">"MICHOAC\u00c1N DE OCAMPO"</span>, 
+                  <span class="st">"MORELOS"</span>,<span class="st">"NAYARIT"</span>, <span class="st">"NUEVO LE\u00d3N"</span>, <span class="st">"OAXACA"</span>, 
+                  <span class="st">"PUEBLA"</span>, <span class="st">"QUER\u00c9TARO"</span>, <span class="st">"QUINTANA ROO"</span>, 
+                  <span class="st">"SAN LUIS POTOS\u00cd"</span>, <span class="st">"SINALOA"</span>, <span class="st">"SONORA"</span>,
+                  <span class="st">"TABASCO"</span>, <span class="st">"TAMAULIPAS"</span>, <span class="st">"TLAXCALA"</span>, 
+                  <span class="st">"VERACRUZ DE IGNACIO DE LA LLAVE"</span>, 
+                  <span class="st">"YUCAT\u00c1N"</span>, <span class="st">"ZACATECAS"</span><span class="op">)</span>,
+    
+    <span class="co">#Si quieres que los resultados salgan por entidad = TRUE o ya agregados = FALSE</span>
+    group_by_entidad    <span class="op">=</span> <span class="cn">TRUE</span>,
+    
+    <span class="co">#Selecciona esas entidades a qué tipo de entidad refieren: Unidad Médica, </span>
+    <span class="co">#Residencia o Nacimiento</span>
+    entidad_tipo        <span class="op">=</span> <span class="st">"Residencia"</span>, 
+    
+    <span class="co">#Selecciona la fecha para la base de datos: Síntomas, Ingreso, Defunción</span>
+    fecha_tipo          <span class="op">=</span> <span class="st">"Ingreso"</span>,
+     
+    <span class="co">#Selecciona todas las variables de clasificación que deseas agregar:</span>
+    tipo_clasificacion  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sospechosos"</span>,<span class="st">"Confirmados COVID"</span>, 
+                            <span class="st">"Negativo a COVID"</span>, <span class="st">"Inválido"</span>, 
+                            <span class="st">"No realizado"</span><span class="op">)</span>,
+    
+    <span class="co">#Selecciona si deseas agrupar por la variable tipo_clasificacion</span>
+    group_by_tipo_clasificacion <span class="op">=</span> <span class="cn">TRUE</span>,
+    
+    <span class="co">#Selecciona todos los pacientes quieres incluir:</span>
+    tipo_paciente      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AMBULATORIO"</span>, <span class="st">"HOSPITALIZADO"</span>, 
+                           <span class="st">"NO ESPECIFICADO"</span><span class="op">)</span>,
+    
+    <span class="co">#Selecciona si agrupar por tipo de paciente</span>
+    group_by_tipo_paciente <span class="op">=</span> <span class="cn">TRUE</span>,
+    
+    <span class="co">#Selecciona todas las opciones de Unidad de Cuidado Intensivo</span>
+    <span class="co">#del paciente:</span>
+    tipo_uci           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SI"</span>,<span class="st">"NO"</span>,<span class="st">"NO APLICA"</span>,<span class="st">"SE IGNORA"</span>,
+                           <span class="st">"NO ESPECIFICADO"</span><span class="op">)</span>,
+    
+    <span class="co">#Selecciona si agrupar por tipo de unidad</span>
+    group_by_tipo_uci  <span class="op">=</span> <span class="cn">TRUE</span>,
+    
+    <span class="co">#Selecciona los sectores del sistema de salud a incluir</span>
+    tipo_sector   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CRUZ ROJA"</span>, <span class="st">"DIF"</span>, <span class="st">"ESTATAL"</span>, <span class="st">"IMSS"</span>, 
+                      <span class="st">"IMSS-BIENESTAR"</span>, <span class="st">"ISSSTE"</span>, 
+                      <span class="st">"MUNICIPAL"</span>, <span class="st">"PEMEX"</span>, <span class="st">"PRIVADA"</span>, 
+                      <span class="st">"SEDENA"</span>, <span class="st">"SEMAR"</span>, <span class="st">"SSA"</span>, 
+                      <span class="st">"UNIVERSITARIO"</span>,<span class="st">"NO ESPECIFICADO"</span><span class="op">)</span>,
+    
+    <span class="co">#Selecciona si deseas agrupar por tipo de sector</span>
+    group_by_tipo_sector <span class="op">=</span> <span class="cn">FALSE</span>,
+    
+    <span class="co">#Selecciona si deseas sólo los que tuvieron defunción</span>
+    defunciones   <span class="op">=</span> <span class="cn">TRUE</span>,
+    
+    <span class="co">#Selecciona los grupos de edad que deseas incluir en rango</span>
+    edad_cut      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">60</span><span class="op">)</span>, <span class="co">#Edades 20-40 y 40-60</span>
+    
+    <span class="co">#Selecciona si devolver el objeto como tibble</span>
+    as_tibble     <span class="op">=</span> <span class="cn">TRUE</span>,
+    
+    <span class="co">#Selecciona si rellenar los conteos (n) con ceros </span>
+    <span class="co">#cuando no haya observaciones.</span>
+    fill_zeros    <span class="op">=</span> <span class="cn">TRUE</span>,
+    
+    <span class="co">#Nombre para llamarle en el objeto lista que regresa</span>
+    list_name     <span class="op">=</span> <span class="st">"Ejemplo defunciones"</span>,
+    
+    <span class="co">#Otras variables para agrupar no incluidas</span>
+    .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DIABETES"</span>, <span class="st">"SEXO"</span><span class="op">)</span><span class="op">)</span>
+    
+<span class="co">#&gt; # A tibble: </span>
+<span class="co">#&gt;    FECHA_INGRESO DIABETES  SEXO EDAD_CAT ENTIDAD_RES CLASIFICACION_FINAL</span>
+<span class="co">#&gt;    &lt;date&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;                     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 2020-01-01           2     1 (40,60]  30                            7</span>
+<span class="co">#&gt;  2 2020-01-02           2     1 (40,60]  30                            7</span>
+<span class="co">#&gt;  3 2020-01-02           2     2 (20,40]  11                            7</span>
+<span class="co">#&gt;  4 2020-01-02           2     2 (20,40]  26                            7</span>
+<span class="co">#&gt;  5 2020-01-02           2     2 (40,60]  22                            5</span>
+<span class="co">#&gt;  6 2020-01-03           1     1 (40,60]  05                            7</span>
+<span class="co">#&gt;  7 2020-01-03           1     2 (40,60]  26                            7</span>
+<span class="co">#&gt;  8 2020-01-03           1     2 (40,60]  28                            7</span>
+<span class="co">#&gt;  9 2020-01-03           2     1 (40,60]  15                            6</span>
+<span class="co">#&gt; 10 2020-01-03           2     2 (40,60]  13                            7</span>
+<span class="co">#&gt; 11 2020-01-04           2     1 (20,40]  05                            7</span>
+<span class="co">#&gt; 12 2020-01-04           2     2 (40,60]  21                            7</span>
+<span class="co">#&gt; 13 2020-01-05           1     1 (40,60]  30                            7</span>
+<span class="co">#&gt; 14 2020-01-05           1     2 (40,60]  09                            5</span>
+<span class="co">#&gt; 15 2020-01-05           2     2 (20,40]  26                            6</span>
+<span class="co">#&gt; 16 2020-01-05           2     2 (40,60]  28                            7</span>
+<span class="co">#&gt; 17 2020-01-06           1     1 (40,60]  02                            7</span>
+<span class="co">#&gt; 18 2020-01-06           1     2 (40,60]  15                            7</span>
+<span class="co">#&gt; 19 2020-01-06           2     1 (40,60]  08                            6</span>
+<span class="co">#&gt; 20 2020-01-06           2     1 (40,60]  09                            7</span>
+<span class="co">#&gt; # … with 8 more variables: TIPO_PACIENTE &lt;dbl&gt;, UCI &lt;dbl&gt;, n &lt;int64&gt;,</span>
+<span class="co">#&gt; #   ENTIDAD_FEDERATIVA &lt;chr&gt;, ABREVIATURA &lt;chr&gt;, CLASIFICACIÓN &lt;chr&gt;,</span>
+<span class="co">#&gt; #   DESCRIPCION_TIPO_PACIENTE &lt;chr&gt;, DESCRIPCION_TIPO_UCI &lt;chr&gt; </span></code></pre>
 </div>
 
   </main><aside class="col-md-3"><div class="license">

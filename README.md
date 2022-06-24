@@ -2,13 +2,13 @@
 
 Descarga, etiqueta y datos abiertos de COVID-19 en México. El propósito de este paquete es hacer la descarga, análisis y graficación de manera rápida para que tú no tengas que preocuparte por bajar el archivo a tiempo, agrupar funciones o realizar visualizaciones sino en lo importante: analizar la información. 
 
+> :warning: Necesitas tener una instalación de `MariaDB` o bien muchísima `RAM`. 
+
 # Instalación
 
 ```{r}
 devtools::install_github("RodrigoZepeda/covidmx")
 ```
-
-# Funciones
 
 Descarga la base de datos abiertos de la Dirección General de Epidemiología de la Secretaría de Salud.
 
@@ -77,9 +77,16 @@ sin embargo el diccionario se incluye en la lista devuelta
 datos_covid$dict
 ```
 
-# Rápido
+Si ya los descargaste una vez puedes usar la siguiente función para leerlos de memoria: 
+
+```{r}
+datos_covid$dict <- read_datos_abiertos()
+```
+
+# Introducción rápida
 
 Obtener casos agrupados por estado
+
 ```{r}
 datos_covid %>% casos()
 
@@ -111,54 +118,80 @@ datos_covid %>%
 #> 6 2020-01-04     01               2 AGUASCALIENTES     AS  
 ```
 
+Para evitar agrupar por estado y que se generen los nacionales:
+
+```{r}
+datos_covid %>% 
+  casos(group_by_entidad = FALSE)
+  
+#> # A tibble: 
+#>   FECHA_SINTOMAS   n 
+#>   <date>         <int64> 
+#> 1 2020-01-01       10  
+#> 2 2020-01-02       14  
+#> 3 2020-01-03       22  
+#> 4 2020-01-04       13  
+#> 5 2020-01-05       15  
+#> 6 2020-01-06       18
+```
+
 Todas las opciones:
 
 ```{r}
 datos_covid %>% 
   casos(
     #Lista de entidades que deseas
-    entidades = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
-                      "CAMPECHE", "CHIAPAS", "CHIHUAHUA","CIUDAD DE M\u00c9XICO",
-                      "COAHUILA DE ZARAGOZA" , "COLIMA", "DURANGO", "GUANAJUATO",
-                      "GUERRERO","HIDALGO", "JALISCO", "M\u00c9XICO",
-                      "MICHOAC\u00c1N DE OCAMPO", "MORELOS","NAYARIT",
-                      "NUEVO LE\u00d3N", "OAXACA", "PUEBLA", "QUER\u00c9TARO",
-                      "QUINTANA ROO", "SAN LUIS POTOS\u00cd", "SINALOA", "SONORA",
-                      "TABASCO", "TAMAULIPAS", "TLAXCALA", "VERACRUZ DE IGNACIO DE LA LLAVE", 
-                      "YUCAT\u00c1N", "ZACATECAS"),
+    entidades = c("AGUASCALIENTES", "BAJA CALIFORNIA", 
+                  "BAJA CALIFORNIA SUR","CAMPECHE", "CHIAPAS", 
+                  "CHIHUAHUA","CIUDAD DE M\u00c9XICO",
+                  "COAHUILA DE ZARAGOZA" , "COLIMA", "DURANGO", 
+                  "GUANAJUATO", "GUERRERO","HIDALGO", "JALISCO", 
+                  "M\u00c9XICO", "MICHOAC\u00c1N DE OCAMPO", 
+                  "MORELOS","NAYARIT", "NUEVO LE\u00d3N", "OAXACA", 
+                  "PUEBLA", "QUER\u00c9TARO", "QUINTANA ROO", 
+                  "SAN LUIS POTOS\u00cd", "SINALOA", "SONORA",
+                  "TABASCO", "TAMAULIPAS", "TLAXCALA", 
+                  "VERACRUZ DE IGNACIO DE LA LLAVE", 
+                  "YUCAT\u00c1N", "ZACATECAS"),
     
     #Si quieres que los resultados salgan por entidad = TRUE o ya agregados = FALSE
     group_by_entidad    = TRUE,
     
-    #Selecciona esas entidades a qué tipo de entidad refieren: Unidad Médica, Residencia, 
-    #Nacimiento
-    entidad_tipo        = "Residencia", #c("Unidad M\u00e9dica", "Residencia", "Nacimiento"),
+    #Selecciona esas entidades a qué tipo de entidad refieren: Unidad Médica, 
+    #Residencia o Nacimiento
+    entidad_tipo        = "Residencia", 
     
     #Selecciona la fecha para la base de datos: Síntomas, Ingreso, Defunción
     fecha_tipo          = "Ingreso",
      
     #Selecciona todas las variables de clasificación que deseas agregar:
-    tipo_clasificacion  = c("Sospechosos","Confirmados COVID", "Negativo a COVID", "Inválido", 
+    tipo_clasificacion  = c("Sospechosos","Confirmados COVID", 
+                            "Negativo a COVID", "Inválido", 
                             "No realizado"),
     
     #Selecciona si deseas agrupar por la variable tipo_clasificacion
     group_by_tipo_clasificacion = TRUE,
     
     #Selecciona todos los pacientes quieres incluir:
-    tipo_paciente      = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
+    tipo_paciente      = c("AMBULATORIO", "HOSPITALIZADO", 
+                           "NO ESPECIFICADO"),
     
     #Selecciona si agrupar por tipo de paciente
     group_by_tipo_paciente = TRUE,
     
-    #Selecciona todas las opciones de Unidad de Cuidado Intensivo del paciente:
-    tipo_uci           = c("SI","NO","NO APLICA","SE IGNORA","NO ESPECIFICADO"),
+    #Selecciona todas las opciones de Unidad de Cuidado Intensivo
+    #del paciente:
+    tipo_uci           = c("SI","NO","NO APLICA","SE IGNORA",
+                           "NO ESPECIFICADO"),
     
     #Selecciona si agrupar por tipo de unidad
     group_by_tipo_uci  = TRUE,
     
     #Selecciona los sectores del sistema de salud a incluir
-    tipo_sector   = c("CRUZ ROJA", "DIF", "ESTATAL", "IMSS", "IMSS-BIENESTAR", "ISSSTE", 
-                      "MUNICIPAL", "PEMEX", "PRIVADA", "SEDENA", "SEMAR", "SSA", 
+    tipo_sector   = c("CRUZ ROJA", "DIF", "ESTATAL", "IMSS", 
+                      "IMSS-BIENESTAR", "ISSSTE", 
+                      "MUNICIPAL", "PEMEX", "PRIVADA", 
+                      "SEDENA", "SEMAR", "SSA", 
                       "UNIVERSITARIO","NO ESPECIFICADO"),
     
     #Selecciona si deseas agrupar por tipo de sector
@@ -173,38 +206,42 @@ datos_covid %>%
     #Selecciona si devolver el objeto como tibble
     as_tibble     = TRUE,
     
-    #Selecciona si rellenar los conteos (n) con ceros cuando no haya observaciones.
+    #Selecciona si rellenar los conteos (n) con ceros 
+    #cuando no haya observaciones.
     fill_zeros    = TRUE,
     
     #Nombre para llamarle en el objeto lista que regresa
-    list_name     = "Ejemplo defunciones")
+    list_name     = "Ejemplo defunciones",
     
-#> # A tibble: 20 × 12
-#>    FECHA_INGRESO EDAD_CAT ENTIDAD_RES CLASIFICACION_F… TIPO_PACIENTE   UCI     n
-#>    <date>        <chr>    <chr>                  <dbl>         <dbl> <dbl> <int>
-#>  1 2020-01-01    (40,60]  30                         7             2    99     1
-#>  2 2020-01-02    (20,40]  11                         7             2    99     1
-#>  3 2020-01-02    (20,40]  26                         7             2    99     1
-#>  4 2020-01-02    (40,60]  22                         5             2     1     1
-#>  5 2020-01-02    (40,60]  30                         7             2    99     1
-#>  6 2020-01-03    (40,60]  05                         7             2    99     1
-#>  7 2020-01-03    (40,60]  13                         7             2    99     1
-#>  8 2020-01-03    (40,60]  15                         6             2     2     1
-#>  9 2020-01-03    (40,60]  26                         7             2    99     1
-#> 10 2020-01-03    (40,60]  28                         7             2    99     1
-#> 11 2020-01-04    (20,40]  05                         7             2     2     1
-#> 12 2020-01-04    (40,60]  21                         7             2    99     1
-#> 13 2020-01-05    (20,40]  26                         6             2     1     1
-#> 14 2020-01-05    (40,60]  09                         5             2    99     1
-#> 15 2020-01-05    (40,60]  28                         7             2    99     1
-#> 16 2020-01-05    (40,60]  30                         7             2    99     1
-#> 17 2020-01-06    (20,40]  15                         5             2    99     1
-#> 18 2020-01-06    (20,40]  21                         7             2    99     1
-#> 19 2020-01-06    (40,60]  02                         7             2    99     1
-#> 20 2020-01-06    (40,60]  08                         6             2    99     1
-#> # … with 5 more variables: ENTIDAD_FEDERATIVA <chr>, ABREVIATURA <chr>,
-#> #   CLASIFICACIÓN <chr>, DESCRIPCION_TIPO_PACIENTE <chr>,
-#> #   DESCRIPCION_TIPO_UCI <chr>    
+    #Otras variables para agrupar no incluidas
+    .grouping_vars = c("DIABETES", "SEXO"))
+    
+#> # A tibble: 
+#>    FECHA_INGRESO DIABETES  SEXO EDAD_CAT ENTIDAD_RES CLASIFICACION_FINAL
+#>    <date>           <dbl> <dbl> <chr>    <chr>                     <dbl>
+#>  1 2020-01-01           2     1 (40,60]  30                            7
+#>  2 2020-01-02           2     1 (40,60]  30                            7
+#>  3 2020-01-02           2     2 (20,40]  11                            7
+#>  4 2020-01-02           2     2 (20,40]  26                            7
+#>  5 2020-01-02           2     2 (40,60]  22                            5
+#>  6 2020-01-03           1     1 (40,60]  05                            7
+#>  7 2020-01-03           1     2 (40,60]  26                            7
+#>  8 2020-01-03           1     2 (40,60]  28                            7
+#>  9 2020-01-03           2     1 (40,60]  15                            6
+#> 10 2020-01-03           2     2 (40,60]  13                            7
+#> 11 2020-01-04           2     1 (20,40]  05                            7
+#> 12 2020-01-04           2     2 (40,60]  21                            7
+#> 13 2020-01-05           1     1 (40,60]  30                            7
+#> 14 2020-01-05           1     2 (40,60]  09                            5
+#> 15 2020-01-05           2     2 (20,40]  26                            6
+#> 16 2020-01-05           2     2 (40,60]  28                            7
+#> 17 2020-01-06           1     1 (40,60]  02                            7
+#> 18 2020-01-06           1     2 (40,60]  15                            7
+#> 19 2020-01-06           2     1 (40,60]  08                            6
+#> 20 2020-01-06           2     1 (40,60]  09                            7
+#> # … with 8 more variables: TIPO_PACIENTE <dbl>, UCI <dbl>, n <int64>,
+#> #   ENTIDAD_FEDERATIVA <chr>, ABREVIATURA <chr>, CLASIFICACIÓN <chr>,
+#> #   DESCRIPCION_TIPO_PACIENTE <chr>, DESCRIPCION_TIPO_UCI <chr> 
 ```
 
 

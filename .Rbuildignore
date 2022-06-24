@@ -5,8 +5,10 @@
 .gitignore
 .git/.*
 ^xlsx
+^RData$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^vignettes/articles$
 ^csv$
+^diccionario_covid.RData

@@ -21,6 +21,13 @@ descarga_datos_abiertos(
   group = Sys.getenv("MariaDB_group"),
   port = Sys.getenv("MariaDB_port"),
   tblname = "covidmx",
+  dict_file = "diccionario_covid.RData",
+  download_dict = TRUE,
+  save_dict = download_dict,
+  site.covid = paste0("http://datosabiertos.salud.gob.mx/gobmx/salud",
+    "/datos_abiertos/datos_abiertos_covid19.zip"),
+  site.covid.dic = paste0("http://datosabiertos.salud.gob.mx/gobmx/salud/",
+    "datos_abiertos/diccionario_datos_covid19.zip"),
   nthreads = max(parallel::detectCores() - 1, 1)
 )
 }
@@ -50,30 +57,40 @@ Si muestra errores cuando lee el csv}
 \item{read_format}{\code{"MariaDB"} or \code{"tibble"} establishes how the database
 should be stored. In most machines \code{"tibble"} will result in a memory error}
 
-\item{user}{User for \code{dbConnect} i.e. your MariaDB user}
+\item{user}{User for \code{dbConnect} i.e. your \code{MariaDB} user}
 
-\item{password}{password for \code{dbConnect} i.e. your MariaDB password}
+\item{password}{password for \code{dbConnect} i.e. your \code{MariaDB} password}
 
 \item{dbname}{Database name for \code{dbConnect} i.e. what database is going to be stored}
 
-\item{host}{Host for \code{dbConnect} i.e. your MariaDB host (usually localhost)}
+\item{host}{Host for \code{dbConnect} i.e. your \code{MariaDB} host (usually localhost)}
 
-\item{group}{Group for \code{dbConnect} i.e. your MariaDB group (can be NULL)}
+\item{group}{Group for \code{dbConnect} i.e. your \code{MariaDB} group (can be NULL)}
 
-\item{port}{Port connection for MariaDB}
+\item{port}{Port connection for \code{MariaDB}}
 
-\item{tblname}{Name of table to save in MariaDB}
+\item{tblname}{Name of table to save in \code{MariaDB}}
 
-\item{parse_dictionary}{Change labels to values of dictionary? Default = TRUE
-else the data is downloaded and presented as is. / Se agregan etiquetas
-a partir del diccionario? Default = TRUE en caso contrario solo se presentan los
-datos descargados como estan.}
+\item{dict_file}{RData File where to save/read the dictionary.}
+
+\item{download_dict}{If download the dictionary from \code{site.covid.dic}. If
+\code{download_dict} is \code{FALSE} then \code{dict_file} must be specified to read the dictionary.}
+
+\item{save_dict}{If the downloaded dictionary is to be saved in file \code{dict_file}}
+
+\item{site.covid}{Site for download the covid information}
+
+\item{site.covid.dic}{Site for download the covid dictionary for the data}
+
+\item{nthreads}{Number of threads for writing to \code{MariaDB}.}
 }
 \value{
 List of values:
-\code{dats} Database table (if MARIADB) or database in tibble (if tibble)
-\code{con} Database connection (if MARIADB) or \code{NULL} (if tibble)
-\code{dict} List of tibbles containing the whole dictionnary
+\itemize{
+\item dats - Database table (if MARIADB) or database in tibble (if tibble)
+\item con - Database connection (if MARIADB) or \code{NULL} (if tibble)
+\item dict - List of tibbles containing the whole dictionary
+}
 }
 \description{
 \code{descarga_datos_abiertos} downloads and labels
@@ -85,13 +102,25 @@ de Mexico de la Direccion General de EpidemiologIa en
 \url{https://www.gob.mx/salud/documentos/datos-abiertos-152127}.
 }
 \details{
+\emph{This is not an official product / este no es un producto oficial}
+
+\strong{English}
 While reading the data it is perfectly normal to get a \code{Warning} for
 \code{parsing}: the dataset has issues.
 
+\strong{Spanish}
 En la lectura de datos es normal tener un \code{Warning} por \code{parsing}:
-la base viene chueca.
+la base tiene errores de registro.
 
-This is not an official product / este no es un producto oficial
+Necesitas tener una instalación funcionando de \href{https://mariadb.com/}{\code{MariaDB}}. El programa
+se encarga de descargar la base de datos de la DGE, abrir el archivo \code{.zip} y crear una
+tabla de nombre \code{covidmx} dentro de tu database \code{dbname}. Asegúrate de que tu usuario \code{user}
+tenga permisos de escritura. Para más información sobre instalación y uso de \code{MariaDB}
+consulta la viñeta \strong{rellenar}.
+
+Si tienes RAM que te sobre puedes no crear una base de datos en \code{MariaDB} sino leer directo
+el archivo \code{csv}. Esto se logra con \code{read_format = tibble}. No lo recomiendo pues puedes
+terminar con tu sesión de \code{R} si se te acaba la memoria.
 }
 \examples{
 \dontrun{

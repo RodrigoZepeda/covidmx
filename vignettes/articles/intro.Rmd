@@ -29,8 +29,12 @@ library(dplyr)
 
 Lo más importante es comenzar descargando la base de datos pública. Esto lo puedes hacer como sigue: 
 
-```{r descarga}
+```{r descarga, eval = FALSE}
 datos_covid <- descarga_datos_abiertos(language = "Español")
+```
+
+```{r lectura, echo = FALSE, message=FALSE,warning=FALSE}
+datos_covid <- read_datos_abiertos()
 ```
 
 La descarga contiene una lista la información de interés está en `datos_covid$dats`
@@ -52,15 +56,23 @@ por ejemplo para ver el diccionario de antígeno:
 datos_covid$dict$RESULTADO_ANTIGENO
 ```
 
-Una vez descargados, basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. Las bases de datos se agregan a la lista bajo el nombre default `casos`. Por ejemplo:
+De hecho no es necesario volver a descargar si reinicias tu sesión de `R` siempre y cuando los hayas guardado en `MariaDB` (el default). Puedes sólo leer los datos abiertos que ya tienes usando la función `read_datos_abiertos.R`;
+
+```{r, eval = TRUE}
+read_datos_abiertos() %>% glimpse()
+```
+
+Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. Las bases de datos se agregan a la lista bajo el nombre default `casos`. Por ejemplo:
 
 ```{r, eval = TRUE}
 datos_covid <- datos_covid %>% casos()
 ```
+
 El objeto `casos` por default es un `tibble` con el que ya puedes operar:
 ```{r}
 head(datos_covid$casos)
 ```
+
 
 Se puede filtar por entidad de la unidad médica seleccionando las entidades de interés:
 ```{r, eval = FALSE}
@@ -266,7 +278,10 @@ datos_covid <- datos_covid %>%
     fill_zeros    = TRUE,
     
     #Nombre para llamarle en el objeto lista que regresa
-    list_name     = "Ejemplo defunciones")
+    list_name     = "Ejemplo defunciones",
+    
+    #Agrupa los resultados además por estado de diabetes y sexo
+    .grouping_vars = c("DIABETES", "SEXO"))
 ```
 
 Puedes ver la base generada así:
@@ -274,21 +289,28 @@ Puedes ver la base generada así:
 head(datos_covid$`Ejemplo defunciones`, 20)
 ```
 
+## Desconexión
+
+Una vez que terminaste de trabajar con la base original en `MariaDB` deconecta el puntero haciendo:
+
+```{r}
+datos_covid$disconnect()
+```
 
 ## Otras funciones de interés
 
 Faltan por desarrollar las siguientes funciones:
 
 ```{r, eval = FALSE}
-predice()
-positividad()
+positividad()               #Positividad en pruebas
 cfr()                       #Case fatality rate
 chr()                       #Case hospitalization rate
 rt()                        #Effective reproductive number
+predice()                   #Función para predecir casos en automático
+suaviza()                   #Suavizamiento de los casos observados
 descarga_datos_ocupacion()  #Descarga de datos de ocupación hospitalaria
 descarga_datos_vacunacion() #Descarga de datos de vacunación
 descarga_datos_cdmx()       #Descarga de datos abiertos cdmx
-tasa()                      #Convierte casos en tasas
 ```
 
 

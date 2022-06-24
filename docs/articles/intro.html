@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,52 +91,7 @@ visualizaciones rápidas. La idea es ahorrarte tiempo.</p>
 <p>Lo más importante es comenzar descargando la base de datos pública.
 Esto lo puedes hacer como sigue:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"Español"</span><span class="op">)</span>
-<span class="co">#&gt; Por favor se paciente todo el proceso toma aprox 20 minutos.</span>
-<span class="co">#&gt; Descargando datos de:</span>
-<span class="co">#&gt; http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip</span>
-<span class="co">#&gt; Descargado en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpFhOKwT/file3545f402c70</span>
-<span class="co">#&gt; Using host localhost</span>
-<span class="co">#&gt; Using port 8787</span>
-<span class="co">#&gt; Warning: One or more parsing issues, see `problems()` for details</span>
-<span class="co">#&gt; Intentando crear tabla en paralelo | Attempting to create table in parallel</span>
-<span class="co">#&gt; No olvides desconectar la base con DBI::dbDisconnect(datos_covid$con) cuando termines.</span>
-<span class="co">#&gt; Descargando diccionario de:</span>
-<span class="co">#&gt; http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/diccionario_datos_covid19.zip</span>
-<span class="co">#&gt; Descarga de diccionario en /var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpFhOKwT/file35453e2574e2</span>
-<span class="co">#&gt; + ORIGEN</span>
-<span class="co">#&gt; + SECTOR</span>
-<span class="co">#&gt; + SEXO</span>
-<span class="co">#&gt; + TIPO_PACIENTE</span>
-<span class="co">#&gt; + NACIONALIDAD</span>
-<span class="co">#&gt; + RESULTADO_LAB</span>
-<span class="co">#&gt; + RESULTADO_ANTIGENO</span>
-<span class="co">#&gt; + CLASIFICACION_FINAL</span>
-<span class="co">#&gt; + MUNICIPIO_RES</span>
-<span class="co">#&gt; + INTUBADO</span>
-<span class="co">#&gt; + NEUMONIA</span>
-<span class="co">#&gt; + EMBARAZO</span>
-<span class="co">#&gt; + HABLA LENGUA INDIGENA</span>
-<span class="co">#&gt; + INDIGENA</span>
-<span class="co">#&gt; + DIABETES</span>
-<span class="co">#&gt; + EPOC</span>
-<span class="co">#&gt; + ASMA</span>
-<span class="co">#&gt; + INMUSUPR</span>
-<span class="co">#&gt; + HIPERTENSION</span>
-<span class="co">#&gt; + CARDIOVASCULAR</span>
-<span class="co">#&gt; + OTRO_CASO</span>
-<span class="co">#&gt; + TOMA_MUESTRA_LAB</span>
-<span class="co">#&gt; + TOMA_MUESTRA_ANTIGENO</span>
-<span class="co">#&gt; + OTRA_COMORBILIDAD</span>
-<span class="co">#&gt; + OBESIDAD</span>
-<span class="co">#&gt; + RENAL_CRONICA</span>
-<span class="co">#&gt; + TABAQUISMO</span>
-<span class="co">#&gt; + UCI</span>
-<span class="co">#&gt; + ENTIDAD_UM</span>
-<span class="co">#&gt; + ENTIDAD_RES</span>
-<span class="co">#&gt; + ENTIDAD_NAC</span>
-<span class="co">#&gt; Termine de leer los datos.</span>
-<span class="co">#&gt; Por favor no olvides citar este paquete. Ve citation('covidmx').</span></code></pre></div>
+<code class="sourceCode R"><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"Español"</span><span class="op">)</span></code></pre></div>
 <p>La descarga contiene una lista la información de interés está en
 <code>datos_covid$dats</code></p>
 <p>Por default <strong>NO</strong> se agregan las etiquetas a los datos
@@ -146,46 +101,46 @@ pues es muy tardado hacerlo:</p>
 <span class="co">#&gt; Rows: ??</span>
 <span class="co">#&gt; Columns: 40</span>
 <span class="co">#&gt; Database: mysql  [rockdrigo@localhost:NA/COVID]</span>
-<span class="co">#&gt; $ FECHA_ACTUALIZACION   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2022-06-22, 2022-06-22, 2022-06-22, 2022-06-22,…</span>
-<span class="co">#&gt; $ ID_REGISTRO           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "zzcda2", "z24953", "z23d9d", "z49a69", "z482b8"…</span>
-<span class="co">#&gt; $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 2, …</span>
-<span class="co">#&gt; $ SECTOR                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, …</span>
-<span class="co">#&gt; $ ENTIDAD_UM            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "02", "09", "22", "23", "09", "09", "01", "09", …</span>
-<span class="co">#&gt; $ SEXO                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1, 1, 2, 2, …</span>
-<span class="co">#&gt; $ ENTIDAD_NAC           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "02", "09", "24", "23", "09", "09", "01", "09", …</span>
-<span class="co">#&gt; $ ENTIDAD_RES           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "02", "09", "22", "23", "09", "09", "01", "09", …</span>
-<span class="co">#&gt; $ MUNICIPIO_RES         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "004", "010", "009", "004", "012", "007", "001",…</span>
-<span class="co">#&gt; $ TIPO_PACIENTE         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, …</span>
-<span class="co">#&gt; $ FECHA_INGRESO         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2020-03-03, 2020-10-15, 2021-01-05, 2020-07-20,…</span>
-<span class="co">#&gt; $ FECHA_SINTOMAS        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2020-03-01, 2020-10-15, 2021-01-05, 2020-07-17,…</span>
-<span class="co">#&gt; $ FECHA_DEF             <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> -001-11-30, -001-11-30, -001-11-30, 2020-07-21,…</span>
-<span class="co">#&gt; $ INTUBADO              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 97, 97, 1, 97, 97, 97, 97, 97, 97, 97, 97, 2…</span>
-<span class="co">#&gt; $ NEUMONIA              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 1, 2, 2, 99, 2, 2, 2, 99, 2, 2, 2, 2, 2…</span>
-<span class="co">#&gt; $ EDAD                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 32, 40, 29, 66, 41, 51, 30, 47, 47, 38, 42, 26, …</span>
+<span class="co">#&gt; $ FECHA_ACTUALIZACION   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2022-06-23, 2022-06-23, 2022-06-23, 2022-06-23,…</span>
+<span class="co">#&gt; $ ID_REGISTRO           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "z3bf80", "z1e370", "zze974", "zz7067", "z1da1e"…</span>
+<span class="co">#&gt; $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, …</span>
+<span class="co">#&gt; $ SECTOR                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 12, 12, 6, 12, 12, 12, 12, 12, 3, 12, 12, 12, 12…</span>
+<span class="co">#&gt; $ ENTIDAD_UM            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "08", "14", "24", "09", "01", "09", "07", "08", …</span>
+<span class="co">#&gt; $ SEXO                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 1, 1, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 2, 1, …</span>
+<span class="co">#&gt; $ ENTIDAD_NAC           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "08", "14", "24", "09", "01", "09", "07", "10", …</span>
+<span class="co">#&gt; $ ENTIDAD_RES           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "08", "14", "24", "09", "01", "09", "07", "08", …</span>
+<span class="co">#&gt; $ MUNICIPIO_RES         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "037", "085", "035", "007", "001", "017", "078",…</span>
+<span class="co">#&gt; $ TIPO_PACIENTE         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, …</span>
+<span class="co">#&gt; $ FECHA_INGRESO         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2020-07-28, 2020-04-22, 2021-02-28, 2020-08-18,…</span>
+<span class="co">#&gt; $ FECHA_SINTOMAS        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2020-07-20, 2020-04-18, 2021-02-20, 2020-08-17,…</span>
+<span class="co">#&gt; $ FECHA_DEF             <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> -001-11-30, -001-11-30, -001-11-30, -001-11-30,…</span>
+<span class="co">#&gt; $ INTUBADO              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 2, 97, 97, 97, 9…</span>
+<span class="co">#&gt; $ NEUMONIA              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 99, 2, 99, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…</span>
+<span class="co">#&gt; $ EDAD                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 35, 42, 34, 51, 30, 47, 47, 38, 7, 56, 40, 67, 5…</span>
 <span class="co">#&gt; $ NACIONALIDAD          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span>
-<span class="co">#&gt; $ EMBARAZO              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 98, 97, 2, 97, 97, 97, 2, 97, 97, 97, 97, 2, …</span>
-<span class="co">#&gt; $ HABLA_LENGUA_INDIG    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 99, 99, 2, 2, 99, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="co">#&gt; $ INDIGENA              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 99, 99, 2, 2, 99, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="co">#&gt; $ DIABETES              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
+<span class="co">#&gt; $ EMBARAZO              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 2, 2, 97, 97, 2, 97, 97, 2, 2, 2, 2, 2, 2, 9…</span>
+<span class="co">#&gt; $ HABLA_LENGUA_INDIG    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, …</span>
+<span class="co">#&gt; $ INDIGENA              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, …</span>
+<span class="co">#&gt; $ DIABETES              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 1, 2, 2, 2, …</span>
 <span class="co">#&gt; $ EPOC                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="co">#&gt; $ ASMA                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, …</span>
+<span class="co">#&gt; $ ASMA                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
 <span class="co">#&gt; $ INMUSUPR              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="co">#&gt; $ HIPERTENSION          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 1, 2, 1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, …</span>
+<span class="co">#&gt; $ HIPERTENSION          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
 <span class="co">#&gt; $ OTRA_COM              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
 <span class="co">#&gt; $ CARDIOVASCULAR        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="co">#&gt; $ OBESIDAD              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 98, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2,…</span>
+<span class="co">#&gt; $ OBESIDAD              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 2, 2, 2, …</span>
 <span class="co">#&gt; $ RENAL_CRONICA         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="co">#&gt; $ TABAQUISMO            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, …</span>
-<span class="co">#&gt; $ OTRO_CASO             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 2, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, …</span>
-<span class="co">#&gt; $ TOMA_MUESTRA_LAB      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 1, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 1, …</span>
-<span class="co">#&gt; $ RESULTADO_LAB         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 2, 97, 97, 97, 2, 2, 97, 97, 2, 2, 2, 4, 97,…</span>
-<span class="co">#&gt; $ TOMA_MUESTRA_ANTIGENO <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="co">#&gt; $ RESULTADO_ANTIGENO    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 97, 97, 97, 97, 97, 97, 2, 97, 97, 97, 97, 9…</span>
-<span class="co">#&gt; $ CLASIFICACION_FINAL   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 6, 7, 6, 2, 1, 7, 7, 7, 6, 7, 7, 7, 6, 6, 6, 7, …</span>
+<span class="co">#&gt; $ TABAQUISMO            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
+<span class="co">#&gt; $ OTRO_CASO             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
+<span class="co">#&gt; $ TOMA_MUESTRA_LAB      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, …</span>
+<span class="co">#&gt; $ RESULTADO_LAB         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 2, 2, 2, 2, 97, 97, 2, 4, 1, 2, 97, 1, 2, 1, …</span>
+<span class="co">#&gt; $ TOMA_MUESTRA_ANTIGENO <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
+<span class="co">#&gt; $ RESULTADO_ANTIGENO    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 97, 97, 97, 97, 2, 97, 97, 97, 97, 97, 97, 9…</span>
+<span class="co">#&gt; $ CLASIFICACION_FINAL   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 3, 7, 7, 7, 7, 7, 6, 7, 6, 3, 7, 6, 3, 7, 3, 7, …</span>
 <span class="co">#&gt; $ MIGRANTE              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, …</span>
 <span class="co">#&gt; $ PAIS_NACIONALIDAD     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "México", "México", "México", "México", "México"…</span>
 <span class="co">#&gt; $ PAIS_ORIGEN           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "97", "97", "97", "97", "97", "97", "97", "97", …</span>
-<span class="co">#&gt; $ UCI                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 97, 97, 1, 97, 97, 97, 97, 97, 97, 97, 97, 2…</span></code></pre></div>
+<span class="co">#&gt; $ UCI                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 2, 97, 97, 97, 9…</span></code></pre></div>
 <p>Sin embargo se guardan como una lista en <code>dict</code> para su
 consulta y uso por las funciones internas:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -298,15 +253,71 @@ consulta y uso por las funciones internas:</p>
 <span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 POSITIVO A SARS-COV-2       </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 NEGATIVO A SARS-COV-2       </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    97 NO APLICA (CASO SIN MUESTRA)</span></code></pre></div>
-<p>Una vez descargados, basta componer la base de datos con cualquiera
-de las funciones para tener una tabla de datos agregada por fecha y
-entidad. Las bases de datos se agregan a la lista bajo el nombre default
-<code>casos</code>. Por ejemplo:</p>
+<p>De hecho no es necesario volver a descargar si reinicias tu sesión de
+<code>R</code> siempre y cuando los hayas guardado en
+<code>MariaDB</code> (el default). Puedes sólo leer los datos abiertos
+que ya tienes usando la función <code>read_datos_abiertos.R</code>;</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Using host localhost</span>
+<span class="co">#&gt; Using port 8787</span>
+<span class="co">#&gt; No olvides desconectar la base con datos_covid$disconnect() cuando termines.</span>
+<span class="co">#&gt; List of 3</span>
+<span class="co">#&gt;  $ dats      :List of 2</span>
+<span class="co">#&gt;   ..$ src       :List of 2</span>
+<span class="co">#&gt;   .. ..$ con  :Formal class 'MariaDBConnection' [package "RMariaDB"] with 7 slots</span>
+<span class="co">#&gt;   .. ..$ disco: NULL</span>
+<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:4] "src_MariaDBConnection" "src_dbi" "src_sql" "src"</span>
+<span class="co">#&gt;   ..$ lazy_query:List of 5</span>
+<span class="co">#&gt;   .. ..$ x         : 'ident' chr "covidmx"</span>
+<span class="co">#&gt;   .. ..$ vars      : chr [1:40] "FECHA_ACTUALIZACION" "ID_REGISTRO" "ORIGEN" "SECTOR" ...</span>
+<span class="co">#&gt;   .. ..$ group_vars: chr(0) </span>
+<span class="co">#&gt;   .. ..$ order_vars: NULL</span>
+<span class="co">#&gt;   .. ..$ frame     : NULL</span>
+<span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:3] "lazy_base_remote_query" "lazy_base_query" "lazy_query"</span>
+<span class="co">#&gt;   ..- attr(*, "class")= chr [1:5] "tbl_MariaDBConnection" "tbl_dbi" "tbl_sql" "tbl_lazy" ...</span>
+<span class="co">#&gt;  $ disconnect:function ()  </span>
+<span class="co">#&gt;  $ dict      :List of 31</span>
+<span class="co">#&gt;   ..$ ASMA                 : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ CARDIOVASCULAR       : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ CLASIFICACION_FINAL  : tibble [7 × 3] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ DIABETES             : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ EMBARAZO             : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ ENTIDAD_NAC          : tibble [36 × 3] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ ENTIDAD_RES          : tibble [36 × 3] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ ENTIDAD_UM           : tibble [36 × 3] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ EPOC                 : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ HABLA LENGUA INDIGENA: tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ HIPERTENSION         : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ INDIGENA             : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ INMUSUPR             : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ INTUBADO             : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ MUNICIPIO_RES        : tibble [2,501 × 3] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ NACIONALIDAD         : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ NEUMONIA             : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ OBESIDAD             : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ ORIGEN               : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ OTRA_COMORBILIDAD    : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ OTRO_CASO            : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ PACIENTE             : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ RENAL_CRONICA        : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ RESULTADO_LAB        : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ RESULTADO_ANTIGENO   : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ SECTOR               : tibble [14 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ SEXO                 : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ TABAQUISMO           : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ TOMA_MUESTRA_ANTIGENO: tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ TOMA_MUESTRA_LAB     : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   ..$ UCI                  : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span></code></pre></div>
+<p>Una vez descargados (o leídos), basta componer la base de datos con
+cualquiera de las funciones para tener una tabla de datos agregada por
+fecha y entidad. Las bases de datos se agregan a la lista bajo el nombre
+default <code>casos</code>. Por ejemplo:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>El objeto <code>casos</code> por default es un <code>tibble</code>
 con el que ya puedes operar:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM       n ENTIDAD_FEDERATIVA   ABREVIATURA</span>
@@ -319,7 +330,7 @@ con el que ya puedes operar:</p>
 <span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2020-01-01     08              11 CHIHUAHUA            CH</span></code></pre></div>
 <p>Se puede filtar por entidad de la unidad médica seleccionando las
 entidades de interés:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
 <pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span>
@@ -333,7 +344,7 @@ entidades de interés:</p>
 <span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2020-01-04     01               2 AGUASCALIENTES     AS</span></code></pre>
 <p>Si se quiere filtrar por entidad de nacimiento y que la fecha sea la
 de ingreso, por ejemplo:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
     <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span>,
           entidad_tipo <span class="op">=</span> <span class="st">"Nacimiento"</span>,
@@ -348,7 +359,7 @@ de ingreso, por ejemplo:</p>
 <span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2020-01-03    01                0 AGUASCALIENTES     AS         </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2020-01-03    23                4 QUINTANA ROO       QR</span></code></pre>
 <p>Finalmente, si sólo se desean casos confirmados e inválidos:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
     <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span>,
           entidad_tipo <span class="op">=</span> <span class="st">"Nacimiento"</span>,
@@ -366,7 +377,7 @@ de ingreso, por ejemplo:</p>
 <p>Nota que por default el programa rellena con ceros lo que no se
 observó. Si quieres cancelar esta opción basta con cambiar
 <code>fill_zeros = FALSE</code>:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
     <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span>,
           entidad_tipo <span class="op">=</span> <span class="st">"Nacimiento"</span>,
@@ -385,7 +396,7 @@ observó. Si quieres cancelar esta opción basta con cambiar
 <p>Si se desea que los casos vengan agregados (es decir
 <code>QUINTANA ROO + AGUASCALIENTES</code>) se puede cambiar la opción
 de <code>group_by_entidad</code> a <code>FALSE</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
     <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span>,
           entidad_tipo       <span class="op">=</span> <span class="st">"Nacimiento"</span>,
@@ -404,7 +415,7 @@ de <code>group_by_entidad</code> a <code>FALSE</code>:</p>
 <p>La variable <code>edad_cut</code> te permite quedarte sòlo con un
 grupo de edad o bien definir múltiples. Por ejemplo para quedarte sólo
 con los casos de 5 a 25 años:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>edad_cut <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">25</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
 <pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span>
@@ -418,7 +429,7 @@ con los casos de 5 a 25 años:</p>
 <span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2020-01-01     (5,25]   11               2 GUANAJUATO         GT</span></code></pre>
 <p>O bien definir grupos de edad de la forma <code>0-20</code>,
 <code>20-60</code> y <code>60+</code></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>edad_cut <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">60</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
 <pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span>
@@ -432,7 +443,7 @@ con los casos de 5 a 25 años:</p>
 <span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2020-01-01     (0,20]   11               1 GUANAJUATO         GT</span></code></pre>
 <p>Puedes acumular diferentes bases de datos en la misma lista
 asignándoles nombres:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"Todos por entidad"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"Todos (nacional)"</span>, group_by_entidad <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
@@ -480,7 +491,7 @@ asignándoles nombres:</p>
 de unidades de cuidado intensivo, defunciones y si devolver la tabla
 como <code>tibble</code> o como conexión de <code>dbplyr</code> a
 <code>MARIADB</code>:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>
     <span class="co">#Lista de entidades que deseas</span>
@@ -543,51 +554,62 @@ como <code>tibble</code> o como conexión de <code>dbplyr</code> a
     fill_zeros    <span class="op">=</span> <span class="cn">TRUE</span>,
     
     <span class="co">#Nombre para llamarle en el objeto lista que regresa</span>
-    list_name     <span class="op">=</span> <span class="st">"Ejemplo defunciones"</span><span class="op">)</span></code></pre></div>
+    list_name     <span class="op">=</span> <span class="st">"Ejemplo defunciones"</span>,
+    
+    <span class="co">#Agrupa los resultados además por estado de diabetes y sexo</span>
+    .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DIABETES"</span>, <span class="st">"SEXO"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Puedes ver la base generada así:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Ejemplo defunciones`</span>, <span class="fl">20</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 12</span></span>
-<span class="co">#&gt;    FECHA_INGRESO EDAD_CAT ENTIDAD_RES CLASIFICACION_F… TIPO_PACIENTE   UCI     n</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2020-01-01    (40,60]  30                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2020-01-02    (20,40]  11                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2020-01-02    (20,40]  26                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2020-01-02    (40,60]  22                         5             2     1     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2020-01-02    (40,60]  30                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2020-01-03    (40,60]  05                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2020-01-03    (40,60]  13                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2020-01-03    (40,60]  15                         6             2     2     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2020-01-03    (40,60]  26                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2020-01-03    (40,60]  28                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 2020-01-04    (20,40]  05                         7             2     2     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> 2020-01-04    (40,60]  21                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> 2020-01-05    (20,40]  26                         6             2     1     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> 2020-01-05    (40,60]  09                         5             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> 2020-01-05    (40,60]  28                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> 2020-01-05    (40,60]  30                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> 2020-01-06    (20,40]  15                         5             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">18</span> 2020-01-06    (20,40]  21                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">19</span> 2020-01-06    (40,60]  02                         7             2    99     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">20</span> 2020-01-06    (40,60]  08                         6             2    99     1</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: ENTIDAD_FEDERATIVA &lt;chr&gt;, ABREVIATURA &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   CLASIFICACIÓN &lt;chr&gt;, DESCRIPCION_TIPO_PACIENTE &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   DESCRIPCION_TIPO_UCI &lt;chr&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 14</span></span>
+<span class="co">#&gt;    FECHA_INGRESO DIABETES  SEXO EDAD_CAT ENTIDAD_RES CLASIFICACION_FINAL</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2020-01-01           2     1 (40,60]  30                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2020-01-02           2     1 (40,60]  30                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2020-01-02           2     2 (20,40]  11                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2020-01-02           2     2 (20,40]  26                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2020-01-02           2     2 (40,60]  22                            5</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2020-01-03           1     1 (40,60]  05                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2020-01-03           1     2 (40,60]  26                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2020-01-03           1     2 (40,60]  28                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2020-01-03           2     1 (40,60]  15                            6</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2020-01-03           2     2 (40,60]  13                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 2020-01-04           2     1 (20,40]  05                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> 2020-01-04           2     2 (40,60]  21                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> 2020-01-05           1     1 (40,60]  30                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> 2020-01-05           1     2 (40,60]  09                            5</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> 2020-01-05           2     2 (20,40]  26                            6</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">16</span> 2020-01-05           2     2 (40,60]  28                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">17</span> 2020-01-06           1     1 (40,60]  02                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">18</span> 2020-01-06           1     2 (40,60]  15                            7</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">19</span> 2020-01-06           2     1 (40,60]  08                            6</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">20</span> 2020-01-06           2     1 (40,60]  09                            7</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 8 more variables: TIPO_PACIENTE &lt;dbl&gt;, UCI &lt;dbl&gt;, n &lt;int64&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   ENTIDAD_FEDERATIVA &lt;chr&gt;, ABREVIATURA &lt;chr&gt;, CLASIFICACIÓN &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   DESCRIPCION_TIPO_PACIENTE &lt;chr&gt;, DESCRIPCION_TIPO_UCI &lt;chr&gt;</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="desconexión">Desconexión<a class="anchor" aria-label="anchor" href="#desconexi%C3%B3n"></a>
+</h2>
+<p>Una vez que terminaste de trabajar con la base original en
+<code>MariaDB</code> deconecta el puntero haciendo:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="otras-funciones-de-interés">Otras funciones de interés<a class="anchor" aria-label="anchor" href="#otras-funciones-de-inter%C3%A9s"></a>
 </h2>
 <p>Faltan por desarrollar las siguientes funciones:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">predice</span><span class="op">(</span><span class="op">)</span>
-<span class="fu">positividad</span><span class="op">(</span><span class="op">)</span>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">positividad</span><span class="op">(</span><span class="op">)</span>               <span class="co">#Positividad en pruebas</span>
 <span class="fu">cfr</span><span class="op">(</span><span class="op">)</span>                       <span class="co">#Case fatality rate</span>
 <span class="fu">chr</span><span class="op">(</span><span class="op">)</span>                       <span class="co">#Case hospitalization rate</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">rt</a></span><span class="op">(</span><span class="op">)</span>                        <span class="co">#Effective reproductive number</span>
+<span class="fu">predice</span><span class="op">(</span><span class="op">)</span>                   <span class="co">#Función para predecir casos en automático</span>
+<span class="fu">suaviza</span><span class="op">(</span><span class="op">)</span>                   <span class="co">#Suavizamiento de los casos observados</span>
 <span class="fu">descarga_datos_ocupacion</span><span class="op">(</span><span class="op">)</span>  <span class="co">#Descarga de datos de ocupación hospitalaria</span>
 <span class="fu">descarga_datos_vacunacion</span><span class="op">(</span><span class="op">)</span> <span class="co">#Descarga de datos de vacunación</span>
-<span class="fu">descarga_datos_cdmx</span><span class="op">(</span><span class="op">)</span>       <span class="co">#Descarga de datos abiertos cdmx</span>
-<span class="fu">tasa</span><span class="op">(</span><span class="op">)</span>                      <span class="co">#Convierte casos en tasas</span></code></pre></div>
+<span class="fu">descarga_datos_cdmx</span><span class="op">(</span><span class="op">)</span>       <span class="co">#Descarga de datos abiertos cdmx</span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

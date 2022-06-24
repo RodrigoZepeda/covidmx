@@ -6,3 +6,6 @@
 .DS_Store
 *.csv
 docs
+*.xlsx
+diccionario_covid.RData
+covidmx.csv

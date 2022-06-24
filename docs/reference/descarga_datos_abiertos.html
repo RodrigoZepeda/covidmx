@@ -20,7 +20,7 @@ https://www.gob.mx/salud/documentos/datos-abiertos-152127."><!-- mathjax --><scr
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,6 +79,13 @@ de Mexico de la Direccion General de EpidemiologIa en
   group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_group"</span><span class="op">)</span>,
   port <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_port"</span><span class="op">)</span>,
   tblname <span class="op">=</span> <span class="st">"covidmx"</span>,
+  dict_file <span class="op">=</span> <span class="st">"diccionario_covid.RData"</span>,
+  download_dict <span class="op">=</span> <span class="cn">TRUE</span>,
+  save_dict <span class="op">=</span> <span class="va">download_dict</span>,
+  site.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx/gobmx/salud"</span>,
+    <span class="st">"/datos_abiertos/datos_abiertos_covid19.zip"</span><span class="op">)</span>,
+  site.covid.dic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx/gobmx/salud/"</span>,
+    <span class="st">"datos_abiertos/diccionario_datos_covid19.zip"</span><span class="op">)</span>,
   nthreads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -127,11 +134,11 @@ should be stored. In most machines <code>"tibble"</code> will result in a memory
 
 
 <dt>user</dt>
-<dd><p>User for <code>dbConnect</code> i.e. your MariaDB user</p></dd>
+<dd><p>User for <code>dbConnect</code> i.e. your <code>MariaDB</code> user</p></dd>
 
 
 <dt>password</dt>
-<dd><p>password for <code>dbConnect</code> i.e. your MariaDB password</p></dd>
+<dd><p>password for <code>dbConnect</code> i.e. your <code>MariaDB</code> password</p></dd>
 
 
 <dt>dbname</dt>
@@ -139,44 +146,71 @@ should be stored. In most machines <code>"tibble"</code> will result in a memory
 
 
 <dt>host</dt>
-<dd><p>Host for <code>dbConnect</code> i.e. your MariaDB host (usually localhost)</p></dd>
+<dd><p>Host for <code>dbConnect</code> i.e. your <code>MariaDB</code> host (usually localhost)</p></dd>
 
 
 <dt>group</dt>
-<dd><p>Group for <code>dbConnect</code> i.e. your MariaDB group (can be NULL)</p></dd>
+<dd><p>Group for <code>dbConnect</code> i.e. your <code>MariaDB</code> group (can be NULL)</p></dd>
 
 
 <dt>port</dt>
-<dd><p>Port connection for MariaDB</p></dd>
+<dd><p>Port connection for <code>MariaDB</code></p></dd>
 
 
 <dt>tblname</dt>
-<dd><p>Name of table to save in MariaDB</p></dd>
+<dd><p>Name of table to save in <code>MariaDB</code></p></dd>
 
 
-<dt>parse_dictionary</dt>
-<dd><p>Change labels to values of dictionary? Default = TRUE
-else the data is downloaded and presented as is. / Se agregan etiquetas
-a partir del diccionario? Default = TRUE en caso contrario solo se presentan los
-datos descargados como estan.</p></dd>
+<dt>dict_file</dt>
+<dd><p>RData File where to save/read the dictionary.</p></dd>
+
+
+<dt>download_dict</dt>
+<dd><p>If download the dictionary from <code>site.covid.dic</code>. If
+<code>download_dict</code> is <code>FALSE</code> then <code>dict_file</code> must be specified to read the dictionary.</p></dd>
+
+
+<dt>save_dict</dt>
+<dd><p>If the downloaded dictionary is to be saved in file <code>dict_file</code></p></dd>
+
+
+<dt>site.covid</dt>
+<dd><p>Site for download the covid information</p></dd>
+
+
+<dt>site.covid.dic</dt>
+<dd><p>Site for download the covid dictionary for the data</p></dd>
+
+
+<dt>nthreads</dt>
+<dd><p>Number of threads for writing to <code>MariaDB</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>List of values:
-<code>dats</code> Database table (if MARIADB) or database in tibble (if tibble)
-<code>con</code> Database connection (if MARIADB) or <code>NULL</code> (if tibble)
-<code>dict</code> List of tibbles containing the whole dictionnary</p>
-    </div>
+<p>List of values:</p><ul><li><p>dats - Database table (if MARIADB) or database in tibble (if tibble)</p></li>
+<li><p>con - Database connection (if MARIADB) or <code>NULL</code> (if tibble)</p></li>
+<li><p>dict - List of tibbles containing the whole dictionary</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>While reading the data it is perfectly normal to get a <code>Warning</code> for
+    <p><em>This is not an official product / este no es un producto oficial</em></p>
+<p><strong>English</strong>
+While reading the data it is perfectly normal to get a <code>Warning</code> for
 <code>parsing</code>: the dataset has issues.</p>
-<p>En la lectura de datos es normal tener un <code>Warning</code> por <code>parsing</code>:
-la base viene chueca.</p>
-<p>This is not an official product / este no es un producto oficial</p>
+<p><strong>Spanish</strong>
+En la lectura de datos es normal tener un <code>Warning</code> por <code>parsing</code>:
+la base tiene errores de registro.</p>
+<p>Necesitas tener una instalación funcionando de <a href="https://mariadb.com/" class="external-link"><code>MariaDB</code></a>. El programa
+se encarga de descargar la base de datos de la DGE, abrir el archivo <code>.zip</code> y crear una
+tabla de nombre <code>covidmx</code> dentro de tu database <code>dbname</code>. Asegúrate de que tu usuario <code>user</code>
+tenga permisos de escritura. Para más información sobre instalación y uso de <code>MariaDB</code>
+consulta la viñeta <strong>rellenar</strong>.</p>
+<p>Si tienes RAM que te sobre puedes no crear una base de datos en <code>MariaDB</code> sino leer directo
+el archivo <code>csv</code>. Esto se logra con <code>read_format = tibble</code>. No lo recomiendo pues puedes
+terminar con tu sesión de <code>R</code> si se te acaba la memoria.</p>
     </div>
 
     <div class="section level2">

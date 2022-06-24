@@ -10,13 +10,26 @@
 #' \url{https://www.gob.mx/salud/documentos/datos-abiertos-152127}.
 #'
 #' @details
+#'
+#' _This is not an official product / este no es un producto oficial_
+#'
+#' **English**
 #' While reading the data it is perfectly normal to get a `Warning` for
 #' `parsing`: the dataset has issues.
 #'
+#' **Spanish**
 #' En la lectura de datos es normal tener un `Warning` por `parsing`:
-#' la base viene chueca.
+#' la base tiene errores de registro.
 #'
-#' This is not an official product / este no es un producto oficial
+#' Necesitas tener una instalación funcionando de [`MariaDB`](https://mariadb.com/). El programa
+#' se encarga de descargar la base de datos de la DGE, abrir el archivo `.zip` y crear una
+#' tabla de nombre `covidmx` dentro de tu database `dbname`. Asegúrate de que tu usuario `user`
+#' tenga permisos de escritura. Para más información sobre instalación y uso de `MariaDB`
+#' consulta la viñeta **rellenar**.
+#'
+#' Si tienes RAM que te sobre puedes no crear una base de datos en `MariaDB` sino leer directo
+#' el archivo `csv`. Esto se logra con `read_format = tibble`. No lo recomiendo pues puedes
+#' terminar con tu sesión de `R` si se te acaba la memoria.
 #'
 #' @param download_method Methods for download file (default = "curl"). Other
 #' options are "internal", "wininet" (Windows) "libcurl", "wget", "curl". See
@@ -27,10 +40,6 @@
 #' para guardar los datos.
 #' @param file_download_dictionary Name of file to save the dictionary /
 #' Nombre del archivo donde guardar el diccioanrio.
-#' @param parse_dictionary Change labels to values of dictionary? Default = TRUE
-#' else the data is downloaded and presented as is. / Se agregan etiquetas
-#' a partir del diccionario? `default = TRUE` en caso contrario solo se presentan los
-#' datos descargados como estan.
 #' @param remove_zip_after_download If the downloaded zip file should be saved /
 #' Si los archivos zip descargados deben ser almacenados.
 #' @param quiet Show messages? / Mostrar mensajes?
@@ -46,6 +55,12 @@
 #' @param group Group for \code{dbConnect} i.e. your `MariaDB` group (can be NULL)
 #' @param port Port connection for `MariaDB`
 #' @param tblname Name of table to save in `MariaDB`
+#' @param site.covid Site for download the covid information
+#' @param site.covid.dic Site for download the covid dictionary for the data
+#' @param dict_file RData File where to save/read the dictionary.
+#' @param download_dict If download the dictionary from `site.covid.dic`. If
+#' `download_dict` is `FALSE` then `dict_file` must be specified to read the dictionary.
+#' @param save_dict If the downloaded dictionary is to be saved in file `dict_file`
 #' @param nthreads Number of threads for writing to `MariaDB`.
 #' @return List of values:
 #' \itemize{
@@ -60,22 +75,30 @@
 #'}
 #' @encoding UTF-8
 #' @export
-descarga_datos_abiertos <- function(download_method           = "curl",
-                                    file_download_data        = tempfile(),
-                                    file_download_dictionary  = tempfile(),
-                                    remove_zip_after_download = TRUE,
-                                    quiet                     = FALSE,
-                                    parse_warnings            = FALSE,
-                                    language                  = c("English", "Espa\u00f1ol"),
-                                    read_format               = c("MariaDB","tibble"),
-                                    user                      = Sys.getenv("MariaDB_user"),
-                                    password                  = Sys.getenv("MariaDB_password"),
-                                    dbname                    = Sys.getenv("MariaDB_dbname"),
-                                    host                      = Sys.getenv("MariaDB_host"),
-                                    group                     = Sys.getenv("MariaDB_group"),
-                                    port                      = Sys.getenv("MariaDB_port"),
-                                    tblname                   = "covidmx",
-                                    nthreads                  = max(parallel::detectCores() - 1, 1)){
+descarga_datos_abiertos <- function(
+    download_method           = "curl",
+    file_download_data        = tempfile(),
+    file_download_dictionary  = tempfile(),
+    remove_zip_after_download = TRUE,
+    quiet                     = FALSE,
+    parse_warnings            = FALSE,
+    language                  = c("English", "Espa\u00f1ol"),
+    read_format               = c("MariaDB","tibble"),
+    user                      = Sys.getenv("MariaDB_user"),
+    password                  = Sys.getenv("MariaDB_password"),
+    dbname                    = Sys.getenv("MariaDB_dbname"),
+    host                      = Sys.getenv("MariaDB_host"),
+    group                     = Sys.getenv("MariaDB_group"),
+    port                      = Sys.getenv("MariaDB_port"),
+    tblname                   = "covidmx",
+    dict_file                 = "diccionario_covid.RData",
+    download_dict             = TRUE,
+    save_dict                 = download_dict,
+    site.covid                = paste0("http://datosabiertos.salud.gob.mx/gobmx/salud",
+                                       "/datos_abiertos/datos_abiertos_covid19.zip"),
+    site.covid.dic            = paste0("http://datosabiertos.salud.gob.mx/gobmx/salud/",
+                                       "datos_abiertos/diccionario_datos_covid19.zip"),
+    nthreads                  = max(parallel::detectCores() - 1, 1)){
 
   #Check inputs----
   if (stringr::str_detect(toupper(language[1]),"ESPA.*OL")){
@@ -101,12 +124,6 @@ descarga_datos_abiertos <- function(download_method           = "curl",
       message("Please be patient, the whole process takes aprox 20 minutes.")
     }
   }
-
-  #Download dataset----
-  site.covid <- paste0(
-    "http://datosabiertos.salud.gob.mx/gobmx/salud",
-    "/datos_abiertos/datos_abiertos_covid19.zip"
-  )
 
   if (!quiet) {
     if (language == "Espa\u00f1ol"){
@@ -269,9 +286,9 @@ descarga_datos_abiertos <- function(download_method           = "curl",
       dats <- dplyr::tbl(con, tblname)
       if (language == "Espa\u00f1ol"){
         message(glue::glue("No olvides desconectar la base con ",
-                "DBI::dbDisconnect(datos_covid$con) cuando termines."))
+                "datos_covid$disconnect() cuando termines."))
       } else {
-        message("Don't forget to DBI::dbDisconnect(datos_covid$con) at the end")
+        message("Don't forget to datos_covid$disconnect() at the end")
       }
 
     } else {
@@ -324,14 +341,8 @@ descarga_datos_abiertos <- function(download_method           = "curl",
       con <- NULL
     }
 
-    # Descarga de diccionario de datos para ver el nombre del estado
-    site.covid.dic <- paste0(
-      "http://datosabiertos.salud.gob.mx/gobmx/salud/",
-      "datos_abiertos/diccionario_datos_covid19.zip"
-    )
-
     #Dictionary----
-    if (RCurl::url.exists(site.covid.dic)) {
+    if (download_dict & RCurl::url.exists(site.covid.dic)) {
 
       if (!quiet) {
         if (language == "Espa\u00f1ol"){
@@ -527,6 +538,15 @@ descarga_datos_abiertos <- function(download_method           = "curl",
         unlink(fname)
       }
 
+      if (save_dict){
+        message(glue::glue("Saving / Guardando en {save_dict}"))
+        save(dict, file = dict_file)
+      }
+
+    } else if (!download_dict) {
+
+       load(dict_file)
+
     } else if (!RCurl::url.exists(site.covid.dic)) {
       if (language == "Espa\u00f1ol"){
         stop(glue::glue("No se pudo encontrar el diccionario en {site.covid.dic}"))
@@ -561,5 +581,5 @@ descarga_datos_abiertos <- function(download_method           = "curl",
     }
     dats <- NULL; con <- NULL
   }
-  return(list(dats = dats, con = con, dict = dict))
+  return(list(dats = dats, disconnect = function(){DBI::dbDisconnect(con)}, dict = dict))
 }

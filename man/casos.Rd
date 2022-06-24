@@ -30,7 +30,8 @@ casos(
   edad_cut = NULL,
   as_tibble = TRUE,
   fill_zeros = as_tibble,
-  list_name = "casos"
+  list_name = "casos",
+  .grouping_vars = c()
 )
 }
 \arguments{
@@ -55,31 +56,72 @@ por default incluye \verb{Unidad Medica}}
 \item{fecha_tipo}{Selecciona \code{Ingreso}, \code{Sintomas} o \code{Defuncion} por default
 incluye fecha de \code{Sintomas}}
 
+\item{tipo_clasificacion}{Vector con el tipo de clasificaciones a incluir:
+\code{Sospechosos},\verb{Confirmados COVID}, \verb{Negativo a COVID},
+\verb{Inv\\u00e1lido}, \verb{No realizado}}
+
+\item{group_by_tipo_clasificacion}{Boolean determinando si regresa la base
+con cada entrada agrupada por tipo de clasificación (es decir cada fecha
+se generan tantos observaciones como grupos de tipo de clasificación)}
+
 \item{tipo_paciente}{Vector con el tipo de pacientes a incluir. Opciones:
-\code{AMBULATORIO}, \code{HOSPITALIZADO}, \verb{NO ESPECIFICADO}
-@param tipo_uci Vector con el tipo de valores para Unidad de Cuidado Intensivo a incluir:
+\code{AMBULATORIO}, \code{HOSPITALIZADO}, \verb{NO ESPECIFICADO}}
+
+\item{group_by_tipo_paciente}{Boolean determinando si regresa la base
+con cada entrada agrupada por tipo de paciente (es decir cada fecha
+se generan tantos observaciones como grupos de tipo de paciente)}
+
+\item{tipo_uci}{Vector con el tipo de valores para Unidad de Cuidado Intensivo a incluir:
 \code{SI},\code{NO},\verb{NO APLICA},\verb{SE IGNORA},\verb{NO ESPECIFICADO}}
 
-\item{tipo_caso}{Vector con el tipo de clasificaciones a incluir:
-\code{Sospechosos},\verb{Confirmados COVID}, \verb{Negativo a COVID},
-\code{Inválido}, \verb{No realizado}}
+\item{group_by_tipo_uci}{Boolean determinando si regresa la base
+con cada entrada agrupada por tipo de uci (es decir cada fecha
+se generan tantos observaciones como grupos de tipo de uci)}
 
-\item{`edad_cut`}{Vector con secuencia de edades para hacer grupos. Por ejemplo
-\code{edad_cut = c(0, 10, Inf)} armaría dos grupos de edad de 0 a 10 y de 10 a infinito o bien
-\code{edad_cut = c(15, 20)} deja sólo los registros entre 15 y 20 años. Por default es NULL}
-
-\item{`tipo_sector`}{Vector con los sectores del sistema de salud a incluir:
+\item{tipo_sector}{Vector con los sectores del sistema de salud a incluir:
 \verb{CRUZ ROJA},\code{DIF},\code{ESTATAL},\code{IMSS},\code{IMSS-BIENESTAR},\code{ISSSTE}, \code{MUNICIPAL},\code{PEMEX},
 \code{PRIVADA},\code{SEDENA},\code{SEMAR},\code{SSA}, \code{UNIVERSITARIO},\verb{NO ESPECIFICADO}.}
+
+\item{group_by_tipo_sector}{Boolean determinando si regresa la base
+con cada entrada agrupada por tipo de sector (es decir cada fecha
+se generan tantos observaciones como grupos de tipo de sector)}
+
+\item{defunciones}{Boolean si incluir sólo defunciones \code{TRUE} o a todos
+\code{FALSE}.}
+
+\item{edad_cut}{Vector con secuencia de edades para hacer grupos. Por ejemplo
+\code{edad_cut = c(0, 10, Inf)} arma dos grupos de edad de 0 a 10 y de 10 a infinito o bien
+\code{edad_cut = c(15, 20)} deja sólo los registros entre 15 y 20 años. Por default es NULL}
+
+\item{as_tibble}{Regresar como \code{tibble} el resultado. En caso de que \code{as_tibble}
+sea \code{FALSE} se devuelve como conexion en \code{MARIADB}.}
+
+\item{fill_zeros}{En caso de que el resultado sea un \code{tibble} regresa observaciones
+para todas las combinaciones de variables incluyendo como 0 donde no se observaron casos. En
+caso contrario no se incluyen las filas donde no se observaron casos.}
+
+\item{list_name}{Asigna un nombre en la lista de datos a la base generada}
+
+\item{.grouping_vars}{Vector de variables adicionales de agrupacion de los conteos}
+}
+\value{
+Appends a la lista de \code{datos_covid} una nueva entrada de nombre \code{list_name}
+(default: \code{casos}) con una base de datos (\code{tibble} o \code{dbConnection}) con los
+resultados agregados.
+\itemize{
+\item casos - Base de datos generara con los datos agregados (el nombre cambia si
+se usa \code{list_name}).
+\item dict - Diccionario de datos
+\item dats - Datos originales (conexion a DB)
+\item disconnect  - Función para desconectarte de DB
+}
 }
 \description{
-\code{casos} Calcula el numero de casos registrados por fecha
+\code{casos} Calcula el numero de casos registrados por fecha agrupando (o sin hacerlo)
+por covariables.
 }
 \details{
-Por default calcula el total de casos
-vease \code{casos_ambulatorios} y
-\code{casos_uci}, \code{casos_hospitalizados}, \code{defunciones}
-
+Por default calcula el total de casos.
 This is not an official product / este no es un producto oficial
 }
 \examples{
@@ -95,9 +137,10 @@ defunciones <- datos_covid \%>\% casos(defunciones = TRUE)
 #Positivos en Jalisco y Colima
 casos_col_jal <- datos_covid \%>\% casos(entidades = c("JALISCO","COLIMA"))
 
-#Agrupando casos por tipo de clasificación
+#Agrupando casos por tipo de clasificacion
 confirmados <- datos_covid \%>\%
-    casos(entidades = c("JALISCO","COLIMA"), group_by_tipo_clasificacion = TRUE)
+    casos(entidades = c("JALISCO","COLIMA"),
+          group_by_tipo_clasificacion = TRUE)
 
 #Regresa la suma de los de COLIMA + JALISCO
 casos_col_jal <- datos_covid \%>\%
@@ -105,6 +148,14 @@ casos_col_jal <- datos_covid \%>\%
           group_by_tipo_clasificacion = TRUE,
           tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
           group_by_tipo_paciente = TRUE)
+
+#Si deseas agrupar por una variable que no este en las opciones
+casos_col_jal <- datos_covid \%>\%
+    casos(entidades = c("JALISCO","COLIMA"),
+          group_by_tipo_clasificacion = TRUE,
+          tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+          group_by_tipo_paciente = TRUE,
+          .grouping_vars = c("DIABETES"))
 }
 
 }
