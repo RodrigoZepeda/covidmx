@@ -68,6 +68,7 @@ read_datos_abiertos <- function(
                                        "datos_abiertos/diccionario_datos_covid19.zip")){
 
     quiet <- FALSE
+
     # > MariaDB-----
     if (dbname == ""){
       dbname <- "COVID"

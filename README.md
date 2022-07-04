@@ -80,7 +80,7 @@ datos_covid$dict
 Si ya los descargaste una vez puedes usar la siguiente función para leerlos de memoria: 
 
 ```{r}
-datos_covid$dict <- read_datos_abiertos()
+datos_covid <- read_datos_abiertos()
 ```
 
 # Introducción rápida

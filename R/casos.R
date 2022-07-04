@@ -95,7 +95,8 @@
 #'datos_covid <- descarga_datos_abiertos(language = "Espanol")
 #'
 #'#Casos a nivel nacional
-#'mis_casos <- datos_covid %>% casos()
+#'datos_covid <- datos_covid %>% casos()
+#'head(datos_covid$casos)
 #'
 #'#Defunciones nacional
 #'defunciones <- datos_covid %>% casos(defunciones = TRUE)

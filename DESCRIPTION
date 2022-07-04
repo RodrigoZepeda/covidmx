@@ -13,6 +13,7 @@ RoxygenNote: 7.2.0
 Imports: 
     DBI,
     dplyr,
+    ggformula,
     ggplot2,
     glue,
     magrittr,

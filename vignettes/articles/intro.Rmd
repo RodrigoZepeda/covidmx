@@ -33,7 +33,7 @@ Lo más importante es comenzar descargando la base de datos pública. Esto lo pu
 datos_covid <- descarga_datos_abiertos(language = "Español")
 ```
 
-```{r lectura, echo = FALSE, message=FALSE,warning=FALSE}
+```{r lectura, echo = FALSE, message=FALSE, warning=FALSE}
 datos_covid <- read_datos_abiertos()
 ```
 
@@ -200,8 +200,8 @@ Puedes acumular diferentes bases de datos en la misma lista asignándoles nombre
 ```{r, eval = TRUE}
 datos_covid <- datos_covid %>% 
   casos(list_name = "Todos por entidad") %>%
-  casos(list_name = "Todos (nacional)", group_by_entidad = F) %>% 
-  casos(list_name = "Defunciones (todos)") 
+  casos(list_name = "Todos (nacional)", group_by_entidad = FALSE) %>% 
+  casos(list_name = "Defunciones (todos)", defunciones = TRUE) 
 
 message("Todos (nacional)")
 head(datos_covid$`Todos (nacional)`)
@@ -306,6 +306,7 @@ positividad()               #Positividad en pruebas
 cfr()                       #Case fatality rate
 chr()                       #Case hospitalization rate
 rt()                        #Effective reproductive number
+plot()                      #Grafica la variable 
 predice()                   #Función para predecir casos en automático
 suaviza()                   #Suavizamiento de los casos observados
 descarga_datos_ocupacion()  #Descarga de datos de ocupación hospitalaria
