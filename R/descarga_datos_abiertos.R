@@ -100,6 +100,31 @@ descarga_datos_abiertos <- function(
                                        "datos_abiertos/diccionario_datos_covid19.zip"),
     nthreads                  = max(parallel::detectCores() - 1, 1)){
 
+
+  #Define dictionary global vars
+  diccionario.covid.asma                    <- NULL
+  diccionario.covid.cardiovascular          <- NULL
+  diccionario.covid.diabetes                <- NULL
+  diccionario.covid.embarazo                <- NULL
+  diccionario.covid.entidad_nac             <- NULL
+  diccionario.covid.entidad_res             <- NULL
+  diccionario.covid.entidad_um              <- NULL
+  diccionario.covid.epoc                    <- NULL
+  diccionario.covid.hipertension            <- NULL
+  diccionario.covid.indigena                <- NULL
+  diccionario.covid.inmusupr                <- NULL
+  diccionario.covid.intubado                <- NULL
+  diccionario.covid.neumonia                <- NULL
+  diccionario.covid.obesidad                <- NULL
+  diccionario.covid.otra_comorbilidad       <- NULL
+  diccionario.covid.otro_caso               <- NULL
+  diccionario.covid.renal_cronica           <- NULL
+  diccionario.covid.tabaquismo              <- NULL
+  diccionario.covid.toma_muestra_antigeno   <- NULL
+  diccionario.covid.toma_muestra_lab        <- NULL
+  diccionario.covid.uci                     <- NULL
+  `diccionario.covid.habla lengua indigena` <- NULL
+
   #Check inputs----
   if (stringr::str_detect(toupper(language[1]),"ESPA.*OL")){
     language <- "Espa\u00f1ol"

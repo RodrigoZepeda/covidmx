@@ -2,15 +2,22 @@
 
 Descarga, etiqueta y datos abiertos de COVID-19 en México. El propósito de este paquete es hacer la descarga, análisis y graficación de manera rápida para que tú no tengas que preocuparte por bajar el archivo a tiempo, agrupar funciones o realizar visualizaciones sino en lo importante: analizar la información. 
 
-> :warning: Necesitas tener una instalación de `MariaDB` o bien muchísima `RAM`. 
-
 # Instalación
 
 ```{r}
 devtools::install_github("RodrigoZepeda/covidmx")
 ```
 
+Descarga la ocupación hospitalaria reportada por RED IRAG:
+
+```{r}
+ocupacion_hospitalaria <- descarga_datos_ocupacion_hospitalaria()
+```
+
 Descarga la base de datos abiertos de la Dirección General de Epidemiología de la Secretaría de Salud.
+
+> :warning: Para esta base necesitas tener una instalación de `MariaDB` o bien muchísima `RAM`. Para 
+instalar `MariaDB` puedes revisar [el artículo respectivo](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html).
 
 ```{r}
 library(covidmx)

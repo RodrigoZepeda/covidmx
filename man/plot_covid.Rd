@@ -7,11 +7,10 @@
 plot_covid(
   datos_covid = NULL,
   df_name = "casos",
-  df_date_index = stringr::str_subset(colnames(datos_covid[df_name][[1]]), "FECHA"),
+  df_date_index = stringr::str_subset(colnames(datos_covid[df_name][[1]]),
+    "FECHA|fecha|Fecha"),
   df_variable = NULL,
- 
-    df_covariates = colnames(datos_covid[df_name][[1]])[!(colnames(datos_covid[df_name][[1]])
-    \%in\% c(df_date_index, df_variable, "ENTIDAD_UM", "ABREVIATURA"))],
+  df_covariates = NULL,
   facet_scale = "free_y",
   facet_ncol = 4,
   date_break_format = "2 months",

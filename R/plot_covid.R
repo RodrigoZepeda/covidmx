@@ -56,12 +56,9 @@
 plot_covid <- function(datos_covid = NULL,
                        df_name = "casos",
                        df_date_index = stringr::str_subset(colnames(datos_covid[df_name][[1]]),
-                                                           "FECHA"),
+                                                           "FECHA|fecha|Fecha"),
                        df_variable   = NULL,
-                       df_covariates = colnames(datos_covid[df_name][[1]])[
-                         !(colnames(datos_covid[df_name][[1]]) %in% c(df_date_index,
-                                                                      df_variable, "ENTIDAD_UM",
-                                                                      "ABREVIATURA"))],
+                       df_covariates = NULL,
                        facet_scale = "free_y",
                        facet_ncol  = 4,
                        date_break_format  = "2 months",
@@ -75,11 +72,14 @@ plot_covid <- function(datos_covid = NULL,
                          legend.position = "none"
                        ), ...){
 
-  utils::globalVariables(".data")
-
   #Checar la descarga
   if (is.null(datos_covid)){
     datos_covid <- descarga_datos_abiertos() %>% casos()
+  }
+
+  if (tibble::is_tibble(datos_covid)){
+    datos_covid <- list("datos_covid" = datos_covid)
+    df_name     <- "datos_covid"
   }
 
 
@@ -87,6 +87,13 @@ plot_covid <- function(datos_covid = NULL,
   if (is.null(df_variable)){
     df_variable <- colnames(datos_covid[df_name][[1]] %>% dplyr::select_if(is.numeric))[1]
     message(glue::glue("df_variable no fue especificada. Usaremos la columna `{df_variable}`"))
+  }
+
+  if (is.null(df_covariates)){
+    anti_cols    <- !(colnames(datos_covid[df_name][[1]]) %in%
+                          c(df_date_index,df_variable, "ENTIDAD_UM", "ABREVIATURA"))
+    df_covariates <- colnames(datos_covid[df_name][[1]])[anti_cols]
+    message(glue::glue("df_covariates no fue especificada. Usaremos `{df_covariates}`"))
   }
 
   #Checamos la variable 1

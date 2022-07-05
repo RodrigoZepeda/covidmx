@@ -22,6 +22,10 @@ devtools::install_github("RodrigoZepeda/covidmx")
 
 ## Descarga de datos de la Dirección General de Epidemiología 
 
+> **NOTA** Necesitas tener una instalación de `MariaDB` o bien muchísima `RAM`. Para 
+instalar `MariaDB` puedes revisar [el artículo respectivo](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html).
+
+
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 library(covidmx)
 library(dplyr)
@@ -62,7 +66,11 @@ De hecho no es necesario volver a descargar si reinicias tu sesión de `R` siemp
 read_datos_abiertos() %>% glimpse()
 ```
 
-Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. Las bases de datos se agregan a la lista bajo el nombre default `casos`. Por ejemplo:
+Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. 
+
+## Casos de covid
+
+Las bases de datos se agregan a la lista bajo el nombre default `casos`. Por ejemplo:
 
 ```{r, eval = TRUE}
 datos_covid <- datos_covid %>% casos()
@@ -70,9 +78,10 @@ datos_covid <- datos_covid %>% casos()
 
 El objeto `casos` por default es un `tibble` con el que ya puedes operar:
 ```{r}
-head(datos_covid$casos)
+datos_covid$casos %>% head()
 ```
 
+Nota que lo que hace es agregar por fecha y por entidad de la unidad médica los casos. 
 
 Se puede filtar por entidad de la unidad médica seleccionando las entidades de interés:
 ```{r, eval = FALSE}
@@ -204,13 +213,13 @@ datos_covid <- datos_covid %>%
   casos(list_name = "Defunciones (todos)", defunciones = TRUE) 
 
 message("Todos (nacional)")
-head(datos_covid$`Todos (nacional)`)
+datos_covid$`Todos (nacional)` %>% head()
 
 message("Todos por entidad")
-head(datos_covid$`Todos por entidad`)
+datos_covid$`Todos por entidad` %>% head()
 
 message("Defunciones (todos)")
-head(datos_covid$`Defunciones (todos)`)
+datos_covid$`Defunciones (todos)` %>% head()
 ```
 
 Hay múltiples opciones permitiendo seleccionar variables específicas de unidades de cuidado intensivo, defunciones y si devolver la tabla como `tibble` o como conexión de `dbplyr` a `MARIADB`:
@@ -286,7 +295,7 @@ datos_covid <- datos_covid %>%
 
 Puedes ver la base generada así:
 ```{r}
-head(datos_covid$`Ejemplo defunciones`, 20)
+datos_covid$`Ejemplo defunciones` %>% head()
 ```
 
 ## Desconexión
@@ -295,6 +304,60 @@ Una vez que terminaste de trabajar con la base original en `MariaDB` deconecta e
 
 ```{r}
 datos_covid$disconnect()
+```
+
+## Datos de ocupación hospitalaria (Red IRAG)
+
+Puedes descargar los datos de la [Red IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#) de ocupación hospitalaria
+a nivel estatal o a nivel unidad médica mediante `descarga_datos_ocupacion_hospitalaria`:
+
+```{r}
+estatales <- descarga_datos_ocupacion_hospitalaria()
+```
+Los cuales se ven así:
+```{r ocupacion, fig.height=32, fig.width=8}
+estatales %>% plot_covid(df_covariates = "estado")
+```
+O bien por unidad médica:
+
+
+```{r}
+unidad_medica <- descarga_datos_ocupacion_hospitalaria(nivel = "Unidad Médica")
+```
+que se ven así: 
+```{r}
+unidad_medica %>% head()
+```
+
+## Gráficas 
+
+Para graficar puedes usar la función `plot_covid` por default grafica lo que està en `datos_covid$casos` 
+
+```{r nacionalentidad, fig.height=16, fig.width=8}
+datos_covid %>% plot_covid()
+```
+
+
+pero puedes pedir otra con el eje x más limpio:
+
+```{r nacional}
+datos_covid %>% plot_covid("Todos (nacional)", 
+                           date_break_format = "6 months",
+                           date_labels_format = "%m/%y")
+```
+
+Para visualizar un suavizamiento con _splines_ cambia el `type` y dale las opciones que darías a `geom_spline`: 
+```{r splineacional}
+datos_covid %>% plot_covid("Todos (nacional)", type = "spline", spar = 0.5)
+```
+
+Puedes visualizar hasta dos covariables a la vez con `df_covariates` y decirle cuál graficar con `df_variable`:
+```{r, fig.height=32, fig.width=8}
+datos_covid %>% 
+  plot_covid("Ejemplo defunciones", 
+             df_variable = "n", 
+             df_covariates = c("SEXO","ENTIDAD_FEDERATIVA"),
+             type = "area") 
 ```
 
 ## Otras funciones de interés
@@ -306,12 +369,11 @@ positividad()               #Positividad en pruebas
 cfr()                       #Case fatality rate
 chr()                       #Case hospitalization rate
 rt()                        #Effective reproductive number
-plot()                      #Grafica la variable 
 predice()                   #Función para predecir casos en automático
 suaviza()                   #Suavizamiento de los casos observados
-descarga_datos_ocupacion()  #Descarga de datos de ocupación hospitalaria
-descarga_datos_vacunacion() #Descarga de datos de vacunación
+descarga_datos_ocupacion_hospitalaria()  #Descarga de datos de ocupación hospitalaria
 descarga_datos_cdmx()       #Descarga de datos abiertos cdmx
+descarga_datos_variantes()  #Descarga de datos de variantes de GISAID
 ```
 
 

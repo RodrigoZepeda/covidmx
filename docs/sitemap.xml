@@ -10,6 +10,12 @@
     <loc>https://rodrigozepeda.github.io/covidmx/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html</loc>
+  </url>
+  <url>
+    <loc>https://rodrigozepeda.github.io/covidmx/articles/articles/Instalacion_de_MARIADB.html</loc>
+  </url>
+  <url>
     <loc>https://rodrigozepeda.github.io/covidmx/articles/articles/intro.html</loc>
   </url>
   <url>
@@ -61,6 +67,9 @@
     <loc>https://rodrigozepeda.github.io/covidmx/reference/descarga_datos_abiertos.html</loc>
   </url>
   <url>
+    <loc>https://rodrigozepeda.github.io/covidmx/reference/descarga_datos_ocupacion_hospitalaria.html</loc>
+  </url>
+  <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/index.html</loc>
   </url>
   <url>
@@ -77,6 +86,9 @@
   </url>
   <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://rodrigozepeda.github.io/covidmx/reference/plot_covid.html</loc>
   </url>
   <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/positividad.html</loc>

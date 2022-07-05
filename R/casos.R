@@ -164,6 +164,7 @@ casos <- function(datos_covid = NULL,
                   list_name            = "casos",
                   .grouping_vars       = c()){
 
+
   #Finally bind to previous object
   if (any(stringr::str_detect(names(datos_covid), list_name))){
     stop(glue::glue("Impossible to create variable {list_name} ",

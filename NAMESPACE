@@ -3,6 +3,7 @@
 export("%>%")
 export(casos)
 export(descarga_datos_abiertos)
+export(descarga_datos_ocupacion_hospitalaria)
 export(plot_covid)
 export(read_datos_abiertos)
 importFrom(DBI,dbClearResult)
