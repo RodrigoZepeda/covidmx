@@ -58,7 +58,7 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="covidmx">covidmx<a class="anchor" aria-label="anchor" href="#covidmx"></a>
+<div class="page-header"><h1 id="covidmx-">covidmx <img src="reference/figures/covidmx.png" width="121px" height="140px" align="right" style="padding-left:10px;"><a class="anchor" aria-label="anchor" href="#covidmx-"></a>
 </h1></div>
 <p>Descarga, etiqueta y datos abiertos de COVID-19 en México. El propósito de este paquete es hacer la descarga, análisis y graficación de manera rápida para que tú no tengas que preocuparte por bajar el archivo a tiempo, agrupar funciones o realizar visualizaciones sino en lo importante: analizar la información.</p>
 </div>
@@ -71,7 +71,9 @@
 <h1 id="uso">Uso<a class="anchor" aria-label="anchor" href="#uso"></a>
 </h1>
 <p>Puedes descargar la información de variantes de <a href="www.gisaid.org">GISAID</a> de la <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-link">publicación de Github</a>, ocupación hospitalaria de <a href="https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome" class="external-link">RED IRAG</a> a partir del <a href="https://github.com/RodrigoZepeda/CapacidadHospitalariaMX" class="external-link">Github</a> y datos abiertos de la <a href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico" class="external-link">SSA</a> todo con los siguientes comandos.</p>
-<pre class="{r}"><code><span><span class="co">#Datos de variantes (cdmx o nacional)</span></span>
+<pre class="{r}"><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">covidmx</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Datos de variantes (cdmx o nacional)</span></span>
 <span><span class="va">variantes</span>   <span class="op">&lt;-</span> <span class="fu">covidmx</span><span class="fu">::</span><span class="fu"><a href="reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"nacional"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Datos de ocupación hopsitalaria ('Estatal' o 'Unidad Médica')</span></span>
@@ -93,7 +95,7 @@
 <span><span class="co">#¡Grafica!</span></span>
 <span><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
 <div class="figure">
-<img src="docs/articles/intro_files/figure-html/nacionalentidad-1.png" alt=""><p class="caption">Gráfica con los casos de SINAVE de los datos abiertos de las 32 entidades cada una de ellas variando por color.</p>
+<img src="reference/figures/readme-nacional.png" alt=""><p class="caption">Gráfica con los casos de SINAVE de los datos abiertos de las 32 entidades cada una de ellas variando por color.</p>
 </div>
 <blockquote>
 <p><strong>Nota</strong> No olvides citar a GISAID, RED IRAG o SSA y las publicaciones asociadas además del paquete.</p>

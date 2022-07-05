@@ -1,4 +1,4 @@
-# covidmx
+# covidmx <img src="man/figures/covidmx.png" width="121px" height="140px" align="right" style="padding-left:10px;" />
 
 Descarga, etiqueta y datos abiertos de COVID-19 en México. El propósito de este paquete es hacer la descarga, análisis y graficación de manera rápida para que tú no tengas que preocuparte por bajar el archivo a tiempo, agrupar funciones o realizar visualizaciones sino en lo importante: analizar la información. 
 
@@ -13,6 +13,8 @@ remotes::install_github("RodrigoZepeda/covidmx")
 Puedes descargar la información de variantes de [GISAID](www.gisaid.org) de la [publicación de Github](https://github.com/RodrigoZepeda/VariantesCovid), ocupación hospitalaria de [RED IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome) a partir del [Github](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) y datos abiertos de la [SSA](https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico) todo con los siguientes comandos.
 
 ```{r}
+library(covidmx)
+
 #Datos de variantes (cdmx o nacional)
 variantes   <- covidmx::descarga_datos_variantes_GISAID("nacional")
 
@@ -36,7 +38,7 @@ datos_covid <- datos_covid %>% casos()
 datos_covid %>% plot_covid()
 ```
 
-![Gráfica con los casos de SINAVE de los datos abiertos de las 32 entidades cada una de ellas variando por color.](docs/articles/intro_files/figure-html/nacionalentidad-1.png)
+![Gráfica con los casos de SINAVE de los datos abiertos de las 32 entidades cada una de ellas variando por color.](man/figures/readme-nacional.png)
 
 > **Nota** No olvides citar a GISAID, RED IRAG o SSA y las publicaciones asociadas además del paquete.
 

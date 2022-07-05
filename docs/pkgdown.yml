@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   Instalacion_de_MARIADB: Instalacion_de_MARIADB.html
   intro: intro.html
-last_built: 2022-07-05T20:46Z
+last_built: 2022-07-05T22:02Z
 urls:
   reference: https://rodrigozepeda.github.io/covidmx/reference
   article: https://rodrigozepeda.github.io/covidmx/articles
