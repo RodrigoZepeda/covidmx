@@ -5,151 +5,44 @@ Descarga, etiqueta y datos abiertos de COVID-19 en México. El propósito de est
 # Instalación
 
 ```{r}
-devtools::install_github("RodrigoZepeda/covidmx")
+remotes::install_github("RodrigoZepeda/covidmx")
 ```
 
-Descarga la ocupación hospitalaria reportada por RED IRAG:
+# Uso 
+
+Puedes descargar la información de variantes de [GISAID](www.gisaid.org) de la [publicación de Github](https://github.com/RodrigoZepeda/VariantesCovid), ocupación hospitalaria de [RED IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome) a partir del [Github](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) y datos abiertos de la [SSA](https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico) todo con los siguientes comandos.
 
 ```{r}
-ocupacion_hospitalaria <- descarga_datos_ocupacion_hospitalaria()
+#Datos de variantes (cdmx o nacional)
+variantes   <- covidmx::descarga_datos_variantes_GISAID("nacional")
+
+#Datos de ocupación hopsitalaria ('Estatal' o 'Unidad Médica')
+ocupacion   <- covidmx::descarga_datos_ocupacion_hospitalaria("Estatal")
+
+#Descarga datos abiertos de covid, guarda en MARIADB y te da una conexión
+datos_covid <- covidmx::descarga_datos_abiertos(
+    user      = Sys.getenv("MariaDB_user"),
+    password  = Sys.getenv("MariaDB_password"),
+    dbname    = Sys.getenv("MariaDB_dbname"),
+    host      = Sys.getenv("MariaDB_host"),
+    group     = Sys.getenv("MariaDB_group"),
+    port      = Sys.getenv("MariaDB_port")
+) 
+
+#Calcula los casos (totales) por entidad y devuelve un tibble
+datos_covid <- datos_covid %>% casos()
+
+#¡Grafica!
+datos_covid %>% plot_covid()
 ```
 
-Descarga las variantes reportadas de GISAID reportadas para el país a partir de nuestra publicación diaria:
+![Gráfica con los casos de SINAVE de los datos abiertos de las 32 entidades cada una de ellas variando por color.](docs/articles/intro_files/figure-html/nacionalentidad-1.png)
 
-```{r}
-variantes_covid <- descarga_datos_variantes_GISAID()
-```
+> **Nota** No olvides citar a GISAID, RED IRAG o SSA y las publicaciones asociadas además del paquete.
 
+## Casos (opciones de lectura de datos abiertos)
 
-Descarga la base de datos abiertos de la Dirección General de Epidemiología de la Secretaría de Salud.
-
-> :warning: Para esta base necesitas tener una instalación de `MariaDB` o bien muchísima `RAM`. Para 
-instalar `MariaDB` puedes revisar [el artículo respectivo](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html).
-
-```{r}
-library(covidmx)
-
-#~10 mins
-datos_covid <- descarga_datos_abiertos(language = "Español")
-```
-
-Por default, no se agregan etiquetas a los datos pues es muy lento hacerlo:
-
-```{r}
-datos_covid$dats %>% dplyr::glimpse()
-
-    Rows: ---------
-    Columns: 43
-    $ FECHA_ACTUALIZACION   <date> 2021-12-20, 2021-12-20, 2021-12-20, 2021-12-20, 20…
-    $ ID_REGISTRO           <chr> "z38de4", "z579ac", "z2669f", "z54912", "z35a05", "…
-    $ FECHA_INGRESO         <date> 2020-05-23, 2020-10-14, 2020-06-18, 2020-06-12, 20…
-    $ FECHA_SINTOMAS        <date> 2020-05-20, 2020-10-10, 2020-06-16, 2020-06-10, 20…
-    $ FECHA_DEF             <date> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-    $ EDAD                  <dbl> 7, 33, 43, 56, 40, 67, 58, 32, 37, 64, 62, 71, 67, …
-    $ PAIS_NACIONALIDAD     <chr> "México", "México", "México", "México", "México", "…
-    $ PAIS_ORIGEN           <chr> "97", "97", "97", "97", "97", "97", "97", "97", "97…
-    $ Fuente                <chr> "http://datosabiertos.salud.gob.mx/gobmx/salud/dato…
-    $ Fecha_descarga        <chr> "Mon Dec 20 22:39:30 2021", "Mon Dec 20 22:39:30 20…
-    $ ORIGEN                <chr> "USMER", "USMER", "FUERA DE USMER", "USMER", "USMER…
-    $ SECTOR                <chr> "SSA", "SSA", "SSA", "SSA", "SSA", "SSA", "SSA", "S…
-    $ SEXO                  <chr> "MUJER", "HOMBRE", "HOMBRE", "MUJER", "MUJER", "MUJ…
-    $ TIPO_PACIENTE         <chr> "AMBULATORIO", "AMBULATORIO", "AMBULATORIO", "AMBUL…
-    $ INTUBADO              <chr> "NO APLICA", "NO APLICA", "NO APLICA", "NO APLICA",…
-    $ NEUMONIA              <chr> "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ EMBARAZO              <chr> "NO", "NO APLICA", "NO APLICA", "NO", "NO", "NO", "…
-    $ HABLA_LENGUA_INDIG    <chr> "NO", "NO", "NO", "NO", "SI", "NO", "NO", "NO", "NO…
-    $ INDIGENA              <chr> "NO", "NO", "NO", "NO", "SI", "NO", "NO", "NO", "NO…
-    $ DIABETES              <chr> "NO", "NO", "NO", "SI", "NO", "NO", "SI", "NO", "NO…
-    $ EPOC                  <chr> "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ ASMA                  <chr> "NO", "NO", "SI", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ INMUSUPR              <chr> "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ HIPERTENSION          <chr> "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ OTRA_COM              <chr> "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ OBESIDAD              <chr> "NO", "NO", "NO", "NO", "SI", "NO", "NO", "NO", "NO…
-    $ RENAL_CRONICA         <chr> "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ TABAQUISMO            <chr> "NO", "NO", "SI", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ MIGRANTE              <chr> "NO ESPECIFICADO", "NO ESPECIFICADO", "NO ESPECIFIC…
-    $ UCI                   <chr> "NO APLICA", "NO APLICA", "NO APLICA", "NO APLICA",…
-    $ CARDIOVASCULAR        <chr> "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ OTRO_CASO             <chr> "NO", "NO", "SI", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ TOMA_MUESTRA_LAB      <chr> "NO", "SI", "SI", "SI", "SI", "NO", "SI", "SI", "SI…
-    $ TOMA_MUESTRA_ANTIGENO <chr> "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO…
-    $ MUNICIPIO_RES         <chr> "TUXTLA GUTIÉRREZ", "NICOLÁS ROMERO", "GUADALAJARA"…
-    $ ENTIDAD_UM            <chr> "CHIAPAS", "MÉXICO", "JALISCO", "YUCATÁN", "YUCATÁN…
-    $ ENTIDAD_NAC           <chr> "CHIAPAS", "MÉXICO", "JALISCO", "YUCATÁN", "YUCATÁN…
-    $ ENTIDAD_RES           <chr> "CHIAPAS", "MÉXICO", "JALISCO", "YUCATÁN", "YUCATÁN…
-    $ NACIONALIDAD          <chr> "MEXICANA", "MEXICANA", "MEXICANA", "MEXICANA", "ME…
-    $ RESULTADO_LAB         <chr> "NO APLICA (CASO SIN MUESTRA)", "RESULTADO NO ADECU…
-    $ RESULTADO_ANTIGENO    <chr> "NO APLICA (CASO SIN MUESTRA)", "NO APLICA (CASO SI…
-    $ CLASIFICACIÓN         <chr> "CASO SOSPECHOSO", "CASO SOSPECHOSO", "NEGATIVO A S…
-    $ DESCRIPCIÓN           <chr> "Sospechoso aplica cuando: \r\nEl caso no tienen as…
-```
-
-sin embargo el diccionario se incluye en la lista devuelta
-
-```{r}
-datos_covid$dict
-```
-
-Si ya los descargaste una vez puedes usar la siguiente función para leerlos de memoria: 
-
-```{r}
-datos_covid <- read_datos_abiertos()
-```
-
-# Introducción rápida
-
-Obtener casos agrupados por estado
-
-```{r}
-datos_covid %>% casos()
-
-#> # A tibble: 
-#>   FECHA_SINTOMAS ENTIDAD_UM       n ENTIDAD_FEDERATIVA   ABREVIATURA
-#>   <date>         <chr>      <int64> <chr>                <chr>      
-#> 1 2020-01-01     01               5 AGUASCALIENTES       AS         
-#> 2 2020-01-01     02               4 BAJA CALIFORNIA      BC         
-#> 3 2020-01-01     03               4 BAJA CALIFORNIA SUR  BS         
-#> 4 2020-01-01     05               6 COAHUILA DE ZARAGOZA CL         
-#> 5 2020-01-01     06               3 COLIMA               CM         
-#> 6 2020-01-01     08              11 CHIHUAHUA            CH
-```
-
-o bien sólo para algunas entidades de la unidad médica:
-
-```{r}
-datos_covid %>% 
-  casos(entidades = c("QUINTANA ROO","AGUASCALIENTES"))
-  
-#> # A tibble:
-#>   FECHA_SINTOMAS ENTIDAD_UM       n ENTIDAD_FEDERATIVA ABREVIATURA
-#>   <date>         <chr>      <int64> <chr>              <chr>      
-#> 1 2020-01-01     01               5 AGUASCALIENTES     AS         
-#> 2 2020-01-01     23               7 QUINTANA ROO       QR         
-#> 3 2020-01-02     23               9 QUINTANA ROO       QR         
-#> 4 2020-01-03     01               1 AGUASCALIENTES     AS         
-#> 5 2020-01-03     23              11 QUINTANA ROO       QR         
-#> 6 2020-01-04     01               2 AGUASCALIENTES     AS  
-```
-
-Para evitar agrupar por estado y que se generen los nacionales:
-
-```{r}
-datos_covid %>% 
-  casos(group_by_entidad = FALSE)
-  
-#> # A tibble: 
-#>   FECHA_SINTOMAS   n 
-#>   <date>         <int64> 
-#> 1 2020-01-01       10  
-#> 2 2020-01-02       14  
-#> 3 2020-01-03       22  
-#> 4 2020-01-04       13  
-#> 5 2020-01-05       15  
-#> 6 2020-01-06       18
-```
-
-Todas las opciones:
+Todas las opciones de **casos**:
 
 ```{r}
 datos_covid %>% 

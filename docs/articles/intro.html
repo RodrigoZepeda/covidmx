@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.5.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -651,20 +651,19 @@ O bien por unidad médica:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span>nivel <span class="op">=</span> <span class="st">"Unidad Médica"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Estoy descargando datos de:</span></span>
-<span><span class="co">#&gt; https://media.githubusercontent.com/media/RodrigoZepeda/CapacidadHospitalariaMX/master/processed/HospitalizacionesMX_unidad_medica.csv</span></span>
-<span><span class="co">#&gt; Warning: One or more parsing issues, see `problems()` for details</span></span></code></pre></div>
+<span><span class="co">#&gt; https://media.githubusercontent.com/media/RodrigoZepeda/CapacidadHospitalariaMX/master/processed/HospitalizacionesMX_unidad_medica.csv</span></span></code></pre></div>
 <p>que se ven así:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
-<span><span class="co">#&gt;   unidad_medica estado       institucion clues hospitalizados_… ventilacion_per…</span></span>
-<span><span class="co">#&gt;           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>            <span style="color: #BB0000;">NA</span> México                <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>              100               17</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>            <span style="color: #BB0000;">NA</span> Ciudad de M…          <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>              100               89</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>            <span style="color: #BB0000;">NA</span> Ciudad de M…          <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>              100                0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>            <span style="color: #BB0000;">NA</span> Ciudad de M…          <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>              100               94</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>            <span style="color: #BB0000;">NA</span> Ciudad de M…          <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>              100               50</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>            <span style="color: #BB0000;">NA</span> Ciudad de M…          <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>              100               10</span></span>
+<span><span class="co">#&gt;   unidad_medica       estado institucion clues hospitalizados_… ventilacion_per…</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Hospital Regional … México SSA/CC      MCSS…              100               17</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Hospital Juárez de… Ciuda… SSA/CC      DFSS…              100               89</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Instituto Nacional… Ciuda… SSA/CC      DFSS…              100                0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Instituto Nacional… Ciuda… SSA/CC      DFSS…              100               94</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Instituto Nacional… Ciuda… SSA/CC      DFSS…              100               50</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Instituto Nacional… Ciuda… SSA/CC      DFSS…              100               10</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: uci_y_ventilacion_percent &lt;dbl&gt;, fecha &lt;date&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   actualizacion &lt;dttm&gt;</span></span></span></code></pre></div>
 <blockquote>
