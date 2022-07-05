@@ -14,6 +14,13 @@ Descarga la ocupación hospitalaria reportada por RED IRAG:
 ocupacion_hospitalaria <- descarga_datos_ocupacion_hospitalaria()
 ```
 
+Descarga las variantes reportadas de GISAID reportadas para el país a partir de nuestra publicación diaria:
+
+```{r}
+variantes_covid <- descarga_datos_variantes_GISAID()
+```
+
+
 Descarga la base de datos abiertos de la Dirección General de Epidemiología de la Secretaría de Salud.
 
 > :warning: Para esta base necesitas tener una instalación de `MariaDB` o bien muchísima `RAM`. Para 

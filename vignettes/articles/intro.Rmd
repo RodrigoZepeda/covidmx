@@ -306,14 +306,38 @@ Una vez que terminaste de trabajar con la base original en `MariaDB` deconecta e
 datos_covid$disconnect()
 ```
 
+## Datos de variantes
+
+Para descargar las variantes reportadas por la publicación diaria en Github del reporte nacional en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) a partir de las variantes de [GISAID](www.gisaid.org) puedes hacer:
+
+```{r}
+variantes_covid <- descarga_datos_variantes_GISAID()
+```
+
+Los datos se ven así:
+
+```{r}
+variantes_covid %>% head()
+```
+
+Por `default` baja nacional pero también puedes usar "cdmx":
+
+```{r}
+variantes_covid <- descarga_datos_variantes_GISAID("cdmx")
+```
+
+
+> No olvides citar a **GISAID** así como a la publicación diaria en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) si las usas. 
+
 ## Datos de ocupación hospitalaria (Red IRAG)
 
 Puedes descargar los datos de la [Red IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#) de ocupación hospitalaria
-a nivel estatal o a nivel unidad médica mediante `descarga_datos_ocupacion_hospitalaria`:
+a nivel estatal o a nivel unidad médica mediante `descarga_datos_ocupacion_hospitalaria`. Estos se obtienen de la publicación diaria en [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX). 
 
 ```{r}
 estatales <- descarga_datos_ocupacion_hospitalaria()
 ```
+
 Los cuales se ven así:
 ```{r ocupacion, fig.height=32, fig.width=8}
 estatales %>% plot_covid(df_covariates = "estado")
@@ -328,6 +352,8 @@ que se ven así:
 ```{r}
 unidad_medica %>% head()
 ```
+
+> No olvides citar a **RED IRAG** así como a la publicación diaria en [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) si las usas. 
 
 ## Gráficas 
 
@@ -371,9 +397,7 @@ chr()                       #Case hospitalization rate
 rt()                        #Effective reproductive number
 predice()                   #Función para predecir casos en automático
 suaviza()                   #Suavizamiento de los casos observados
-descarga_datos_ocupacion_hospitalaria()  #Descarga de datos de ocupación hospitalaria
 descarga_datos_cdmx()       #Descarga de datos abiertos cdmx
-descarga_datos_variantes()  #Descarga de datos de variantes de GISAID
 ```
 
 

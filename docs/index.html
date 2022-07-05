@@ -68,6 +68,8 @@
 <pre class="{r}"><code><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"RodrigoZepeda/covidmx"</span><span class="op">)</span></span></code></pre>
 <p>Descarga la ocupación hospitalaria reportada por RED IRAG:</p>
 <pre class="{r}"><code><span><span class="va">ocupacion_hospitalaria</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<p>Descarga las variantes reportadas de GISAID reportadas para el país a partir de nuestra publicación diaria:</p>
+<pre class="{r}"><code><span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
 <p>Descarga la base de datos abiertos de la Dirección General de Epidemiología de la Secretaría de Salud.</p>
 <blockquote>
 <p><span class="emoji" data-emoji="warning">⚠️</span> Para esta base necesitas tener una instalación de <code>MariaDB</code> o bien muchísima <code>RAM</code>. Para instalar <code>MariaDB</code> puedes revisar <a href="https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html">el artículo respectivo</a>.</p>

@@ -597,28 +597,64 @@ como <code>tibble</code> o como conexión de <code>dbplyr</code> a
 <code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="datos-de-variantes">Datos de variantes<a class="anchor" aria-label="anchor" href="#datos-de-variantes"></a>
+</h2>
+<p>Para descargar las variantes reportadas por la publicación diaria en
+Github del reporte nacional en <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-link">RodrigoZepeda/VariantesCovid</a>
+a partir de las variantes de <a href="www.gisaid.org">GISAID</a> puedes
+hacer:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Estoy descargando datos de:</span></span>
+<span><span class="co">#&gt; https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_nacional.csv</span></span></code></pre></div>
+<p>Los datos se ven así:</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
+<span><span class="co">#&gt;   variant     semana   ano     n  freq Actualizacion       Fuente               </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> VOI Epsilon     28  <span style="text-decoration: underline;">2</span>020     1     1 2022-07-05 <span style="color: #949494;">14:25:40</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> VOI Epsilon     38  <span style="text-decoration: underline;">2</span>020     1     1 2022-07-05 <span style="color: #949494;">14:25:40</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> VOC Delta       39  <span style="text-decoration: underline;">2</span>020     1     1 2022-07-05 <span style="color: #949494;">14:25:40</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> VOI Epsilon     46  <span style="text-decoration: underline;">2</span>020     1     1 2022-07-05 <span style="color: #949494;">14:25:40</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> VOI Epsilon     47  <span style="text-decoration: underline;">2</span>020     2     1 2022-07-05 <span style="color: #949494;">14:25:40</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> VOI Epsilon     48  <span style="text-decoration: underline;">2</span>020     5     1 2022-07-05 <span style="color: #949494;">14:25:40</span> GISAID: https://www.…</span></span></code></pre></div>
+<p>Por <code>default</code> baja nacional pero también puedes usar
+“cdmx”:</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"cdmx"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Estoy descargando datos de:</span></span>
+<span><span class="co">#&gt; https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_cdmx.csv</span></span></code></pre></div>
+<blockquote>
+<p>No olvides citar a <strong>GISAID</strong> así como a la publicación
+diaria en <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-link">RodrigoZepeda/VariantesCovid</a>
+si las usas.</p>
+</blockquote>
+</div>
+<div class="section level2">
 <h2 id="datos-de-ocupación-hospitalaria-red-irag">Datos de ocupación hospitalaria (Red IRAG)<a class="anchor" aria-label="anchor" href="#datos-de-ocupaci%C3%B3n-hospitalaria-red-irag"></a>
 </h2>
 <p>Puedes descargar los datos de la <a href="https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#" class="external-link">Red
 IRAG</a> de ocupación hospitalaria a nivel estatal o a nivel unidad
-médica mediante <code>descarga_datos_ocupacion_hospitalaria</code>:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+médica mediante <code>descarga_datos_ocupacion_hospitalaria</code>.
+Estos se obtienen de la publicación diaria en <a href="https://github.com/RodrigoZepeda/CapacidadHospitalariaMX" class="external-link">RodrigoZepeda/CapacidadHospitalariaMX</a>.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estatales</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Estoy descargando datos de:</span></span>
 <span><span class="co">#&gt; https://media.githubusercontent.com/media/RodrigoZepeda/CapacidadHospitalariaMX/master/processed/HospitalizacionesMX_estatal.csv</span></span></code></pre></div>
 <p>Los cuales se ven así:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estatales</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_covariates <span class="op">=</span> <span class="st">"estado"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `hospitalizados_percent`</span></span></code></pre></div>
 <p><img src="intro_files/figure-html/ocupacion-1.png" width="768">
 O bien por unidad médica:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span>nivel <span class="op">=</span> <span class="st">"Unidad Médica"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Estoy descargando datos de:</span></span>
 <span><span class="co">#&gt; https://media.githubusercontent.com/media/RodrigoZepeda/CapacidadHospitalariaMX/master/processed/HospitalizacionesMX_unidad_medica.csv</span></span>
 <span><span class="co">#&gt; Warning: One or more parsing issues, see `problems()` for details</span></span></code></pre></div>
 <p>que se ven así:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
 <span><span class="co">#&gt;   unidad_medica estado       institucion clues hospitalizados_… ventilacion_per…</span></span>
@@ -631,19 +667,24 @@ O bien por unidad médica:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>            <span style="color: #BB0000;">NA</span> Ciudad de M…          <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>              100               10</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: uci_y_ventilacion_percent &lt;dbl&gt;, fecha &lt;date&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   actualizacion &lt;dttm&gt;</span></span></span></code></pre></div>
+<blockquote>
+<p>No olvides citar a <strong>RED IRAG</strong> así como a la
+publicación diaria en <a href="https://github.com/RodrigoZepeda/CapacidadHospitalariaMX" class="external-link">RodrigoZepeda/CapacidadHospitalariaMX</a>
+si las usas.</p>
+</blockquote>
 </div>
 <div class="section level2">
 <h2 id="gráficas">Gráficas<a class="anchor" aria-label="anchor" href="#gr%C3%A1ficas"></a>
 </h2>
 <p>Para graficar puedes usar la función <code>plot_covid</code> por
 default grafica lo que està en <code>datos_covid$casos</code></p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `n`</span></span>
 <span><span class="co">#&gt; df_covariates no fue especificada. Usaremos `ENTIDAD_FEDERATIVA`</span></span></code></pre></div>
 <p><img src="intro_files/figure-html/nacionalentidad-1.png" width="768"></p>
 <p>pero puedes pedir otra con el eje x más limpio:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="st">"Todos (nacional)"</span>, </span>
 <span>                           date_break_format <span class="op">=</span> <span class="st">"6 months"</span>,</span>
 <span>                           date_labels_format <span class="op">=</span> <span class="st">"%m/%y"</span><span class="op">)</span></span>
@@ -653,7 +694,7 @@ default grafica lo que està en <code>datos_covid$casos</code></p>
 <p>Para visualizar un suavizamiento con <em>splines</em> cambia el
 <code>type</code> y dale las opciones que darías a
 <code>geom_spline</code>:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="st">"Todos (nacional)"</span>, type <span class="op">=</span> <span class="st">"spline"</span>, spar <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `n`</span></span>
 <span><span class="co">#&gt; </span></span></code></pre></div>
@@ -661,28 +702,26 @@ default grafica lo que està en <code>datos_covid$casos</code></p>
 <p>Puedes visualizar hasta dos covariables a la vez con
 <code>df_covariates</code> y decirle cuál graficar con
 <code>df_variable</code>:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="st">"Ejemplo defunciones"</span>, </span>
 <span>             df_variable <span class="op">=</span> <span class="st">"n"</span>, </span>
 <span>             df_covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEXO"</span>,<span class="st">"ENTIDAD_FEDERATIVA"</span><span class="op">)</span>,</span>
 <span>             type <span class="op">=</span> <span class="st">"area"</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-27-1.png" width="768"></p>
+<p><img src="intro_files/figure-html/unnamed-chunk-30-1.png" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="otras-funciones-de-interés">Otras funciones de interés<a class="anchor" aria-label="anchor" href="#otras-funciones-de-inter%C3%A9s"></a>
 </h2>
 <p>Faltan por desarrollar las siguientes funciones:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">positividad</span><span class="op">(</span><span class="op">)</span>               <span class="co">#Positividad en pruebas</span></span>
 <span><span class="fu">cfr</span><span class="op">(</span><span class="op">)</span>                       <span class="co">#Case fatality rate</span></span>
 <span><span class="fu">chr</span><span class="op">(</span><span class="op">)</span>                       <span class="co">#Case hospitalization rate</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">rt</a></span><span class="op">(</span><span class="op">)</span>                        <span class="co">#Effective reproductive number</span></span>
 <span><span class="fu">predice</span><span class="op">(</span><span class="op">)</span>                   <span class="co">#Función para predecir casos en automático</span></span>
 <span><span class="fu">suaviza</span><span class="op">(</span><span class="op">)</span>                   <span class="co">#Suavizamiento de los casos observados</span></span>
-<span><span class="fu"><a href="../reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span><span class="op">)</span>  <span class="co">#Descarga de datos de ocupación hospitalaria</span></span>
-<span><span class="fu">descarga_datos_cdmx</span><span class="op">(</span><span class="op">)</span>       <span class="co">#Descarga de datos abiertos cdmx</span></span>
-<span><span class="fu">descarga_datos_variantes</span><span class="op">(</span><span class="op">)</span>  <span class="co">#Descarga de datos de variantes de GISAID</span></span></code></pre></div>
+<span><span class="fu">descarga_datos_cdmx</span><span class="op">(</span><span class="op">)</span>       <span class="co">#Descarga de datos abiertos cdmx</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

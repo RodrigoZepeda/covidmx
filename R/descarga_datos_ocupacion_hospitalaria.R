@@ -38,16 +38,17 @@ descarga_datos_ocupacion_hospitalaria <- function(nivel = c("Estatal","Unidad M\
   message(glue::glue("Estoy descargando datos de:
                      {fname}"))
 
+
   dats <- readr::read_csv(fname,
     locale = readr::locale(encoding = "UTF-8"),
     col_types = readr::cols(
-          .default                     = readr::col_double(),
           Estado                       = readr::col_character(),
           Fecha                        = readr::col_date(format = "%Y-%m-%d"),
           Actualizacion                = readr::col_datetime(format = '%Y-%m-%dT%H:%M:%SZ')
       )
     ) %>%
     janitor::clean_names()
+
 
   return(dats)
 }
