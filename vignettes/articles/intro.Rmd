@@ -32,6 +32,7 @@ devtools::install_github("RodrigoZepeda/covidmx")
 
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 library(covidmx)
+library(dplyr)
 ```
 
 Lo más importante es comenzar descargando la base de datos pública. Esto lo puedes hacer como sigue:
@@ -408,3 +409,4 @@ predice()                   #Función para predecir casos en automático
 suaviza()                   #Suavizamiento de los casos observados
 descarga_datos_cdmx()       #Descarga de datos abiertos cdmx
 ```
+

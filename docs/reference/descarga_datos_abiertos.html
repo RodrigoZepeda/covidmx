@@ -16,11 +16,11 @@ https://www.gob.mx/salud/documentos/datos-abiertos-152127."><!-- mathjax --><scr
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.5.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,13 @@ https://www.gob.mx/salud/documentos/datos-abiertos-152127."><!-- mathjax --><scr
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/RodrigoZepeda/covidmx/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -49,7 +55,7 @@ https://www.gob.mx/salud/documentos/datos-abiertos-152127."><!-- mathjax --><scr
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>DESCARGA BASE DE DATOS ABIERTOS DE LA DIRECCION GENERAL DE EPIDEMIOLOGIA</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/RodrigoZepeda/covidmx/blob/HEAD/R/descarga_datos_abiertos.R" class="external-link"><code>R/descarga_datos_abiertos.R</code></a></small>
       <div class="d-none name"><code>descarga_datos_abiertos.Rd</code></div>
     </div>
 
@@ -87,7 +93,12 @@ de Mexico de la Direccion General de EpidemiologIa en
 <span>    <span class="st">"/datos_abiertos/datos_abiertos_covid19.zip"</span><span class="op">)</span>,</span>
 <span>  site.covid.dic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx/gobmx/salud/"</span>,</span>
 <span>    <span class="st">"datos_abiertos/diccionario_datos_covid19.zip"</span><span class="op">)</span>,</span>
-<span>  nthreads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  nthreads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  unzip_command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span><span class="op">)</span> <span class="op">==</span> <span class="st">"windows"</span>,</span>
+<span>    <span class="st">"\"C:\\Program Files\\7-Zip\\7z.exe\""</span>, <span class="st">"unzip"</span><span class="op">)</span>,</span>
+<span>  unzip_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span><span class="op">)</span> <span class="op">==</span> <span class="st">"windows"</span>, <span class="st">"-x"</span>, <span class="st">"-o"</span><span class="op">)</span>,</span>
+<span>  check_unzip_install <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -186,6 +197,25 @@ should be stored. In most machines <code>"tibble"</code> will result in a memory
 <dt>nthreads</dt>
 <dd><p>Number of threads for writing to <code>MariaDB</code>.</p></dd>
 
+
+<dt>unzip_command</dt>
+<dd><p>Forma de extraer la base de datos de datos abiertos. La forma de
+llamarla es con <code>system2(unzip_command, args = c(unzip_args, file_download_data))</code>.</p></dd>
+
+
+<dt>unzip_args</dt>
+<dd><p>Argumentos de extracción de la base de datos de datos abiertos. La forma de
+llamarla es con <code>system2(unzip_command, args = c(unzip_args, file_download_data))</code>.</p></dd>
+
+
+<dt>check_unzip_install</dt>
+<dd><p>Bandera de verificación para checar si tienes lo necesario para
+unzippear los datos.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Parámetros adicionales para <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">DBI::dbConnect</a></code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -208,10 +238,13 @@ la base tiene errores de registro.</p>
 se encarga de descargar la base de datos de la DGE, abrir el archivo <code>.zip</code> y crear una
 tabla de nombre <code>covidmx</code> dentro de tu database <code>dbname</code>. Asegúrate de que tu usuario <code>user</code>
 tenga permisos de escritura. Para más información sobre instalación y uso de <code>MariaDB</code>
-consulta la viñeta <strong>rellenar</strong>.</p>
+consulta <a href="https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html">el artículo correspondiente</a>.</p>
 <p>Si tienes RAM que te sobre puedes no crear una base de datos en <code>MariaDB</code> sino leer directo
 el archivo <code>csv</code>. Esto se logra con <code>read_format = tibble</code>. No lo recomiendo pues puedes
 terminar con tu sesión de <code>R</code> si se te acaba la memoria.</p>
+<p><em>Windows</em> Para abrir el archivo <code>.zip</code> requieres también descargar e instalar <a href="https://www.7-zip.org/" class="external-link"><code>7Zip</code></a>
+por default el sistema lo busca en <code>C:\\Program Files\\7-Zip\\7z.exe</code> pero si no está ese
+directorio es necesario que en <code>unzip_command</code> especifiques el camino donde se instaló <code>7z.exe</code>.</p>
     </div>
 
     <div class="section level2">

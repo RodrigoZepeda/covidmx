@@ -13,12 +13,6 @@
     <loc>https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html</loc>
   </url>
   <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/articles/articles/Instalacion_de_MARIADB.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/articles/articles/intro.html</loc>
-  </url>
-  <url>
     <loc>https://rodrigozepeda.github.io/covidmx/articles/index.html</loc>
   </url>
   <url>
@@ -31,37 +25,10 @@
     <loc>https://rodrigozepeda.github.io/covidmx/index.html</loc>
   </url>
   <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/acumulados.html</loc>
-  </url>
-  <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/casos.html</loc>
   </url>
   <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/casos_ambulatorios.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/casos_hospitalizados.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/casos_uci.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/covid_plot.html</loc>
-  </url>
-  <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/covidmx-package.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/defunciones.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/defunciones_ambulatorios.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/defunciones_hospitalizados.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/defunciones_uci.html</loc>
   </url>
   <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/descarga_datos_abiertos.html</loc>
@@ -76,39 +43,12 @@
     <loc>https://rodrigozepeda.github.io/covidmx/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/numero_pruebas.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/numero_pruebas_antigeno.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/numero_pruebas_esperando_resultado.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/numero_pruebas_pcr.html</loc>
-  </url>
-  <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/pipe.html</loc>
   </url>
   <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/plot_covid.html</loc>
   </url>
   <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/positividad.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/positividad_antigenos.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/positividad_pcr.html</loc>
-  </url>
-  <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/read_datos_abiertos.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/smooth.html</loc>
-  </url>
-  <url>
-    <loc>https://rodrigozepeda.github.io/covidmx/reference/tasa_cambio.html</loc>
   </url>
 </urlset>
