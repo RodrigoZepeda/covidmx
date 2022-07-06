@@ -8,6 +8,15 @@
 \description{
 Downloads and analyzes data for COVID-19 from the Empidemiology Directorate of Mexico. Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/RodrigoZepeda/covidmx}
+  \item \url{https://rodrigozepeda.github.io/covidmx/}
+  \item Report bugs at \url{https://github.com/RodrigoZepeda/covidmx/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Rodrigo Zepeda-Tello \email{rzepeda17@gmail.com} (\href{https://orcid.org/0000-0003-4471-5270}{ORCID})
 

@@ -31,5 +31,6 @@ Imports:
     zoo
 Suggests: 
     rmarkdown
-URL: https://github.com/RodrigoZepeda/covidmx
+URL: https://github.com/RodrigoZepeda/covidmx,
+    https://rodrigozepeda.github.io/covidmx/
 BugReports: https://github.com/RodrigoZepeda/covidmx/issues

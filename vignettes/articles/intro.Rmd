@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-La librería de `covidmx` está para ayudarte a analizar los datos abiertos de COVID-19 de México, generar estadísticos de interés y visualizaciones rápidas. La idea es ahorrarte tiempo. 
+La librería de `covidmx` está para ayudarte a analizar los datos abiertos de COVID-19 de México, generar estadísticos de interés y visualizaciones rápidas. La idea es ahorrarte tiempo.
 
 ## Instalación
 
@@ -20,18 +20,21 @@ La librería de `covidmx` está para ayudarte a analizar los datos abiertos de C
 devtools::install_github("RodrigoZepeda/covidmx")
 ```
 
-## Descarga de datos de la Dirección General de Epidemiología 
+## Descarga de datos de la Dirección General de Epidemiología
 
-> **NOTA** Necesitas tener una instalación de `MariaDB` o bien muchísima `RAM`. Para 
-instalar `MariaDB` puedes revisar [el artículo respectivo](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html).
-
+> **NOTA** Necesitas tener una instalación de dos cosas:
+>
+> 1.  El gestor de bases de datos `MariaDB` (puedes revisar [el artículo respectivo](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html)).
+>
+> <!-- -->
+>
+> 2.  Un descompresor de archivos `zip`. En Windows sugiero [`7zip`](https://www.7-zip.org/); en Linux/Mac/Unix generalmente ya tienes `unzip` (y si no, instálalo)
 
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 library(covidmx)
-library(dplyr)
 ```
 
-Lo más importante es comenzar descargando la base de datos pública. Esto lo puedes hacer como sigue: 
+Lo más importante es comenzar descargando la base de datos pública. Esto lo puedes hacer como sigue:
 
 ```{r descarga, eval = FALSE}
 datos_covid <- descarga_datos_abiertos(language = "Español")
@@ -43,7 +46,7 @@ datos_covid <- read_datos_abiertos()
 
 La descarga contiene una lista la información de interés está en `datos_covid$dats`
 
-Por default **NO** se agregan las etiquetas a los datos pues es muy tardado hacerlo: 
+Por default **NO** se agregan las etiquetas a los datos pues es muy tardado hacerlo:
 
 ```{r glimpse-1}
 datos_covid$dats %>% dplyr::glimpse()
@@ -56,6 +59,7 @@ datos_covid$dict %>% dplyr::glimpse()
 ```
 
 por ejemplo para ver el diccionario de antígeno:
+
 ```{r glimpse-3}
 datos_covid$dict$RESULTADO_ANTIGENO
 ```
@@ -66,7 +70,7 @@ De hecho no es necesario volver a descargar si reinicias tu sesión de `R` siemp
 read_datos_abiertos() %>% glimpse()
 ```
 
-Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. 
+Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad.
 
 ### Creación de bases agregadas de casos
 
@@ -77,13 +81,15 @@ datos_covid <- datos_covid %>% casos()
 ```
 
 El objeto `casos` por default es un `tibble` con el que ya puedes operar:
+
 ```{r}
 datos_covid$casos %>% head()
 ```
 
-Nota que lo que hace es agregar por fecha y por entidad de la unidad médica los casos. 
+Nota que lo que hace es agregar por fecha y por entidad de la unidad médica los casos.
 
 Se puede filtar por entidad de la unidad médica seleccionando las entidades de interés:
+
 ```{r, eval = FALSE}
 datos_covid %>% 
   casos(entidades = c("QUINTANA ROO","AGUASCALIENTES")) 
@@ -133,7 +139,8 @@ tf <- datos_covid %>%
 
 head(tf$prueba %>% arrange(FECHA_INGRESO, ENTIDAD_NAC))
 ```
-Nota que por default el programa rellena con ceros lo que no se observó. Si quieres cancelar esta opción basta con cambiar `fill_zeros = FALSE`: 
+
+Nota que por default el programa rellena con ceros lo que no se observó. Si quieres cancelar esta opción basta con cambiar `fill_zeros = FALSE`:
 
 ```{r, eval = FALSE}
 datos_covid %>% 
@@ -156,8 +163,7 @@ tf <- datos_covid %>%
 head(tf$prueba %>% arrange(FECHA_INGRESO, ENTIDAD_NAC))
 ```
 
-Si se desea que los casos vengan agregados (es decir `QUINTANA ROO + AGUASCALIENTES`)
-se puede cambiar la opción de `group_by_entidad` a `FALSE`:
+Si se desea que los casos vengan agregados (es decir `QUINTANA ROO + AGUASCALIENTES`) se puede cambiar la opción de `group_by_entidad` a `FALSE`:
 
 ```{r, eval = FALSE}
 datos_covid %>% 
@@ -204,7 +210,7 @@ head((datos_covid %>%
   casos(edad_cut = c(0, 20, 60, Inf), list_name = "prueba"))$prueba)
 ```
 
-Puedes acumular diferentes bases de datos en la misma lista asignándoles nombres: 
+Puedes acumular diferentes bases de datos en la misma lista asignándoles nombres:
 
 ```{r, eval = TRUE}
 datos_covid <- datos_covid %>% 
@@ -294,6 +300,7 @@ datos_covid <- datos_covid %>%
 ```
 
 Puedes ver la base generada así:
+
 ```{r}
 datos_covid$`Ejemplo defunciones` %>% head()
 ```
@@ -326,43 +333,43 @@ Por `default` baja nacional pero también puedes usar "cdmx":
 variantes_covid <- descarga_datos_variantes_GISAID("cdmx")
 ```
 
-
-> No olvides citar a **GISAID** así como a la publicación diaria en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) si las usas. 
+> No olvides citar a **GISAID** así como a la publicación diaria en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) si las usas.
 
 ## Datos de ocupación hospitalaria (Red IRAG)
 
-Puedes descargar los datos de la [Red IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#) de ocupación hospitalaria
-a nivel estatal o a nivel unidad médica mediante `descarga_datos_ocupacion_hospitalaria`. Estos se obtienen de la publicación diaria en [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX). 
+Puedes descargar los datos de la [Red IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#) de ocupación hospitalaria a nivel estatal o a nivel unidad médica mediante `descarga_datos_ocupacion_hospitalaria`. Estos se obtienen de la publicación diaria en [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX).
 
 ```{r}
 estatales <- descarga_datos_ocupacion_hospitalaria()
 ```
 
 Los cuales se ven así:
+
 ```{r ocupacion, fig.height=32, fig.width=8}
 estatales %>% plot_covid(df_covariates = "estado")
 ```
-O bien por unidad médica:
 
+O bien por unidad médica:
 
 ```{r}
 unidad_medica <- descarga_datos_ocupacion_hospitalaria(nivel = "Unidad Médica")
 ```
-que se ven así: 
+
+que se ven así:
+
 ```{r}
 unidad_medica %>% head()
 ```
 
-> No olvides citar a **RED IRAG** así como a la publicación diaria en [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) si las usas. 
+> No olvides citar a **RED IRAG** así como a la publicación diaria en [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) si las usas.
 
-## Gráficas 
+## Gráficas
 
-Para graficar puedes usar la función `plot_covid` por default grafica lo que està en `datos_covid$casos` 
+Para graficar puedes usar la función `plot_covid` por default grafica lo que està en `datos_covid$casos`
 
 ```{r nacionalentidad, fig.height=16, fig.width=8}
 datos_covid %>% plot_covid()
 ```
-
 
 pero puedes pedir otra con el eje x más limpio:
 
@@ -372,12 +379,14 @@ datos_covid %>% plot_covid("Todos (nacional)",
                            date_labels_format = "%m/%y")
 ```
 
-Para visualizar un suavizamiento con _splines_ cambia el `type` y dale las opciones que darías a `geom_spline`: 
+Para visualizar un suavizamiento con *splines* cambia el `type` y dale las opciones que darías a `geom_spline`:
+
 ```{r splineacional}
 datos_covid %>% plot_covid("Todos (nacional)", type = "spline", spar = 0.5)
 ```
 
 Puedes visualizar hasta dos covariables a la vez con `df_covariates` y decirle cuál graficar con `df_variable`:
+
 ```{r, fig.height=32, fig.width=8}
 datos_covid %>% 
   plot_covid("Ejemplo defunciones", 
@@ -399,5 +408,3 @@ predice()                   #Función para predecir casos en automático
 suaviza()                   #Suavizamiento de los casos observados
 descarga_datos_cdmx()       #Descarga de datos abiertos cdmx
 ```
-
-

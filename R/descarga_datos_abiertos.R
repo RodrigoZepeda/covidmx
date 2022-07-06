@@ -25,11 +25,15 @@
 #' se encarga de descargar la base de datos de la DGE, abrir el archivo `.zip` y crear una
 #' tabla de nombre `covidmx` dentro de tu database `dbname`. Asegúrate de que tu usuario `user`
 #' tenga permisos de escritura. Para más información sobre instalación y uso de `MariaDB`
-#' consulta la viñeta **rellenar**.
+#' consulta [el artículo correspondiente](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html).
 #'
 #' Si tienes RAM que te sobre puedes no crear una base de datos en `MariaDB` sino leer directo
 #' el archivo `csv`. Esto se logra con `read_format = tibble`. No lo recomiendo pues puedes
 #' terminar con tu sesión de `R` si se te acaba la memoria.
+#'
+#' _Windows_ Para abrir el archivo `.zip` requieres también descargar e instalar [`7Zip`](https://www.7-zip.org/)
+#' por default el sistema lo busca en `C:\\Program Files\\7-Zip\\7z.exe` pero si no está ese
+#' directorio es necesario que en `unzip_command` especifiques el camino donde se instaló `7z.exe`.
 #'
 #' @param download_method Methods for download file (default = "curl"). Other
 #' options are "internal", "wininet" (Windows) "libcurl", "wget", "curl". See
@@ -62,7 +66,13 @@
 #' `download_dict` is `FALSE` then `dict_file` must be specified to read the dictionary.
 #' @param save_dict If the downloaded dictionary is to be saved in file `dict_file`
 #' @param nthreads Number of threads for writing to `MariaDB`.
-#' @param ... Additional parameters to pass to `dbConnect`
+#' @param unzip_command Forma de extraer la base de datos de datos abiertos. La forma de
+#' llamarla es con `system2(unzip_command, args = c(unzip_args, file_download_data))`.
+#' @param unzip_args Argumentos de extracción de la base de datos de datos abiertos. La forma de
+#' llamarla es con `system2(unzip_command, args = c(unzip_args, file_download_data))`.
+#' @param check_unzip_install Bandera de verificación para checar si tienes lo necesario para
+#' unzippear los datos.
+#' @param ... Parámetros adicionales para `DBI::dbConnect`.
 #' @return List of values:
 #' \itemize{
 #'   \item dats - Database table (if MARIADB) or database in tibble (if tibble)
@@ -103,7 +113,8 @@ descarga_datos_abiertos <- function(
     unzip_command             = ifelse(tolower(.Platform$OS.type) == "windows",
                                     "\"C:\\Program Files\\7-Zip\\7z.exe\"", "unzip"),
     unzip_args                = ifelse(tolower(.Platform$OS.type) == "windows",
-                                       "-x", "-o")
+                                       "-x", "-o"),
+    check_unzip_install       = TRUE,
     ...){
 
   #Check we have mariadb
@@ -114,15 +125,15 @@ descarga_datos_abiertos <- function(
   }
 
   #Check we can unzip
-  if (stringr::str_detect(R.version$os,"darwin|linux")){
-    is_unzip <- system2("which",unzip_command, stdout = T, stderr = T)
+  if (check_unzip_install & stringr::str_detect(R.version$os,"darwin|linux")){
+    is_unzip <- system2("which", unzip_command, stdout = T, stderr = T)
     if (length(is_unzip) == 0){
       stop(glue::glue("Por favor instala unzip:
                             OSX: brew install unzip
                             Ubuntu: apt install unzip"))
     }
-  } else if (stringr::str_detect(tolower(.Platform$OS.type),"windows")){
-    is_unzip <- shell(glue::glue('if exist {unzip_command} echo yes'), 
+  } else if (check_unzip_install & stringr::str_detect(tolower(.Platform$OS.type),"windows")){
+    is_unzip <- shell(glue::glue('if exist {unzip_command} echo yes'),
                       intern = T)
     if (is_unzip != "yes"){
       stop(glue::glue("Por favor instala 7zip de
@@ -211,10 +222,10 @@ descarga_datos_abiertos <- function(
       filecon <- unzip(file_download_data)
       },
       warning = function(cond) {
-        
+
         system2(unzip_command, args = c(unzip_args, file_download_data))
         filecon <- list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
-        
+
         return(filecon)
       },
       error = function(cond){

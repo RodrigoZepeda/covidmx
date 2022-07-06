@@ -28,7 +28,12 @@ descarga_datos_abiertos(
     "/datos_abiertos/datos_abiertos_covid19.zip"),
   site.covid.dic = paste0("http://datosabiertos.salud.gob.mx/gobmx/salud/",
     "datos_abiertos/diccionario_datos_covid19.zip"),
-  nthreads = max(parallel::detectCores() - 1, 1)
+  nthreads = max(parallel::detectCores() - 1, 1),
+  unzip_command = ifelse(tolower(.Platform$OS.type) == "windows",
+    "\\"C:\\\\Program Files\\\\7-Zip\\\\7z.exe\\"", "unzip"),
+  unzip_args = ifelse(tolower(.Platform$OS.type) == "windows", "-x", "-o"),
+  check_unzip_install = TRUE,
+  ...
 )
 }
 \arguments{
@@ -83,6 +88,17 @@ should be stored. In most machines \code{"tibble"} will result in a memory error
 \item{site.covid.dic}{Site for download the covid dictionary for the data}
 
 \item{nthreads}{Number of threads for writing to \code{MariaDB}.}
+
+\item{unzip_command}{Forma de extraer la base de datos de datos abiertos. La forma de
+llamarla es con \code{system2(unzip_command, args = c(unzip_args, file_download_data))}.}
+
+\item{unzip_args}{Argumentos de extracción de la base de datos de datos abiertos. La forma de
+llamarla es con \code{system2(unzip_command, args = c(unzip_args, file_download_data))}.}
+
+\item{check_unzip_install}{Bandera de verificación para checar si tienes lo necesario para
+unzippear los datos.}
+
+\item{...}{Parámetros adicionales para \code{DBI::dbConnect}.}
 }
 \value{
 List of values:
@@ -116,11 +132,15 @@ Necesitas tener una instalación funcionando de \href{https://mariadb.com/}{\cod
 se encarga de descargar la base de datos de la DGE, abrir el archivo \code{.zip} y crear una
 tabla de nombre \code{covidmx} dentro de tu database \code{dbname}. Asegúrate de que tu usuario \code{user}
 tenga permisos de escritura. Para más información sobre instalación y uso de \code{MariaDB}
-consulta la viñeta \strong{rellenar}.
+consulta \href{https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html}{el artículo correspondiente}.
 
 Si tienes RAM que te sobre puedes no crear una base de datos en \code{MariaDB} sino leer directo
 el archivo \code{csv}. Esto se logra con \code{read_format = tibble}. No lo recomiendo pues puedes
 terminar con tu sesión de \code{R} si se te acaba la memoria.
+
+\emph{Windows} Para abrir el archivo \code{.zip} requieres también descargar e instalar \href{https://www.7-zip.org/}{\verb{7Zip}}
+por default el sistema lo busca en \verb{C:\\\\Program Files\\\\7-Zip\\\\7z.exe} pero si no está ese
+directorio es necesario que en \code{unzip_command} especifiques el camino donde se instaló \verb{7z.exe}.
 }
 \examples{
 \dontrun{

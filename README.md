@@ -12,6 +12,8 @@ remotes::install_github("RodrigoZepeda/covidmx")
 
 Puedes descargar la información de variantes de [GISAID](www.gisaid.org) de la [publicación de Github](https://github.com/RodrigoZepeda/VariantesCovid), ocupación hospitalaria de [RED IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome) a partir del [Github](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) y datos abiertos de la [SSA](https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico) todo con los siguientes comandos.
 
+**Nota** Para usar los datos abiertos de la `DGE` te sugiero instalar también `MariaDB` [(ver guía)](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html) y si estás en `Windows` también instala [7-zip](https://www.7-zip.org/). 
+
 ```{r}
 library(covidmx)
 
