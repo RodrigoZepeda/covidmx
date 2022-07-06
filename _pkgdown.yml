@@ -1,4 +1,22 @@
 url: https://rodrigozepeda.github.io/covidmx/
+
+home:
+  title: Análisis de COVID-19 para México
+  description: Descarga y analiza los datos para COVID-19 de la Dirección General de Epidemiología de México.
+
 template:
+  lang: es
   bootstrap: 5
+  bslib:
+    primary: "#006847"
+    base_font: {google: "Roboto"}
+    heading_font: {google: "Playfair Display"}
+  opengraph:
+    image:
+      src: man/figures/sticker_white.png
+      alt: "Logo de covidmx presenta una ola ajustada por splines con varios puntos"
+    twitter:
+      creator: "@RodZepeda"
+      site: "https://rodrigozepeda.github.io/covidmx/"
+      card: summary_large_image
 
