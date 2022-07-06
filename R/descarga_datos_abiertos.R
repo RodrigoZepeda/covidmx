@@ -21,19 +21,19 @@
 #' En la lectura de datos es normal tener un `Warning` por `parsing`:
 #' la base tiene errores de registro.
 #'
-#' Necesitas tener una instalación funcionando de [`MariaDB`](https://mariadb.com/). El programa
+#' Necesitas tener una instalacion funcionando de [`MariaDB`](https://mariadb.com/). El programa
 #' se encarga de descargar la base de datos de la DGE, abrir el archivo `.zip` y crear una
-#' tabla de nombre `covidmx` dentro de tu database `dbname`. Asegúrate de que tu usuario `user`
-#' tenga permisos de escritura. Para más información sobre instalación y uso de `MariaDB`
-#' consulta [el artículo correspondiente](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html).
+#' tabla de nombre `covidmx` dentro de tu database `dbname`. Asegurate de que tu usuario `user`
+#' tenga permisos de escritura. Para mas informacion sobre instalacion y uso de `MariaDB`
+#' consulta [el articulo correspondiente](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html).
 #'
 #' Si tienes RAM que te sobre puedes no crear una base de datos en `MariaDB` sino leer directo
 #' el archivo `csv`. Esto se logra con `read_format = tibble`. No lo recomiendo pues puedes
-#' terminar con tu sesión de `R` si se te acaba la memoria.
+#' terminar con tu sesion de `R` si se te acaba la memoria.
 #'
-#' _Windows_ Para abrir el archivo `.zip` requieres también descargar e instalar [`7Zip`](https://www.7-zip.org/)
-#' por default el sistema lo busca en `C:\\Program Files\\7-Zip\\7z.exe` pero si no está ese
-#' directorio es necesario que en `unzip_command` especifiques el camino donde se instaló `7z.exe`.
+#' _Windows_ Para abrir el archivo `.zip` requieres tambien descargar e instalar [`7Zip`](https://www.7-zip.org/)
+#' por default el sistema lo busca en `C:\\Program Files\\7-Zip\\7z.exe` pero si no esta ese
+#' directorio es necesario que en `unzip_command` especifiques el camino donde se instalo `7z.exe`.
 #'
 #' @param download_method Methods for download file (default = "curl"). Other
 #' options are "internal", "wininet" (Windows) "libcurl", "wget", "curl". See
@@ -68,11 +68,11 @@
 #' @param nthreads Number of threads for writing to `MariaDB`.
 #' @param unzip_command Forma de extraer la base de datos de datos abiertos. La forma de
 #' llamarla es con `system2(unzip_command, args = c(unzip_args, file_download_data))`.
-#' @param unzip_args Argumentos de extracción de la base de datos de datos abiertos. La forma de
+#' @param unzip_args Argumentos de extraccion de la base de datos de datos abiertos. La forma de
 #' llamarla es con `system2(unzip_command, args = c(unzip_args, file_download_data))`.
-#' @param check_unzip_install Bandera de verificación para checar si tienes lo necesario para
+#' @param check_unzip_install Bandera de verificacion para checar si tienes lo necesario para
 #' unzippear los datos.
-#' @param ... Parámetros adicionales para `DBI::dbConnect`.
+#' @param ... Parametros adicionales para `DBI::dbConnect`.
 #' @return List of values:
 #' \itemize{
 #'   \item dats - Database table (if MARIADB) or database in tibble (if tibble)
@@ -120,8 +120,8 @@ descarga_datos_abiertos <- function(
   #Check we have mariadb
   if (!RMariaDB::mariadbHasDefault()) {
     url_maria <- "https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html"
-    stop(glue::glue("No puedo encontrar la conexión con MariaDB.
-                    Ve a {url_maria} para saber cómo instalar."))
+    stop(glue::glue("No puedo encontrar la conexion con MariaDB.
+                    Ve a {url_maria} para saber como instalar."))
   }
 
   #Check we can unzip
