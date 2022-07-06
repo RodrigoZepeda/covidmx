@@ -68,7 +68,7 @@ read_datos_abiertos() %>% glimpse()
 
 Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. 
 
-## Casos de covid
+### Creación de bases agregadas de casos
 
 Las bases de datos se agregan a la lista bajo el nombre default `casos`. Por ejemplo:
 
@@ -298,7 +298,7 @@ Puedes ver la base generada así:
 datos_covid$`Ejemplo defunciones` %>% head()
 ```
 
-## Desconexión
+### Desconexión de MariaDB
 
 Una vez que terminaste de trabajar con la base original en `MariaDB` deconecta el puntero haciendo:
 

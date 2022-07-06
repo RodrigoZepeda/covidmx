@@ -62,6 +62,7 @@
 #' `download_dict` is `FALSE` then `dict_file` must be specified to read the dictionary.
 #' @param save_dict If the downloaded dictionary is to be saved in file `dict_file`
 #' @param nthreads Number of threads for writing to `MariaDB`.
+#' @param ... Additional parameters to pass to `dbConnect`
 #' @return List of values:
 #' \itemize{
 #'   \item dats - Database table (if MARIADB) or database in tibble (if tibble)
@@ -98,8 +99,27 @@ descarga_datos_abiertos <- function(
                                        "/datos_abiertos/datos_abiertos_covid19.zip"),
     site.covid.dic            = paste0("http://datosabiertos.salud.gob.mx/gobmx/salud/",
                                        "datos_abiertos/diccionario_datos_covid19.zip"),
-    nthreads                  = max(parallel::detectCores() - 1, 1)){
+    nthreads                  = max(parallel::detectCores() - 1, 1),
+    ...){
 
+  #Check we have mariadb
+  if (!RMariaDB::mariadbHasDefault()) {
+    url_maria <- "https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html"
+    stop(glue::glue("No puedo encontrar la conexión con MariaDB.
+                    Ve a {url_maria} para saber cómo instalar."))
+  }
+
+  #Check we can unzip
+  if (stringr::str_detect(R.version$os,"darwin|linux")){
+    is_unzip <- system2("which","unzip", stdout = T, stderr = T)
+    if (length(is_unzip) == 0){
+      stop(glue::glue("Por favor instala unzip:
+                            OSX: brew install unzip
+                            Ubuntu: apt install unzip"))
+    }
+  } else if (str_detect(tolower(.Platform$OS.type),"windows")){
+    stop("Por ahora no funciona en Windows")
+  }
 
   #Define dictionary global vars
   diccionario.covid.asma                    <- NULL
@@ -180,8 +200,14 @@ descarga_datos_abiertos <- function(
       filecon <- unzip(file_download_data)
       },
       warning = function(cond) {
-        system2("unzip", args = c("-o",file_download_data))
-        filecon <- list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
+        if (stringr::str_detect(R.version$os,"darwin|linux")){
+          system2("unzip", args = c("-o",file_download_data))
+          filecon <- list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
+        } else if (str_detect(tolower(.Platform$OS.type),"windows")){
+          stop("Por ahora no funciona en Windows")
+          system2("7z.exe", args = c("x",file_download_data))
+          filecon <- list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
+        }
         return(filecon)
       },
       error = function(cond){
@@ -218,7 +244,8 @@ descarga_datos_abiertos <- function(
                           user     = user,
                           group    = group,
                           password = password,
-                          dbname   = dbname)
+                          dbname   = dbname,
+                          ...)
 
       header <- readr::read_csv(filecon,
                                 locale = readr::locale(encoding = "UTF-8"),
