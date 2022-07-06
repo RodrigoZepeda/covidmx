@@ -1,5 +1,9 @@
 # covidmx <img src="man/figures/covidmx.png" width="121px" height="140px" align="right" style="padding-left:10px;" />
 
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/RodrigoZepeda/covidmx/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RodrigoZepeda/covidmx/actions/workflows/R-CMD-check.yaml)
+  <!-- badges: end -->
+  
 Descarga, etiqueta y datos abiertos de COVID-19 en México. El propósito de este paquete es hacer la descarga, análisis y graficación de manera rápida para que tú no tengas que preocuparte por bajar el archivo a tiempo, agrupar funciones o realizar visualizaciones sino en lo importante: analizar la información. 
 
 # Instalación
