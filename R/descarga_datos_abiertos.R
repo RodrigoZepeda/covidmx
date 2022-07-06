@@ -100,6 +100,10 @@ descarga_datos_abiertos <- function(
     site.covid.dic            = paste0("http://datosabiertos.salud.gob.mx/gobmx/salud/",
                                        "datos_abiertos/diccionario_datos_covid19.zip"),
     nthreads                  = max(parallel::detectCores() - 1, 1),
+    unzip_command             = ifelse(tolower(.Platform$OS.type) == "windows",
+                                    "\"C:\\Program Files\\7-Zip\\7z.exe\"", "unzip"),
+    unzip_args                = ifelse(tolower(.Platform$OS.type) == "windows",
+                                       "-x", "-o")
     ...){
 
   #Check we have mariadb
@@ -111,14 +115,21 @@ descarga_datos_abiertos <- function(
 
   #Check we can unzip
   if (stringr::str_detect(R.version$os,"darwin|linux")){
-    is_unzip <- system2("which","unzip", stdout = T, stderr = T)
+    is_unzip <- system2("which",unzip_command, stdout = T, stderr = T)
     if (length(is_unzip) == 0){
       stop(glue::glue("Por favor instala unzip:
                             OSX: brew install unzip
                             Ubuntu: apt install unzip"))
     }
-  } else if (str_detect(tolower(.Platform$OS.type),"windows")){
-    stop("Por ahora no funciona en Windows")
+  } else if (stringr::str_detect(tolower(.Platform$OS.type),"windows")){
+    is_unzip <- shell(glue::glue('if exist {unzip_command} echo yes'), 
+                      intern = T)
+    if (is_unzip != "yes"){
+      stop(glue::glue("Por favor instala 7zip de
+                      https://www.7-zip.org/
+                      y en unzip_command pon el camino hacia el archivo 7z.exe
+                      Ej: unzip_command=\"'C:\\Program Files\\7-Zip\\7z.exe'\""))
+    }
   }
 
   #Define dictionary global vars
@@ -200,14 +211,10 @@ descarga_datos_abiertos <- function(
       filecon <- unzip(file_download_data)
       },
       warning = function(cond) {
-        if (stringr::str_detect(R.version$os,"darwin|linux")){
-          system2("unzip", args = c("-o",file_download_data))
-          filecon <- list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
-        } else if (str_detect(tolower(.Platform$OS.type),"windows")){
-          stop("Por ahora no funciona en Windows")
-          system2("7z.exe", args = c("x",file_download_data))
-          filecon <- list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
-        }
+        
+        system2(unzip_command, args = c(unzip_args, file_download_data))
+        filecon <- list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
+        
         return(filecon)
       },
       error = function(cond){
