@@ -16,8 +16,8 @@ La librería de `covidmx` está para ayudarte a analizar los datos abiertos de C
 ## Instalación
 
 ```{r install, eval = FALSE}
-#install.packages("devtools")
-devtools::install_github("RodrigoZepeda/covidmx")
+#install.packages("remotes")
+remotes::install_github("RodrigoZepeda/covidmx")
 ```
 
 ## Descarga de datos de la Dirección General de Epidemiología
@@ -409,4 +409,3 @@ predice()                   #Función para predecir casos en automático
 suaviza()                   #Suavizamiento de los casos observados
 descarga_datos_cdmx()       #Descarga de datos abiertos cdmx
 ```
-

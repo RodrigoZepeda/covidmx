@@ -8,9 +8,10 @@ template:
   lang: es
   bootstrap: 5
   bslib:
+    headings-color: "#003423"
     primary: "#006847"
-    base_font: {google: "Roboto"}
-    heading_font: {google: "Playfair Display"}
+    base_font: {google: "Playfair Display"}
+    heading_font: {google: "Playfair Display SC"}
   opengraph:
     image:
       src: man/figures/sticker_white.png
