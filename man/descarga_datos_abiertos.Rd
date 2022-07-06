@@ -92,13 +92,13 @@ should be stored. In most machines \code{"tibble"} will result in a memory error
 \item{unzip_command}{Forma de extraer la base de datos de datos abiertos. La forma de
 llamarla es con \code{system2(unzip_command, args = c(unzip_args, file_download_data))}.}
 
-\item{unzip_args}{Argumentos de extracción de la base de datos de datos abiertos. La forma de
+\item{unzip_args}{Argumentos de extraccion de la base de datos de datos abiertos. La forma de
 llamarla es con \code{system2(unzip_command, args = c(unzip_args, file_download_data))}.}
 
-\item{check_unzip_install}{Bandera de verificación para checar si tienes lo necesario para
+\item{check_unzip_install}{Bandera de verificacion para checar si tienes lo necesario para
 unzippear los datos.}
 
-\item{...}{Parámetros adicionales para \code{DBI::dbConnect}.}
+\item{...}{Parametros adicionales para \code{DBI::dbConnect}.}
 }
 \value{
 List of values:
@@ -128,19 +128,19 @@ While reading the data it is perfectly normal to get a \code{Warning} for
 En la lectura de datos es normal tener un \code{Warning} por \code{parsing}:
 la base tiene errores de registro.
 
-Necesitas tener una instalación funcionando de \href{https://mariadb.com/}{\code{MariaDB}}. El programa
+Necesitas tener una instalacion funcionando de \href{https://mariadb.com/}{\code{MariaDB}}. El programa
 se encarga de descargar la base de datos de la DGE, abrir el archivo \code{.zip} y crear una
-tabla de nombre \code{covidmx} dentro de tu database \code{dbname}. Asegúrate de que tu usuario \code{user}
-tenga permisos de escritura. Para más información sobre instalación y uso de \code{MariaDB}
-consulta \href{https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html}{el artículo correspondiente}.
+tabla de nombre \code{covidmx} dentro de tu database \code{dbname}. Asegurate de que tu usuario \code{user}
+tenga permisos de escritura. Para mas informacion sobre instalacion y uso de \code{MariaDB}
+consulta \href{https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html}{el articulo correspondiente}.
 
 Si tienes RAM que te sobre puedes no crear una base de datos en \code{MariaDB} sino leer directo
 el archivo \code{csv}. Esto se logra con \code{read_format = tibble}. No lo recomiendo pues puedes
-terminar con tu sesión de \code{R} si se te acaba la memoria.
+terminar con tu sesion de \code{R} si se te acaba la memoria.
 
-\emph{Windows} Para abrir el archivo \code{.zip} requieres también descargar e instalar \href{https://www.7-zip.org/}{\verb{7Zip}}
-por default el sistema lo busca en \verb{C:\\\\Program Files\\\\7-Zip\\\\7z.exe} pero si no está ese
-directorio es necesario que en \code{unzip_command} especifiques el camino donde se instaló \verb{7z.exe}.
+\emph{Windows} Para abrir el archivo \code{.zip} requieres tambien descargar e instalar \href{https://www.7-zip.org/}{\verb{7Zip}}
+por default el sistema lo busca en \verb{C:\\\\Program Files\\\\7-Zip\\\\7z.exe} pero si no esta ese
+directorio es necesario que en \code{unzip_command} especifiques el camino donde se instalo \verb{7z.exe}.
 }
 \examples{
 \dontrun{
