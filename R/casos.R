@@ -198,7 +198,7 @@ casos <- function(datos_covid = NULL,
            "ENTIDAD_NAC"        = "ENTIDAD_NAC",
            "Nacimiento"         = "ENTIDAD_NAC",
            "NAC"                = "ENTIDAD_NAC",
-           stop(paste0("Seleccione entidad_tipo como: Unidad M\u00e9dica /",
+           stop(paste0("Seleccione entidad_tipo como: Unidad Medica /",
                        "Residencia / Nacimiento"))
     )
 
@@ -214,8 +214,8 @@ casos <- function(datos_covid = NULL,
            "Defuncion"        = "FECHA_DEF",
            "DEFUNCION"        = "FECHA_DEF",
            "DEF"              = "FECHA_DEF",
-           stop(paste0("Seleccione fecha_tipo como: Ingreso / S\u00edntomas",
-                       "/ Defunci\u00f3n"))
+           stop(paste0("Seleccione fecha_tipo como: Ingreso / Sintomas",
+                       "/ Defuncion"))
     )
 
   #Checamos la variable de entidades
