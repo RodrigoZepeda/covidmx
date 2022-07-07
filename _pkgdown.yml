@@ -4,10 +4,21 @@ home:
   title: Análisis de COVID-19 para México
   description: Descarga y analiza los datos para COVID-19 de la Dirección General de Epidemiología de México.
 
+navbar:
+  structure:
+    right: [twitter, github]
+  components:
+    twitter:
+      icon: fa-twitter
+      href: http://twitter.com/RodZepeda
+      aria-label: Twitter
+
 template:
   lang: es
   bootstrap: 5
   bslib:
+    card-color: "#e4ebda"
+    code-bg: "#e4ebda"
     headings-color: "#003423"
     primary: "#006847"
     base_font: {google: "Playfair Display"}
@@ -18,6 +29,4 @@ template:
       alt: "Logo de covidmx presenta una ola ajustada por splines con varios puntos"
     twitter:
       creator: "@RodZepeda"
-      site: "https://rodrigozepeda.github.io/covidmx/"
       card: summary_large_image
-
