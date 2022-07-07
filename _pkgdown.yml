@@ -29,4 +29,4 @@ template:
       alt: "Logo de covidmx presenta una ola ajustada por splines con varios puntos"
     twitter:
       creator: "@RodZepeda"
-      card: summary_large_image
+      card: summary
