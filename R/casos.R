@@ -140,10 +140,10 @@ casos <- function(datos_covid = NULL,
                                   "VERACRUZ DE IGNACIO DE LA LLAVE",
                                   "YUCAT\u00c1N", "ZACATECAS"),
                   group_by_entidad   = TRUE,
-                  entidad_tipo       = c("Unidad M\u00e9dica", "Residencia",
+                  entidad_tipo       = c("Unidad Medica", "Residencia",
                                          "Nacimiento"),
-                  fecha_tipo         = c("S\u00edntomas", "Ingreso",
-                                         "Defunci\u00f3n"),
+                  fecha_tipo         = c("Sintomas", "Ingreso",
+                                         "Defuncion"),
                   tipo_clasificacion = c("Sospechosos","Confirmados COVID",
                                          "Negativo a COVID","Inv\u00e1lido",
                                          "No realizado"),
@@ -186,36 +186,18 @@ casos <- function(datos_covid = NULL,
 
   #> ENTIDAD----
   #Seleccionar la entidad
-  entidad_tipo <-
-    switch(entidad_tipo[1],
-           "Unidad M\u00e9dica" = "ENTIDAD_UM",
-           "ENTIDAD_UM"         = "ENTIDAD_UM",
-           "Unidad Medica"      = "ENTIDAD_UM",
-           "UM"                 = "ENTIDAD_UM",
-           "ENTIDAD_RES"        = "ENTIDAD_RES",
-           "Residencia"         = "ENTIDAD_RES",
-           "RES"                = "ENTIDAD_RES",
-           "ENTIDAD_NAC"        = "ENTIDAD_NAC",
-           "Nacimiento"         = "ENTIDAD_NAC",
-           "NAC"                = "ENTIDAD_NAC",
-           stop(paste0("Seleccione entidad_tipo como: Unidad Medica /",
-                       "Residencia / Nacimiento"))
-    )
+  entidad_tipo <- dplyr::case_when(
+    str_detect(tolower(entidad_tipo[1]), "m*dica|entidad_um") ~ "ENTIDAD_UM",
+    str_detect(tolower(entidad_tipo[1]), "residencia|entidad_res") ~ "ENTIDAD_RES",
+    str_detect(tolower(entidad_tipo[1]), "nacimiento|entidad_nac") ~ "ENTIDAD_NAC",
+  )
 
   #Seleccionar la entidad
   fecha_tipo <-
-    switch(fecha_tipo[1],
-           "Ingreso"          = "FECHA_INGRESO",
-           "INGRESO"          = "FECHA_INGRESO",
-           "S\u00edntomas"    = "FECHA_SINTOMAS",
-           "Sintomas"         = "FECHA_SINTOMAS",
-           "SINTOMAS"         = "FECHA_SINTOMAS",
-           "Defunci\u00f3n"   = "FECHA_DEF",
-           "Defuncion"        = "FECHA_DEF",
-           "DEFUNCION"        = "FECHA_DEF",
-           "DEF"              = "FECHA_DEF",
-           stop(paste0("Seleccione fecha_tipo como: Ingreso / Sintomas",
-                       "/ Defuncion"))
+    dplyr::case_when(
+           stringr::str_detect(tolower(fecha_tipo[1]), "ingreso") ~ "FECHA_INGRESO",
+           stringr::str_detect(tolower(fecha_tipo[1]), "s*ntomas") ~ "FECHA_SINTOMAS",
+           stringr::str_detect(tolower(fecha_tipo[1]), "defunci*n|fecha_def") ~ "FECHA_DEF"
     )
 
   #Checamos la variable de entidades
