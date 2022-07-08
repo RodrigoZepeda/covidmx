@@ -93,32 +93,30 @@
 #'\dontrun{
 #'datos_covid <- descarga_datos_abiertos(language = "Espanol")
 #'
-#'#Casos a nivel nacional
-#'datos_covid <- datos_covid %>% casos()
+#'#Casos a nivel nacional por estado por tipo de prueba
+#'datos_covid <- datos_covid %>% positividad()
 #'head(datos_covid$casos)
 #'
-#'#Defunciones nacional
-#'defunciones <- datos_covid %>% casos(defunciones = TRUE)
+#'#Total nacional
+#'defunciones <- datos_covid %>% positividad(group_by_entidad = FALSE)
 #'
 #'#Positivos en Jalisco y Colima
-#'casos_col_jal <- datos_covid %>% casos(entidades = c("JALISCO","COLIMA"))
+#'casos_col_jal <- datos_covid %>% positividad(entidades = c("JALISCO","COLIMA"))
 #'
-#'#Agrupando casos por tipo de clasificacion
+#'#Agrupando ambas pruebas en una sola
 #'confirmados <- datos_covid %>%
 #'     positividad(entidades = c("JALISCO","COLIMA"),
-#'           group_by_tipo_clasificacion = TRUE)
+#'           group_by_tipo_prueba = FALSE)
 #'
 #'#Regresa la suma de los de COLIMA + JALISCO
 #'casos_col_jal <- datos_covid %>%
 #'     positividad(entidades = c("JALISCO","COLIMA"),
-#'           group_by_tipo_clasificacion = TRUE,
 #'           tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
 #'           group_by_tipo_paciente = TRUE)
 #'
 #'#Si deseas agrupar por una variable que no este en las opciones
 #'casos_col_jal <- datos_covid %>%
 #'     positividad(entidades = c("JALISCO","COLIMA"),
-#'           group_by_tipo_clasificacion = TRUE,
 #'           tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
 #'           group_by_tipo_paciente = TRUE,
 #'           .grouping_vars = c("DIABETES"))
@@ -233,7 +231,9 @@ positividad <- function(datos_covid = NULL,
 
     .pcr <- .pcr_totales %>%
       dplyr::left_join(.pcr_positivos, by = groups) %>%
-      dplyr::mutate(!!as.symbol("Positividad") := !!as.symbol("n_positivos") / !!as.symbol("n_pruebas"))
+      dplyr::mutate(!!as.symbol("Positividad") := dplyr::if_else(
+        !!as.symbol("n_pruebas") != 0,
+        as.numeric(!!as.symbol("n_positivos")) / as.numeric(!!as.symbol("n_pruebas")), NA_real_))
 
   }
 
@@ -272,7 +272,9 @@ positividad <- function(datos_covid = NULL,
 
     .anti <- .anti_totales %>%
       dplyr::left_join(.anti_positivos, by = groups) %>%
-      dplyr::mutate(!!as.symbol("Positividad") := !!as.symbol("n_positivos") / !!as.symbol("n_pruebas"))
+      dplyr::mutate(!!as.symbol("Positividad") := dplyr::if_else(
+        !!as.symbol("n_pruebas") != 0,
+        as.numeric(!!as.symbol("n_positivos")) / as.numeric(!!as.symbol("n_pruebas")), NA_real_))
 
   }
 

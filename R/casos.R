@@ -444,27 +444,30 @@ casos <- function(datos_covid = NULL,
   }
 
   if (nrow(pacientes) > 0 & group_by_tipo_paciente){
-    name_join        <- c("CLAVE")
-    names(name_join) <- "TIPO_PACIENTE"
-    colnames(datos_covid$dict["PACIENTE"][[1]]) <- c("CLAVE","DESCRIPCION_TIPO_PACIENTE")
+    name_join             <- c("CLAVE")
+    names(name_join)      <- "TIPO_PACIENTE"
+    paciente_df           <- datos_covid$dict["PACIENTE"][[1]]
+    colnames(paciente_df) <- c("CLAVE","DESCRIPCION_TIPO_PACIENTE")
     .casos <- .casos %>%
-      dplyr::left_join(datos_covid$dict["PACIENTE"][[1]], by = name_join)
+      dplyr::left_join(paciente_df, by = name_join)
   }
 
   if (nrow(ucis) > 0 & group_by_tipo_uci){
     name_join        <- c("CLAVE")
     names(name_join) <- "UCI"
-    colnames(datos_covid$dict["UCI"][[1]]) <- c("CLAVE","DESCRIPCION_TIPO_UCI")
+    uci_df           <- datos_covid$dict["UCI"][[1]]
+    colnames(uci_df) <- c("CLAVE","DESCRIPCION_TIPO_UCI")
     .casos <- .casos %>%
-      dplyr::left_join(datos_covid$dict["UCI"][[1]], by = name_join)
+      dplyr::left_join(uci_df, by = name_join)
   }
 
   if (nrow(sectores) > 0 & group_by_tipo_sector){
-    name_join        <- c("CLAVE")
-    names(name_join) <- "SECTOR"
-    colnames(datos_covid$dict["SECTOR"][[1]]) <- c("CLAVE","DESCRIPCION_TIPO_SECTOR")
+    name_join           <- c("CLAVE")
+    names(name_join)    <- "SECTOR"
+    sector_df           <- datos_covid$dict["SECTOR"][[1]]
+    colnames(sector_df) <- c("CLAVE","DESCRIPCION_TIPO_SECTOR")
     .casos <- .casos %>%
-      dplyr::left_join(datos_covid$dict["SECTOR"][[1]], by = name_join)
+      dplyr::left_join(sector_df, by = name_join)
   }
 
   .casos        <- list(.casos)

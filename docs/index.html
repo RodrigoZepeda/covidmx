@@ -43,13 +43,15 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="articles/covidmx.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/Instalacion_de_MARIADB.html">Instalación de MariaDB</a>
-    <a class="dropdown-item" href="articles/intro.html">Introducción a covidmx</a>
   </div>
 </li>
       </ul>
@@ -97,13 +99,13 @@
 <pre class="{r}"><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RodrigoZepeda/covidmx" class="external-link">covidmx</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Datos de variantes (cdmx o nacional)</span></span>
-<span><span class="va">variantes</span>   <span class="op">&lt;-</span> <span class="fu">covidmx</span><span class="fu">::</span><span class="fu"><a href="reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"nacional"</span><span class="op">)</span></span>
+<span><span class="va">variantes</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"nacional"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Datos de ocupación hopsitalaria ('Estatal' o 'Unidad Médica')</span></span>
-<span><span class="va">ocupacion</span>   <span class="op">&lt;-</span> <span class="fu">covidmx</span><span class="fu">::</span><span class="fu"><a href="reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span><span class="st">"Estatal"</span><span class="op">)</span></span>
+<span><span class="va">ocupacion</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span><span class="st">"Estatal"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Descarga datos abiertos de covid, guarda en MARIADB y te da una conexión</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">covidmx</span><span class="fu">::</span><span class="fu"><a href="reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span></span>
 <span>    user      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_user"</span><span class="op">)</span>,</span>
 <span>    password  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_password"</span><span class="op">)</span>,</span>
 <span>    dbname    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_dbname"</span><span class="op">)</span>,</span>
@@ -112,8 +114,17 @@
 <span>    port      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_port"</span><span class="op">)</span></span>
 <span><span class="op">)</span> </span>
 <span></span>
+<span><span class="co">#Una vez descargados la próxima vez que los quieras basta con leerlos</span></span>
+<span><span class="co"># datos_covid &lt;- read_datos_abiertos() </span></span>
+<span></span>
 <span><span class="co">#Calcula los casos (totales) por entidad y devuelve un tibble</span></span>
 <span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Calcula la cantidad de pruebas realizadas</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/numero_pruebas.html">numero_pruebas</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Calcula la positividad</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/positividad.html">positividad</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#¡Grafica!</span></span>
 <span><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>

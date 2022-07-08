@@ -143,7 +143,6 @@ casos_col_jal <- datos_covid \%>\%
 #Si deseas agrupar por una variable que no este en las opciones asi como tipo paciente
 casos_col_jal <- datos_covid \%>\%
     numero_pruebas(entidades = c("JALISCO","COLIMA"),
-          group_by_tipo_clasificacion = TRUE,
           tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
           group_by_tipo_paciente = TRUE,
           .grouping_vars = c("DIABETES"),

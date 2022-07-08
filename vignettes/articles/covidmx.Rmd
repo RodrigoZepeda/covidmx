@@ -73,7 +73,7 @@ read_datos_abiertos() %>% glimpse()
 
 Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad.
 
-### Creación de bases agregadas de casos
+### Casos (Incidencia)
 
 Las bases de datos se agregan a la lista bajo el nombre default `casos`. Por ejemplo:
 
@@ -306,9 +306,51 @@ Puedes ver la base generada así:
 datos_covid$`Ejemplo defunciones` %>% head()
 ```
 
+### Número de pruebas
+
+Para calcular el número de pruebas los argumentos son los mismos que la función de `casos` con el agregado de que `tipo_prueba` es un vector donde se seleccionan las pruebas a considerar (`Antígeno` o `PCR`) y `group_by_tipo_prueba` agrupa los resultados por tipo de prueba
+
+```{r}
+datos_covid <- datos_covid %>% 
+  numero_pruebas(entidades = c("CHIHUAHUA","COAHUILA"),
+                 tipo_prueba = c("Antigeno", "PCR"),
+                 group_by_tipo_prueba = TRUE)
+
+datos_covid$numero_pruebas %>% head()
+```
+
+```{r, warning = FALSE}
+datos_covid$numero_pruebas %>% plot_covid(facet_ncol = 2)
+```
+
+
+### Positividad 
+
+Para calcular la positividad la única forma actual es con un `tibble`.  Los argumentos son los mismos que la función de `casos` con el agregado de que `tipo_prueba` es un vector donde se seleccionan las pruebas a considerar (`Antígeno` o `PCR`) y `group_by_tipo_prueba` agrupa los resultados por tipo de prueba. La variable `remove_inconclusive` es una booleana (default `TRUE`) que elimina del denominador de la positividad las pruebas sin resultado o con resultado no concluyente. 
+
+> **Nota** Positividad es la variable más lenta de calcular por ahora. Ten paciencia
+
+```{r}
+datos_covid <- datos_covid %>% 
+  positividad(entidades = c("CHIHUAHUA","COAHUILA"),
+                 tipo_prueba = c("Antigeno", "PCR"),
+                 group_by_tipo_prueba = TRUE)
+
+datos_covid$positividad %>% head()
+```
+
+```{r, warning = FALSE}
+datos_covid$positividad %>% 
+  plot_covid(facet_ncol = 2, 
+             facet_scale = "fixed",
+             type = "spline",
+             df_variable = "Positividad",
+             df_covariates = c("TIPO_PRUEBA", "ENTIDAD_FEDERATIVA"))
+```
+
 ### Desconexión de MariaDB
 
-Una vez que terminaste de trabajar con la base original en `MariaDB` deconecta el puntero haciendo:
+Una vez que terminaste de trabajar con la base original en `MariaDB` deconecta el pointer haciendo:
 
 ```{r}
 datos_covid$disconnect()

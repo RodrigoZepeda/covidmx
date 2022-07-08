@@ -22,13 +22,13 @@ Puedes descargar la información de variantes de [GISAID](www.gisaid.org) de la 
 library(covidmx)
 
 #Datos de variantes (cdmx o nacional)
-variantes   <- covidmx::descarga_datos_variantes_GISAID("nacional")
+variantes   <- descarga_datos_variantes_GISAID("nacional")
 
 #Datos de ocupación hopsitalaria ('Estatal' o 'Unidad Médica')
-ocupacion   <- covidmx::descarga_datos_ocupacion_hospitalaria("Estatal")
+ocupacion   <- descarga_datos_ocupacion_hospitalaria("Estatal")
 
 #Descarga datos abiertos de covid, guarda en MARIADB y te da una conexión
-datos_covid <- covidmx::descarga_datos_abiertos(
+datos_covid <- descarga_datos_abiertos(
     user      = Sys.getenv("MariaDB_user"),
     password  = Sys.getenv("MariaDB_password"),
     dbname    = Sys.getenv("MariaDB_dbname"),
@@ -37,8 +37,17 @@ datos_covid <- covidmx::descarga_datos_abiertos(
     port      = Sys.getenv("MariaDB_port")
 ) 
 
+#Una vez descargados la próxima vez que los quieras basta con leerlos
+# datos_covid <- read_datos_abiertos() 
+
 #Calcula los casos (totales) por entidad y devuelve un tibble
 datos_covid <- datos_covid %>% casos()
+
+#Calcula la cantidad de pruebas realizadas
+datos_covid <- datos_covid %>% numero_pruebas()
+
+#Calcula la positividad
+datos_covid <- datos_covid %>% positividad()
 
 #¡Grafica!
 datos_covid %>% plot_covid()

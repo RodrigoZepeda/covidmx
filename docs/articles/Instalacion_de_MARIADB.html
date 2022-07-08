@@ -43,13 +43,15 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="../articles/covidmx.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Instalacion_de_MARIADB.html">Instalación de MariaDB</a>
-    <a class="dropdown-item" href="../articles/intro.html">Introducción a covidmx</a>
   </div>
 </li>
       </ul>
@@ -209,7 +211,7 @@ de datos cada vez que lo uses</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span></span>
 <span>  user     <span class="op">=</span> <span class="st">"tu_usuario"</span>,</span>
 <span>  password <span class="op">=</span> <span class="st">"tu_password"</span>,</span>
-<span>  dbname   <span class="op">=</span> <span class="st">"COVIDMX"</span>,</span>
+<span>  dbname   <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>la opción sugerida es crear variables ambientales ya sea en cada
@@ -217,7 +219,7 @@ script:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"MariaDB_user"</span>     <span class="op">=</span>  <span class="st">"tu_usuario"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"MariaDB_password"</span> <span class="op">=</span>  <span class="st">"tu_password"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"MariaDB_dbname"</span>   <span class="op">=</span>  <span class="st">"COVIDMX"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"MariaDB_dbname"</span>   <span class="op">=</span>  <span class="st">"covidmx"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Estos cámbialos si sabes lo que estás haciendo son otros argumentos de DBI::dbConnect </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"MariaDB_host"</span>  <span class="op">=</span>  <span class="st">"localhost"</span><span class="op">)</span></span>
@@ -227,7 +229,7 @@ script:</p>
 <code>.Renviron</code>:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">MariaDB_user</span>     = <span class="st">"tu_usuario"</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">MariaDB_password</span> = <span class="st">"tu_password"</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">MariaDB_dbname</span>   = <span class="st">"COVIDMX"</span></span></code></pre></div>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">MariaDB_dbname</span>   = <span class="st">"covidmx"</span></span></code></pre></div>
 <p>Recuerda que para editar el <code>.Renviron</code> desde
 <code>R</code> puedes hacer <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>,
 editar y luego reiniciar <code>R</code>.</p>

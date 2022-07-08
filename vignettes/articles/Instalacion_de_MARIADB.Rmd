@@ -141,7 +141,7 @@ En `R` para descargar la base de datos necesitas asignar en `descarga_datos_abie
 descarga_datos_abiertos(
   user     = "tu_usuario",
   password = "tu_password",
-  dbname   = "COVIDMX",
+  dbname   = "covidmx",
   ...
 )
 ```
@@ -151,7 +151,7 @@ la opción sugerida es crear variables ambientales ya sea en cada script:
 ```{r, eval = FALSE}
 Sys.setenv("MariaDB_user"     =  "tu_usuario")
 Sys.setenv("MariaDB_password" =  "tu_password")
-Sys.setenv("MariaDB_dbname"   =  "COVIDMX")
+Sys.setenv("MariaDB_dbname"   =  "covidmx")
 
 #Estos cámbialos si sabes lo que estás haciendo son otros argumentos de DBI::dbConnect 
 Sys.setenv("MariaDB_host"  =  "localhost")
@@ -163,7 +163,7 @@ o como variables ambientales en tu archivo `.Renviron`:
 ```{bash, eval = FALSE}
 MariaDB_user     = "tu_usuario"
 MariaDB_password = "tu_password"
-MariaDB_dbname   = "COVIDMX"
+MariaDB_dbname   = "covidmx"
 ```
 
 Recuerda que para editar el `.Renviron` desde `R` puedes hacer `usethis::edit_r_environ()`, editar y luego reiniciar `R`. 
