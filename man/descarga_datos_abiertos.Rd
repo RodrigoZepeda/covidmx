@@ -12,7 +12,7 @@ descarga_datos_abiertos(
   remove_zip_after_download = TRUE,
   quiet = FALSE,
   parse_warnings = FALSE,
-  language = c("English", "Español"),
+  language = c("Español", "English"),
   read_format = c("MariaDB", "tibble"),
   user = Sys.getenv("MariaDB_user"),
   password = Sys.getenv("MariaDB_password"),

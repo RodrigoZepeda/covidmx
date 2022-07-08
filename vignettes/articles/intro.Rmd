@@ -401,11 +401,9 @@ datos_covid %>%
 Faltan por desarrollar las siguientes funciones:
 
 ```{r, eval = FALSE}
-positividad()               #Positividad en pruebas
 cfr()                       #Case fatality rate
 chr()                       #Case hospitalization rate
 rt()                        #Effective reproductive number
 predice()                   #Función para predecir casos en automático
 suaviza()                   #Suavizamiento de los casos observados
-descarga_datos_cdmx()       #Descarga de datos abiertos cdmx
 ```

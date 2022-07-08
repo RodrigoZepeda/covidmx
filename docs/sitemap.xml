@@ -49,10 +49,16 @@
     <loc>https://rodrigozepeda.github.io/covidmx/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://rodrigozepeda.github.io/covidmx/reference/numero_pruebas.html</loc>
+  </url>
+  <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/pipe.html</loc>
   </url>
   <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/plot_covid.html</loc>
+  </url>
+  <url>
+    <loc>https://rodrigozepeda.github.io/covidmx/reference/positividad.html</loc>
   </url>
   <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/read_datos_abiertos.html</loc>
