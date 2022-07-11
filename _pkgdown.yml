@@ -25,7 +25,7 @@ template:
     heading_font: {google: "Playfair Display SC"}
   opengraph:
     image:
-      src: https://github.com/RodrigoZepeda/covidmx/blob/MARIADB/man/figures/sticker_white.png
+      src: https://raw.githubusercontent.com/RodrigoZepeda/covidmx/MARIADB/man/figures/sticker_white.png
       alt: "Logo de covidmx presenta una ola ajustada por splines con varios puntos"
     twitter:
       creator: "@RodZepeda"
