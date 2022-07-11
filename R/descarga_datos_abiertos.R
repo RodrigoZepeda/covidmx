@@ -326,6 +326,7 @@ descarga_datos_abiertos <- function(
 
       tryCatch({
         message("Intentando crear tabla en paralelo | Attempting to create table in parallel")
+        #FIXME delete covid from here
         system(glue::glue("mysqlimport --default-character-set=UTF8",
                           " --fields-terminated-by=','",
                           " --ignore-lines=1",
@@ -334,7 +335,7 @@ descarga_datos_abiertos <- function(
                           " --user={user}",
                           " --password={password}",
                           " --use-threads={nthreads}",
-                          " --local COVID ./{tblname}.csv"))
+                          " --local {dbname} ./{tblname}.csv"))
       },
       error=function(e) {
 

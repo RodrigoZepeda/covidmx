@@ -13,8 +13,9 @@ navbar:
       href: http://twitter.com/RodZepeda
       aria-label: Twitter
 
+lang: es
+
 template:
-  lang: es
   bootstrap: 5
   bslib:
     card-color: "#e4ebda"
@@ -25,8 +26,8 @@ template:
     heading_font: {google: "Playfair Display SC"}
   opengraph:
     image:
-      src: https://raw.githubusercontent.com/RodrigoZepeda/covidmx/MARIADB/man/figures/sticker_white.png
+      src: man/figures/card.png
       alt: "Logo de covidmx presenta una ola ajustada por splines con varios puntos"
     twitter:
       creator: "@RodZepeda"
-      card: summary
+      card: summary_large_image
