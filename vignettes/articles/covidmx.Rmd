@@ -348,6 +348,84 @@ datos_covid$positividad %>%
              df_covariates = c("TIPO_PRUEBA", "ENTIDAD_FEDERATIVA"))
 ```
 
+
+
+### Case Hospitalization Rate
+
+El `chr` se define como el total de casos confirmados que terminaron hospitalizados entre el total de confirmados:
+$$
+\textrm{CHR} = \frac{\text{Hospitalizados Confirmados}}{\text{Todos los confirmados}}
+$$
+lo puedes calcular con `chr`:
+
+```{r}
+datos_covid <- datos_covid %>% chr()
+```
+
+```{r, echo = FALSE}
+head(datos_covid$`case hospitalization rate`)
+```
+
+Las variables para agrupar son casi las mismas que en `casos`. Por ejemplo si queremos agrupar el `chr` en distintas categorías de edad a nivel nacional:
+
+```{r, fig.height=16, fig.width=8}
+datos_covid <- datos_covid %>% 
+  chr(
+    group_by_entidad = FALSE,
+    edad_cut  = c(seq(0, 85, by = 5), Inf),
+    list_name = "CHR_edad_nacional"
+  ) 
+
+datos_covid %>%
+  plot_covid(type = "line", facet_ncol = 4, df_name = "CHR_edad_nacional")
+```
+
+### Case Fatality Rate
+
+El `cfr` se define como el total de casos confirmados que terminaron muertos:
+$$
+\textrm{CFR} = \frac{\text{Defunciones Confirmadas}}{\text{Todos los confirmados}}
+$$
+lo puedes calcular con `cfr`:
+
+```{r}
+datos_covid <- datos_covid %>% cfr()
+```
+
+```{r, echo = FALSE}
+head(datos_covid$`case fatality rate`)
+```
+
+Las variables para agrupar son casi las mismas que en `casos`. Por ejemplo si queremos agrupar el `cfr` en distintas categorías de edad a nivel nacional:
+
+```{r}
+datos_covid <- datos_covid %>% 
+  cfr(
+    entidades = c("CIUDAD DE MÉXICO", "MÉXICO"),
+    group_by_entidad = TRUE,
+    list_name = "CFR_CENTRAL"
+  ) 
+
+datos_covid$CFR_CENTRAL %>%
+  plot_covid(type = "line", facet_ncol = 2)
+```
+
+Podemos también calcular la mortalidad dentro de los hospitalizados y ambulatorios:
+
+```{r}
+datos_covid <- datos_covid %>% 
+  cfr(
+    tipo_paciente = "HOSPITALIZADO",
+    group_by_tipo_paciente = TRUE,
+    group_by_entidad       = FALSE,
+    list_name = "CFR_HOSPITALIZADO"
+  ) 
+
+datos_covid %>%
+  plot_covid(df_name = "CFR_HOSPITALIZADO", type = "line", facet_ncol = 2,
+             df_variable = "CASE FATALITY RATE")
+```
+
 ### Desconexión de MariaDB
 
 Una vez que terminaste de trabajar con la base original en `MariaDB` deconecta el pointer haciendo:
@@ -356,7 +434,7 @@ Una vez que terminaste de trabajar con la base original en `MariaDB` deconecta e
 datos_covid$disconnect()
 ```
 
-## Datos de variantes
+## Datos de variantes (GISAID)
 
 Para descargar las variantes reportadas por la publicación diaria en Github del reporte nacional en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) a partir de las variantes de [GISAID](www.gisaid.org) puedes hacer:
 
@@ -443,9 +521,5 @@ datos_covid %>%
 Faltan por desarrollar las siguientes funciones:
 
 ```{r, eval = FALSE}
-cfr()                       #Case fatality rate
-chr()                       #Case hospitalization rate
 rt()                        #Effective reproductive number
-predice()                   #Función para predecir casos en automático
-suaviza()                   #Suavizamiento de los casos observados
 ```

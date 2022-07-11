@@ -49,6 +49,12 @@ datos_covid <- datos_covid %>% numero_pruebas()
 #Calcula la positividad
 datos_covid <- datos_covid %>% positividad()
 
+#Calcula el case fatality rate
+datos_covid <- datos_covid %>% cfr()
+
+#Calcula el case hospitalization rate
+datos_covid <- datos_covid %>% chr()
+
 #¡Grafica!
 datos_covid %>% plot_covid()
 ```

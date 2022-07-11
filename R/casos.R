@@ -190,9 +190,9 @@ casos <- function(datos_covid = NULL,
   #> ENTIDAD----
   #Seleccionar la entidad
   entidad_tipo <- dplyr::case_when(
-    str_detect(tolower(entidad_tipo[1]), "m*dica|entidad_um") ~ "ENTIDAD_UM",
-    str_detect(tolower(entidad_tipo[1]), "residencia|entidad_res") ~ "ENTIDAD_RES",
-    str_detect(tolower(entidad_tipo[1]), "nacimiento|entidad_nac") ~ "ENTIDAD_NAC",
+    stringr::str_detect(tolower(entidad_tipo[1]), "m*dica|entidad_um") ~ "ENTIDAD_UM",
+    stringr::str_detect(tolower(entidad_tipo[1]), "residencia|entidad_res") ~ "ENTIDAD_RES",
+    stringr::str_detect(tolower(entidad_tipo[1]), "nacimiento|entidad_nac") ~ "ENTIDAD_NAC",
   )
 
   #Seleccionar la entidad
