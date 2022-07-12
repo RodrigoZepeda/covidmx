@@ -426,7 +426,8 @@ casos <- function(datos_covid = NULL,
       #Full join
       .casos      <- .casos %>%
         dplyr::full_join(.grid_casos, by = colnames(.grid_casos)) %>%
-        dplyr::mutate(!!as.symbol("n") := tidyr::replace_na(!!as.symbol("n"), 0))
+        dplyr::mutate(!!as.symbol("n") := tidyr::replace_na(!!as.symbol("n"), 0)) %>%
+        dplyr::ungroup()
     }
   }
 

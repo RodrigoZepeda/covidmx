@@ -426,6 +426,35 @@ datos_covid %>%
              df_variable = "CASE FATALITY RATE")
 ```
 
+### Número efectivo de reproducción
+
+El número efectivo de reproducción se estima mediante la función `EpiEstim::estimate_R` 
+para la cual es necesario especificar el método y el intervalo serial [como en este ejemplo](https://cran.r-project.org/web/packages/EpiEstim/vignettes/demo.html). 
+
+Podemos estimar el número a nivel nacional a partir de 2022:
+
+```{r, message = FALSE}
+datos_covid <- datos_covid %>% 
+  rt(group_by_entidad = FALSE, 
+     min_date = as.Date("2022/01/01", format = "%Y/%m/%d"))
+```
+
+```{r, echo = FALSE}
+head(datos_covid$rt)
+```
+
+O bien por entidad sólo con los confirmados covid:
+
+```{r, message = FALSE, fig.height=32, fig.width=8}
+datos_covid <- datos_covid %>% 
+  rt(tipo_clasificacion = "Confirmados COVID",
+     list_name = "RT_confirmados_COVID")
+
+datos_covid$RT_confirmados_COVID %>%
+  plot_covid(df_date_index = "FECHA_SINTOMAS", df_variable = "Mean(R)",
+             df_covariates = "ENTIDAD_FEDERATIVA")
+```
+
 ### Desconexión de MariaDB
 
 Una vez que terminaste de trabajar con la base original en `MariaDB` deconecta el pointer haciendo:

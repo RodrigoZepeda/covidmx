@@ -55,6 +55,9 @@ datos_covid <- datos_covid %>% cfr()
 #Calcula el case hospitalization rate
 datos_covid <- datos_covid %>% chr()
 
+#Estimación del número efectivo de reproducción
+datos_covid <- datos_covid %>% rt()
+
 #¡Grafica!
 datos_covid %>% plot_covid()
 ```

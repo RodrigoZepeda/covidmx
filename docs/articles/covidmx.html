@@ -803,11 +803,47 @@ ambulatorios:</p>
 <p><img src="covidmx_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 </div>
 <div class="section level3">
+<h3 id="número-efectivo-de-reproducción">Número efectivo de reproducción<a class="anchor" aria-label="anchor" href="#n%C3%BAmero-efectivo-de-reproducci%C3%B3n"></a>
+</h3>
+<p>El número efectivo de reproducción se estima mediante la función
+<code><a href="https://rdrr.io/pkg/EpiEstim/man/estimate_R.html" class="external-link">EpiEstim::estimate_R</a></code> para la cual es necesario especificar
+el método y el intervalo serial <a href="https://cran.r-project.org/web/packages/EpiEstim/vignettes/demo.html" class="external-link">como
+en este ejemplo</a>.</p>
+<p>Podemos estimar el número a nivel nacional a partir de 2022:</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/rt.html">rt</a></span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>     min_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2022/01/01"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 14</span></span></span>
+<span><span class="co">#&gt;   t_start t_end `Mean(R)` `Std(R)` `Quantile.0.025(R)` `Quantile.0.05(R)`</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       2     8      1.72  0.002<span style="text-decoration: underline;">38</span>                1.72               1.72</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       3     9      1.47  0.001<span style="text-decoration: underline;">98</span>                1.47               1.47</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       4    10      1.38  0.001<span style="text-decoration: underline;">77</span>                1.37               1.37</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       5    11      1.29  0.001<span style="text-decoration: underline;">62</span>                1.28               1.29</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       6    12      1.21  0.001<span style="text-decoration: underline;">50</span>                1.20               1.20</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>       7    13      1.14  0.001<span style="text-decoration: underline;">41</span>                1.14               1.14</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 8 more variables: `Quantile.0.25(R)` &lt;dbl&gt;, `Median(R)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Quantile.0.75(R)` &lt;dbl&gt;, `Quantile.0.95(R)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Quantile.0.975(R)` &lt;dbl&gt;, FECHA_SINTOMAS_start &lt;date&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   FECHA_SINTOMAS_end &lt;date&gt;, FECHA_SINTOMAS &lt;date&gt;</span></span></span></code></pre>
+<p>O bien por entidad sólo con los confirmados covid:</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/rt.html">rt</a></span><span class="op">(</span>tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span>,</span>
+<span>     list_name <span class="op">=</span> <span class="st">"RT_confirmados_COVID"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">RT_confirmados_COVID</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_date_index <span class="op">=</span> <span class="st">"FECHA_SINTOMAS"</span>, df_variable <span class="op">=</span> <span class="st">"Mean(R)"</span>,</span>
+<span>             df_covariates <span class="op">=</span> <span class="st">"ENTIDAD_FEDERATIVA"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="covidmx_files/figure-html/unnamed-chunk-36-1.png" width="768"></p>
+</div>
+<div class="section level3">
 <h3 id="desconexión-de-mariadb">Desconexión de MariaDB<a class="anchor" aria-label="anchor" href="#desconexi%C3%B3n-de-mariadb"></a>
 </h3>
 <p>Una vez que terminaste de trabajar con la base original en
 <code>MariaDB</code> deconecta el pointer haciendo:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -818,12 +854,12 @@ ambulatorios:</p>
 Github del reporte nacional en <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-link">RodrigoZepeda/VariantesCovid</a>
 a partir de las variantes de <a href="www.gisaid.org">GISAID</a> puedes
 hacer:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Estoy descargando datos de:</span></span>
 <span><span class="co">#&gt; https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_nacional.csv</span></span></code></pre></div>
 <p>Los datos se ven así:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
 <span><span class="co">#&gt;   variant     semana   ano     n  freq Actualizacion       Fuente               </span></span>
@@ -836,7 +872,7 @@ hacer:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> VOI Epsilon     48  <span style="text-decoration: underline;">2</span>020     5     1 2022-07-11 <span style="color: #949494;">13:35:09</span> GISAID: https://www.…</span></span></code></pre></div>
 <p>Por <code>default</code> baja nacional pero también puedes usar
 “cdmx”:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"cdmx"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Estoy descargando datos de:</span></span>
 <span><span class="co">#&gt; https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_cdmx.csv</span></span></code></pre></div>
@@ -853,22 +889,22 @@ si las usas.</p>
 IRAG</a> de ocupación hospitalaria a nivel estatal o a nivel unidad
 médica mediante <code>descarga_datos_ocupacion_hospitalaria</code>.
 Estos se obtienen de la publicación diaria en <a href="https://github.com/RodrigoZepeda/CapacidadHospitalariaMX" class="external-link">RodrigoZepeda/CapacidadHospitalariaMX</a>.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estatales</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Estoy descargando datos de:</span></span>
 <span><span class="co">#&gt; https://media.githubusercontent.com/media/RodrigoZepeda/CapacidadHospitalariaMX/master/processed/HospitalizacionesMX_estatal.csv</span></span></code></pre></div>
 <p>Los cuales se ven así:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estatales</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_covariates <span class="op">=</span> <span class="st">"estado"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `hospitalizados_percent`</span></span></code></pre></div>
 <p><img src="covidmx_files/figure-html/ocupacion-1.png" width="768"></p>
 <p>O bien por unidad médica:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span>nivel <span class="op">=</span> <span class="st">"Unidad Médica"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Estoy descargando datos de:</span></span>
 <span><span class="co">#&gt; https://media.githubusercontent.com/media/RodrigoZepeda/CapacidadHospitalariaMX/master/processed/HospitalizacionesMX_unidad_medica.csv</span></span></code></pre></div>
 <p>que se ven así:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
 <span><span class="co">#&gt;   unidad_medica       estado institucion clues hospitalizados_… ventilacion_per…</span></span>
@@ -892,13 +928,13 @@ si las usas.</p>
 </h2>
 <p>Para graficar puedes usar la función <code>plot_covid</code> por
 default grafica lo que està en <code>datos_covid$casos</code></p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `n`</span></span>
 <span><span class="co">#&gt; df_covariates no fue especificada. Usaremos `ENTIDAD_FEDERATIVA`</span></span></code></pre></div>
 <p><img src="covidmx_files/figure-html/nacionalentidad-1.png" width="768"></p>
 <p>pero puedes pedir otra con el eje x más limpio:</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="st">"Todos (nacional)"</span>, </span>
 <span>                           date_break_format <span class="op">=</span> <span class="st">"6 months"</span>,</span>
 <span>                           date_labels_format <span class="op">=</span> <span class="st">"%m/%y"</span><span class="op">)</span></span>
@@ -908,7 +944,7 @@ default grafica lo que està en <code>datos_covid$casos</code></p>
 <p>Para visualizar un suavizamiento con <em>splines</em> cambia el
 <code>type</code> y dale las opciones que darías a
 <code>geom_spline</code>:</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="st">"Todos (nacional)"</span>, type <span class="op">=</span> <span class="st">"spline"</span>, spar <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `n`</span></span>
 <span><span class="co">#&gt; </span></span></code></pre></div>
@@ -916,20 +952,20 @@ default grafica lo que està en <code>datos_covid$casos</code></p>
 <p>Puedes visualizar hasta dos covariables a la vez con
 <code>df_covariates</code> y decirle cuál graficar con
 <code>df_variable</code>:</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="st">"Ejemplo defunciones"</span>, </span>
 <span>             df_variable <span class="op">=</span> <span class="st">"n"</span>, </span>
 <span>             df_covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEXO"</span>,<span class="st">"ENTIDAD_FEDERATIVA"</span><span class="op">)</span>,</span>
 <span>             type <span class="op">=</span> <span class="st">"area"</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="covidmx_files/figure-html/unnamed-chunk-41-1.png" width="768"></p>
+<p><img src="covidmx_files/figure-html/unnamed-chunk-44-1.png" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="otras-funciones-de-interés">Otras funciones de interés<a class="anchor" aria-label="anchor" href="#otras-funciones-de-inter%C3%A9s"></a>
 </h2>
 <p>Faltan por desarrollar las siguientes funciones:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">rt</a></span><span class="op">(</span><span class="op">)</span>                        <span class="co">#Effective reproductive number</span></span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/rt.html">rt</a></span><span class="op">(</span><span class="op">)</span>                        <span class="co">#Effective reproductive number</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>
     </nav></aside>

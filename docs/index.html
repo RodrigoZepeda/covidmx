@@ -132,6 +132,9 @@
 <span><span class="co">#Calcula el case hospitalization rate</span></span>
 <span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/chr.html">chr</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co">#Estimación del número efectivo de reproducción</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/rt.html">rt</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co">#¡Grafica!</span></span>
 <span><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
 <div class="figure">
