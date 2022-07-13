@@ -190,7 +190,7 @@ casos <- function(datos_covid = NULL,
   #> ENTIDAD----
   #Seleccionar la entidad
   entidad_tipo <- dplyr::case_when(
-    stringr::str_detect(tolower(entidad_tipo[1]), "m*dica|entidad_um") ~ "ENTIDAD_UM",
+    stringr::str_detect(tolower(entidad_tipo[1]), "m.*dica|entidad_um") ~ "ENTIDAD_UM",
     stringr::str_detect(tolower(entidad_tipo[1]), "residencia|entidad_res") ~ "ENTIDAD_RES",
     stringr::str_detect(tolower(entidad_tipo[1]), "nacimiento|entidad_nac") ~ "ENTIDAD_NAC",
   )
@@ -199,8 +199,8 @@ casos <- function(datos_covid = NULL,
   fecha_tipo <-
     dplyr::case_when(
            stringr::str_detect(tolower(fecha_tipo[1]), "ingreso") ~ "FECHA_INGRESO",
-           stringr::str_detect(tolower(fecha_tipo[1]), "s*ntomas") ~ "FECHA_SINTOMAS",
-           stringr::str_detect(tolower(fecha_tipo[1]), "defunci*n|fecha_def") ~ "FECHA_DEF"
+           stringr::str_detect(tolower(fecha_tipo[1]), "s.*ntomas") ~ "FECHA_SINTOMAS",
+           stringr::str_detect(tolower(fecha_tipo[1]), "defunci.*n|fecha_def") ~ "FECHA_DEF"
     )
 
   #Checamos la variable de entidades

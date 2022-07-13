@@ -241,7 +241,7 @@ descarga_datos_abiertos <- function(
       # > MariaDB-----
 
       if (dbname == ""){
-        dbname <- "COVID"
+        dbname <- "covidmx"
         message(paste0("Creating dataset named ", dbname))
       }
 

@@ -3,6 +3,8 @@
 <!-- badges: start -->
   [![R-CMD-check](https://github.com/RodrigoZepeda/covidmx/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RodrigoZepeda/covidmx/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
+
+> :computer: Sitio web: [https://rodrigozepeda.github.io/covidmx/](https://rodrigozepeda.github.io/covidmx/)
   
 Descarga, etiqueta y datos abiertos de COVID-19 en México. El propósito de este paquete es hacer la descarga, análisis y graficación de manera rápida para que tú no tengas que preocuparte por bajar el archivo a tiempo, agrupar funciones o realizar visualizaciones sino en lo importante: analizar la información. 
 
@@ -177,4 +179,11 @@ datos_covid %>%
 #> #   DESCRIPCION_TIPO_PACIENTE <chr>, DESCRIPCION_TIPO_UCI <chr> 
 ```
 
+## Más información
+
++ Para ver todas las funciones del paquete ve a [Primeros Pasos](https://rodrigozepeda.github.io/covidmx/articles/covidmx.html)
+
++ Para instalar `MariaDB` checa [esta guía](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html)
+
++ Puedes ver un estudio de caso del paquete para [Ciudad de México en este link](https://rodrigozepeda.github.io/covidmx/articles/Estudio_de_Caso_CDMX.html)
 

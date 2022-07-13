@@ -196,7 +196,7 @@ positividad <- function(datos_covid = NULL,
                                     list_name = list_name,
                                     .grouping_vars = .grouping_vars)
 
-  if (is_pcr){
+  if (is_pcr & group_by_tipo_prueba){
 
     message("Calculando PCR...")
 
@@ -237,7 +237,7 @@ positividad <- function(datos_covid = NULL,
 
   }
 
-  if (is_anti){
+  if (is_anti & group_by_tipo_prueba){
 
     message("Calculando Antigeno...")
 
@@ -278,14 +278,40 @@ positividad <- function(datos_covid = NULL,
 
   }
 
+  #Add both tests
+  if (!group_by_tipo_prueba){
+
+    groups <- stringr::str_subset(colnames(.numero_pruebas[list_name][[1]]),
+                        "\\bn\\b|RESULTADO_LAB|RESULTADO_ANTIGENO", negate = T)
+
+    #Obtenemos los totales
+    .totales <- .numero_pruebas[list_name][[1]] %>%
+      dplyr::group_by_at(groups) %>%
+      dplyr::summarise(!!as.symbol("n_pruebas") := sum(!!as.symbol("n")), .groups = "keep")
+
+    #Obtenemos los positivos
+    .positivos <- .numero_pruebas[list_name][[1]] %>%
+      dplyr::filter(dplyr::if_any(dplyr::starts_with("RESULTADO"), ~ (. == 1))) %>%
+      dplyr::group_by_at(groups) %>%
+      dplyr::summarise(!!as.symbol("n_positivos") := sum(!!as.symbol("n")), .groups = "keep")
+
+    .positividad <- .totales %>%
+      dplyr::left_join(.positivos, by = groups) %>%
+      dplyr::mutate(!!as.symbol("Positividad") := dplyr::if_else(
+        !!as.symbol("n_pruebas") != 0,
+        as.numeric(!!as.symbol("n_positivos")) / as.numeric(!!as.symbol("n_pruebas")), NA_real_))
+  }
+
   message("Terminando de construir la base")
-  if (is_pcr & is_anti){
+  if (is_pcr & is_anti & group_by_tipo_prueba){
     .positividad <- .pcr %>%
       dplyr::bind_rows(.anti)
-  } else  if (is_pcr & !is_anti){
+  } else  if (is_pcr & !is_anti & group_by_tipo_prueba){
     .positividad <- .pcr
-  } else  if (is_pcr & !is_anti){
+  } else  if (is_pcr & !is_anti & group_by_tipo_prueba){
     .positividad <- .anti
+  } else if (!group_by_tipo_prueba){
+    .positividad <- .positividad
   } else {
     stop("Selecciona PCR o Antigeno en pruebas")
   }

@@ -1,6 +1,6 @@
 Package: covidmx
 Title: COVID-19 Dataset Analysis for Mexico
-Version: 0.0.7.0000
+Version: 0.0.8.0000
 Authors@R: 
     person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4471-5270"))
@@ -32,7 +32,11 @@ Imports:
     tidyr,
     zoo
 Suggests: 
-    rmarkdown
+    rmarkdown,
+    tidyverse,
+    cowplot,
+    ggtext,
+    MetBrewer
 URL: https://github.com/RodrigoZepeda/covidmx,
     https://rodrigozepeda.github.io/covidmx/
 BugReports: https://github.com/RodrigoZepeda/covidmx/issues
