@@ -161,10 +161,10 @@ Por otro lado descargamos la información de ocupación hospitalaria de la RED I
 
 ```{r, message = FALSE}
 #Descarga de datos por estado
-ocupacion_estado <- descarga_datos_ocupacion_hospitalaria("Estatal")
+ocupacion_estado <- descarga_datos_red_irag("Estatal")
 
 #Descargamos las unidades médicas
-ocupacion_UM     <- descarga_datos_ocupacion_hospitalaria("Unidad Médica")
+ocupacion_UM     <- descarga_datos_red_irag("Unidad Médica")
 ```
 
 Obtenemos entonces las unidades médicas con mayor ocupación en la fecha más reciente:

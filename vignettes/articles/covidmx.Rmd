@@ -487,10 +487,10 @@ variantes_covid <- descarga_datos_variantes_GISAID("cdmx")
 
 ## Datos de ocupación hospitalaria (Red IRAG)
 
-Puedes descargar los datos de la [Red IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#) de ocupación hospitalaria a nivel estatal o a nivel unidad médica mediante `descarga_datos_ocupacion_hospitalaria`. Estos se obtienen de la publicación diaria en [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX).
+Puedes descargar los datos de la [Red IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#) de ocupación hospitalaria a nivel estatal o a nivel unidad médica mediante `descarga_datos_red_irag`. Estos se obtienen de la publicación diaria en [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX).
 
 ```{r}
-estatales <- descarga_datos_ocupacion_hospitalaria()
+estatales <- descarga_datos_red_irag()
 ```
 
 Los cuales se ven así:
@@ -502,7 +502,7 @@ estatales %>% plot_covid(df_covariates = "estado")
 O bien por unidad médica:
 
 ```{r}
-unidad_medica <- descarga_datos_ocupacion_hospitalaria(nivel = "Unidad Médica")
+unidad_medica <- descarga_datos_red_irag(nivel = "Unidad Médica")
 ```
 
 que se ven así:
@@ -545,10 +545,3 @@ datos_covid %>%
              type = "area") 
 ```
 
-## Otras funciones de interés
-
-Faltan por desarrollar las siguientes funciones:
-
-```{r, eval = FALSE}
-rt()                        #Effective reproductive number
-```

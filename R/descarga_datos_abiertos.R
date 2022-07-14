@@ -111,7 +111,7 @@ descarga_datos_abiertos <- function(
                                        "datos_abiertos/diccionario_datos_covid19.zip"),
     nthreads                  = max(parallel::detectCores() - 1, 1),
     unzip_command             = ifelse(tolower(.Platform$OS.type) == "windows",
-                                    "\"C:\\Program Files\\7-Zip\\7z.exe\"", "unzip"),
+                                       "\"C:\\Program Files\\7-Zip\\7z.exe\"", "unzip"),
     unzip_args                = ifelse(tolower(.Platform$OS.type) == "windows",
                                        "-x", "-o"),
     check_unzip_install       = TRUE,
@@ -203,8 +203,8 @@ descarga_datos_abiertos <- function(
   if (RCurl::url.exists(site.covid)){
 
     download.file(site.covid, file_download_data,
-      method = download_method,
-      quiet = quiet
+                  method = download_method,
+                  quiet = quiet
     )
 
     if (!quiet) {
@@ -220,20 +220,20 @@ descarga_datos_abiertos <- function(
     #Unzip file-----
     filecon <- tryCatch({
       filecon <- unzip(file_download_data)
-      },
-      warning = function(cond) {
+    },
+    warning = function(cond) {
 
-        system2(unzip_command, args = c(unzip_args, file_download_data))
-        filecon <- list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
+      system2(unzip_command, args = c(unzip_args, file_download_data))
+      filecon <- list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
 
-        return(filecon)
-      },
-      error = function(cond){
-        if (language == "Espa\u00f1ol"){
-          stop("No se puede leer el archivo hubo un problema con la descarga.")
-        } else {
-          stop("Unable to read file. Problem with download.")
-        }
+      return(filecon)
+    },
+    error = function(cond){
+      if (language == "Espa\u00f1ol"){
+        stop("No se puede leer el archivo hubo un problema con la descarga.")
+      } else {
+        stop("Unable to read file. Problem with download.")
+      }
     })
 
     #Read dataset-----
@@ -257,13 +257,13 @@ descarga_datos_abiertos <- function(
 
       #Get file connection
       con    <- DBI::dbConnect(RMariaDB::MariaDB(),
-                          host     = host,
-                          port     = port,
-                          user     = user,
-                          group    = group,
-                          password = password,
-                          dbname   = dbname,
-                          ...)
+                               host     = host,
+                               port     = port,
+                               user     = user,
+                               group    = group,
+                               password = password,
+                               dbname   = dbname,
+                               ...)
 
       header <- readr::read_csv(filecon,
                                 locale = readr::locale(encoding = "UTF-8"),
@@ -314,7 +314,7 @@ descarga_datos_abiertos <- function(
 
       #____Creating MARIADB table format-----
       dbres <- DBI::dbSendStatement(conn = con,
-                      statement = "SET sql_mode = 'NO_ENGINE_SUBSTITUTION,NO_AUTO_CREATE_USER';")
+                                    statement = "SET sql_mode = 'NO_ENGINE_SUBSTITUTION,NO_AUTO_CREATE_USER';")
       DBI::dbClearResult(dbres)
 
       DBI::dbWriteTable(conn = con, name = tblname, value = header, overwrite = T)
@@ -357,7 +357,7 @@ descarga_datos_abiertos <- function(
       dats <- dplyr::tbl(con, tblname)
       if (language == "Espa\u00f1ol"){
         message(glue::glue("No olvides desconectar la base con ",
-                "datos_covid$disconnect() cuando termines."))
+                           "datos_covid$disconnect() cuando termines."))
       } else {
         message("Don't forget to datos_covid$disconnect() at the end")
       }
@@ -365,49 +365,49 @@ descarga_datos_abiertos <- function(
     } else {
       #> CSV----
       dats <- readr::read_csv(con,
-        locale = readr::locale(encoding = "UTF-8"),
-        col_types = readr::cols(
-          FECHA_ACTUALIZACION   = readr::col_date(format = "%Y-%m-%d"),
-          ID_REGISTRO           = readr::col_character(),
-          ORIGEN                = readr::col_double(),
-          SECTOR                = readr::col_double(),
-          ENTIDAD_UM            = readr::col_character(),
-          SEXO                  = readr::col_double(),
-          ENTIDAD_NAC           = readr::col_character(),
-          ENTIDAD_RES           = readr::col_character(),
-          MUNICIPIO_RES         = readr::col_character(),
-          TIPO_PACIENTE         = readr::col_double(),
-          FECHA_INGRESO         = readr::col_date(format = "%Y-%m-%d"),
-          FECHA_SINTOMAS        = readr::col_date(format = "%Y-%m-%d"),
-          FECHA_DEF             = readr::col_date(format = "%Y-%m-%d"),
-          INTUBADO              = readr::col_double(),
-          NEUMONIA              = readr::col_double(),
-          EDAD                  = readr::col_double(),
-          NACIONALIDAD          = readr::col_double(),
-          EMBARAZO              = readr::col_double(),
-          HABLA_LENGUA_INDIG    = readr::col_double(),
-          INDIGENA              = readr::col_double(),
-          DIABETES              = readr::col_double(),
-          EPOC                  = readr::col_double(),
-          ASMA                  = readr::col_double(),
-          INMUSUPR              = readr::col_double(),
-          HIPERTENSION          = readr::col_double(),
-          OTRA_COM              = readr::col_double(),
-          CARDIOVASCULAR        = readr::col_double(),
-          OBESIDAD              = readr::col_double(),
-          RENAL_CRONICA         = readr::col_double(),
-          TABAQUISMO            = readr::col_double(),
-          OTRO_CASO             = readr::col_double(),
-          TOMA_MUESTRA_LAB      = readr::col_double(),
-          RESULTADO_LAB         = readr::col_double(),
-          TOMA_MUESTRA_ANTIGENO = readr::col_double(),
-          RESULTADO_ANTIGENO    = readr::col_double(),
-          CLASIFICACION_FINAL   = readr::col_double(),
-          MIGRANTE              = readr::col_double(),
-          PAIS_NACIONALIDAD     = readr::col_character(),
-          PAIS_ORIGEN           = readr::col_character(),
-          UCI                   = readr::col_double()
-          ))
+                              locale = readr::locale(encoding = "UTF-8"),
+                              col_types = readr::cols(
+                                FECHA_ACTUALIZACION   = readr::col_date(format = "%Y-%m-%d"),
+                                ID_REGISTRO           = readr::col_character(),
+                                ORIGEN                = readr::col_double(),
+                                SECTOR                = readr::col_double(),
+                                ENTIDAD_UM            = readr::col_character(),
+                                SEXO                  = readr::col_double(),
+                                ENTIDAD_NAC           = readr::col_character(),
+                                ENTIDAD_RES           = readr::col_character(),
+                                MUNICIPIO_RES         = readr::col_character(),
+                                TIPO_PACIENTE         = readr::col_double(),
+                                FECHA_INGRESO         = readr::col_date(format = "%Y-%m-%d"),
+                                FECHA_SINTOMAS        = readr::col_date(format = "%Y-%m-%d"),
+                                FECHA_DEF             = readr::col_date(format = "%Y-%m-%d"),
+                                INTUBADO              = readr::col_double(),
+                                NEUMONIA              = readr::col_double(),
+                                EDAD                  = readr::col_double(),
+                                NACIONALIDAD          = readr::col_double(),
+                                EMBARAZO              = readr::col_double(),
+                                HABLA_LENGUA_INDIG    = readr::col_double(),
+                                INDIGENA              = readr::col_double(),
+                                DIABETES              = readr::col_double(),
+                                EPOC                  = readr::col_double(),
+                                ASMA                  = readr::col_double(),
+                                INMUSUPR              = readr::col_double(),
+                                HIPERTENSION          = readr::col_double(),
+                                OTRA_COM              = readr::col_double(),
+                                CARDIOVASCULAR        = readr::col_double(),
+                                OBESIDAD              = readr::col_double(),
+                                RENAL_CRONICA         = readr::col_double(),
+                                TABAQUISMO            = readr::col_double(),
+                                OTRO_CASO             = readr::col_double(),
+                                TOMA_MUESTRA_LAB      = readr::col_double(),
+                                RESULTADO_LAB         = readr::col_double(),
+                                TOMA_MUESTRA_ANTIGENO = readr::col_double(),
+                                RESULTADO_ANTIGENO    = readr::col_double(),
+                                CLASIFICACION_FINAL   = readr::col_double(),
+                                MIGRANTE              = readr::col_double(),
+                                PAIS_NACIONALIDAD     = readr::col_character(),
+                                PAIS_ORIGEN           = readr::col_character(),
+                                UCI                   = readr::col_double()
+                              ))
 
       con <- NULL
     }
@@ -424,7 +424,7 @@ descarga_datos_abiertos <- function(
       }
 
       download.file(site.covid.dic, file_download_dictionary,
-        method = download_method, quiet = quiet
+                    method = download_method, quiet = quiet
       )
 
       if (language == "Espa\u00f1ol"){
@@ -449,10 +449,10 @@ descarga_datos_abiertos <- function(
       }
 
       diccionario.covid.origen <- list("ORIGEN" =
-        readxl::read_excel(fname,
-          sheet = "Cat\u00e1logo ORIGEN",
-          col_types = c("numeric", "text")
-        )
+                                         readxl::read_excel(fname,
+                                                            sheet = "Cat\u00e1logo ORIGEN",
+                                                            col_types = c("numeric", "text")
+                                         )
       )
 
       #> SECTOR----
@@ -461,10 +461,10 @@ descarga_datos_abiertos <- function(
       }
 
       diccionario.covid.sector <- list("SECTOR" =
-        readxl::read_excel(fname,
-          sheet = "Cat\u00e1logo SECTOR",
-          col_types = c("numeric", "text")
-        )
+                                         readxl::read_excel(fname,
+                                                            sheet = "Cat\u00e1logo SECTOR",
+                                                            col_types = c("numeric", "text")
+                                         )
       )
 
       #> SEXO----
@@ -473,10 +473,10 @@ descarga_datos_abiertos <- function(
       }
 
       diccionario.covid.sexo <- list("SEXO" =
-        readxl::read_excel(fname,
-          sheet = "Cat\u00e1logo SEXO",
-          col_types = c("numeric", "text")
-        )
+                                       readxl::read_excel(fname,
+                                                          sheet = "Cat\u00e1logo SEXO",
+                                                          col_types = c("numeric", "text")
+                                       )
       )
 
       #> TIPO DE PACIENTE----
@@ -485,10 +485,10 @@ descarga_datos_abiertos <- function(
       }
 
       diccionario.covid.paciente <- list("PACIENTE" =
-        readxl::read_excel(fname,
-          sheet = "Cat\u00e1logo TIPO_PACIENTE",
-          col_types = c("numeric", "text")
-        )
+                                           readxl::read_excel(fname,
+                                                              sheet = "Cat\u00e1logo TIPO_PACIENTE",
+                                                              col_types = c("numeric", "text")
+                                           )
       )
 
       #> NACIONALIDAD----
@@ -498,8 +498,8 @@ descarga_datos_abiertos <- function(
 
       diccionario.covid.nacionalidad <-
         list("NACIONALIDAD" = readxl::read_excel(fname,
-                                              sheet = "Cat\u00e1logo NACIONALIDAD",
-                                              col_types = c("numeric", "text"))
+                                                 sheet = "Cat\u00e1logo NACIONALIDAD",
+                                                 col_types = c("numeric", "text"))
         )
 
 
@@ -514,7 +514,7 @@ descarga_datos_abiertos <- function(
                                   sheet = "Cat\u00e1logo RESULTADO_LAB",
                                   col_types = c("numeric", "text")
                )
-             )
+        )
 
       #> RESULTADO_ANTIGENO----
       if (!quiet) {
@@ -523,8 +523,8 @@ descarga_datos_abiertos <- function(
 
       diccionario.covid.resutlado_antigeno <-
         list("RESULTADO_ANTIGENO" = readxl::read_excel(fname,
-                                              sheet = "Cat\u00e1logo RESULTADO_ANTIGENO",
-                                              col_types = c("numeric", "text"))
+                                                       sheet = "Cat\u00e1logo RESULTADO_ANTIGENO",
+                                                       col_types = c("numeric", "text"))
         )
 
       #> CLASIFICACION_FINAL----
@@ -536,7 +536,7 @@ descarga_datos_abiertos <- function(
         "CLASIFICACION_FINAL" = readxl::read_excel(fname,
                                                    sheet = "Cat\u00e1logo CLASIFICACION_FINAL",
                                                    col_types = c("numeric", "text", "text")
-      ))
+        ))
 
       if (!quiet) {
         message("+ MUNICIPIO_RES")
@@ -544,10 +544,10 @@ descarga_datos_abiertos <- function(
 
       #> CATALOGO DE MUNICIPIO----
       diccionario.covid.municipio_res <- list("MUNICIPIO_RES" =
-                                  readxl::read_excel(fname,
-                                                     sheet = "Cat\u00e1logo MUNICIPIOS",
-                                                     col_types = c("text", "text", "text")
-      ))
+                                                readxl::read_excel(fname,
+                                                                   sheet = "Cat\u00e1logo MUNICIPIOS",
+                                                                   col_types = c("text", "text", "text")
+                                                ))
 
 
       #> CATALOGO SI/NO:----
@@ -555,7 +555,7 @@ descarga_datos_abiertos <- function(
       # EPOC, ASMA, INMUSUPR, HIPERTENSION, OTRA_COMORBILIDAD, OBESIDAD,
       # RENAL_CRONICA, TABAQUISMO, MIGRANTE, UCI
       for (variable in c("INTUBADO", "NEUMONIA", "EMBARAZO", "HABLA LENGUA INDIGENA", "INDIGENA",
-                          "DIABETES", "EPOC", "ASMA", "INMUSUPR", "HIPERTENSION",
+                         "DIABETES", "EPOC", "ASMA", "INMUSUPR", "HIPERTENSION",
                          "CARDIOVASCULAR","OTRO_CASO","TOMA_MUESTRA_LAB", "TOMA_MUESTRA_ANTIGENO",
                          "OTRA_COMORBILIDAD", "OBESIDAD","RENAL_CRONICA","TABAQUISMO","UCI")){
 
@@ -565,7 +565,7 @@ descarga_datos_abiertos <- function(
 
         temp_list <- list()
         temp_list[[variable]] <- readxl::read_excel(fname, sheet = "Cat\u00e1logo SI_NO",
-                                            col_types = c("numeric", "text"))
+                                                    col_types = c("numeric", "text"))
 
         assign(paste0("diccionario.covid.", tolower(variable)), temp_list)
       }
@@ -588,21 +588,21 @@ descarga_datos_abiertos <- function(
       }
 
       dict <- c(diccionario.covid.asma, diccionario.covid.cardiovascular,
-               diccionario.covid.clasificacion_final, diccionario.covid.diabetes,
-               diccionario.covid.embarazo, diccionario.covid.entidad_nac,
-               diccionario.covid.entidad_res, diccionario.covid.entidad_um,
-               diccionario.covid.epoc, `diccionario.covid.habla lengua indigena`,
-               diccionario.covid.hipertension, diccionario.covid.indigena,
-               diccionario.covid.inmusupr, diccionario.covid.intubado,
-               diccionario.covid.municipio_res, diccionario.covid.nacionalidad,
-               diccionario.covid.neumonia, diccionario.covid.obesidad,
-               diccionario.covid.origen, diccionario.covid.otra_comorbilidad,
-               diccionario.covid.otro_caso, diccionario.covid.paciente,
-               diccionario.covid.renal_cronica, diccionario.covid.resultado_lab,
-               diccionario.covid.resutlado_antigeno, diccionario.covid.sector,
-               diccionario.covid.sexo, diccionario.covid.tabaquismo,
-               diccionario.covid.toma_muestra_antigeno, diccionario.covid.toma_muestra_lab,
-               diccionario.covid.uci)
+                diccionario.covid.clasificacion_final, diccionario.covid.diabetes,
+                diccionario.covid.embarazo, diccionario.covid.entidad_nac,
+                diccionario.covid.entidad_res, diccionario.covid.entidad_um,
+                diccionario.covid.epoc, `diccionario.covid.habla lengua indigena`,
+                diccionario.covid.hipertension, diccionario.covid.indigena,
+                diccionario.covid.inmusupr, diccionario.covid.intubado,
+                diccionario.covid.municipio_res, diccionario.covid.nacionalidad,
+                diccionario.covid.neumonia, diccionario.covid.obesidad,
+                diccionario.covid.origen, diccionario.covid.otra_comorbilidad,
+                diccionario.covid.otro_caso, diccionario.covid.paciente,
+                diccionario.covid.renal_cronica, diccionario.covid.resultado_lab,
+                diccionario.covid.resutlado_antigeno, diccionario.covid.sector,
+                diccionario.covid.sexo, diccionario.covid.tabaquismo,
+                diccionario.covid.toma_muestra_antigeno, diccionario.covid.toma_muestra_lab,
+                diccionario.covid.uci)
 
       if (remove_zip_after_download) {
         unlink(file_download_dictionary)
@@ -616,7 +616,7 @@ descarga_datos_abiertos <- function(
 
     } else if (!download_dict) {
 
-       load(dict_file)
+      load(dict_file)
 
     } else if (!RCurl::url.exists(site.covid.dic)) {
       if (language == "Espa\u00f1ol"){

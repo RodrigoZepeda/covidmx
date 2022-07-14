@@ -114,7 +114,7 @@ plot_covid <- function(datos_covid = NULL,
   plot <- datos_covid[df_name][[1]] %>%
     dplyr::mutate_at(df_variable, as.numeric) %>%
     ggplot2::ggplot() +
-    ggplot2::facet_wrap(as.formula(paste("~", paste(df_covariates, collapse = " + "))),
+    ggplot2::facet_wrap(stats::as.formula(paste("~", paste(df_covariates, collapse = " + "))),
                         scales = facet_scale, ncol = facet_ncol) +
     ggplot2::scale_x_date(date_breaks = date_break_format, date_labels = date_labels_format) +
     ggplot2::labs(

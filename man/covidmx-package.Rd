@@ -6,7 +6,7 @@
 \alias{covidmx-package}
 \title{covidmx: COVID-19 Dataset Analysis for Mexico}
 \description{
-Downloads and analyzes data for COVID-19 from the Empidemiology Directorate of Mexico. Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico.
+Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico.
 }
 \seealso{
 Useful links:

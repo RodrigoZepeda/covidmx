@@ -38,16 +38,10 @@
 #' @importFrom RMariaDB MariaDB
 #' @importFrom scales comma
 #' @importFrom scales percent
-#' @importFrom stats as.formula
-#' @importFrom stats ksmooth
-#' @importFrom stats lowess
-#' @importFrom stats predict
-#' @importFrom stats smooth.spline
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_to_title
 #' @importFrom tidyr drop_na
 #' @importFrom utils download.file
 #' @importFrom utils unzip
-#' @importFrom zoo rollmean
 ## usethis namespace: end
 NULL

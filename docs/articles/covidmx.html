@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.8.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -857,8 +857,24 @@ a partir de las variantes de <a href="www.gisaid.org">GISAID</a> puedes
 hacer:</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Estoy descargando datos de:</span></span>
-<span><span class="co">#&gt; https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_nacional.csv</span></span></code></pre></div>
+<span><span class="co">#&gt; Descargando/downloading: https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_nacional.csv</span></span>
+<span><span class="co">#&gt; No olvides citar las referencias de GISAID | Don't forget to cite GISAID's references</span></span>
+<span><span class="co">#&gt; --------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Khare, S., et al (2021) GISAID's Role in Pandemic Response. China CDC Weekly, 3(49):</span></span>
+<span><span class="co">#&gt; 1049-1051. doi:10.46234/ccdcw2021.255 PMCID: 8668406</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Elbe, S. and Buckland-Merrett, G. (2017) Data, disease and diplomacy: GISAID's</span></span>
+<span><span class="co">#&gt; innovative contribution to global health. Global Challenges, 1:33-46.</span></span>
+<span><span class="co">#&gt; doi:10.1002/gch2.1018 PMCID: 31565258</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Shu, Y. and McCauley, J. (2017) GISAID: from vision to reality. EuroSurveillance,</span></span>
+<span><span class="co">#&gt; 22(13) doi:10.2807/1560-7917.ES.2017.22.13.30494 PMCID: PMC5388101</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Zepeda-Tello, R. (2022).</span></span>
+<span><span class="co">#&gt; Reporte Nacional de Variantes de COVID-19.</span></span>
+<span><span class="co">#&gt; Actualizado el 2022-07-13 02:54:39. URL:</span></span>
+<span><span class="co">#&gt; https://github.com/RodrigoZepeda/VariantesCovid</span></span></code></pre></div>
 <p>Los datos se ven así:</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -875,8 +891,24 @@ hacer:</p>
 “cdmx”:</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"cdmx"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Estoy descargando datos de:</span></span>
-<span><span class="co">#&gt; https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_cdmx.csv</span></span></code></pre></div>
+<span><span class="co">#&gt; Descargando/downloading: https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_cdmx.csv</span></span>
+<span><span class="co">#&gt; No olvides citar las referencias de GISAID | Don't forget to cite GISAID's references</span></span>
+<span><span class="co">#&gt; --------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Khare, S., et al (2021) GISAID's Role in Pandemic Response. China CDC Weekly, 3(49):</span></span>
+<span><span class="co">#&gt; 1049-1051. doi:10.46234/ccdcw2021.255 PMCID: 8668406</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Elbe, S. and Buckland-Merrett, G. (2017) Data, disease and diplomacy: GISAID's</span></span>
+<span><span class="co">#&gt; innovative contribution to global health. Global Challenges, 1:33-46.</span></span>
+<span><span class="co">#&gt; doi:10.1002/gch2.1018 PMCID: 31565258</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Shu, Y. and McCauley, J. (2017) GISAID: from vision to reality. EuroSurveillance,</span></span>
+<span><span class="co">#&gt; 22(13) doi:10.2807/1560-7917.ES.2017.22.13.30494 PMCID: PMC5388101</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Zepeda-Tello, R. (2022).</span></span>
+<span><span class="co">#&gt; Reporte Nacional de Variantes de COVID-19.</span></span>
+<span><span class="co">#&gt; Actualizado el 2022-07-13 02:54:39. URL:</span></span>
+<span><span class="co">#&gt; https://github.com/RodrigoZepeda/VariantesCovid</span></span></code></pre></div>
 <blockquote>
 <p>No olvides citar a <strong>GISAID</strong> así como a la publicación
 diaria en <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-link">RodrigoZepeda/VariantesCovid</a>
@@ -888,12 +920,10 @@ si las usas.</p>
 </h2>
 <p>Puedes descargar los datos de la <a href="https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#" class="external-link">Red
 IRAG</a> de ocupación hospitalaria a nivel estatal o a nivel unidad
-médica mediante <code>descarga_datos_ocupacion_hospitalaria</code>.
-Estos se obtienen de la publicación diaria en <a href="https://github.com/RodrigoZepeda/CapacidadHospitalariaMX" class="external-link">RodrigoZepeda/CapacidadHospitalariaMX</a>.</p>
+médica mediante <code>descarga_datos_red_irag</code>. Estos se obtienen
+de la publicación diaria en <a href="https://github.com/RodrigoZepeda/CapacidadHospitalariaMX" class="external-link">RodrigoZepeda/CapacidadHospitalariaMX</a>.</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">estatales</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Estoy descargando datos de:</span></span>
-<span><span class="co">#&gt; https://media.githubusercontent.com/media/RodrigoZepeda/CapacidadHospitalariaMX/master/processed/HospitalizacionesMX_estatal.csv</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">estatales</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Los cuales se ven así:</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estatales</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_covariates <span class="op">=</span> <span class="st">"estado"</span><span class="op">)</span></span>
@@ -901,9 +931,7 @@ Estos se obtienen de la publicación diaria en <a href="https://github.com/Rodri
 <p><img src="covidmx_files/figure-html/ocupacion-1.png" width="768"></p>
 <p>O bien por unidad médica:</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_ocupacion_hospitalaria.html">descarga_datos_ocupacion_hospitalaria</a></span><span class="op">(</span>nivel <span class="op">=</span> <span class="st">"Unidad Médica"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Estoy descargando datos de:</span></span>
-<span><span class="co">#&gt; https://media.githubusercontent.com/media/RodrigoZepeda/CapacidadHospitalariaMX/master/processed/HospitalizacionesMX_unidad_medica.csv</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span>nivel <span class="op">=</span> <span class="st">"Unidad Médica"</span><span class="op">)</span></span></code></pre></div>
 <p>que se ven así:</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>

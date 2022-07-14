@@ -1,10 +1,10 @@
 Package: covidmx
 Title: COVID-19 Dataset Analysis for Mexico
-Version: 0.0.8.0000
+Version: 0.1.0.0000
 Authors@R: 
     person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4471-5270"))
-Description: Downloads and analyzes data for COVID-19 from the Empidemiology Directorate of Mexico. Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico. 
+Description: Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Language: es
@@ -20,6 +20,7 @@ Imports:
     janitor,
     lubridate,
     magrittr,
+    pins (>= 1.0.1),
     RCurl,
     readr,
     readxl,
@@ -29,8 +30,7 @@ Imports:
     stats,
     stringr,
     tibble,
-    tidyr,
-    zoo
+    tidyr
 Suggests: 
     rmarkdown,
     tidyverse,

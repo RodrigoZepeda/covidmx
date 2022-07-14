@@ -26,8 +26,8 @@ library(covidmx)
 #Datos de variantes (cdmx o nacional)
 variantes   <- descarga_datos_variantes_GISAID("nacional")
 
-#Datos de ocupación hopsitalaria ('Estatal' o 'Unidad Médica')
-ocupacion   <- descarga_datos_ocupacion_hospitalaria("Estatal")
+#Datos de ocupación hopsitalaria de Red IRAG ('Estatal' o 'Unidad Médica')
+ocupacion   <- descarga_datos_red_irag("Estatal")
 
 #Descarga datos abiertos de covid, guarda en MARIADB y te da una conexión
 datos_covid <- descarga_datos_abiertos(
