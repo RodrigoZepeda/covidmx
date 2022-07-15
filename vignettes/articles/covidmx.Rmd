@@ -384,7 +384,8 @@ datos_covid$numero_pruebas %>% head()
 ```
 
 ```{r, warning = FALSE}
-datos_covid$numero_pruebas %>% plot_covid(facet_ncol = 2, date_break_format = "1 month")
+datos_covid$numero_pruebas %>% 
+  plot_covid(facet_ncol = 2, date_break_format = "1 month")
 ```
 
 
@@ -442,7 +443,11 @@ datos_covid <- datos_covid %>%
   ) 
 
 datos_covid %>%
-  plot_covid(type = "line", facet_ncol = 4, df_name = "CHR_edad_nacional")
+  plot_covid(type = "line", 
+             facet_ncol = 4, 
+             date_break_format = "7 days",
+             date_labels_format = "%d/%m/%Y",
+             df_name = "CHR_edad_nacional")
 ```
 
 ### Case Fatality Rate
@@ -471,7 +476,10 @@ datos_covid <- datos_covid %>%
   ) 
 
 datos_covid$CFR_BC %>%
-  plot_covid(type = "line", facet_ncol = 2)
+  plot_covid(type = "line", 
+             facet_ncol = 2,
+             date_break_format = "7 days",
+             date_labels_format = "%d/%m/%Y")
 ```
 
 Podemos también calcular la mortalidad dentro de los hospitalizados y ambulatorios:
@@ -485,7 +493,11 @@ datos_covid <- datos_covid %>%
   ) 
 
 datos_covid %>%
-  plot_covid(df_name = "CFR_HOSPITALIZADOS", type = "line", facet_ncol = 2,
+  plot_covid(df_name = "CFR_HOSPITALIZADOS", 
+             type = "line", 
+             facet_ncol = 2,
+             date_break_format = "7 days",
+             date_labels_format = "%d/%m/%Y",
              df_variable = "CASE FATALITY RATE")
 ```
 
@@ -515,8 +527,11 @@ datos_covid <- datos_covid %>%
      min_date  = as.Date("2021/07/01", format = "%Y/%m/%d"))
 
 datos_covid$RT_confirmados_COVID %>%
-  plot_covid(df_date_index = "FECHA_SINTOMAS", df_variable = "Mean(R)",
-             df_covariates = "ENTIDAD_FEDERATIVA")
+  plot_covid(df_date_index = "FECHA_SINTOMAS", 
+             df_variable = "Mean(R)",
+             df_covariates = "ENTIDAD_FEDERATIVA",
+             date_break_format = "7 days",
+             date_labels_format = "%d/%m/%Y")
 ```
 
 ### Desconexión de MariaDB
@@ -548,6 +563,36 @@ variantes_covid <- descarga_datos_variantes_GISAID("cdmx")
 ```
 
 En este caso, la descarga también es inteligente y necesitas poner `force_download = TRUE` si ha pasado menos de un día de tu última descarga (almacenada mediante `pins` en cache) y quieres volver a bajar los datos. 
+
+Puedes graficarlos con `geom_stream` dentro de la librería `ggstream`:
+```{r}
+library(ggplot2)
+
+#Pasamos año y semana epidemiológica a fecha
+variantes_covid <- variantes_covid %>%
+  left_join(
+    data.frame(fecha = seq(as.Date("2020/01/03", format = "%Y/%m/%d"), as.Date(Sys.time()),
+                           by = "7 days")) %>%
+      mutate(ano    = lubridate::epiyear(fecha)) %>%
+      mutate(semana = lubridate::epiweek(fecha))
+    )
+
+#Graficamos
+nvariantes <- length(unique(variantes_covid$variant))
+
+ggplot(variantes_covid) + 
+  ggstream::geom_stream(aes(x = fecha, y = n, fill = variant)) +
+  theme_void() +
+  theme(
+    legend.position = "bottom",
+    axis.text.x     = element_text(angle = 90, hjust = 1),
+    axis.line.x     = element_line(),
+    axis.ticks.x    = element_line()
+  ) +
+  scale_x_date(date_breaks = "3 months", date_labels = "%b/%Y") +
+  scale_fill_manual("Variante", values = MetBrewer::met.brewer("Cross", n =  nvariantes)) +
+  ggtitle("Variantes de COVID-19 en México")
+```
 
 > No olvides citar a **GISAID** así como a la publicación diaria en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) si las usas.
 
@@ -584,17 +629,17 @@ En este caso, la descarga también es inteligente y necesitas poner `force_downl
 
 ## Gráficas
 
-Para graficar puedes usar la función `plot_covid` por default grafica lo que està en `datos_covid$casos`
+Para graficar puedes usar la función `plot_covid` por default grafica lo que està en `datos_covid$casos` y establecer cada cuándo hacer los cortes de fechas con `date_break_format` 
 
 ```{r nacionalentidad}
-datos_covid %>% plot_covid()
+datos_covid %>% plot_covid(date_break_format = "1 week")
 ```
 
 pero puedes pedir otra con el eje x más limpio:
 
 ```{r nacional}
 datos_covid %>% plot_covid("Todos (nacional)", 
-                           date_break_format = "6 months",
+                           date_break_format = "1 week",
                            date_labels_format = "%m/%y")
 ```
 
@@ -602,7 +647,7 @@ Para visualizar un suavizamiento con *splines* cambia el `type` y dale las opcio
 
 ```{r splineacional}
 datos_covid %>% 
-  plot_covid("Todos (nacional)", type = "spline", spar = 0.5)
+  plot_covid("Todos (nacional)", type = "spline", spar = 0.5, date_break_format = "1 week")
 ```
 
 Puedes visualizar hasta dos covariables a la vez con `df_covariates` y decirle cuál graficar con `df_variable`:
@@ -612,6 +657,7 @@ datos_covid %>%
   plot_covid("Ejemplo defunciones", 
              df_variable = "n", 
              df_covariates = c("SEXO","ENTIDAD_FEDERATIVA"),
+             date_break_format = "3 weeks",
              type = "area") 
 ```
 
