@@ -1,6 +1,6 @@
 Package: covidmx
 Title: Herramientas para el analisis de datos de COVID-19 en Mexico
-Version: 0.2.0.0000
+Version: 0.3.0.0000
 Authors@R: 
     person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4471-5270"))
@@ -15,11 +15,9 @@ Imports:
     dplyr,
     EpiEstim,
     fs,
-    ggformula,
     ggplot2,
     glue,
     janitor,
-    lubridate,
     magrittr,
     pins (>= 1.0.1),
     RCurl,
@@ -35,11 +33,16 @@ Imports:
     tools
 Suggests: 
     cowplot,
+    rstudioapi,
+    crayon,
     ggstream,
     ggtext (>= 0.1.0),
     MetBrewer,
+    ggformula,
+    lubridate,
     rmarkdown,
-    tidyverse
+    tidyverse,
+    covr
 URL: https://github.com/RodrigoZepeda/covidmx,
     https://rodrigozepeda.github.io/covidmx/
 BugReports: https://github.com/RodrigoZepeda/covidmx/issues

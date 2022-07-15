@@ -41,6 +41,8 @@
 #'
 #' @param min_date Mínima fecha a partir de la cual estimar el RT
 #'
+#' @param max_date Máxima fecha a partir de la cual estimar el RT
+#'
 #' @param list_name Asigna un nombre en la lista de datos a la base generada
 #'
 #' @param ... Parámetros adicionales para `EpiEstim::estimate_R`.
@@ -76,7 +78,7 @@
 #'
 #' @export
 
-estima_rt <- function(datos_covid = NULL,
+estima_rt <- function(datos_covid,
                         entidades   = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
                                         "CAMPECHE", "CHIAPAS", "CHIHUAHUA",
                                         "CIUDAD DE M\u00c9XICO","COAHUILA DE ZARAGOZA" , "COLIMA",
@@ -99,6 +101,7 @@ estima_rt <- function(datos_covid = NULL,
                         tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
                         list_name = "estima_rt",
                         min_date  = as.Date("2021/11/21", format = "%Y/%m/%d"),
+                        max_date  = as.Date(Sys.time()),
                         method    = "parametric_si",
                         config    = EpiEstim::make_config(
                            list(mean_si     = 3.5,
@@ -150,7 +153,8 @@ estima_rt <- function(datos_covid = NULL,
   }
 
   .casos <- .casos %>%
-    dplyr::filter(!!as.symbol(fecha_name) >= !!min_date)
+    dplyr::filter(!!as.symbol(fecha_name) >= !!min_date) %>%
+    dplyr::filter(!!as.symbol(fecha_name) <= !!max_date)
 
   mfec <- .casos[fecha_name] %>%
     dplyr::summarise(!!as.symbol("min") := min(!!as.symbol(fecha_name))) %>%

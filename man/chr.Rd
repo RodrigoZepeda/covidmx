@@ -5,7 +5,7 @@
 \title{Case Hospitalization Rate (CHR)}
 \usage{
 chr(
-  datos_covid = NULL,
+  datos_covid,
   entidades = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR", "CAMPECHE",
     "CHIAPAS", "CHIHUAHUA", "CIUDAD DE MÉXICO", "COAHUILA DE ZARAGOZA", "COLIMA",
     "DURANGO", "GUANAJUATO", "GUERRERO", "HIDALGO", "JALISCO", "MÉXICO",

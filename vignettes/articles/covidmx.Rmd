@@ -1,7 +1,9 @@
 ---
 title: "Introducción a covidmx"
 author: "Rodrigo Zepeda-Tello"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r, include = FALSE}
@@ -27,9 +29,16 @@ library(covidmx)
 library(dplyr)
 ```
 
+> **NOTA (datos precargados)** 
+> Si lo que quieres hacer es ponerte a jugar con las funciones del paquete directamente puedes saltar hasta la sección de [casos](#casos) y usar los datos precargados:
+> 
+```{r, eval = FALSE}
+datos_covid <- covidmx::datosabiertos #Uso de los datos precargados
+```
+>
+
 
 ## Datos Abiertos de la Dirección General de Epidemiología
-
 
 ### Descarga automática de base de datos abiertos 
 
@@ -50,7 +59,7 @@ datos_covid <- descarga_datos_abiertos()
 Para propósito de este tutorial trabajaremos con una base de datos más pequeña disponible en el repositorio de [Github](https://github.com/RodrigoZepeda/covidmx) la cual guardaremos en `MariaDB` bajo el nombre de **tutorial**. 
 
 ```{r, message = FALSE, warning=FALSE}
-dlink       <- "https://github.com/RodrigoZepeda/covidmx/raw/MARIADB/data-raw/datos_abiertos_covid19.zip"
+dlink       <- "https://github.com/RodrigoZepeda/covidmx/raw/MARIADB/datos_abiertos_covid19.zip"
 datos_covid <- descarga_datos_abiertos(site.covid = dlink, tblname = "tutorial") 
 ```
 
@@ -119,12 +128,12 @@ Lo mismo puedes hacer si tienes el diccionario descargado con las variables `dic
 ```{r, message = FALSE, warning=FALSE}
 #Descarga el diccionario en zip
 zip_path    <- descarga_db_diccionario_ssa()
-datos_covid <- read_datos_abiertos(diccionario_zip_path = zip_path)
+datos_covid <- read_datos_abiertos(diccionario_zip_path = zip_path, tblname = "tutorial")
 ```
 
 Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. 
 
-### Casos (Incidencia)
+### Casos (Incidencia) {#casos}
 
 Las bases de datos se agregan a la lista bajo el nombre default `casos`. Por ejemplo:
 
@@ -375,7 +384,7 @@ datos_covid$numero_pruebas %>% head()
 ```
 
 ```{r, warning = FALSE}
-datos_covid$numero_pruebas %>% plot_covid(facet_ncol = 2, date_break_format = "1 week")
+datos_covid$numero_pruebas %>% plot_covid(facet_ncol = 2, date_break_format = "1 month")
 ```
 
 
@@ -489,7 +498,8 @@ Podemos estimar el número a nivel nacional a partir de 2022:
 
 ```{r, message = FALSE}
 datos_covid <- datos_covid %>% 
-  estima_rt(group_by_entidad = FALSE)
+  estima_rt(entidades = "BAJA CALIFORNIA",
+            min_date  = as.Date("2021/07/01", format = "%Y/%m/%d"))
 ```
 
 ```{r, echo = FALSE}
@@ -498,10 +508,11 @@ head(datos_covid$estima_rt)
 
 O bien por entidad sólo con los confirmados covid:
 
-```{r, message = FALSE, fig.height=32, fig.width=8}
+```{r, message = FALSE}
 datos_covid <- datos_covid %>% 
   estima_rt(tipo_clasificacion = "Confirmados COVID",
-     list_name = "RT_confirmados_COVID")
+     list_name = "RT_confirmados_COVID",
+     min_date  = as.Date("2021/07/01", format = "%Y/%m/%d"))
 
 datos_covid$RT_confirmados_COVID %>%
   plot_covid(df_date_index = "FECHA_SINTOMAS", df_variable = "Mean(R)",
@@ -550,7 +561,7 @@ estatales <- descarga_datos_red_irag()
 
 Los cuales se ven así:
 
-```{r ocupacion, fig.height=32, fig.width=8}
+```{r ocupacion, fig.height=16, fig.width=8}
 estatales %>% plot_covid(df_covariates = "estado")
 ```
 
@@ -575,7 +586,7 @@ En este caso, la descarga también es inteligente y necesitas poner `force_downl
 
 Para graficar puedes usar la función `plot_covid` por default grafica lo que està en `datos_covid$casos`
 
-```{r nacionalentidad, fig.height=16, fig.width=8}
+```{r nacionalentidad}
 datos_covid %>% plot_covid()
 ```
 
@@ -590,12 +601,13 @@ datos_covid %>% plot_covid("Todos (nacional)",
 Para visualizar un suavizamiento con *splines* cambia el `type` y dale las opciones que darías a `geom_spline`:
 
 ```{r splineacional}
-datos_covid %>% plot_covid("Todos (nacional)", type = "spline", spar = 0.5)
+datos_covid %>% 
+  plot_covid("Todos (nacional)", type = "spline", spar = 0.5)
 ```
 
 Puedes visualizar hasta dos covariables a la vez con `df_covariates` y decirle cuál graficar con `df_variable`:
 
-```{r, fig.height=32, fig.width=8}
+```{r, fig.height=25, fig.width=8}
 datos_covid %>% 
   plot_covid("Ejemplo defunciones", 
              df_variable = "n", 

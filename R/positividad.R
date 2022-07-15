@@ -124,7 +124,7 @@
 #'
 #' @export
 
-positividad <- function(datos_covid = NULL,
+positividad <- function(datos_covid,
                   entidades   = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
                                   "CAMPECHE", "CHIAPAS", "CHIHUAHUA",
                                   "CIUDAD DE M\u00c9XICO","COAHUILA DE ZARAGOZA" , "COLIMA",

@@ -129,7 +129,7 @@
 #'
 #' @export
 
-cfr <- function(datos_covid = NULL,
+cfr <- function(datos_covid,
                 entidades   = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
                                 "CAMPECHE", "CHIAPAS", "CHIHUAHUA",
                                 "CIUDAD DE M\u00c9XICO","COAHUILA DE ZARAGOZA" , "COLIMA",
@@ -167,11 +167,6 @@ cfr <- function(datos_covid = NULL,
   if (any(stringr::str_detect(names(datos_covid), list_name))){
     stop(glue::glue("Impossible to create variable {list_name} ",
                     "in datos_covid as it already exists"))
-  }
-
-  #Checar la descarga
-  if (is.null(datos_covid)){
-    datos_covid <- descarga_datos_abiertos()
   }
 
   message("Calculando los casos totales")

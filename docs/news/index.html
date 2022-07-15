@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -61,6 +61,10 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0.0000" id="covidmx-0300000">covidmx 0.3.0.0000<a class="anchor" aria-label="anchor" href="#covidmx-0300000"></a></h2>
+<p><em>Se arregló un <code>bug</code> que al filtrar por <code>BAJA CALIFORNIA</code> también devolvía <code>BAJA CALIFORNIA SUR</code> en <code>casos</code>. </em>Se agregó un dataset <code>datosabiertos</code> para poder probar funciones sobre ese data. <em>Se cambió el tutorial a una tabla llamada <code>tblname</code> para que sea más rápido que la descarga y creación del repositorio de Github.<br></em>Se agregó el parámetro <code>max_date</code> a <code>estima_rt</code> para mejorar la estimación de la ventana de tiempo del <code>RT</code>. *Se eliminó que <code>casos</code> por default descargue los datos si no tiene un input o si su input es vacío pues generaba un <code>bug</code> cuando el elemento de la lista no estaba.</p>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0.0000" id="covidmx-0200000">covidmx 0.2.0.0000<a class="anchor" aria-label="anchor" href="#covidmx-0200000"></a></h2>
 <ul><li>Agregué <code>NEWS.md</code>
 </li>
@@ -68,7 +72,8 @@
 <li>La descarga de archivos tiene una nueva estructura inspirada en <code>pins</code> que lee de memoria (cache) si no ha pasado más de un día de la descarga, si ya pasó más de un día pero detecta que el archivo en línea es idéntico al que tienes en memoria o si no tienes Internet.</li>
 <li>Se cambió <code>rt</code> por <code>estima_rt</code> para no ocasionar problemas con la distribución de Student en <code><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">stats::rt</a></code>.</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

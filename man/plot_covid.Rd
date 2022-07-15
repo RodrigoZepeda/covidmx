@@ -5,7 +5,7 @@
 \title{PLOT DATOS DE COVID}
 \usage{
 plot_covid(
-  datos_covid = NULL,
+  datos_covid,
   df_name = "casos",
   df_date_index = stringr::str_subset(colnames(datos_covid[df_name][[1]]),
     "FECHA|fecha|Fecha"),

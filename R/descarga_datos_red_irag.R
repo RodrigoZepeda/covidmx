@@ -105,23 +105,5 @@ descarga_datos_red_irag <- function(nivel = c("Estatal","Unidad M\u00e9dica"),
   #Escribimos en el pin que ya descargamos
   pin_write_download_time(board, nivel[1])
 
-  if (!quiet){
-    message(glue::glue("
-            No olvides citar la fuente de los datos | Don't forget to cite the data sources
-            --------------------------------------------------------------------------------------
-
-            Secretaria de Salud. ({lubridate::year(lubridate::today())}).
-            Sistema de Informacion de la Red IRAG.
-            URL: https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#
-
-            Zepeda-Tello, R. ({lubridate::year(lubridate::today())}).
-            Datos de Ocupacion Hospitalaria.
-            Actualizacion del {dats$Actualizacion[1]}.
-            URL: https://github.com/RodrigoZepeda/CapacidadHospitalaria
-            DOI: 10.17605/OSF.IO/9NU2D
-            "))
-  }
-
-
   return(dats)
 }

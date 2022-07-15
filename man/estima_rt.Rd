@@ -5,7 +5,7 @@
 \title{RT: Número efectivo de reproducción}
 \usage{
 estima_rt(
-  datos_covid = NULL,
+  datos_covid,
   entidades = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR", "CAMPECHE",
     "CHIAPAS", "CHIHUAHUA", "CIUDAD DE MÉXICO", "COAHUILA DE ZARAGOZA", "COLIMA",
     "DURANGO", "GUANAJUATO", "GUERRERO", "HIDALGO", "JALISCO", "MÉXICO",
@@ -20,6 +20,7 @@ estima_rt(
   tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
   list_name = "estima_rt",
   min_date = as.Date("2021/11/21", format = "\%Y/\%m/\%d"),
+  max_date = as.Date(Sys.time()),
   method = "parametric_si",
   config = EpiEstim::make_config(list(mean_si = 3.5, std_si = 1.5)),
   ...
@@ -57,6 +58,8 @@ incluye fecha de \code{Sintomas}}
 \item{list_name}{Asigna un nombre en la lista de datos a la base generada}
 
 \item{min_date}{Mínima fecha a partir de la cual estimar el RT}
+
+\item{max_date}{Máxima fecha a partir de la cual estimar el RT}
 
 \item{method}{Method for estimating RT with \code{EpiEstim::estimate_R}}
 

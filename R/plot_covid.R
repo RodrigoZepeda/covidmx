@@ -50,10 +50,9 @@
 #' datos_covid %>% casos(group_by_entidad = T, group_by_tipo_clasificacion = T, df_variable = "n") %>%
 #'        plot_covid()
 #'}
-#' @importFrom ggformula geom_spline
 #' @export
 
-plot_covid <- function(datos_covid = NULL,
+plot_covid <- function(datos_covid,
                        df_name = "casos",
                        df_date_index = stringr::str_subset(colnames(datos_covid[df_name][[1]]),
                                                            "FECHA|fecha|Fecha"),
@@ -72,21 +71,23 @@ plot_covid <- function(datos_covid = NULL,
                          legend.position = "none"
                        ), ...){
 
-  #Checar la descarga
-  if (is.null(datos_covid)){
-    datos_covid <- descarga_datos_abiertos() %>% casos()
-  }
 
   if (tibble::is_tibble(datos_covid)){
     datos_covid <- list("datos_covid" = datos_covid)
     df_name     <- "datos_covid"
   }
 
-
   #Checamos la variable 1
   if (is.null(df_variable)){
     df_variable <- colnames(datos_covid[df_name][[1]] %>% dplyr::select_if(is.numeric))[1]
     message(glue::glue("df_variable no fue especificada. Usaremos la columna `{df_variable}`"))
+  }
+
+  if (!requireNamespace("ggformula", quietly = TRUE)) {
+    stop(
+      "Necesitas instalar ggformula para `splines`",
+      call. = FALSE
+    )
   }
 
   if (is.null(df_covariates)){

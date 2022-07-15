@@ -124,33 +124,5 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
   #Escribimos en el pin que ya descargamos
   pin_write_download_time(board, nivel[1])
 
-  if (!quiet){
-    message(glue::glue("
-            No olvides citar las referencias de GISAID | Don't forget to cite GISAID's references
-
-            Use quiet = TRUE para silenciar este mensaje.
-            Use quiet = TRUE to silence this message.
-
-            --------------------------------------------------------------------------------------
-
-            Khare, S., et al (2021) GISAID's Role in Pandemic Response. China CDC Weekly, 3(49):
-            1049-1051. doi:10.46234/ccdcw2021.255 PMCID: 8668406
-
-            Elbe, S. and Buckland-Merrett, G. (2017) Data, disease and diplomacy: GISAID's
-            innovative contribution to global health. Global Challenges, 1:33-46.
-            doi:10.1002/gch2.1018 PMCID: 31565258
-
-            Shu, Y. and McCauley, J. (2017) GISAID: from vision to reality. EuroSurveillance,
-            22(13) doi:10.2807/1560-7917.ES.2017.22.13.30494 PMCID: PMC5388101
-
-            Zepeda-Tello, R. ({lubridate::year(lubridate::today())}).
-            Reporte Nacional de Variantes de COVID-19.
-            Actualizado el {dats$Actualizacion[1]}. URL:
-            https://github.com/RodrigoZepeda/VariantesCovid
-
-            --------------------------------------------------------------------------------------
-            "))
-  }
-
   return(dats)
 }
