@@ -4,7 +4,7 @@
 \name{covidmx-package}
 \alias{covidmx}
 \alias{covidmx-package}
-\title{covidmx: COVID-19 Dataset Analysis for Mexico}
+\title{covidmx: Herramientas para el analisis de datos de COVID-19 en Mexico}
 \description{
 Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico.
 }

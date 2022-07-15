@@ -8,8 +8,10 @@
 descarga_datos_variantes_GISAID(
   nivel = c("nacional", "cdmx"),
   cache = NULL,
-  use_cache_on_failure = rlang::is_interactive(),
+  use_cache_on_failure = TRUE,
   quiet = FALSE,
+  force_download = FALSE,
+  show_warnings = TRUE,
   ...
 )
 }
@@ -21,6 +23,10 @@ descarga_datos_variantes_GISAID(
 \item{use_cache_on_failure}{parametro para \code{pins::board_url}.}
 
 \item{quiet}{booleana para no imprimir mensajes en la consola.}
+
+\item{force_download}{analiza si cambio el pin y descarga datos nuevos en caso afirmativo}
+
+\item{show_warnings}{si arrojar \code{warnings}}
 
 \item{...}{parametros adicionales para \code{pins::pin_download}.}
 }
@@ -50,6 +56,13 @@ variantes_covid <- descarga_datos_variantes_GISAID('nacional')
 
 #Descarga de variantes para CDMX
 variantes_covid <- descarga_datos_variantes_GISAID('cdmx')
+
+#Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
+#sin verificar que el contenido en Internet haya cambiado
+variantes_covid <- descarga_datos_variantes_GISAID('nacional')
+
+#Puedes forzarlo a checar el contenido en Internet usando
+variantes_covid <- descarga_datos_variantes_GISAID('nacional', force_download = TRUE)
 }
 }
 \references{
@@ -67,5 +80,5 @@ Zepeda-Tello, R. (2022). Reporte Nacional de Variantes de COVID-19.
 URL: \url{https://github.com/RodrigoZepeda/VariantesCovid}
 }
 \seealso{
-descarga_datos_red_irag descarga_datos_abiertos
+\link{descarga_datos_red_irag} \link{descarga_datos_abiertos} \link{read_datos_abiertos}
 }

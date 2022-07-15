@@ -26,6 +26,10 @@ library(covidmx)
 #Datos de variantes (cdmx o nacional)
 variantes   <- descarga_datos_variantes_GISAID("nacional")
 
+#Todas las descargas del paquete son inteligentes y si ha pasado poco tiempo desde tu
+#última descarga te pregunta primero antes de comprometerse a descargar de nuevo
+descarga_datos_variantes_GISAID("nacional") #desactiva con force_download = TRUE
+
 #Datos de ocupación hopsitalaria de Red IRAG ('Estatal' o 'Unidad Médica')
 ocupacion   <- descarga_datos_red_irag("Estatal")
 
@@ -58,7 +62,7 @@ datos_covid <- datos_covid %>% cfr()
 datos_covid <- datos_covid %>% chr()
 
 #Estimación del número efectivo de reproducción
-datos_covid <- datos_covid %>% rt()
+datos_covid <- datos_covid %>% estima_rt()
 
 #¡Grafica!
 datos_covid %>% plot_covid()

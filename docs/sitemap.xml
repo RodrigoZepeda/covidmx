@@ -37,6 +37,9 @@
     <loc>https://rodrigozepeda.github.io/covidmx/index.html</loc>
   </url>
   <url>
+    <loc>https://rodrigozepeda.github.io/covidmx/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/casos.html</loc>
   </url>
   <url>
@@ -59,6 +62,9 @@
   </url>
   <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/descarga_datos_variantes_GISAID.html</loc>
+  </url>
+  <url>
+    <loc>https://rodrigozepeda.github.io/covidmx/reference/estima_rt.html</loc>
   </url>
   <url>
     <loc>https://rodrigozepeda.github.io/covidmx/reference/index.html</loc>

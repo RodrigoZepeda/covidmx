@@ -8,8 +8,10 @@
 descarga_datos_red_irag(
   nivel = c("Estatal", "Unidad Médica"),
   cache = NULL,
-  use_cache_on_failure = rlang::is_interactive(),
+  use_cache_on_failure = TRUE,
   quiet = TRUE,
+  force_download = FALSE,
+  show_warnings = TRUE,
   ...
 )
 }
@@ -21,6 +23,10 @@ descarga_datos_red_irag(
 \item{use_cache_on_failure}{parametro para \code{pins::board_url}.}
 
 \item{quiet}{booleana para no imprimir mensajes en la consola.}
+
+\item{force_download}{analiza si cambio el pin y descarga datos nuevos en caso afirmativo}
+
+\item{show_warnings}{si arrojar \code{warnings}}
 
 \item{...}{parametros adicionales para \code{pins::pin_download}.}
 }
@@ -43,8 +49,15 @@ ocupacion_hospitalaria <- descarga_datos_red_irag("Estatal")
 
 #Descarga de datos por unidad medica
 ocupacion_hospitalaria <- descarga_datos_red_irag("Unidad Medica")
+
+#Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
+#sin verificar que el contenido en Internet haya cambiado
+ocupacion_hospitalaria <- descarga_datos_red_irag('Unidad Medica')
+
+#Puedes forzarlo a checar el contenido en Internet usando
+variantes_covid        <- descarga_datos_red_irag('Unidad Medica', force_download = TRUE)
 }
 }
 \seealso{
-descarga_datos_variantes_GISAID descarga_datos_abiertos
+\link{descarga_datos_variantes_GISAID} \link{descarga_datos_abiertos} \link{read_datos_abiertos}
 }

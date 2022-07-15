@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -54,6 +54,9 @@
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
     <a class="dropdown-item" href="../articles/Instalacion_de_MARIADB.html">Instalación de MariaDB</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Registro de cambios</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -89,7 +92,7 @@
                         <h4 data-toc-skip class="author">Rodrigo
 Zepeda</h4>
             
-            <h4 data-toc-skip class="date">2022-07-13</h4>
+            <h4 data-toc-skip class="date">2022-07-14</h4>
       
       <small class="dont-index">Código: <a href="https://github.com/RodrigoZepeda/covidmx/blob/HEAD/vignettes/articles/Estudio_de_Caso_CDMX.Rmd" class="external-link"><code>vignettes/articles/Estudio_de_Caso_CDMX.Rmd</code></a></small>
       <div class="d-none name"><code>Estudio_de_Caso_CDMX.Rmd</code></div>
@@ -122,7 +125,7 @@ Windows adicionalmente requieres <a href="https://www.7-zip.org/" class="externa
 de archivos <code>zip</code> que no sea el <code>tar</code> default.</p>
 </blockquote>
 <div class="section level2">
-<h2 id="casos-semanales-y-rt">Casos semanales y rt<a class="anchor" aria-label="anchor" href="#casos-semanales-y-rt"></a>
+<h2 id="casos-semanales-y-número-efectivo-de-reproducción">Casos semanales y número efectivo de reproducción<a class="anchor" aria-label="anchor" href="#casos-semanales-y-n%C3%BAmero-efectivo-de-reproducci%C3%B3n"></a>
 </h2>
 <p>Comenzamos con el primer panel para lo cual necesitamos correr dos
 funciones: la de casos y la del número efectivo de reproducción.
@@ -133,11 +136,11 @@ Calculamos ambos seleccionando la entidad y sólo los confirmados:</p>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades          <span class="op">=</span> <span class="st">"CIUDAD DE MÉXICO"</span>,</span>
 <span>        group_by_entidad   <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>        tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="co">#Y calculamos el rt</span></span>
-<span>  <span class="fu"><a href="../reference/rt.html">rt</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="st">"CIUDAD DE MÉXICO"</span>,</span>
+<span>  <span class="co">#Y calculamos el estima_rt</span></span>
+<span>  <span class="fu"><a href="../reference/estima_rt.html">estima_rt</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="st">"CIUDAD DE MÉXICO"</span>,</span>
 <span>     min_date  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021/11/20"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span>,</span>
 <span>     tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span>,</span>
-<span>     method <span class="op">=</span> <span class="st">"parametric_si"</span>,        <span class="co">#Método de estimación del rt</span></span>
+<span>     method <span class="op">=</span> <span class="st">"parametric_si"</span>,        <span class="co">#Método de estimación del estima_rt</span></span>
 <span>     config <span class="op">=</span> <span class="fu">EpiEstim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EpiEstim/man/make_config.html" class="external-link">make_config</a></span><span class="op">(</span></span>
 <span>       <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>       mean_si <span class="op">=</span> <span class="fl">3.5</span>, <span class="co">#Media de tiempo del intervalo serial</span></span>
@@ -148,7 +151,7 @@ Calculamos ambos seleccionando la entidad y sólo los confirmados:</p>
 <code>datos_covid</code> con diferente nombre:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "dats"       "disconnect" "dict"       "casos"      "rt"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "dats"       "disconnect" "dict"       "casos"      "estima_rt"</span></span></code></pre>
 <p>Por otro lado descargamos los datos de variantes</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"cdmx"</span><span class="op">)</span></span></code></pre></div>
@@ -156,8 +159,8 @@ Calculamos ambos seleccionando la entidad y sólo los confirmados:</p>
 <code>2021/11/20</code> que contenga información de variantes y
 casos</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Limpiamos del rt los últimas dos semanas porque se cae</span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">rt</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">rt</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="co">#Limpiamos del estima_rt los últimas dos semanas porque se cae</span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">estima_rt</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">estima_rt</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span> <span class="op">&lt;=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">today</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html" class="external-link">weeks</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Filtramos las fechas para coincidir con el RT</span></span>
@@ -194,9 +197,9 @@ casos</p>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>          1     <span style="text-decoration: underline;">2</span>022      <span style="text-decoration: underline;"> 75</span>854 Omicron BA.2     2 0.004<span style="text-decoration: underline;">08</span> 2022-07-13 <span style="color: #949494;">02:54:39</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">2</span>          1     <span style="text-decoration: underline;">2</span>022      <span style="text-decoration: underline;"> 75</span>854 VOC Delta       17 0.034<span style="text-decoration: underline;">7</span>  2022-07-13 <span style="color: #949494;">02:54:39</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">3</span>          1     <span style="text-decoration: underline;">2</span>022      <span style="text-decoration: underline;"> 75</span>854 Omicron BA.1   471 0.961   2022-07-13 <span style="color: #949494;">02:54:39</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span>          2     <span style="text-decoration: underline;">2</span>022      <span style="text-decoration: underline;">107</span>479 Omicron BA.2     1 0.004<span style="text-decoration: underline;">15</span> 2022-07-13 <span style="color: #949494;">02:54:39</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span>          2     <span style="text-decoration: underline;">2</span>022      <span style="text-decoration: underline;">107</span>479 VOC Delta        5 0.020<span style="text-decoration: underline;">7</span>  2022-07-13 <span style="color: #949494;">02:54:39</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span>          2     <span style="text-decoration: underline;">2</span>022      <span style="text-decoration: underline;">107</span>479 Omicron BA.1   235 0.975   2022-07-13 <span style="color: #949494;">02:54:39</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span>          2     <span style="text-decoration: underline;">2</span>022      <span style="text-decoration: underline;">107</span>483 Omicron BA.2     1 0.004<span style="text-decoration: underline;">15</span> 2022-07-13 <span style="color: #949494;">02:54:39</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span>          2     <span style="text-decoration: underline;">2</span>022      <span style="text-decoration: underline;">107</span>483 VOC Delta        5 0.020<span style="text-decoration: underline;">7</span>  2022-07-13 <span style="color: #949494;">02:54:39</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span>          2     <span style="text-decoration: underline;">2</span>022      <span style="text-decoration: underline;">107</span>483 Omicron BA.1   235 0.975   2022-07-13 <span style="color: #949494;">02:54:39</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># … with 2 more variables: Fuente &lt;chr&gt;, fecha &lt;date&gt;</span></span></span></code></pre>
 <p>Hacemos la gráfica comenzando con unas barras con colores por
 variante</p>
@@ -212,7 +215,7 @@ variante</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fecha</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">casos_covid</span><span class="op">)</span><span class="op">*</span><span class="va">freq</span>, fill <span class="op">=</span> <span class="va">variant</span><span class="op">)</span>, </span>
 <span>           data <span class="op">=</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co">#Se multiplica por 40,000 para andar cerca de la media de casos</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FECHA_SINTOMAS</span>, <span class="fl">40000</span><span class="op">*</span><span class="va">`Median(R)`</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">rt</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FECHA_SINTOMAS</span>, <span class="fl">40000</span><span class="op">*</span><span class="va">`Median(R)`</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">estima_rt</span>,</span>
 <span>            linetype <span class="op">=</span> <span class="st">"solid"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span><span class="st">"Variante"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MetBrewer/man/met.brewer.html" class="external-link">met.brewer</a></span><span class="op">(</span><span class="st">"Cross"</span>, n <span class="op">=</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>

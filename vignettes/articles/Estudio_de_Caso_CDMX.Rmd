@@ -36,13 +36,13 @@ Y descargamos los datos:
 datos_covid <- descarga_datos_abiertos()
 ```
 
-```{r, echo = FALSE, message=FALSE}
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
 datos_covid <- read_datos_abiertos()
 ```
 
 > **Nota** No olvides que necesitas instalar [MariaDB](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html) en todas las plataformas (o tener demasiada `RAM`) y en Windows adicionalmente requieres [`7zip`](https://www.7-zip.org/) u otro descompresor de archivos `zip` que no sea el `tar` default. 
 
-## Casos semanales y rt
+## Casos semanales y número efectivo de reproducción
 
 Comenzamos con el primer panel para lo cual necesitamos correr dos funciones: la de casos y la del número efectivo de reproducción. Calculamos ambos seleccionando la entidad y sólo los confirmados:
 
@@ -52,11 +52,11 @@ datos_covid <- datos_covid %>%
   casos(entidades          = "CIUDAD DE MÉXICO",
         group_by_entidad   = FALSE,
         tipo_clasificacion = "Confirmados COVID") %>%
-  #Y calculamos el rt
-  rt(entidades = "CIUDAD DE MÉXICO",
+  #Y calculamos el estima_rt
+  estima_rt(entidades = "CIUDAD DE MÉXICO",
      min_date  = as.Date("2021/11/20", format = "%Y/%m/%d"),
      tipo_clasificacion = "Confirmados COVID",
-     method = "parametric_si",        #Método de estimación del rt
+     method = "parametric_si",        #Método de estimación del estima_rt
      config = EpiEstim::make_config(
        list(
        mean_si = 3.5, #Media de tiempo del intervalo serial
@@ -72,15 +72,15 @@ names(datos_covid)
 
 Por otro lado descargamos los datos de variantes
 
-```{r, message=FALSE}
+```{r,  message=FALSE, warning=FALSE}
 variantes <- descarga_datos_variantes_GISAID("cdmx")
 ```
 
 Generamos entonces una base única a partir del `2021/11/20` que contenga información de variantes y casos
 
 ```{r}
-#Limpiamos del rt los últimas dos semanas porque se cae
-datos_covid$rt <- datos_covid$rt %>%
+#Limpiamos del estima_rt los últimas dos semanas porque se cae
+datos_covid$estima_rt <- datos_covid$estima_rt %>%
   filter(FECHA_SINTOMAS <= today() - weeks(2))
 
 #Filtramos las fechas para coincidir con el RT
@@ -131,7 +131,7 @@ cdmx_rt <- ggplot() +
   geom_col(aes(x = fecha, y = as.numeric(casos_covid)*freq, fill = variant), 
            data = datos_covid$casos) +
   #Se multiplica por 40,000 para andar cerca de la media de casos
-  geom_line(aes(x = FECHA_SINTOMAS, 40000*`Median(R)`), data = datos_covid$rt,
+  geom_line(aes(x = FECHA_SINTOMAS, 40000*`Median(R)`), data = datos_covid$estima_rt,
             linetype = "solid", linewidth = 1) + 
   scale_fill_manual("Variante", values = met.brewer("Cross", n = 6)) +
   labs(
@@ -159,7 +159,7 @@ cdmx_rt
 
 Por otro lado descargamos la información de ocupación hospitalaria de la RED IRAG. 
 
-```{r, message = FALSE}
+```{r,  message=FALSE, warning=FALSE}
 #Descarga de datos por estado
 ocupacion_estado <- descarga_datos_red_irag("Estatal")
 
@@ -289,7 +289,7 @@ datos_covid <- datos_covid %>%
 
 Generamos la gráfica de positividad distinguiendo por tipo de prueba:
 
-```{r}
+```{r, warning=FALSE}
 #Nos quedamos sólo a  partir de 2022
 datos_covid$positividad <- datos_covid$positividad %>%
   filter(year(FECHA_SINTOMAS) >= 2022)

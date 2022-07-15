@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -54,6 +54,9 @@
     <a class="dropdown-item" href="articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
     <a class="dropdown-item" href="articles/Instalacion_de_MARIADB.html">Instalación de MariaDB</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Registro de cambios</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -105,6 +108,10 @@
 <span><span class="co">#Datos de variantes (cdmx o nacional)</span></span>
 <span><span class="va">variantes</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"nacional"</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co">#Todas las descargas del paquete son inteligentes y si ha pasado poco tiempo desde tu</span></span>
+<span><span class="co">#última descarga te pregunta primero antes de comprometerse a descargar de nuevo</span></span>
+<span><span class="fu"><a href="reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"nacional"</span><span class="op">)</span> <span class="co">#desactiva con force_download = TRUE</span></span>
+<span></span>
 <span><span class="co">#Datos de ocupación hopsitalaria de Red IRAG ('Estatal' o 'Unidad Médica')</span></span>
 <span><span class="va">ocupacion</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span><span class="st">"Estatal"</span><span class="op">)</span></span>
 <span></span>
@@ -137,7 +144,7 @@
 <span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/chr.html">chr</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Estimación del número efectivo de reproducción</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/rt.html">rt</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/estima_rt.html">estima_rt</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#¡Grafica!</span></span>
 <span><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>

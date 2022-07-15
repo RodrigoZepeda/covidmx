@@ -20,6 +20,8 @@
 #' @param quiet booleana para no imprimir mensajes en la consola.
 #' @param cache cache para `pins::board_url`.
 #' @param use_cache_on_failure parametro para `pins::board_url`.
+#' @param force_download analiza si cambio el pin y descarga datos nuevos en caso afirmativo
+#' @param show_warnings si arrojar `warnings`
 #' @param ...  parametros adicionales para `pins::pin_download`.
 #' @return `data.frame` con los datos porcentuales y de conteo de variantes
 #'
@@ -30,6 +32,13 @@
 #'
 #'#Descarga de variantes para CDMX
 #'variantes_covid <- descarga_datos_variantes_GISAID('cdmx')
+#'
+#'#Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
+#'#sin verificar que el contenido en Internet haya cambiado
+#'variantes_covid <- descarga_datos_variantes_GISAID('nacional')
+#'
+#'#Puedes forzarlo a checar el contenido en Internet usando
+#'variantes_covid <- descarga_datos_variantes_GISAID('nacional', force_download = TRUE)
 #'}
 #' @encoding UTF-8
 #' @references
@@ -47,12 +56,14 @@
 #' Zepeda-Tello, R. (2022). Reporte Nacional de Variantes de COVID-19.
 #' URL: \url{https://github.com/RodrigoZepeda/VariantesCovid}
 #'
-#' @seealso descarga_datos_red_irag descarga_datos_abiertos
+#' @seealso [descarga_datos_red_irag] [descarga_datos_abiertos] [read_datos_abiertos]
 #' @export
 descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
                                             cache = NULL,
-                                            use_cache_on_failure = rlang::is_interactive(),
+                                            use_cache_on_failure = TRUE,
                                             quiet = FALSE,
+                                            force_download = FALSE,
+                                            show_warnings  = TRUE,
                                             ...){
 
   #Ponemos el diccionario
@@ -72,9 +83,34 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
     cache                = cache,
     use_cache_on_failure = use_cache_on_failure)
 
+  #FIXME
+  #This is a workaround as the pins package doesn't have metadata for downloads
+  #Checamos si está descargado y cuándo lo descargaste si fue hace menos de un dia te
+  #dejo con el mismo
+  tdif <- pin_get_download_time(board, nivel[1])
 
-  dats <- board %>%
-    pins::pin_download(name = nivel[1], ...) %>%
+  if (!force_download & tdif < 1){
+
+    if (show_warnings){
+      warning(glue::glue("
+                          La descarga mas reciente fue hace {tdif} dias. Como tiene menos de un dia
+                          usare esa. Escribe force_download = TRUE si quieres descargar de
+                          todas formas. Para desactivar este mensaje show_warnings = FALSE.
+
+                          Most recent download was {tdif} days ago. It has less than a day hence
+                          I'll use that one. Write force_download = TRUE if you want to
+                          download anyway. To turn off this message show_warnings = FALSE."))
+    }
+
+    #Lee de memoria
+    dfile <- pin_path_from_memory(board, nivel[1])
+
+  } else {
+    #Descarga si cambió
+    dfile <- pins::pin_download(board = board, name = nivel[1], ...)
+  }
+
+  dats <- dfile %>%
     readr::read_csv(locale    = readr::locale(encoding = "UTF-8"),
                     col_types = readr::cols(
                       .default      = readr::col_character(),
@@ -85,9 +121,16 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
                       Actualizacion = readr::col_datetime(format = '%Y/%m/%d %H:%M:%S')
                     ))
 
+  #Escribimos en el pin que ya descargamos
+  pin_write_download_time(board, nivel[1])
+
   if (!quiet){
     message(glue::glue("
             No olvides citar las referencias de GISAID | Don't forget to cite GISAID's references
+
+            Use quiet = TRUE para silenciar este mensaje.
+            Use quiet = TRUE to silence this message.
+
             --------------------------------------------------------------------------------------
 
             Khare, S., et al (2021) GISAID's Role in Pandemic Response. China CDC Weekly, 3(49):
@@ -105,6 +148,7 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
             Actualizado el {dats$Actualizacion[1]}. URL:
             https://github.com/RodrigoZepeda/VariantesCovid
 
+            --------------------------------------------------------------------------------------
             "))
   }
 

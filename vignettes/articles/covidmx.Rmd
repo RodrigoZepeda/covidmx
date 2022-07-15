@@ -20,7 +20,18 @@ La librería de `covidmx` está para ayudarte a analizar los datos abiertos de C
 remotes::install_github("RodrigoZepeda/covidmx")
 ```
 
-## Descarga de datos de la Dirección General de Epidemiología
+No olvides llamar la librería y ¡a codear!
+
+```{r setup, message=FALSE, warning=FALSE, results='hide'}
+library(covidmx)
+library(dplyr)
+```
+
+
+## Datos Abiertos de la Dirección General de Epidemiología
+
+
+### Descarga automática de base de datos abiertos 
 
 > **NOTA** Necesitas tener una instalación de dos cosas:
 >
@@ -30,30 +41,25 @@ remotes::install_github("RodrigoZepeda/covidmx")
 >
 > 2.  Un descompresor de archivos `zip`. En Windows sugiero [`7zip`](https://www.7-zip.org/); en Linux/Mac/Unix generalmente ya tienes `unzip` (y si no, instálalo)
 
-```{r setup, message=FALSE, warning=FALSE, results='hide'}
-library(covidmx)
-library(dplyr)
-```
-
-Lo más importante es comenzar descargando la base de datos pública. Esto lo puedes hacer como sigue:
+Lo más importante es comenzar descargando la base de datos abiertos. Esto lo puedes hacer como sigue:
 
 ```{r descarga, eval = FALSE}
-datos_covid <- descarga_datos_abiertos(language = "Español")
+datos_covid <- descarga_datos_abiertos()
 ```
 
 ```{r lectura, echo = FALSE, message=FALSE, warning=FALSE}
 datos_covid <- read_datos_abiertos()
 ```
 
-La descarga contiene una lista la información de interés está en `datos_covid$dats`
+La descarga contiene una conexión a `MariaDB` dentro de `datos_covid$dats` la cual puedes operar con `dbplyr`. 
 
-Por default **NO** se agregan las etiquetas a los datos pues es muy tardado hacerlo:
+**NO** se agregan las etiquetas a los datos pues es muy tardado hacerlo:
 
 ```{r glimpse-1}
 datos_covid$dats %>% dplyr::glimpse()
 ```
 
-Sin embargo se guardan como una lista en `dict` para su consulta y uso por las funciones internas:
+Sin embargo el diccionario se almacena como una lista en `dict` para su consulta y uso por las funciones internas:
 
 ```{r glimpse-2}
 datos_covid$dict %>% dplyr::glimpse()
@@ -65,13 +71,53 @@ por ejemplo para ver el diccionario de antígeno:
 datos_covid$dict$RESULTADO_ANTIGENO
 ```
 
-De hecho no es necesario volver a descargar si reinicias tu sesión de `R` siempre y cuando los hayas guardado en `MariaDB` (el default). Puedes sólo leer los datos abiertos que ya tienes usando la función `read_datos_abiertos.R`;
+> **¿Se te fue el Internet?** No te preocupes, `descarga_datos_abiertos` trabajará con tu descarga más reciente.
 
-```{r, eval = TRUE}
+### Lectura desde MariaDB 
+
+No es necesario volver a descargar si reinicias tu sesión de `R` siempre y cuando los hayas guardado en `MariaDB` (el default). Puedes sólo leer los datos abiertos que ya tienes usando la función `read_datos_abiertos.R`;
+
+```{r, eval = FALSE}
 read_datos_abiertos() %>% glimpse()
 ```
 
-Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad.
+```{r, echo = FALSE}
+datos_covid %>% glimpse()
+```
+
+El proceso de descarga de cualquier base de `covidmx` es un proceso inteligente. Si no ha pasado más de un día desde que descargaste la base el programa te advertirá de que no tiene sentido volver a descargar. 
+
+Podemos ver un ejemplo descargando sólo el diccionario (que ya descargamos arriba con `descarga_datos_abiertos`)
+
+```{r}
+diccionario_datos <- descarga_diccionario()
+```
+
+Si de todas maneras quieres reintentar la descarga puedes usar `force_download = TRUE` 
+
+```{r}
+diccionario_datos <- descarga_diccionario(force_download = TRUE)
+```
+
+lo cual verificará mediante [`pins`](https://pins.rstudio.com/) que la base en línea sea distinta de la que tienes almacenada y en caso afirmativo descargará los datos.
+
+### Lectura de base de datos de `zip` o `csv`
+
+Si el proceso de descarga se interrumpe en algún momento puedes leer los datos abiertos de `zip` o bien del `csv` descomprimido con `read_datos_abiertos` también:
+
+```{r, eval = FALSE}
+datos_covid <- read_datos_abiertos("el/path/al/zip.zip")
+datos_covid <- read_datos_abiertos("el/path/al/csv.csv")
+```
+
+Lo mismo puedes hacer si tienes el diccionario descargado con las variables `diccionario_zip_path`, `diccionario_unzipped_path` y `diccionario` para cuando el diciconario es un archivo `zip`, un archivo `xlsx` o un `tibble` en tu sesiòn de `R` (respectivamente) como sigue:
+
+```{r, eval = FALSE}
+datos_covid <- read_datos_abiertos("el/path/al/zip.zip",  #Path de tu base de datos abiertos
+                                   diccionario_unzipped_path = "/zip/diccionario")
+```
+
+Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. 
 
 ### Casos (Incidencia)
 
@@ -435,19 +481,19 @@ Podemos estimar el número a nivel nacional a partir de 2022:
 
 ```{r, message = FALSE}
 datos_covid <- datos_covid %>% 
-  rt(group_by_entidad = FALSE, 
+  estima_rt(group_by_entidad = FALSE, 
      min_date = as.Date("2022/01/01", format = "%Y/%m/%d"))
 ```
 
 ```{r, echo = FALSE}
-head(datos_covid$rt)
+head(datos_covid$estima_rt)
 ```
 
 O bien por entidad sólo con los confirmados covid:
 
 ```{r, message = FALSE, fig.height=32, fig.width=8}
 datos_covid <- datos_covid %>% 
-  rt(tipo_clasificacion = "Confirmados COVID",
+  estima_rt(tipo_clasificacion = "Confirmados COVID",
      list_name = "RT_confirmados_COVID")
 
 datos_covid$RT_confirmados_COVID %>%
@@ -467,7 +513,7 @@ datos_covid$disconnect()
 
 Para descargar las variantes reportadas por la publicación diaria en Github del reporte nacional en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) a partir de las variantes de [GISAID](www.gisaid.org) puedes hacer:
 
-```{r}
+```{r, message = FALSE, warning=FALSE}
 variantes_covid <- descarga_datos_variantes_GISAID()
 ```
 
@@ -479,9 +525,11 @@ variantes_covid %>% head()
 
 Por `default` baja nacional pero también puedes usar "cdmx":
 
-```{r}
+```{r, message = FALSE, warning=FALSE}
 variantes_covid <- descarga_datos_variantes_GISAID("cdmx")
 ```
+
+En este caso, la descarga también es inteligente y necesitas poner `force_download = TRUE` si ha pasado menos de un día de tu última descarga (almacenada mediante `pins` en cache) y quieres volver a bajar los datos. 
 
 > No olvides citar a **GISAID** así como a la publicación diaria en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) si las usas.
 
@@ -489,7 +537,7 @@ variantes_covid <- descarga_datos_variantes_GISAID("cdmx")
 
 Puedes descargar los datos de la [Red IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#) de ocupación hospitalaria a nivel estatal o a nivel unidad médica mediante `descarga_datos_red_irag`. Estos se obtienen de la publicación diaria en [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX).
 
-```{r}
+```{r, message = FALSE, warning=FALSE}
 estatales <- descarga_datos_red_irag()
 ```
 
@@ -501,7 +549,7 @@ estatales %>% plot_covid(df_covariates = "estado")
 
 O bien por unidad médica:
 
-```{r}
+```{r, message = FALSE, warning=FALSE}
 unidad_medica <- descarga_datos_red_irag(nivel = "Unidad Médica")
 ```
 
@@ -510,6 +558,9 @@ que se ven así:
 ```{r}
 unidad_medica %>% head()
 ```
+
+En este caso, la descarga también es inteligente y necesitas poner `force_download = TRUE` si ha pasado menos de un día de tu última descarga (almacenada mediante `pins` en cache) y quieres volver a bajar los datos. 
+
 
 > No olvides citar a **RED IRAG** así como a la publicación diaria en [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) si las usas.
 

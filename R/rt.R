@@ -1,7 +1,7 @@
 #' RT: Número efectivo de reproducción
 #'
 #' @description
-#' `rt` Calcula el número efectivo de reproducción por fecha y entidad
+#' `estima_rt` Calcula el número efectivo de reproducción por fecha y entidad
 #'
 #' @details
 #' Por default calcula el número efectivo de reproducción por estado
@@ -64,19 +64,19 @@
 #'
 #'#Casos a nivel nacional en los confirmados
 #'datos_covid <- datos_covid %>%
-#'         rt(tipo_clasificacion == "Confirmados COVID",
+#'         estima_rt(tipo_clasificacion == "Confirmados COVID",
 #'           group_by_entidad = FALSE)
 #'
 #'#Casos en AGS, CHI en los confirmados
 #'datos_covid <- datos_covid %>%
-#'         rt(entidades = c("CHIHUAHUA","AGUASCALIENTES"),
+#'         estima_rt(entidades = c("CHIHUAHUA","AGUASCALIENTES"),
 #'           tipo_clasificacion == "Confirmados COVID",
 #'           group_by_entidad = TRUE)
 #'}
 #'
 #' @export
 
-rt <- function(datos_covid = NULL,
+estima_rt <- function(datos_covid = NULL,
                         entidades   = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
                                         "CAMPECHE", "CHIAPAS", "CHIHUAHUA",
                                         "CIUDAD DE M\u00c9XICO","COAHUILA DE ZARAGOZA" , "COLIMA",
@@ -97,7 +97,7 @@ rt <- function(datos_covid = NULL,
                                                  "Negativo a COVID","Inv\u00e1lido",
                                                  "No realizado"),
                         tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
-                        list_name = "rt",
+                        list_name = "estima_rt",
                         min_date  = as.Date("2021/11/21", format = "%Y/%m/%d"),
                         method    = "parametric_si",
                         config    = EpiEstim::make_config(

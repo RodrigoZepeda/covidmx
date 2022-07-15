@@ -122,7 +122,6 @@ por covariables.
 }
 \details{
 Por default calcula el total de casos.
-This is not an official product / este no es un producto oficial
 }
 \examples{
 \dontrun{
