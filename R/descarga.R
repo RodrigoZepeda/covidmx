@@ -671,6 +671,7 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_path,
   #Unzip file
   filecon <- tryCatch({
     unzip(datos_abiertos_zip_path, overwrite = TRUE)
+    list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
   },
   warning = function(cond) {
 

@@ -256,7 +256,7 @@ casos <- function(datos_covid = NULL,
                       paste0("\\b",
                              paste0(entidades, collapse = "\\b|\\b"),"\\b")))
 
-  lista_entidades  <- paste0(entidades$CLAVE_ENTIDAD, collapse = "|")
+  lista_entidades   <- paste0(entidades$CLAVE_ENTIDAD, collapse = "|")
   .casos            <- datos_covid$dats %>%
     dplyr::filter(
       stringr::str_detect(!!as.symbol(entidad_tipo), lista_entidades)

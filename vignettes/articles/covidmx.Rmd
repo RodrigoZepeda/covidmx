@@ -47,11 +47,11 @@ Lo más importante es comenzar descargando la base de datos abiertos. Esto lo pu
 datos_covid <- descarga_datos_abiertos()
 ```
 
-Para propósito de este tutorial trabajaremos con una base de datos más pequeña disponible en el repositorio de [Github](https://github.com/RodrigoZepeda/covidmx). 
+Para propósito de este tutorial trabajaremos con una base de datos más pequeña disponible en el repositorio de [Github](https://github.com/RodrigoZepeda/covidmx) la cual guardaremos en `MariaDB` bajo el nombre de **tutorial**. 
 
 ```{r, message = FALSE, warning=FALSE}
-dlink       <- "https://github.com/RodrigoZepeda/covidmx/blob/MARIADB/pruebaCOVID19MEXICO.csv.zip?raw=true"
-datos_covid <- descarga_datos_abiertos(site.covid = dlink)
+dlink       <- "https://github.com/RodrigoZepeda/covidmx/raw/MARIADB/datos_abiertos_covid19.zip"
+datos_covid <- descarga_datos_abiertos(site.covid = dlink, tblname = "tutorial") 
 ```
 
 La descarga contiene una conexión a `MariaDB` dentro de `datos_covid$dats` la cual puedes operar con [`dbplyr`](https://dbplyr.tidyverse.org/). 
@@ -104,16 +104,22 @@ lo cual verificará mediante [`pins`](https://pins.rstudio.com/) que la base en 
 
 Si el proceso de descarga se interrumpe en algún momento puedes leer los datos abiertos de `zip` o bien del `csv` descomprimido con `read_datos_abiertos` también:
 
-```{r, eval = FALSE}
-datos_covid <- read_datos_abiertos("el/path/al/zip.zip")
-datos_covid <- read_datos_abiertos("el/path/al/csv.csv")
+```{r, eval = TRUE, warning=FALSE, message=FALSE}
+#Descarga sólo el zip
+zip_path    <- descarga_db_datos_abiertos_tbl(site.covid = dlink, show_warnings = F, quiet = T)
+datos_covid <- read_datos_abiertos(zip_path)
+
+#O bien descomprime el zip y lee el csv
+csv_path    <- unzip_db_datos_abiertos_tbl(zip_path)
+datos_covid <- read_datos_abiertos(csv_path)
 ```
 
 Lo mismo puedes hacer si tienes el diccionario descargado con las variables `diccionario_zip_path`, `diccionario_unzipped_path` y `diccionario` para cuando el diciconario es un archivo `zip`, un archivo `xlsx` o un `tibble` en tu sesiòn de `R` (respectivamente) como sigue:
 
-```{r, eval = FALSE}
-datos_covid <- read_datos_abiertos("el/path/al/zip.zip",  #Path de tu base de datos abiertos
-                                   diccionario_unzipped_path = "/zip/diccionario")
+```{r, message = FALSE, warning=FALSE}
+#Descarga el diccionario en zip
+zip_path    <- descarga_db_diccionario_ssa()
+datos_covid <- read_datos_abiertos(diccionario_zip_path = zip_path)
 ```
 
 Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. 

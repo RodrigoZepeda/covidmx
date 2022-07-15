@@ -1,12 +1,17 @@
 library(covidmx)
-
+library(tidyverse)
+library(lubridate)
 covid      <- read_datos_abiertos()
+
 covid$dats <- covid$dats %>%
-  filter(FECHA_SINTOMAS >= as.Date("2022/05/01") & FECHA_SINTOMAS < as.Date("2020/07/01")) %>%
-  filter(ENTIDAD_UM %in% c(18, 19))
+  filter(ENTIDAD_UM %in% c("02", "03"))
 
 covid$dats   <- covid$dats %>% collect()
+covid$dats   <- covid$dats %>%
+  filter(year(FECHA_SINTOMAS) > 2020) %>%
+  filter(FECHA_SINTOMAS >= ymd("2021/07/01") & FECHA_SINTOMAS <= ymd("2021/09/01"))
 
+covid$disconnect(9)
 datosabiertos <- covid
 datosabiertos$disconnect <- function(){TRUE}
 
