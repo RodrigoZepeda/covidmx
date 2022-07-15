@@ -43,3 +43,6 @@ Suggests:
 URL: https://github.com/RodrigoZepeda/covidmx,
     https://rodrigozepeda.github.io/covidmx/
 BugReports: https://github.com/RodrigoZepeda/covidmx/issues
+Depends: 
+    R (>= 3.10)
+LazyData: true

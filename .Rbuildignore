@@ -18,3 +18,4 @@
 ^create_sticker.R
 ^\.github$
 ^scratch
+^data-raw$
