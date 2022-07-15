@@ -47,20 +47,14 @@ Lo más importante es comenzar descargando la base de datos abiertos. Esto lo pu
 datos_covid <- descarga_datos_abiertos()
 ```
 
-Para propósito de este tutorial trabajaremos con una base de datos más pequeña 
+Para propósito de este tutorial trabajaremos con una base de datos más pequeña disponible en el repositorio de [Github](https://github.com/RodrigoZepeda/covidmx). 
 
-```{r}
-dlink       <- "https://github.com/RodrigoZepeda/covidmx/blob/MARIADB/datos_abiertos_covid19.zip"
-datos_covid <- descarga_datos_abiertos(site.covid = dlink, quiet = T)
+```{r, message = FALSE, warning=FALSE}
+dlink       <- "https://github.com/RodrigoZepeda/covidmx/blob/MARIADB/pruebaCOVID19MEXICO.csv.zip?raw=true"
+datos_covid <- descarga_datos_abiertos(site.covid = dlink)
 ```
 
-
-
-```{r lectura, echo = FALSE, message=FALSE, warning=FALSE}
-datos_covid <- read_datos_abiertos()
-```
-
-La descarga contiene una conexión a `MariaDB` dentro de `datos_covid$dats` la cual puedes operar con `dbplyr`. 
+La descarga contiene una conexión a `MariaDB` dentro de `datos_covid$dats` la cual puedes operar con [`dbplyr`](https://dbplyr.tidyverse.org/). 
 
 **NO** se agregan las etiquetas a los datos pues es muy tardado hacerlo:
 
@@ -80,18 +74,14 @@ por ejemplo para ver el diccionario de antígeno:
 datos_covid$dict$RESULTADO_ANTIGENO
 ```
 
-> **¿Se te fue el Internet?** No te preocupes, `descarga_datos_abiertos` trabajará con tu descarga más reciente.
+> **¿Se te fue el Internet?** No te preocupes, `descarga_datos_abiertos` trabajará con tu descarga más reciente. 
 
 ### Lectura desde MariaDB 
 
 No es necesario volver a descargar si reinicias tu sesión de `R` siempre y cuando los hayas guardado en `MariaDB` (el default). Puedes sólo leer los datos abiertos que ya tienes usando la función `read_datos_abiertos.R`;
 
-```{r, eval = FALSE}
+```{r, message = FALSE, warning=FALSE}
 read_datos_abiertos() %>% glimpse()
-```
-
-```{r, echo = FALSE}
-datos_covid %>% glimpse()
 ```
 
 El proceso de descarga de cualquier base de `covidmx` es un proceso inteligente. Si no ha pasado más de un día desde que descargaste la base el programa te advertirá de que no tiene sentido volver a descargar. 
