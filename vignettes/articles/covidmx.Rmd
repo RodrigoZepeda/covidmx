@@ -81,7 +81,7 @@ datos_covid$dict$RESULTADO_ANTIGENO
 No es necesario volver a descargar si reinicias tu sesión de `R` siempre y cuando los hayas guardado en `MariaDB` (el default). Puedes sólo leer los datos abiertos que ya tienes usando la función `read_datos_abiertos.R`;
 
 ```{r, message = FALSE, warning=FALSE}
-read_datos_abiertos() %>% glimpse()
+read_datos_abiertos(tblname = "tutorial") %>% glimpse()
 ```
 
 El proceso de descarga de cualquier base de `covidmx` es un proceso inteligente. Si no ha pasado más de un día desde que descargaste la base el programa te advertirá de que no tiene sentido volver a descargar. 
@@ -107,11 +107,11 @@ Si el proceso de descarga se interrumpe en algún momento puedes leer los datos 
 ```{r, eval = TRUE, warning=FALSE, message=FALSE}
 #Descarga sólo el zip
 zip_path    <- descarga_db_datos_abiertos_tbl(site.covid = dlink, show_warnings = F, quiet = T)
-datos_covid <- read_datos_abiertos(zip_path)
+datos_covid <- read_datos_abiertos(zip_path, tblname = "tutorial")
 
 #O bien descomprime el zip y lee el csv
 csv_path    <- unzip_db_datos_abiertos_tbl(zip_path)
-datos_covid <- read_datos_abiertos(csv_path)
+datos_covid <- read_datos_abiertos_csv(csv_path, tblname = "tutorial")
 ```
 
 Lo mismo puedes hacer si tienes el diccionario descargado con las variables `diccionario_zip_path`, `diccionario_unzipped_path` y `diccionario` para cuando el diciconario es un archivo `zip`, un archivo `xlsx` o un `tibble` en tu sesiòn de `R` (respectivamente) como sigue:
@@ -144,26 +144,29 @@ Se puede filtar por entidad de la unidad médica seleccionando las entidades de 
 
 ```{r, eval = FALSE}
 datos_covid %>% 
-  casos(entidades = c("QUINTANA ROO","AGUASCALIENTES")) 
+  casos(entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR"),
+        list_name = "BC/BCS") 
 ```
 
 ```{r, echo = FALSE}
 head((datos_covid %>% 
-  casos(entidades = c("QUINTANA ROO","AGUASCALIENTES"), list_name = "prueba"))$prueba)
+  casos(entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR"), 
+        list_name = "prueba"))$prueba)
 ```
 
 Si se quiere filtrar por entidad de nacimiento y que la fecha sea la de ingreso, por ejemplo:
 
 ```{r, eval = FALSE}
 datos_covid %>% 
-    casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"),
+    casos(entidades    = "BAJA CALIFORNIA",
           entidad_tipo = "Nacimiento",
-          fecha_tipo   = "Ingreso") 
+          fecha_tipo   = "Ingreso",
+          list_name    = "DB_Filtro_Nac") 
 ```
 
 ```{r, echo = FALSE}
 tf <- datos_covid %>% 
-  casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"), 
+  casos(entidades    = "BAJA CALIFORNIA", 
         entidad_tipo = "Nacimiento",
         fecha_tipo   = "Ingreso", list_name = "prueba")
 ```
@@ -176,18 +179,20 @@ Finalmente, si sólo se desean casos confirmados e inválidos:
 
 ```{r, eval = FALSE}
 datos_covid %>% 
-    casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"),
+    casos(entidades    = "BAJA CALIFORNIA",
           entidad_tipo = "Nacimiento",
           fecha_tipo   = "Ingreso",
-          tipo_clasificacion = c("Confirmados COVID", "Invalido"))
+          tipo_clasificacion = c("Confirmados COVID", "Invalido"),
+          list_name = "BC_conf_inv")
 ```
 
 ```{r, echo = FALSE}
 tf <- datos_covid %>% 
-    casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"),
+    casos(entidades    = "BAJA CALIFORNIA",
           entidad_tipo = "Nacimiento",
           fecha_tipo   = "Ingreso",
-          tipo_clasificacion = c("Confirmados COVID", "Invalido"), list_name = "prueba") 
+          tipo_clasificacion = c("Confirmados COVID", "Invalido"), 
+          list_name = "prueba") 
 
 head(tf$prueba %>% arrange(FECHA_INGRESO, ENTIDAD_NAC))
 ```
@@ -200,6 +205,7 @@ datos_covid %>%
           entidad_tipo = "Nacimiento",
           fecha_tipo   = "Ingreso",
           tipo_clasificacion = c("Confirmados COVID", "Invalido"),
+          list_name = "Sin fill zeros",
           fill_zeros = FALSE)
 ```
 
@@ -223,7 +229,8 @@ datos_covid %>%
           entidad_tipo       = "Nacimiento",
           fecha_tipo         = "Ingreso",
           tipo_clasificacion = c("Confirmados COVID", "Invalido"),
-          group_by_entidad   = FALSE) 
+          group_by_entidad   = FALSE,
+          list_name          =   "QROO_AGS_juntos") 
 ```
 
 ```{r, echo = FALSE}
@@ -242,7 +249,7 @@ La variable `edad_cut` te permite quedarte sòlo con un grupo de edad o bien def
 
 ```{r, eval = FALSE}
 datos_covid %>% 
-  casos(edad_cut = c(5, 25)) 
+  casos(edad_cut = c(5, 25), list_name = "5_25") 
 ```
 
 ```{r, echo = FALSE}
@@ -254,7 +261,7 @@ O bien definir grupos de edad de la forma `0-20`, `20-60` y `60+`
 
 ```{r, eval = FALSE}
 datos_covid %>% 
-  casos(edad_cut = c(0, 20, 60, Inf)) 
+  casos(edad_cut = c(0, 20, 60, Inf), list_name = "0_20_60") 
 ```
 
 ```{r, echo = FALSE}
@@ -267,16 +274,13 @@ Puedes acumular diferentes bases de datos en la misma lista asignándoles nombre
 ```{r, eval = TRUE}
 datos_covid <- datos_covid %>% 
   casos(list_name = "Todos por entidad") %>%
-  casos(list_name = "Todos (nacional)", group_by_entidad = FALSE) %>% 
+  casos(list_name = "Todos (nacional)",    group_by_entidad = FALSE) %>% 
   casos(list_name = "Defunciones (todos)", defunciones = TRUE) 
 
-message("Todos (nacional)")
 datos_covid$`Todos (nacional)` %>% head()
 
-message("Todos por entidad")
 datos_covid$`Todos por entidad` %>% head()
 
-message("Defunciones (todos)")
 datos_covid$`Defunciones (todos)` %>% head()
 ```
 
@@ -300,7 +304,7 @@ datos_covid <- datos_covid %>%
     group_by_entidad   = TRUE,
     
     #Selecciona esas entidades a qué tipo de entidad refieren: Unidad Médica, Residencia, Nacimiento
-    entidad_tipo       = "Residencia", #c("Unidad M\u00e9dica", "Residencia", "Nacimiento"),
+    entidad_tipo       = "Nacimiento", #c("Unidad Medica", "Residencia", "Nacimiento"),
     
     #Selecciona la fecha para la base de datos: Síntomas, Ingreso, Defunción
     fecha_tipo         = "Ingreso",
@@ -363,7 +367,7 @@ Para calcular el número de pruebas los argumentos son los mismos que la funció
 
 ```{r}
 datos_covid <- datos_covid %>% 
-  numero_pruebas(entidades = c("CHIHUAHUA","COAHUILA"),
+  numero_pruebas(entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR"),
                  tipo_prueba = c("Antigeno", "PCR"),
                  group_by_tipo_prueba = TRUE)
 
@@ -371,7 +375,7 @@ datos_covid$numero_pruebas %>% head()
 ```
 
 ```{r, warning = FALSE}
-datos_covid$numero_pruebas %>% plot_covid(facet_ncol = 2)
+datos_covid$numero_pruebas %>% plot_covid(facet_ncol = 2, date_break_format = "1 week")
 ```
 
 
@@ -383,7 +387,7 @@ Para calcular la positividad la única forma actual es con un `tibble`.  Los arg
 
 ```{r}
 datos_covid <- datos_covid %>% 
-  positividad(entidades = c("CHIHUAHUA","COAHUILA"),
+  positividad(entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR"),
                  tipo_prueba = c("Antigeno", "PCR"),
                  group_by_tipo_prueba = TRUE)
 
@@ -396,9 +400,10 @@ datos_covid$positividad %>%
              facet_scale = "fixed",
              type = "spline",
              df_variable = "Positividad",
+             date_break_format = "7 days",
+             date_labels_format = "%d/%m/%Y",
              df_covariates = c("TIPO_PRUEBA", "ENTIDAD_FEDERATIVA"))
 ```
-
 
 
 ### Case Hospitalization Rate
@@ -409,7 +414,7 @@ $$
 $$
 lo puedes calcular con `chr`:
 
-```{r}
+```{r, message=FALSE}
 datos_covid <- datos_covid %>% chr()
 ```
 
@@ -419,11 +424,11 @@ head(datos_covid$`case hospitalization rate`)
 
 Las variables para agrupar son casi las mismas que en `casos`. Por ejemplo si queremos agrupar el `chr` en distintas categorías de edad a nivel nacional:
 
-```{r, fig.height=16, fig.width=8}
+```{r, message=FALSE, warning=FALSE}
 datos_covid <- datos_covid %>% 
   chr(
     group_by_entidad = FALSE,
-    edad_cut  = c(seq(0, 85, by = 5), Inf),
+    edad_cut  = c(0, 20, 50, Inf),
     list_name = "CHR_edad_nacional"
   ) 
 
@@ -439,7 +444,7 @@ $$
 $$
 lo puedes calcular con `cfr`:
 
-```{r}
+```{r, message=FALSE}
 datos_covid <- datos_covid %>% cfr()
 ```
 
@@ -449,31 +454,29 @@ head(datos_covid$`case fatality rate`)
 
 Las variables para agrupar son casi las mismas que en `casos`. Por ejemplo si queremos agrupar el `cfr` en distintas categorías de edad a nivel nacional:
 
-```{r}
+```{r, message = FALSE, warning=FALSE}
 datos_covid <- datos_covid %>% 
-  cfr(
-    entidades = c("CIUDAD DE MÉXICO", "MÉXICO"),
+  cfr(entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
     group_by_entidad = TRUE,
-    list_name = "CFR_CENTRAL"
+    list_name = "CFR_BC"
   ) 
 
-datos_covid$CFR_CENTRAL %>%
+datos_covid$CFR_BC %>%
   plot_covid(type = "line", facet_ncol = 2)
 ```
 
 Podemos también calcular la mortalidad dentro de los hospitalizados y ambulatorios:
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 datos_covid <- datos_covid %>% 
   cfr(
     tipo_paciente = "HOSPITALIZADO",
-    group_by_tipo_paciente = TRUE,
     group_by_entidad       = FALSE,
-    list_name = "CFR_HOSPITALIZADO"
+    list_name = "CFR_HOSPITALIZADOS"
   ) 
 
 datos_covid %>%
-  plot_covid(df_name = "CFR_HOSPITALIZADO", type = "line", facet_ncol = 2,
+  plot_covid(df_name = "CFR_HOSPITALIZADOS", type = "line", facet_ncol = 2,
              df_variable = "CASE FATALITY RATE")
 ```
 
@@ -486,8 +489,7 @@ Podemos estimar el número a nivel nacional a partir de 2022:
 
 ```{r, message = FALSE}
 datos_covid <- datos_covid %>% 
-  estima_rt(group_by_entidad = FALSE, 
-     min_date = as.Date("2022/01/01", format = "%Y/%m/%d"))
+  estima_rt(group_by_entidad = FALSE)
 ```
 
 ```{r, echo = FALSE}

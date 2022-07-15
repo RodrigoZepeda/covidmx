@@ -5,3 +5,7 @@
 `read_datos_abiertos`. 
 * La descarga de archivos tiene una nueva estructura inspirada en `pins` que lee de memoria (cache) si no ha pasado más de un día de la descarga, si ya pasó más de un día pero detecta que el archivo en línea es idéntico al que tienes en memoria o si no tienes Internet. 
 * Se cambió `rt` por `estima_rt` para no ocasionar problemas con la distribución de Student en `stats::rt`.
+
+# covidmx 0.2.1.0000
+
+*Se arregló un `bug` que al filtrar por `BAJA CALIFORNIA` también devolvía la sur en `casos`. 

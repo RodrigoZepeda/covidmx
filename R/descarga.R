@@ -292,7 +292,7 @@ descarga_datos_abiertos <- function(read_format      = c("MariaDB", "tibble"),
                            clear_csv                    = clear_csv,
                            force_download               = force_download,
                            show_warnings                = show_warnings,
-                           datos_abiertos_zip_path                     = datos_abiertos_zip_path,
+                           datos_abiertos_zip_path      = datos_abiertos_zip_path,
                            datos_abiertos_unzipped_path = datos_abiertos_unzipped_path,
                            datos_abiertos_tbl           = datos_abiertos_tbl,
                            quiet                        = quiet,
@@ -361,7 +361,7 @@ descarga_db <- function(read_format      = c("MariaDB", "tibble"),
                         clear_csv           = TRUE,
                         force_download      = FALSE,
                         show_warnings       = TRUE,
-                        datos_abiertos_zip_path            = NULL,
+                        datos_abiertos_zip_path      = NULL,
                         datos_abiertos_unzipped_path = NULL,
                         datos_abiertos_tbl        = NULL,
                         quiet                     = FALSE,
@@ -415,7 +415,7 @@ descarga_db <- function(read_format      = c("MariaDB", "tibble"),
   }
 
   #Parseamos el file en tibble o MARIADB
-  if (!is.null(datos_abiertos_zip_path) & !is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)){
+  if (!is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)){
 
     datos_abiertos_tbl <- parse_db_datos_abiertos_tbl(
       datos_abiertos_unzipped_path = datos_abiertos_unzipped_path,
@@ -494,7 +494,7 @@ descarga_diccionario <- function(download_process = c("pins", "download.file"),
   }
 
   #Leemos el diccionario
-  if (!is.null(diccionario_zip_path) & !is.null(diccionario_unzipped_path) & is.null(diccionario)){
+  if (!is.null(diccionario_unzipped_path)){
 
     diccionario <- parse_db_diccionario_ssa(
       diccionario_unzipped_path = diccionario_unzipped_path,

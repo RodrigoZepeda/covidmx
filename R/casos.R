@@ -253,13 +253,16 @@ casos <- function(datos_covid = NULL,
     datos_covid$dict[entidad_tipo][[1]] %>%
       dplyr::filter(
         stringr::str_detect(get("ENTIDAD_FEDERATIVA"),
-                      paste0("\\b",
-                             paste0(entidades, collapse = "\\b|\\b"),"\\b")))
+                            paste0(paste0("^",paste0(entidades,"$")),collapse = "|")))
+
+  if (nrow(entidades) < 1){
+    stop("No logramos encontrar esas entidades")
+  }
 
   lista_entidades   <- paste0(entidades$CLAVE_ENTIDAD, collapse = "|")
   .casos            <- datos_covid$dats %>%
     dplyr::filter(
-      stringr::str_detect(!!as.symbol(entidad_tipo), lista_entidades)
+      stringr::str_detect(paste0("\\^",!!as.symbol(entidad_tipo),"\\$"), lista_entidades)
     )
 
   #> CLASIFICACION FINAL----
