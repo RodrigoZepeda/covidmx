@@ -50,7 +50,7 @@ datos_covid <- descarga_datos_abiertos()
 Para propósito de este tutorial trabajaremos con una base de datos más pequeña disponible en el repositorio de [Github](https://github.com/RodrigoZepeda/covidmx) la cual guardaremos en `MariaDB` bajo el nombre de **tutorial**. 
 
 ```{r, message = FALSE, warning=FALSE}
-dlink       <- "https://github.com/RodrigoZepeda/covidmx/raw/MARIADB/datos_abiertos_covid19.zip"
+dlink       <- "https://github.com/RodrigoZepeda/covidmx/raw/MARIADB/data-raw/datos_abiertos_covid19.zip"
 datos_covid <- descarga_datos_abiertos(site.covid = dlink, tblname = "tutorial") 
 ```
 
