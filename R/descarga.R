@@ -670,7 +670,7 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_path,
 
   #Unzip file
   filecon <- tryCatch({
-    unzip(datos_abiertos_zip_path)
+    unzip(datos_abiertos_zip_path, overwrite = TRUE)
   },
   warning = function(cond) {
 
