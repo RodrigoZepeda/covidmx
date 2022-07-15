@@ -31,5 +31,3 @@ zip("datos_abiertos_covid19.zip","pruebaCOVID19MEXICO.csv")
 
 #Reacomodamos todo el panorama
 file.remove("pruebaCOVID19MEXICO.csv")
-file.copy("datos_abiertos_covid19.zip", "data-raw/datos_abiertos_covid19.zip")
-file.remove("datos_abiertos_covid19.zip")
