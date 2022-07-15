@@ -341,7 +341,6 @@ descarga_datos_abiertos <- function(read_format      = c("MariaDB", "tibble"),
 #' @rdname descarga_datos_abiertos
 #' @param cache parametro para el cache de `pins::board_url`
 #' @param ... Parametros adicionales para `BI::dbConnect()` con  conexion de `RMariaDB::MariaDB()`
-#' @inheritParams descarga_datos_abiertos
 descarga_db <- function(read_format      = c("MariaDB", "tibble"),
                         user             = Sys.getenv("MariaDB_user"),
                         password         = Sys.getenv("MariaDB_password"),
@@ -443,7 +442,6 @@ descarga_db <- function(read_format      = c("MariaDB", "tibble"),
 
 #' @export
 #' @rdname descarga_datos_abiertos
-#' @inheritParams descarga_datos_abiertos
 descarga_diccionario <- function(download_process = c("pins", "download.file"),
                                  site.covid.dic   = paste0("http://datosabiertos.salud.",
                                                            "gob.mx/gobmx/salud/datos_a",
@@ -512,8 +510,6 @@ descarga_diccionario <- function(download_process = c("pins", "download.file"),
 #' @rdname descarga_datos_abiertos
 #' @param cache parametro para el cache de `pins::board_url`
 #' @param ... Parametros adicionales para `pins::pin_download`
-#' @inheritParams descarga_datos_abiertos
-#'
 descarga_db_datos_abiertos_tbl <- function(download_process = c("pins", "download.file"),
                                   site.covid       = paste0("http://datosabiertos.salud.gob.mx",
                                                             "/gobmx/salud/datos_abiertos/datos",
@@ -604,7 +600,6 @@ descarga_db_datos_abiertos_tbl <- function(download_process = c("pins", "downloa
 #' @export
 #' @rdname descarga_datos_abiertos
 #' @param ... Parametros adicionales para `pins::pin_download`
-#' @inheritParams descarga_datos_abiertos
 descarga_db_diccionario_ssa <- function(download_process = c("pins", "download.file"),
                                         site.covid.dic   = paste0("http://datosabiertos.salud.",
                                                                   "gob.mx/gobmx/salud/datos_a",
@@ -638,7 +633,6 @@ descarga_db_diccionario_ssa <- function(download_process = c("pins", "download.f
 
 #' @export
 #' @rdname descarga_datos_abiertos
-#' @inheritParams descarga_datos_abiertos
 unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_path,
                                unzip_command       = Sys.getenv("unzip_command"),
                                unzip_args          = Sys.getenv("unzip_args"),
@@ -701,7 +695,6 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_path,
 
 #' @export
 #' @rdname descarga_datos_abiertos
-#' @inheritParams descarga_datos_abiertos
 unzip_db_diccionario_ssa <- function(diccionario_zip_path,
                                      unzip_args_dict = list("exdir" = ".", "overwrite" = TRUE),
                                      clear_zip       = FALSE
@@ -722,7 +715,6 @@ unzip_db_diccionario_ssa <- function(diccionario_zip_path,
 
 #' @export
 #' @rdname descarga_datos_abiertos
-#' @inheritParams descarga_datos_abiertos
 parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALSE){
 
   if (!file.exists(diccionario_unzipped_path)){
@@ -808,7 +800,6 @@ parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALS
 
 #' @export
 #' @rdname descarga_datos_abiertos
-#' @inheritParams descarga_datos_abiertos
 parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
                                read_format    = c("MariaDB", "tibble"),
                                user           = Sys.getenv("MariaDB_user"),
@@ -1036,7 +1027,6 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
 
 #' @export
 #' @rdname descarga_datos_abiertos
-#' @inheritParams descarga_datos_abiertos
 pega_db_datos_abiertos_tbl_y_diccionario <- function(datos_abiertos_tbl, diccionario){
   return(append(datos_abiertos_tbl, list("dict" = diccionario)))
 }
