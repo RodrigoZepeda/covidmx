@@ -42,6 +42,7 @@ Suggests:
     lubridate,
     rmarkdown,
     tidyverse,
+    usethis,
     covr
 URL: https://github.com/RodrigoZepeda/covidmx,
     https://rodrigozepeda.github.io/covidmx/
