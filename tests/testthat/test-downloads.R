@@ -31,5 +31,4 @@ test_that("Download processes", {
   #Warning por nueva descarga red irag----
   expect_warning(descarga_datos_variantes_GISAID("nacional", quiet = T, cache = mvdir))
 
-
 })

@@ -130,5 +130,12 @@ test_that("Positividad", {
 
   #Chequeo de mensaje
   expect_message(positividad(datos_covid))
+  
+  ##Error si ya eciste el nombre
+  positividad_prueba <- datos_covid %>% positividad(list_name = "Prueba", quiet = TRUE)
+  expect_error(positividad(positividad_prueba, list_name = "Prueba", quiet = TRUE))
+  
+  #Error si no se selecciona un tipo de antigeno
+  expect_error(positividad(datos_covid, tipo_prueba = "Y3W9EPGFOI", quiet = TRUE))
 
 })

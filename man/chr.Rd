@@ -26,6 +26,7 @@ chr(
   edad_cut = NULL,
   fill_NA = TRUE,
   list_name = "case hospitalization rate",
+  quiet = FALSE,
   .grouping_vars = c()
 )
 }
@@ -83,6 +84,8 @@ para todas las combinaciones de variables incluyendo como NA donde no se observa
 y por tanto el denominador y el \code{chr} es indefinido.}
 
 \item{list_name}{Asigna un nombre en la lista de datos a la base generada}
+
+\item{quiet}{No arroja ningun mensaje}
 
 \item{.grouping_vars}{Vector de variables adicionales de agrupacion de los conteos}
 }

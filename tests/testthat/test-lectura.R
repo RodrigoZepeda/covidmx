@@ -70,10 +70,8 @@ test_that("Lectura y descarga datos abiertos", {
   diccionario <- descarga_diccionario(quiet = TRUE, force_download = T, show_warnings = F,
                                       cache_diccionario = tempfile())
   
-  #Descarga de datos covid como MariaDB
-  skip_if(!RMariaDB::mariadbHasDefault())
-  dlink       <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
-  datos_covid <- descarga_db(read_format = "MariaDB", site.covid = dlink, tblname = "tutorial",
-                             quiet = TRUE, show_warnings = F, force_download = T, cache = tempfile())
-  expect_gt(as.numeric(dplyr::collect(dplyr::tally(datos_covid$dats))[[1]]), 0)
+  #Descarga de sitio que no es
+  expect_error(descarga_db(quiet = TRUE, force_download = T, show_warnings = F,
+                           site.covid = "ahsfiugow"))
+  
 })

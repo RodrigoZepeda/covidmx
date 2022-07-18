@@ -69,6 +69,8 @@
 #' @param .grouping_vars Vector de variables adicionales de agrupacion de los conteos
 #'
 #' @param list_name Asigna un nombre en la lista de datos a la base generada
+#' 
+#' @param quiet No arroja ningun mensaje 
 #'
 #' @importFrom rlang :=
 #'
@@ -159,6 +161,7 @@ cfr <- function(datos_covid,
                 group_by_tipo_sector = FALSE,
                 edad_cut             = NULL,
                 fill_NA              = TRUE,
+                quiet                = FALSE,
                 list_name            = "case fatality rate",
                 .grouping_vars       = c()){
 
@@ -169,7 +172,9 @@ cfr <- function(datos_covid,
                     "in datos_covid as it already exists"))
   }
 
-  message("Calculando los casos totales")
+  if (!quiet){
+    message("Calculando los casos totales")
+  }
 
   #Trick to get new name
   name_1         <- paste(c(names(datos_covid),"1"), collapse = "")
@@ -194,7 +199,9 @@ cfr <- function(datos_covid,
                           list_name              = name_1,
                           .grouping_vars       = c())[[name_1]]
 
-  message("Calculando las defunciones")
+  if (!quiet){
+    message("Calculando las defunciones")
+  }
   .casos_defunciones <- casos(datos_covid = datos_covid,
                                  entidades   = entidades,
                                  group_by_entidad   = group_by_entidad,
@@ -214,7 +221,10 @@ cfr <- function(datos_covid,
                                  list_name              = name_2,
                                  .grouping_vars         = c())[[name_2]]
 
-  message("Calculando el cfr")
+  if (!quiet){
+    message("Calculando el cfr")
+  }
+  
   .casos_totales <- .casos_totales %>%
     dplyr::left_join(.casos_defunciones %>%
                        dplyr::rename(!!as.symbol("d") := !!as.symbol("n")),

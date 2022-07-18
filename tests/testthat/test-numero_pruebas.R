@@ -282,5 +282,12 @@ test_that("Num pruebas", {
   #Chequeo del list_name-----
   numero_pruebas_prueba <- datos_covid %>% numero_pruebas(list_name = "Prueba")
   expect_true("Prueba" %in% names(numero_pruebas_prueba))
+  
+  #Chequeo de que no se repita el nombre-----
+  numero_pruebas_prueba <- datos_covid %>% numero_pruebas(list_name = "Prueba")
+  expect_error(numero_pruebas(numero_pruebas_prueba, list_name = "Prueba"))
+  
+  #Chequeo de una entidad sin sentido-----
+  expect_error(datos_covid %>% numero_pruebas(entidades = c("2y48rogf","gdivfk")))
 
 })

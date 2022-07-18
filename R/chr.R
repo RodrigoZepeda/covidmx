@@ -62,7 +62,9 @@
 #' y por tanto el denominador y el `chr` es indefinido.
 #'
 #' @param list_name Asigna un nombre en la lista de datos a la base generada
-#'
+#' 
+#' @param quiet No arroja ningun mensaje 
+#' 
 #' @importFrom rlang :=
 #'
 #' @return Appends a la lista de `datos_covid` una nueva entrada de nombre `list_name`
@@ -128,8 +130,8 @@ chr <- function(datos_covid,
                                          "Nacimiento"),
                   fecha_tipo         = c("Sintomas", "Ingreso",
                                          "Defuncion"),
-                  tipo_clasificacion = c("Confirmados COVID"),
-                  group_by_tipo_clasificacion = FALSE,
+                  tipo_clasificacion               = c("Confirmados COVID"),
+                  group_by_tipo_clasificacion      = FALSE,
                   incluir_paciente_no_especificado = FALSE,
                   tipo_sector   = c("CRUZ ROJA","DIF","ESTATAL","IMSS",
                                     "IMSS-BIENESTAR","ISSSTE", "MUNICIPAL",
@@ -140,6 +142,7 @@ chr <- function(datos_covid,
                   edad_cut             = NULL,
                   fill_NA              = TRUE,
                   list_name            = "case hospitalization rate",
+                  quiet                = FALSE,
                   .grouping_vars       = c()){
 
 
@@ -155,7 +158,9 @@ chr <- function(datos_covid,
     tp <- c("AMBULATORIO", "HOSPITALIZADO")
   }
 
-  message("Calculando los casos totales")
+  if (!quiet){
+    message("Calculando los casos totales")
+  }
 
   #Trick to get new name
   name_1         <- paste(c(names(datos_covid),"1"), collapse = "")
@@ -180,7 +185,9 @@ chr <- function(datos_covid,
                           list_name            = name_1,
                           .grouping_vars       = c())[[name_1]]
 
-  message("Calculando los casos hospitalizados")
+  if (!quiet){
+    message("Calculando los casos hospitalizados")
+  }
   .casos_hospitalizados <- casos(datos_covid = datos_covid,
                           entidades   = entidades,
                           group_by_entidad   = group_by_entidad,
@@ -200,7 +207,9 @@ chr <- function(datos_covid,
                           list_name            = name_2,
                           .grouping_vars       = c())[[name_2]]
 
-  message("Calculando el chr")
+  if (!quiet){
+    message("Calculando el chr")
+  }
   .casos_totales <- .casos_totales %>%
     dplyr::left_join(.casos_hospitalizados %>%
                        dplyr::rename(!!as.symbol("h") := !!as.symbol("n")),

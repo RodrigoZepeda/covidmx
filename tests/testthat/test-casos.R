@@ -283,5 +283,8 @@ test_that("Casos", {
   #Chequeo del list_name-----
   casos_prueba <- datos_covid %>% casos(list_name = "Prueba")
   expect_true("Prueba" %in% names(casos_prueba))
+  
+  #Chequeo de una entidad sin sentido-----
+  expect_error(datos_covid %>% casos(entidades = c("2y48rogf","gdivfk")))
 
 })

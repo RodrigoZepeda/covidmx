@@ -27,6 +27,7 @@ cfr(
   group_by_tipo_sector = FALSE,
   edad_cut = NULL,
   fill_NA = TRUE,
+  quiet = FALSE,
   list_name = "case fatality rate",
   .grouping_vars = c()
 )
@@ -90,6 +91,8 @@ se generan tantos observaciones como grupos de tipo de sector)}
 \item{fill_NA}{Regresa observaciones
 para todas las combinaciones de variables incluyendo como NA donde no se observaron casos
 y por tanto el denominador y el \code{chr} es indefinido.}
+
+\item{quiet}{No arroja ningun mensaje}
 
 \item{list_name}{Asigna un nombre en la lista de datos a la base generada}
 
