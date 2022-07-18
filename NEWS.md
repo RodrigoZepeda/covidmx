@@ -1,3 +1,9 @@
+# covidmx 0.4.0.0000
+
+* Se arregló `bug` que al filtrar por `IMSS` devolvía `IMSS-BIENESTAR` en `tipo_sector`
+* Se arregló `bug` que al filtrar por `NO` devolvía `NO ESPECIFICADO` en `tipo_paciente`
+* Se agregaron `tests` y se conectò a `codecov`. 
+
 # covidmx 0.3.0.0000
 
 * Se arregló un `bug` que al filtrar por `BAJA CALIFORNIA` también devolvía `BAJA CALIFORNIA SUR` en `casos`. 

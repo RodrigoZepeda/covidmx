@@ -312,8 +312,7 @@ casos <- function(datos_covid,
     datos_covid$dict["UCI"][[1]] %>%
     dplyr::filter(
       stringr::str_detect(get("DESCRIPCI\u00d3N"),
-                          paste0("\\b",
-                                 paste0(tipo_uci, collapse = "\\b|\\b"),"\\b")))
+                          paste0(paste0("^",tipo_uci,"$"), collapse = "|")))
 
   lista_claves     <- as.numeric(ucis$CLAVE)
   .casos            <- .casos %>%
@@ -325,8 +324,7 @@ casos <- function(datos_covid,
     datos_covid$dict["SECTOR"][[1]] %>%
     dplyr::filter(
       stringr::str_detect(get("DESCRIPCI\u00d3N"),
-                          paste0("\\b",
-                                 paste0(tipo_sector, collapse = "\\b|\\b"),"\\b")))
+                          paste0(paste0("^",tipo_sector,"$"), collapse = "|")))
 
   lista_claves      <- as.numeric(sectores$CLAVE)
   .casos            <- .casos %>%
