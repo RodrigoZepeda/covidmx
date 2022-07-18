@@ -76,6 +76,8 @@
 #'
 #' @param list_name Asigna un nombre en la lista de datos a la base generada
 #'
+#' @param quiet Booleana si `TRUE` no arroja mensaje alguno.
+#'
 #' @importFrom rlang :=
 #'
 #' @return Appends a la lista de `datos_covid` una nueva entrada de nombre `list_name`
@@ -156,6 +158,7 @@ positividad <- function(datos_covid,
                   edad_cut             = NULL,
                   fill_NA              = TRUE,
                   list_name            = "positividad",
+                  quiet                = TRUE,
                   remove_inconclusive  = TRUE,
                   .grouping_vars       = c()){
 
@@ -176,7 +179,10 @@ positividad <- function(datos_covid,
     .grouping_vars  <- c(.grouping_vars, "RESULTADO_ANTIGENO")
   }
 
-  message("Leyendo la base...")
+  if (!quiet){
+    message("Leyendo la base...")
+  }
+
   .numero_pruebas <- numero_pruebas(datos_covid = datos_covid, entidades = entidades,
                                     group_by_entidad = group_by_entidad,
                                     entidad_tipo = entidad_tipo,
@@ -198,7 +204,9 @@ positividad <- function(datos_covid,
 
   if (is_pcr & group_by_tipo_prueba){
 
-    message("Calculando PCR...")
+    if (!quiet){
+      message("Calculando PCR...")
+    }
 
     #Filtramos los totales
     .pcr_totales   <- .numero_pruebas[list_name][[1]] %>%
@@ -239,7 +247,9 @@ positividad <- function(datos_covid,
 
   if (is_anti & group_by_tipo_prueba){
 
-    message("Calculando Antigeno...")
+    if (!quiet){
+      message("Calculando Antigeno...")
+    }
 
     #Filtramos los totales
     .anti_totales   <- .numero_pruebas[list_name][[1]] %>%
@@ -302,13 +312,15 @@ positividad <- function(datos_covid,
         as.numeric(!!as.symbol("n_positivos")) / as.numeric(!!as.symbol("n_pruebas")), NA_real_))
   }
 
-  message("Terminando de construir la base")
+  if (!quiet){
+    message("Terminando de construir la base")
+  }
   if (is_pcr & is_anti & group_by_tipo_prueba){
     .positividad <- .pcr %>%
       dplyr::bind_rows(.anti)
   } else  if (is_pcr & !is_anti & group_by_tipo_prueba){
     .positividad <- .pcr
-  } else  if (is_pcr & !is_anti & group_by_tipo_prueba){
+  } else  if (!is_pcr & is_anti & group_by_tipo_prueba){
     .positividad <- .anti
   } else if (!group_by_tipo_prueba){
     .positividad <- .positividad
@@ -319,7 +331,9 @@ positividad <- function(datos_covid,
   .positividad <- .positividad %>%
     dplyr::relocate(!!as.symbol("Positividad"))
 
-  message("Terminado")
+  if (!quiet){
+    message("Terminado")
+  }
   .positividad        <- list(.positividad)
   names(.positividad) <- list_name
 
