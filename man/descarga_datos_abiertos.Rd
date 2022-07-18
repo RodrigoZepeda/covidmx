@@ -16,6 +16,8 @@
 \usage{
 descarga_datos_abiertos(
   read_format = c("MariaDB", "tibble"),
+  driver = RMariaDB::MariaDB(),
+  sqlimport = "mysqlimport",
   user = Sys.getenv("MariaDB_user"),
   password = Sys.getenv("MariaDB_password"),
   dbname = Sys.getenv("MariaDB_dbname"),
@@ -63,6 +65,8 @@ descarga_datos_abiertos(
 
 descarga_db(
   read_format = c("MariaDB", "tibble"),
+  driver = RMariaDB::MariaDB(),
+  sqlimport = "mysqlimport",
   user = Sys.getenv("MariaDB_user"),
   password = Sys.getenv("MariaDB_password"),
   dbname = Sys.getenv("MariaDB_dbname"),
@@ -166,6 +170,8 @@ parse_db_diccionario_ssa(diccionario_unzipped_path, clear_csv = FALSE)
 parse_db_datos_abiertos_tbl(
   datos_abiertos_unzipped_path,
   read_format = c("MariaDB", "tibble"),
+  driver = RMariaDB::MariaDB(),
+  sqlimport = "mysqlimport",
   user = Sys.getenv("MariaDB_user"),
   password = Sys.getenv("MariaDB_password"),
   dbname = Sys.getenv("MariaDB_dbname"),
@@ -190,6 +196,10 @@ pega_db_datos_abiertos_tbl_y_diccionario(datos_abiertos_tbl, diccionario)
 \item{read_format}{\code{"MariaDB"} o \code{"tibble"} establece el formato
 de lectura de la base de datos. En la mayoria de los casos \code{"tibble"} va a
 resultar en un error de memoria.}
+
+\item{driver}{An \code{SQL} driver for \code{dbConnect}}
+
+\item{sqlimport}{An import command similar to \code{mysqlimport}}
 
 \item{user}{Usuario para \code{dbConnect} i.e. tu usuario de \code{MariaDB}.
 Puedes ponerlo como variable ambiental con \code{Sys.setenv("MariaDB_user" = "tu_usuario")}}

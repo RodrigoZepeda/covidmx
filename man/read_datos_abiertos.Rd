@@ -10,6 +10,8 @@
 \usage{
 read_datos_abiertos(
   datos_abiertos_path = NULL,
+  driver = RMariaDB::MariaDB(),
+  sqlimport = "mysqlimport",
   read_format = c("MariaDB", "tibble"),
   user = Sys.getenv("MariaDB_user"),
   password = Sys.getenv("MariaDB_password"),
@@ -28,6 +30,8 @@ read_datos_abiertos_zip(
   diccionario_unzipped_path = NULL,
   diccionario = NULL,
   read_format = c("MariaDB", "tibble"),
+  driver = RMariaDB::MariaDB(),
+  sqlimport = "mysqlimport",
   user = Sys.getenv("MariaDB_user"),
   password = Sys.getenv("MariaDB_password"),
   dbname = Sys.getenv("MariaDB_dbname"),
@@ -70,6 +74,8 @@ read_datos_abiertos_csv(
   diccionario_unzipped_path = NULL,
   diccionario = NULL,
   read_format = c("MariaDB", "tibble"),
+  driver = RMariaDB::MariaDB(),
+  sqlimport = "mysqlimport",
   user = Sys.getenv("MariaDB_user"),
   password = Sys.getenv("MariaDB_password"),
   dbname = Sys.getenv("MariaDB_dbname"),
@@ -106,6 +112,7 @@ read_datos_abiertos_MariaDB(
   host = Sys.getenv("MariaDB_host"),
   group = Sys.getenv("MariaDB_group"),
   port = Sys.getenv("MariaDB_port"),
+  driver = RMariaDB::MariaDB(),
   tblname = "covidmx",
   diccionario_zip_path = NULL,
   diccionario_unzipped_path = NULL,
@@ -131,6 +138,10 @@ read_datos_abiertos_MariaDB(
 \arguments{
 \item{datos_abiertos_path}{Camino a los datos abiertos si son un \code{zip} o un \code{csv} o bien
 dejar en \code{NULL} si se quiere leer de \code{MariaDB}}
+
+\item{driver}{An \code{SQL} driver for \code{dbConnect}}
+
+\item{sqlimport}{An import command similar to \code{mysqlimport}}
 
 \item{read_format}{\code{"MariaDB"} o \code{"tibble"} establece el formato
 de lectura de la base de datos. En la mayoria de los casos \code{"tibble"} va a

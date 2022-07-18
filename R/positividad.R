@@ -158,7 +158,7 @@ positividad <- function(datos_covid,
                   edad_cut             = NULL,
                   fill_NA              = TRUE,
                   list_name            = "positividad",
-                  quiet                = TRUE,
+                  quiet                = FALSE,
                   remove_inconclusive  = TRUE,
                   .grouping_vars       = c()){
 

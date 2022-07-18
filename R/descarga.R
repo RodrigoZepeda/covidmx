@@ -177,6 +177,10 @@
 #'
 #' @param ... Parametros adicionales para `DBI::dbConnect`.
 #'
+#' @param driver  An `SQL` driver for `dbConnect`
+#'
+#' @param sqlimport  An import command similar to `mysqlimport`
+#'
 #' @return List of values:
 #' \itemize{
 #'   \item dats        - Tabla conectada mediante `DBI::dbConnect` (si `MariaDB`) o
@@ -218,6 +222,8 @@
 #' @export
 
 descarga_datos_abiertos <- function(read_format      = c("MariaDB", "tibble"),
+                                    driver           = RMariaDB::MariaDB(),
+                                    sqlimport        = "mysqlimport",
                                     user             = Sys.getenv("MariaDB_user"),
                                     password         = Sys.getenv("MariaDB_password"),
                                     dbname           = Sys.getenv("MariaDB_dbname"),
@@ -275,6 +281,8 @@ descarga_datos_abiertos <- function(read_format      = c("MariaDB", "tibble"),
 
 
   datos_abiertos_tbl <- descarga_db(read_format      = read_format,
+                           driver           = driver,
+                           sqlimport        = sqlimport,
                            user             = user,
                            password         = password,
                            dbname           = dbname,
@@ -298,7 +306,7 @@ descarga_datos_abiertos <- function(read_format      = c("MariaDB", "tibble"),
                            quiet                        = quiet,
                            board_url_name               = board_url_name,
                            use_cache_on_failure         = use_cache_on_failure,
-                           cache_diccionario            = cache_diccionario,
+                           cache                        = cache_datos,
                            download_file_args           = download_file_args,
                            descarga_db_datos_abiertos_tbl_args   = descarga_db_datos_abiertos_tbl_args,
                            prestatement                 = prestatement,
@@ -342,6 +350,8 @@ descarga_datos_abiertos <- function(read_format      = c("MariaDB", "tibble"),
 #' @param cache parametro para el cache de `pins::board_url`
 #' @param ... Parametros adicionales para `BI::dbConnect()` con  conexion de `RMariaDB::MariaDB()`
 descarga_db <- function(read_format      = c("MariaDB", "tibble"),
+                        driver           = RMariaDB::MariaDB(),
+                        sqlimport        = "mysqlimport",
                         user             = Sys.getenv("MariaDB_user"),
                         password         = Sys.getenv("MariaDB_password"),
                         dbname           = Sys.getenv("MariaDB_dbname"),
@@ -419,6 +429,8 @@ descarga_db <- function(read_format      = c("MariaDB", "tibble"),
 
     datos_abiertos_tbl <- parse_db_datos_abiertos_tbl(
       datos_abiertos_unzipped_path = datos_abiertos_unzipped_path,
+      driver         = driver,
+      sqlimport      = sqlimport,
       read_format    = read_format,
       user           = user,
       password       = password,
@@ -562,7 +574,7 @@ descarga_db_datos_abiertos_tbl <- function(download_process = c("pins", "downloa
     #Obtenemos la diferencia de tiempo de cuando se bajó por vez últia
     tdif <- pin_get_download_time(board, board_url_name)
 
-    if (!force_download & tdif < 1){
+    if (!force_download & tdif < 0.9){
 
       if (show_warnings){
         warning(glue::glue("
@@ -803,6 +815,8 @@ parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALS
 #' @rdname descarga_datos_abiertos
 parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
                                read_format    = c("MariaDB", "tibble"),
+                               driver         = RMariaDB::MariaDB(),
+                               sqlimport      = "mysqlimport",
                                user           = Sys.getenv("MariaDB_user"),
                                password       = Sys.getenv("MariaDB_password"),
                                dbname         = Sys.getenv("MariaDB_dbname"),
@@ -925,7 +939,7 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
     }
 
     #Get file connection
-    con    <- DBI::dbConnect(RMariaDB::MariaDB(),
+    con    <- DBI::dbConnect(drv      = driver,
                              host     = host,
                              port     = port,
                              user     = user,
@@ -965,7 +979,7 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
                            "Attempting to create table in parallel with mysqlimport"))
       }
 
-      system(glue::glue("mysqlimport",
+      system(glue::glue("{sqlimport}",
                         " --default-character-set=UTF8",
                         " --fields-terminated-by=','",
                         " --ignore-lines=1",
@@ -1021,6 +1035,8 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
 
   if (clear_csv & file.exists(glue::glue("{tblname}.csv"))){
     file.remove(glue::glue("{tblname}.csv"))
+  } else if (clear_csv & file.exists(datos_abiertos_unzipped_path)){
+    file.remove(datos_abiertos_unzipped_path)
   }
 
   return(list(dats = dats, disconnect = disconnect))

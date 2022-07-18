@@ -70,7 +70,7 @@ descarga_datos_red_irag <- function(nivel = c("Estatal","Unidad M\u00e9dica"),
   #dejo con el mismo
   tdif <- pin_get_download_time(board, nivel[1])
 
-  if (!force_download & tdif < 1){
+  if (!force_download & tdif < 0.9){
 
     if (show_warnings){
       warning(glue::glue("

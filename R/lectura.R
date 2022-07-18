@@ -48,6 +48,8 @@
 #' @encoding UTF-8
 #' @export
 read_datos_abiertos <- function(datos_abiertos_path          = NULL,
+                                driver           = RMariaDB::MariaDB(),
+                                sqlimport        = "mysqlimport",
                                 read_format      = c("MariaDB", "tibble"),
                                 user             = Sys.getenv("MariaDB_user"),
                                 password         = Sys.getenv("MariaDB_password"),
@@ -61,6 +63,7 @@ read_datos_abiertos <- function(datos_abiertos_path          = NULL,
 
   if (is.null(datos_abiertos_path)){
     datos_covid <- read_datos_abiertos_MariaDB(
+      driver      = driver,
       read_format = read_format,
       user = user,
       password = password,
@@ -74,6 +77,8 @@ read_datos_abiertos <- function(datos_abiertos_path          = NULL,
       )
   } else if (tools::file_ext(datos_abiertos_path) == "csv"){
     datos_covid <- read_datos_abiertos_csv(datos_abiertos_unzipped_path = datos_abiertos_path,
+                                           sqlimport   = sqlimport,
+                                           driver      = driver,
                                            read_format = read_format,
                                            user = user,
                                            password = password,
@@ -86,6 +91,8 @@ read_datos_abiertos <- function(datos_abiertos_path          = NULL,
                                            ...)
   } else if (tools::file_ext(datos_abiertos_path) == "zip"){
     datos_covid <- read_datos_abiertos_zip(datos_abiertos_zip_path = datos_abiertos_path,
+                                           sqlimport   = sqlimport,
+                                           driver      = driver,
                                            read_format = read_format,
                                            user = user,
                                            password = password,
@@ -111,6 +118,8 @@ read_datos_abiertos_zip <- function(datos_abiertos_zip_path,
                                     diccionario_unzipped_path    = NULL,
                                     diccionario                  = NULL,
                                     read_format      = c("MariaDB", "tibble"),
+                                    driver           = RMariaDB::MariaDB(),
+                                    sqlimport        = "mysqlimport",
                                     user             = Sys.getenv("MariaDB_user"),
                                     password         = Sys.getenv("MariaDB_password"),
                                     dbname           = Sys.getenv("MariaDB_dbname"),
@@ -168,6 +177,8 @@ read_datos_abiertos_csv <- function(datos_abiertos_unzipped_path,
                                     diccionario_unzipped_path    = NULL,
                                     diccionario                  = NULL,
                                     read_format      = c("MariaDB", "tibble"),
+                                    driver           = RMariaDB::MariaDB(),
+                                    sqlimport        = "mysqlimport",
                                     user             = Sys.getenv("MariaDB_user"),
                                     password         = Sys.getenv("MariaDB_password"),
                                     dbname           = Sys.getenv("MariaDB_dbname"),
@@ -218,6 +229,7 @@ read_datos_abiertos_MariaDB <- function(user             = Sys.getenv("MariaDB_u
                                         host             = Sys.getenv("MariaDB_host"),
                                         group            = Sys.getenv("MariaDB_group"),
                                         port             = Sys.getenv("MariaDB_port"),
+                                        driver           = RMariaDB::MariaDB(),
                                         tblname          = "covidmx",
                                         diccionario_zip_path         = NULL,
                                         diccionario_unzipped_path    = NULL,
@@ -257,7 +269,7 @@ read_datos_abiertos_MariaDB <- function(user             = Sys.getenv("MariaDB_u
   }
 
   #Get file connection
-  con    <- DBI::dbConnect(RMariaDB::MariaDB(),
+  con    <- DBI::dbConnect(drv      = driver,
                            host     = host,
                            port     = port,
                            user     = user,

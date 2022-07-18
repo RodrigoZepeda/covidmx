@@ -89,7 +89,7 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
   #dejo con el mismo
   tdif <- pin_get_download_time(board, nivel[1])
 
-  if (!force_download & tdif < 1){
+  if (!force_download & tdif < 0.9){
 
     if (show_warnings){
       warning(glue::glue("

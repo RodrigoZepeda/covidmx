@@ -1,3 +1,11 @@
+# covidmx 0.5.0.0000
+* Se agregó la nueva variable `driver` a las conexiones a `MariaDB` para permitir otro tipo de `SQL`.
+* Se agregó la variable `sqlimport` para que eventualmente se pueda cambiar `mysqlimport` a `mariadb-import` por el cambio en `MariaDB` [acá](https://mariadb.com/kb/en/mysqlimport/).
+* Se arregló un error donde no se asignaba bien el `cache` del diccionario. 
+
+# covidmx 0.4.2.0000
+* Se arregló el `bug` que no eliminaba la descarga en `csv` si ésta se parseaba en `tibble`. 
+
 # covidmx 0.4.1.0000
 * Se arregló el `bug` que impedía seleccionar solo `Antígeno` como pruebas en `numero_pruebas`
 * Se arregló el `bug` que impedía seleccionar solo `Antígeno` como pruebas en `positividad`
