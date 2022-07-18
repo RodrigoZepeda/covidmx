@@ -151,7 +151,7 @@ más pequeña disponible en el repositorio de <a href="https://github.com/Rodrig
 guardaremos en <code>MariaDB</code> bajo el nombre de
 <strong>tutorial</strong>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dlink</span>       <span class="op">&lt;-</span> <span class="st">"https://github.com/RodrigoZepeda/covidmx/raw/MARIADB/datos_abiertos_covid19.zip"</span></span>
+<code class="sourceCode R"><span><span class="va">dlink</span>       <span class="op">&lt;-</span> <span class="st">"https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"</span></span>
 <span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>site.covid <span class="op">=</span> <span class="va">dlink</span>, tblname <span class="op">=</span> <span class="st">"tutorial"</span><span class="op">)</span> </span></code></pre></div>
 <p>La descarga contiene una conexión a <code>MariaDB</code> dentro de
 <code>datos_covid$dats</code> la cual puedes operar con <a href="https://dbplyr.tidyverse.org/" class="external-link"><code>dbplyr</code></a>.</p>
@@ -386,11 +386,11 @@ descargamos arriba con <code>descarga_datos_abiertos</code>)</p>
 <code class="sourceCode R"><span><span class="va">diccionario_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_diccionario</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Descargando. Ten paciencia esto puede tardar bastante.</span></span>
 <span><span class="co">#&gt; Downloading. Be patient this could last a long time</span></span>
-<span><span class="co">#&gt; Warning in descarga_db_datos_abiertos_tbl(download_process = download_process, : La descarga mas reciente fue hace 0.00031662177156519 dias. Como tiene menos de un dia</span></span>
+<span><span class="co">#&gt; Warning in descarga_db_datos_abiertos_tbl(download_process = download_process, : La descarga mas reciente fue hace 0.000343299005870466 dias. Como tiene menos de un dia</span></span>
 <span><span class="co">#&gt; usare esa. Escribe force_download = TRUE si quieres descargar de</span></span>
 <span><span class="co">#&gt; todas formas. Para desactivar este mensaje show_warnings = FALSE.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Most recent download was 0.00031662177156519 days ago. It has less than a day hence</span></span>
+<span><span class="co">#&gt; Most recent download was 0.000343299005870466 days ago. It has less than a day hence</span></span>
 <span><span class="co">#&gt; I'll use that one. Write force_download = TRUE if you want to</span></span>
 <span><span class="co">#&gt; download anyway. To turn off this message show_warnings = FALSE.</span></span>
 <span><span class="co">#&gt; Descargado en / Downloaded at ~/Library/Caches/pins/url/4bc71ebd7cc4e5e80c874e7cb16ccbf6/diccionario_datos_covid19.zip</span></span></code></pre></div>
@@ -754,11 +754,6 @@ calcular por ahora. Ten paciencia</p>
 <span>  <span class="fu"><a href="../reference/positividad.html">positividad</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>,<span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span>,</span>
 <span>                 tipo_prueba <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Antigeno"</span>, <span class="st">"PCR"</span><span class="op">)</span>,</span>
 <span>                 group_by_tipo_prueba <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Leyendo la base...</span></span>
-<span><span class="co">#&gt; Calculando PCR...</span></span>
-<span><span class="co">#&gt; Calculando Antigeno...</span></span>
-<span><span class="co">#&gt; Terminando de construir la base</span></span>
-<span><span class="co">#&gt; Terminado</span></span>
 <span></span>
 <span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 8</span></span></span>
