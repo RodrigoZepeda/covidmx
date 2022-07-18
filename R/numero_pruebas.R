@@ -89,89 +89,105 @@
 #'   \item disconnect  - Función para desconectarte de DB
 #' }
 #'
-#'@examples
-#'\dontrun{
-#'datos_covid <- descarga_datos_abiertos(language = "Espanol")
+#' @examples
+#' \dontrun{
+#' datos_covid <- descarga_datos_abiertos(language = "Espanol")
 #'
-#'#Número de pruebas PCR/ANTI a nivel nacional por estado
-#'datos_covid <- datos_covid %>% numero_pruebas()
-#'head(datos_covid$numero_pruebas)
+#' # Número de pruebas PCR/ANTI a nivel nacional por estado
+#' datos_covid <- datos_covid %>% numero_pruebas()
+#' head(datos_covid$numero_pruebas)
 #'
-#'#Número de pruebas nacionales pero sin separar por tipo ni estado
-#'datos_covid <- datos_covid %>%
-#'      numero_pruebas(group_by_entidad = FALSE, group_by_tipo_prueba = FALSE,
-#'      list_name = "Todas_las_pruebas")
+#' # Número de pruebas nacionales pero sin separar por tipo ni estado
+#' datos_covid <- datos_covid %>%
+#'   numero_pruebas(
+#'     group_by_entidad = FALSE, group_by_tipo_prueba = FALSE,
+#'     list_name = "Todas_las_pruebas"
+#'   )
 #'
-#'#Positivos en Jalisco y Colima
-#'casos_col_jal <- datos_covid %>%
-#'                    numero_pruebas(entidades = c("JALISCO","COLIMA"),
-#'                                   list_name = "Pruebas_jal_col")
+#' # Positivos en Jalisco y Colima
+#' casos_col_jal <- datos_covid %>%
+#'   numero_pruebas(
+#'     entidades = c("JALISCO", "COLIMA"),
+#'     list_name = "Pruebas_jal_col"
+#'   )
 #'
-#'#Si deseas agrupar por una variable que no este en las opciones asi como tipo paciente
-#'casos_col_jal <- datos_covid %>%
-#'     numero_pruebas(entidades = c("JALISCO","COLIMA"),
-#'           tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-#'           group_by_tipo_paciente = TRUE,
-#'           .grouping_vars = c("DIABETES"),
-#'           list_name      = "Diabetescoljal")
-#'}
+#' # Si deseas agrupar por una variable que no este en las opciones asi como tipo paciente
+#' casos_col_jal <- datos_covid %>%
+#'   numero_pruebas(
+#'     entidades = c("JALISCO", "COLIMA"),
+#'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+#'     group_by_tipo_paciente = TRUE,
+#'     .grouping_vars = c("DIABETES"),
+#'     list_name = "Diabetescoljal"
+#'   )
+#' }
 #'
 #' @export
 
 numero_pruebas <- function(datos_covid,
-                  entidades   = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
-                                  "CAMPECHE", "CHIAPAS", "CHIHUAHUA",
-                                  "CIUDAD DE M\u00c9XICO","COAHUILA DE ZARAGOZA" , "COLIMA",
-                                  "DURANGO", "GUANAJUATO", "GUERRERO","HIDALGO",
-                                  "JALISCO", "M\u00c9XICO", "MICHOAC\u00c1N DE OCAMPO",
-                                  "MORELOS","NAYARIT","NUEVO LE\u00d3N", "OAXACA",
-                                  "PUEBLA", "QUER\u00c9TARO", "QUINTANA ROO",
-                                  "SAN LUIS POTOS\u00cd", "SINALOA", "SONORA",
-                                  "TABASCO", "TAMAULIPAS", "TLAXCALA",
-                                  "VERACRUZ DE IGNACIO DE LA LLAVE",
-                                  "YUCAT\u00c1N", "ZACATECAS"),
-                  group_by_entidad     = TRUE,
-                  entidad_tipo         = c("Unidad Medica", "Residencia",
-                                           "Nacimiento"),
-                  fecha_tipo           = c("Sintomas", "Ingreso",
-                                           "Defuncion"),
-                  tipo_prueba          = c("Antigeno","PCR"),
-                  group_by_tipo_prueba = TRUE,
-                  tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
-                  group_by_tipo_paciente = FALSE,
-                  tipo_uci      = c("SI","NO","NO APLICA","SE IGNORA","NO ESPECIFICADO"),
-                  group_by_tipo_uci  = FALSE,
-                  tipo_sector   = c("CRUZ ROJA","DIF","ESTATAL","IMSS",
-                                    "IMSS-BIENESTAR","ISSSTE", "MUNICIPAL",
-                                    "PEMEX","PRIVADA","SEDENA","SEMAR","SSA",
-                                    "UNIVERSITARIO","NO ESPECIFICADO"),
-                  group_by_tipo_sector = FALSE,
-                  defunciones          = FALSE,
-                  edad_cut             = NULL,
-                  as_tibble            = TRUE,
-                  fill_zeros           = as_tibble,
-                  list_name            = "numero_pruebas",
-                  .grouping_vars       = c()){
+                           entidades = c(
+                             "AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
+                             "CAMPECHE", "CHIAPAS", "CHIHUAHUA",
+                             "CIUDAD DE M\u00c9XICO", "COAHUILA DE ZARAGOZA", "COLIMA",
+                             "DURANGO", "GUANAJUATO", "GUERRERO", "HIDALGO",
+                             "JALISCO", "M\u00c9XICO", "MICHOAC\u00c1N DE OCAMPO",
+                             "MORELOS", "NAYARIT", "NUEVO LE\u00d3N", "OAXACA",
+                             "PUEBLA", "QUER\u00c9TARO", "QUINTANA ROO",
+                             "SAN LUIS POTOS\u00cd", "SINALOA", "SONORA",
+                             "TABASCO", "TAMAULIPAS", "TLAXCALA",
+                             "VERACRUZ DE IGNACIO DE LA LLAVE",
+                             "YUCAT\u00c1N", "ZACATECAS"
+                           ),
+                           group_by_entidad = TRUE,
+                           entidad_tipo = c(
+                             "Unidad Medica", "Residencia",
+                             "Nacimiento"
+                           ),
+                           fecha_tipo = c(
+                             "Sintomas", "Ingreso",
+                             "Defuncion"
+                           ),
+                           tipo_prueba = c("Antigeno", "PCR"),
+                           group_by_tipo_prueba = TRUE,
+                           tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
+                           group_by_tipo_paciente = FALSE,
+                           tipo_uci = c("SI", "NO", "NO APLICA", "SE IGNORA", "NO ESPECIFICADO"),
+                           group_by_tipo_uci = FALSE,
+                           tipo_sector = c(
+                             "CRUZ ROJA", "DIF", "ESTATAL", "IMSS",
+                             "IMSS-BIENESTAR", "ISSSTE", "MUNICIPAL",
+                             "PEMEX", "PRIVADA", "SEDENA", "SEMAR", "SSA",
+                             "UNIVERSITARIO", "NO ESPECIFICADO"
+                           ),
+                           group_by_tipo_sector = FALSE,
+                           defunciones = FALSE,
+                           edad_cut = NULL,
+                           as_tibble = TRUE,
+                           fill_zeros = as_tibble,
+                           list_name = "numero_pruebas",
+                           .grouping_vars = c()) {
 
 
-  #Finally bind to previous object
-  if (any(stringr::str_detect(names(datos_covid), list_name))){
-    stop(glue::glue("Impossible to create variable {list_name} ",
-                    "in datos_covid as it already exists"))
+  # Finally bind to previous object
+  if (any(stringr::str_detect(names(datos_covid), list_name))) {
+    stop(glue::glue(
+      "Impossible to create variable {list_name} ",
+      "in datos_covid as it already exists"
+    ))
   }
 
-  #Entidades en mayuscula
+  # Entidades en mayuscula
   entidades <- toupper(entidades)
 
   #> ENTIDAD----
-  #Seleccionar la entidad
+  # Seleccionar la entidad
   entidad_tipo <- dplyr::case_when(
     stringr::str_detect(tolower(entidad_tipo[1]), "m.*dica|entidad_um") ~ "ENTIDAD_UM",
     stringr::str_detect(tolower(entidad_tipo[1]), "residencia|entidad_res") ~ "ENTIDAD_RES",
     stringr::str_detect(tolower(entidad_tipo[1]), "nacimiento|entidad_nac") ~ "ENTIDAD_NAC",
   )
 
-  #Seleccionar la entidad
+  # Seleccionar la entidad
   fecha_tipo <-
     dplyr::case_when(
       stringr::str_detect(tolower(fecha_tipo[1]), "ingreso") ~ "FECHA_INGRESO",
@@ -179,143 +195,158 @@ numero_pruebas <- function(datos_covid,
       stringr::str_detect(tolower(fecha_tipo[1]), "defunci.*n|fecha_def") ~ "FECHA_DEF"
     )
 
-  #Checamos la variable de entidades
-  if (any(stringr::str_detect(entidades,"CIUDAD DE MEXICO|CDMX"))){
-    entidades[stringr::str_detect(entidades,"CIUDAD DE MEXICO")] <-
+  # Checamos la variable de entidades
+  if (any(stringr::str_detect(entidades, "CIUDAD DE MEXICO|CDMX"))) {
+    entidades[stringr::str_detect(entidades, "CIUDAD DE MEXICO")] <-
       "CIUDAD DE M\u00c9XICO"
   }
 
-  if (any(stringr::str_detect(entidades,"COAHUILA"))){
-    entidades[stringr::str_detect(entidades,"COAHUILA")] <-
+  if (any(stringr::str_detect(entidades, "COAHUILA"))) {
+    entidades[stringr::str_detect(entidades, "COAHUILA")] <-
       "COAHUILA DE ZARAGOZA"
   }
 
-  if (any(stringr::str_detect(entidades,"\\bMEXICO\\b|EDOMEX"))){
-    entidades[stringr::str_detect(entidades,"\\bMEXICO\\b|EDOMEX")] <-
+  if (any(stringr::str_detect(entidades, "\\bMEXICO\\b|EDOMEX"))) {
+    entidades[stringr::str_detect(entidades, "\\bMEXICO\\b|EDOMEX")] <-
       "M\u00c9XICO"
   }
 
-  if (any(stringr::str_detect(entidades,"MICHOAC\u00c1N|MICHOACAN"))){
-    entidades[stringr::str_detect(entidades,"MICHOAC\u00c1N|MICHOACAN")] <-
+  if (any(stringr::str_detect(entidades, "MICHOAC\u00c1N|MICHOACAN"))) {
+    entidades[stringr::str_detect(entidades, "MICHOAC\u00c1N|MICHOACAN")] <-
       "MICHOAC\u00c1N DE OCAMPO"
   }
 
-  if (any(stringr::str_detect(entidades,"NUEVO LEON"))){
-    entidades[stringr::str_detect(entidades,"NUEVO LEON")] <-
+  if (any(stringr::str_detect(entidades, "NUEVO LEON"))) {
+    entidades[stringr::str_detect(entidades, "NUEVO LEON")] <-
       "NUEVO LE\u00d3N"
   }
 
-  if (any(stringr::str_detect(entidades,"QUERETARO"))){
-    entidades[stringr::str_detect(entidades,"QUERETARO")] <-
+  if (any(stringr::str_detect(entidades, "QUERETARO"))) {
+    entidades[stringr::str_detect(entidades, "QUERETARO")] <-
       "QUER\u00c9TARO"
   }
 
-  if (any(stringr::str_detect(entidades,"SAN LUIS POTOSI"))){
-    entidades[stringr::str_detect(entidades,"SAN LUIS POTOSI")] <-
+  if (any(stringr::str_detect(entidades, "SAN LUIS POTOSI"))) {
+    entidades[stringr::str_detect(entidades, "SAN LUIS POTOSI")] <-
       "SAN LUIS POTOS\u00cd"
   }
 
-  if (any(stringr::str_detect(entidades,"VERACRUZ"))){
-    entidades[stringr::str_detect(entidades,"VERACRUZ")] <-
+  if (any(stringr::str_detect(entidades, "VERACRUZ"))) {
+    entidades[stringr::str_detect(entidades, "VERACRUZ")] <-
       "VERACRUZ DE IGNACIO DE LA LLAVE"
   }
 
-  if (any(stringr::str_detect(entidades,"YUCATAN|YUC"))){
-    entidades[stringr::str_detect(entidades,"YUCATAN")] <-
+  if (any(stringr::str_detect(entidades, "YUCATAN|YUC"))) {
+    entidades[stringr::str_detect(entidades, "YUCATAN")] <-
       "YUCAT\u00c1N"
   }
 
-  #Filtramos por entidad
+  # Filtramos por entidad
   entidades <-
     datos_covid$dict[entidad_tipo][[1]] %>%
     dplyr::filter(
-      stringr::str_detect(get("ENTIDAD_FEDERATIVA"),
-                          paste0(paste0("^",paste0(entidades,"$")),collapse = "|")))
+      stringr::str_detect(
+        get("ENTIDAD_FEDERATIVA"),
+        paste0(paste0("^", paste0(entidades, "$")), collapse = "|")
+      )
+    )
 
-  if (nrow(entidades) < 1){
+  if (nrow(entidades) < 1) {
     stop("No logramos encontrar esas entidades")
   }
 
-  lista_entidades   <- paste0(entidades$CLAVE_ENTIDAD, collapse = "|")
-  .num_pruebas      <- datos_covid$dats %>%
+  lista_entidades <- paste0(entidades$CLAVE_ENTIDAD, collapse = "|")
+  .num_pruebas <- datos_covid$dats %>%
     dplyr::filter(
       stringr::str_detect(!!as.symbol(entidad_tipo), lista_entidades)
     )
 
   #> TIPO DE PACIENTE----
-  #Filtramos por tipo de paciente
+  # Filtramos por tipo de paciente
   pacientes <-
     datos_covid$dict["PACIENTE"][[1]] %>%
     dplyr::filter(
-      stringr::str_detect(get("DESCRIPCI\u00d3N"),
-                          paste0("\\b",
-                                 paste0(tipo_paciente, collapse = "\\b|\\b"),"\\b")))
+      stringr::str_detect(
+        get("DESCRIPCI\u00d3N"),
+        paste0(
+          "\\b",
+          paste0(tipo_paciente, collapse = "\\b|\\b"), "\\b"
+        )
+      )
+    )
 
-  lista_claves     <- as.numeric(pacientes$CLAVE)
-  .num_pruebas     <- .num_pruebas %>%
+  lista_claves <- as.numeric(pacientes$CLAVE)
+  .num_pruebas <- .num_pruebas %>%
     dplyr::filter(!!as.symbol("TIPO_PACIENTE") %in% lista_claves)
 
   #> TIPO DE UCI----
-  #Filtramos por tipo de uci
+  # Filtramos por tipo de uci
   ucis <-
     datos_covid$dict["UCI"][[1]] %>%
     dplyr::filter(
-      stringr::str_detect(get("DESCRIPCI\u00d3N"),
-                          paste0(paste0("^",tipo_uci,"$"), collapse = "|")))
+      stringr::str_detect(
+        get("DESCRIPCI\u00d3N"),
+        paste0(paste0("^", tipo_uci, "$"), collapse = "|")
+      )
+    )
 
-  lista_claves     <- as.numeric(ucis$CLAVE)
-  .num_pruebas     <- .num_pruebas %>%
+  lista_claves <- as.numeric(ucis$CLAVE)
+  .num_pruebas <- .num_pruebas %>%
     dplyr::filter(!!as.symbol("UCI") %in% lista_claves)
 
   #> TIPO DE SECTOR----
-  #Filtramos por tipo de uci
+  # Filtramos por tipo de uci
   sectores <-
     datos_covid$dict["SECTOR"][[1]] %>%
     dplyr::filter(
-      stringr::str_detect(get("DESCRIPCI\u00d3N"),
-                          paste0(paste0("^",tipo_sector,"$"), collapse = "|")))
+      stringr::str_detect(
+        get("DESCRIPCI\u00d3N"),
+        paste0(paste0("^", tipo_sector, "$"), collapse = "|")
+      )
+    )
 
-  lista_claves      <- as.numeric(sectores$CLAVE)
-  .num_pruebas      <- .num_pruebas %>%
+  lista_claves <- as.numeric(sectores$CLAVE)
+  .num_pruebas <- .num_pruebas %>%
     dplyr::filter(!!as.symbol("SECTOR") %in% lista_claves)
 
   #> DEFUNCIONES
-  if (defunciones){
-    .num_pruebas  <- .num_pruebas %>%
+  if (defunciones) {
+    .num_pruebas <- .num_pruebas %>%
       dplyr::filter(!!as.symbol("FECHA_DEF") >= as.Date("2000/01/01"))
   }
 
   #> EDADES
-  if (!is.null(edad_cut)){
-    .num_pruebas  <- .num_pruebas %>%
+  if (!is.null(edad_cut)) {
+    .num_pruebas <- .num_pruebas %>%
       dplyr::mutate(!!as.symbol("EDAD_CAT") := cut(!!as.symbol("EDAD"),
-                                                   breaks = edad_cut)) %>%
+        breaks = edad_cut
+      )) %>%
       dplyr::filter(!is.na(!!as.symbol("EDAD_CAT")))
   }
 
-  #Cortamos la base en tipos de pruebas
-  is_pcr  <- any(stringr::str_detect(tolower(tipo_prueba),"pcr"))
-  is_anti <- any(stringr::str_detect(tolower(tipo_prueba),"ant.*geno"))
-  if (is_pcr){
+  # Cortamos la base en tipos de pruebas
+  is_pcr <- any(stringr::str_detect(tolower(tipo_prueba), "pcr"))
+  is_anti <- any(stringr::str_detect(tolower(tipo_prueba), "ant.*geno"))
+  if (is_pcr) {
     .pcr <- .num_pruebas %>%
       dplyr::filter(!!as.symbol("TOMA_MUESTRA_LAB") == 1) %>%
       dplyr::mutate(!!as.symbol("TIPO_PRUEBA") :=
-                      dplyr::if_else(!!as.symbol("TOMA_MUESTRA_LAB") == 1, "PCR", NA_character_))
+        dplyr::if_else(!!as.symbol("TOMA_MUESTRA_LAB") == 1, "PCR", NA_character_))
   }
 
-  if (is_anti){
+  if (is_anti) {
     .antigeno <- .num_pruebas %>%
       dplyr::filter(!!as.symbol("TOMA_MUESTRA_ANTIGENO") == 1) %>%
       dplyr::mutate(!!as.symbol("TIPO_PRUEBA") :=
-                      dplyr::if_else(!!as.symbol("TOMA_MUESTRA_ANTIGENO") == 1, "ANTIGENO", NA_character_))
+        dplyr::if_else(!!as.symbol("TOMA_MUESTRA_ANTIGENO") == 1, "ANTIGENO", NA_character_))
   }
 
-  if (is_pcr & is_anti){
+  if (is_pcr & is_anti) {
     .num_pruebas <- .pcr %>%
       dplyr::union_all(.antigeno)
-  } else  if (is_pcr & !is_anti){
+  } else if (is_pcr & !is_anti) {
     .num_pruebas <- .pcr
-  } else  if (is_anti & !is_pcr){
+  } else if (is_anti & !is_pcr) {
     .num_pruebas <- .antigeno
   } else {
     stop("Selecciona PCR o Antigeno en pruebas")
@@ -325,121 +356,121 @@ numero_pruebas <- function(datos_covid,
   .num_pruebas <- .num_pruebas %>%
     dplyr::group_by_at(fecha_tipo)
 
-  if (length(.grouping_vars) > 0){
-    for (var in .grouping_vars){
+  if (length(.grouping_vars) > 0) {
+    for (var in .grouping_vars) {
       .num_pruebas <- .num_pruebas %>%
         dplyr::group_by_at(var, .add = TRUE)
     }
   }
 
   #> AGRUPACI\u00d3N EDAD
-  if (!is.null(edad_cut)){
+  if (!is.null(edad_cut)) {
     .num_pruebas <- .num_pruebas %>%
       dplyr::group_by_at("EDAD_CAT", .add = TRUE)
   }
 
-  #Tomamos el grupo
-  if (group_by_entidad){
+  # Tomamos el grupo
+  if (group_by_entidad) {
     .num_pruebas <- .num_pruebas %>%
       dplyr::group_by_at(entidad_tipo, .add = TRUE)
   }
 
-  #Tomamos el grupo
-  if (group_by_tipo_prueba){
+  # Tomamos el grupo
+  if (group_by_tipo_prueba) {
     .num_pruebas <- .num_pruebas %>%
       dplyr::group_by_at("TIPO_PRUEBA", .add = TRUE)
   }
 
-  if (group_by_tipo_paciente){
+  if (group_by_tipo_paciente) {
     .num_pruebas <- .num_pruebas %>%
       dplyr::group_by_at("TIPO_PACIENTE", .add = TRUE)
   }
 
-  if (group_by_tipo_sector){
+  if (group_by_tipo_sector) {
     .num_pruebas <- .num_pruebas %>%
       dplyr::group_by_at("SECTOR", .add = TRUE)
   }
 
-  if (group_by_tipo_uci){
+  if (group_by_tipo_uci) {
     .num_pruebas <- .num_pruebas %>%
       dplyr::group_by_at("UCI", .add = TRUE)
   }
 
-  #Conteo de los .casos
+  # Conteo de los .casos
   .num_pruebas <- .num_pruebas %>%
     dplyr::tally() %>%
     dplyr::ungroup()
 
-  if (as_tibble){
-
+  if (as_tibble) {
     .num_pruebas <- .num_pruebas %>%
       dplyr::collect()
 
-    if (fill_zeros){
+    if (fill_zeros) {
 
-      #Select the other variables to expand grid
-      .grouping_vars <- .num_pruebas  %>%
+      # Select the other variables to expand grid
+      .grouping_vars <- .num_pruebas %>%
         dplyr::select(-dplyr::matches("\\bn\\b")) %>%
         dplyr::select(-dplyr::starts_with("FECHA")) %>%
         dplyr::distinct()
 
-      #Check the dates to expand
+      # Check the dates to expand
       .fechasminmax <- datos_covid$dats %>%
         dplyr::select_at(fecha_tipo) %>%
-        dplyr::summarise(fechamin = min(!!as.symbol(fecha_tipo), na.rm = TRUE),
-                         fechamax = max(!!as.symbol(fecha_tipo), na.rm = TRUE)) %>%
+        dplyr::summarise(
+          fechamin = min(!!as.symbol(fecha_tipo), na.rm = TRUE),
+          fechamax = max(!!as.symbol(fecha_tipo), na.rm = TRUE)
+        ) %>%
         dplyr::collect()
 
-      .datesq     <- seq(.fechasminmax$fechamin[1], .fechasminmax$fechamax[1], by = "1 day")
+      .datesq <- seq(.fechasminmax$fechamin[1], .fechasminmax$fechamax[1], by = "1 day")
 
-      #Create grid of all possible dates
+      # Create grid of all possible dates
       .grid_casos <- tidyr::expand_grid(!!as.symbol(fecha_tipo) := .datesq, .grouping_vars)
 
-      #Full join
-      .num_pruebas      <- .num_pruebas %>%
+      # Full join
+      .num_pruebas <- .num_pruebas %>%
         dplyr::full_join(.grid_casos, by = colnames(.grid_casos)) %>%
         dplyr::mutate(!!as.symbol("n") := tidyr::replace_na(!!as.symbol("n"), 0))
     }
   }
 
-  if (nrow(entidades) > 0 & group_by_entidad){
-    name_join        <- c("CLAVE_ENTIDAD")
+  if (nrow(entidades) > 0 & group_by_entidad) {
+    name_join <- c("CLAVE_ENTIDAD")
     names(name_join) <- entidad_tipo
     .num_pruebas <- .num_pruebas %>%
       dplyr::left_join(datos_covid$dict[entidad_tipo][[1]], by = name_join)
   }
 
 
-  if (nrow(pacientes) > 0 & group_by_tipo_paciente){
-    name_join             <- c("CLAVE")
-    names(name_join)      <- "TIPO_PACIENTE"
-    paciente_df           <- datos_covid$dict["PACIENTE"][[1]]
-    colnames(paciente_df) <- c("CLAVE","DESCRIPCION_TIPO_PACIENTE")
+  if (nrow(pacientes) > 0 & group_by_tipo_paciente) {
+    name_join <- c("CLAVE")
+    names(name_join) <- "TIPO_PACIENTE"
+    paciente_df <- datos_covid$dict["PACIENTE"][[1]]
+    colnames(paciente_df) <- c("CLAVE", "DESCRIPCION_TIPO_PACIENTE")
     .num_pruebas <- .num_pruebas %>%
       dplyr::left_join(paciente_df, by = name_join)
   }
 
-  if (nrow(ucis) > 0 & group_by_tipo_uci){
-    name_join        <- c("CLAVE")
+  if (nrow(ucis) > 0 & group_by_tipo_uci) {
+    name_join <- c("CLAVE")
     names(name_join) <- "UCI"
-    uci_df           <- datos_covid$dict["UCI"][[1]]
-    colnames(uci_df) <- c("CLAVE","DESCRIPCION_TIPO_UCI")
+    uci_df <- datos_covid$dict["UCI"][[1]]
+    colnames(uci_df) <- c("CLAVE", "DESCRIPCION_TIPO_UCI")
     .num_pruebas <- .num_pruebas %>%
       dplyr::left_join(uci_df, by = name_join)
   }
 
-  if (nrow(sectores) > 0 & group_by_tipo_sector){
-    name_join        <- c("CLAVE")
+  if (nrow(sectores) > 0 & group_by_tipo_sector) {
+    name_join <- c("CLAVE")
     names(name_join) <- "SECTOR"
-    sector_df           <- datos_covid$dict["SECTOR"][[1]]
-    colnames(sector_df) <- c("CLAVE","DESCRIPCION_TIPO_SECTOR")
+    sector_df <- datos_covid$dict["SECTOR"][[1]]
+    colnames(sector_df) <- c("CLAVE", "DESCRIPCION_TIPO_SECTOR")
     .num_pruebas <- .num_pruebas %>%
       dplyr::left_join(sector_df, by = name_join)
   }
 
-  .num_pruebas        <- list(.num_pruebas)
+  .num_pruebas <- list(.num_pruebas)
   names(.num_pruebas) <- list_name
 
   return(append(datos_covid, .num_pruebas))
-
 }

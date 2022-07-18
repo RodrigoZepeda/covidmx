@@ -25,21 +25,21 @@
 #' @param ...  parametros adicionales para `pins::pin_download`.
 #' @return `data.frame` con los datos porcentuales y de conteo de variantes
 #'
-#'@examples
-#'\dontrun{
-#'#Descarga de variantes a nivel nacional
-#'variantes_covid <- descarga_datos_variantes_GISAID('nacional')
+#' @examples
+#' \dontrun{
+#' # Descarga de variantes a nivel nacional
+#' variantes_covid <- descarga_datos_variantes_GISAID("nacional")
 #'
-#'#Descarga de variantes para CDMX
-#'variantes_covid <- descarga_datos_variantes_GISAID('cdmx')
+#' # Descarga de variantes para CDMX
+#' variantes_covid <- descarga_datos_variantes_GISAID("cdmx")
 #'
-#'#Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
-#'#sin verificar que el contenido en Internet haya cambiado
-#'variantes_covid <- descarga_datos_variantes_GISAID('nacional')
+#' # Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
+#' # sin verificar que el contenido en Internet haya cambiado
+#' variantes_covid <- descarga_datos_variantes_GISAID("nacional")
 #'
-#'#Puedes forzarlo a checar el contenido en Internet usando
-#'variantes_covid <- descarga_datos_variantes_GISAID('nacional', force_download = TRUE)
-#'}
+#' # Puedes forzarlo a checar el contenido en Internet usando
+#' variantes_covid <- descarga_datos_variantes_GISAID("nacional", force_download = TRUE)
+#' }
 #' @encoding UTF-8
 #' @references
 #'
@@ -63,35 +63,36 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
                                             use_cache_on_failure = TRUE,
                                             quiet = FALSE,
                                             force_download = FALSE,
-                                            show_warnings  = TRUE,
-                                            ...){
+                                            show_warnings = TRUE,
+                                            ...) {
 
-  #Ponemos el diccionario
+  # Ponemos el diccionario
   github <- "https://raw.githubusercontent.com/"
   cuenta <- "RodrigoZepeda/VariantesCovid/main/tablas/"
-  fname  <- glue::glue("{github}{cuenta}Proporcion_variantes_{nivel[1]}.csv")
+  fname <- glue::glue("{github}{cuenta}Proporcion_variantes_{nivel[1]}.csv")
 
-  if (!quiet){
+  if (!quiet) {
     message(glue::glue("Descargando/downloading: {fname}"))
   }
 
-  #Creamos el board
+  # Creamos el board
   board <- pins::board_url(
-    urls = c("nacional" = glue::glue("{github}{cuenta}Proporcion_variantes_nacional.csv"),
-             "cdmx"     = glue::glue("{github}{cuenta}Proporcion_variantes_cdmx.csv")
-             ),
-    cache                = cache,
-    use_cache_on_failure = use_cache_on_failure)
+    urls = c(
+      "nacional" = glue::glue("{github}{cuenta}Proporcion_variantes_nacional.csv"),
+      "cdmx" = glue::glue("{github}{cuenta}Proporcion_variantes_cdmx.csv")
+    ),
+    cache = cache,
+    use_cache_on_failure = use_cache_on_failure
+  )
 
-  #FIXME
-  #This is a workaround as the pins package doesn't have metadata for downloads
-  #Checamos si está descargado y cuándo lo descargaste si fue hace menos de un dia te
-  #dejo con el mismo
+  # FIXME
+  # This is a workaround as the pins package doesn't have metadata for downloads
+  # Checamos si está descargado y cuándo lo descargaste si fue hace menos de un dia te
+  # dejo con el mismo
   tdif <- pin_get_download_time(board, nivel[1])
 
-  if (!force_download & tdif < 0.9){
-
-    if (show_warnings){
+  if (!force_download & tdif < 0.9) {
+    if (show_warnings) {
       warning(glue::glue("
                           La descarga mas reciente fue hace {tdif} dias. Como tiene menos de un dia
                           usare esa. Escribe force_download = TRUE si quieres descargar de
@@ -102,26 +103,27 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
                           download anyway. To turn off this message show_warnings = FALSE."))
     }
 
-    #Lee de memoria
+    # Lee de memoria
     dfile <- pin_path_from_memory(board, nivel[1])
-
   } else {
-    #Descarga si cambió
+    # Descarga si cambió
     dfile <- pins::pin_download(board = board, name = nivel[1], ...)
   }
 
   dats <- dfile %>%
-    readr::read_csv(locale    = readr::locale(encoding = "UTF-8"),
-                    col_types = readr::cols(
-                      .default      = readr::col_character(),
-                      ano           = readr::col_integer(),
-                      semana        = readr::col_integer(),
-                      n             = readr::col_integer(),
-                      freq          = readr::col_double(),
-                      Actualizacion = readr::col_datetime(format = '%Y/%m/%d %H:%M:%S')
-                    ))
+    readr::read_csv(
+      locale = readr::locale(encoding = "UTF-8"),
+      col_types = readr::cols(
+        .default      = readr::col_character(),
+        ano           = readr::col_integer(),
+        semana        = readr::col_integer(),
+        n             = readr::col_integer(),
+        freq          = readr::col_double(),
+        Actualizacion = readr::col_datetime(format = "%Y/%m/%d %H:%M:%S")
+      )
+    )
 
-  #Escribimos en el pin que ya descargamos
+  # Escribimos en el pin que ya descargamos
   pin_write_download_time(board, nivel[1])
 
   return(dats)

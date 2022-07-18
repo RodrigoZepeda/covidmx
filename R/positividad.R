@@ -91,148 +91,165 @@
 #'   \item disconnect  - Funcion para desconectarte de DB
 #' }
 #'
-#'@examples
-#'\dontrun{
-#'datos_covid <- descarga_datos_abiertos(language = "Espanol")
+#' @examples
+#' \dontrun{
+#' datos_covid <- descarga_datos_abiertos(language = "Espanol")
 #'
-#'#Casos a nivel nacional por estado por tipo de prueba
-#'datos_covid <- datos_covid %>% positividad()
-#'head(datos_covid$casos)
+#' # Casos a nivel nacional por estado por tipo de prueba
+#' datos_covid <- datos_covid %>% positividad()
+#' head(datos_covid$casos)
 #'
-#'#Total nacional
-#'defunciones <- datos_covid %>% positividad(group_by_entidad = FALSE)
+#' # Total nacional
+#' defunciones <- datos_covid %>% positividad(group_by_entidad = FALSE)
 #'
-#'#Positivos en Jalisco y Colima
-#'casos_col_jal <- datos_covid %>% positividad(entidades = c("JALISCO","COLIMA"))
+#' # Positivos en Jalisco y Colima
+#' casos_col_jal <- datos_covid %>% positividad(entidades = c("JALISCO", "COLIMA"))
 #'
-#'#Agrupando ambas pruebas en una sola
-#'confirmados <- datos_covid %>%
-#'     positividad(entidades = c("JALISCO","COLIMA"),
-#'           group_by_tipo_prueba = FALSE)
+#' # Agrupando ambas pruebas en una sola
+#' confirmados <- datos_covid %>%
+#'   positividad(
+#'     entidades = c("JALISCO", "COLIMA"),
+#'     group_by_tipo_prueba = FALSE
+#'   )
 #'
-#'#Regresa la suma de los de COLIMA + JALISCO
-#'casos_col_jal <- datos_covid %>%
-#'     positividad(entidades = c("JALISCO","COLIMA"),
-#'           tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-#'           group_by_tipo_paciente = TRUE)
+#' # Regresa la suma de los de COLIMA + JALISCO
+#' casos_col_jal <- datos_covid %>%
+#'   positividad(
+#'     entidades = c("JALISCO", "COLIMA"),
+#'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+#'     group_by_tipo_paciente = TRUE
+#'   )
 #'
-#'#Si deseas agrupar por una variable que no este en las opciones
-#'casos_col_jal <- datos_covid %>%
-#'     positividad(entidades = c("JALISCO","COLIMA"),
-#'           tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-#'           group_by_tipo_paciente = TRUE,
-#'           .grouping_vars = c("DIABETES"))
-#'}
+#' # Si deseas agrupar por una variable que no este en las opciones
+#' casos_col_jal <- datos_covid %>%
+#'   positividad(
+#'     entidades = c("JALISCO", "COLIMA"),
+#'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+#'     group_by_tipo_paciente = TRUE,
+#'     .grouping_vars = c("DIABETES")
+#'   )
+#' }
 #'
 #' @export
 
 positividad <- function(datos_covid,
-                  entidades   = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
-                                  "CAMPECHE", "CHIAPAS", "CHIHUAHUA",
-                                  "CIUDAD DE M\u00c9XICO","COAHUILA DE ZARAGOZA" , "COLIMA",
-                                  "DURANGO", "GUANAJUATO", "GUERRERO","HIDALGO",
-                                  "JALISCO", "M\u00c9XICO", "MICHOAC\u00c1N DE OCAMPO",
-                                  "MORELOS","NAYARIT","NUEVO LE\u00d3N", "OAXACA",
-                                  "PUEBLA", "QUER\u00c9TARO", "QUINTANA ROO",
-                                  "SAN LUIS POTOS\u00cd", "SINALOA", "SONORA",
-                                  "TABASCO", "TAMAULIPAS", "TLAXCALA",
-                                  "VERACRUZ DE IGNACIO DE LA LLAVE",
-                                  "YUCAT\u00c1N", "ZACATECAS"),
-                  group_by_entidad     = TRUE,
-                  entidad_tipo         = c("Unidad Medica", "Residencia",
-                                           "Nacimiento"),
-                  fecha_tipo           = c("Sintomas", "Ingreso",
-                                           "Defuncion"),
-                  tipo_prueba          = c("Antigeno","PCR"),
-                  group_by_tipo_prueba = TRUE,
-                  tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
-                  group_by_tipo_paciente = FALSE,
-                  tipo_uci      = c("SI","NO","NO APLICA","SE IGNORA","NO ESPECIFICADO"),
-                  group_by_tipo_uci  = FALSE,
-                  tipo_sector   = c("CRUZ ROJA","DIF","ESTATAL","IMSS",
-                                    "IMSS-BIENESTAR","ISSSTE", "MUNICIPAL",
-                                    "PEMEX","PRIVADA","SEDENA","SEMAR","SSA",
-                                    "UNIVERSITARIO","NO ESPECIFICADO"),
-                  group_by_tipo_sector = FALSE,
-                  defunciones          = FALSE,
-                  edad_cut             = NULL,
-                  fill_NA              = TRUE,
-                  list_name            = "positividad",
-                  quiet                = FALSE,
-                  remove_inconclusive  = TRUE,
-                  .grouping_vars       = c()){
-
-
-  if (any(stringr::str_detect(names(datos_covid), list_name))){
-    stop(glue::glue("Impossible to create variable {list_name} ",
-                    "in datos_covid as it already exists"))
+                        entidades = c(
+                          "AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
+                          "CAMPECHE", "CHIAPAS", "CHIHUAHUA",
+                          "CIUDAD DE M\u00c9XICO", "COAHUILA DE ZARAGOZA", "COLIMA",
+                          "DURANGO", "GUANAJUATO", "GUERRERO", "HIDALGO",
+                          "JALISCO", "M\u00c9XICO", "MICHOAC\u00c1N DE OCAMPO",
+                          "MORELOS", "NAYARIT", "NUEVO LE\u00d3N", "OAXACA",
+                          "PUEBLA", "QUER\u00c9TARO", "QUINTANA ROO",
+                          "SAN LUIS POTOS\u00cd", "SINALOA", "SONORA",
+                          "TABASCO", "TAMAULIPAS", "TLAXCALA",
+                          "VERACRUZ DE IGNACIO DE LA LLAVE",
+                          "YUCAT\u00c1N", "ZACATECAS"
+                        ),
+                        group_by_entidad = TRUE,
+                        entidad_tipo = c(
+                          "Unidad Medica", "Residencia",
+                          "Nacimiento"
+                        ),
+                        fecha_tipo = c(
+                          "Sintomas", "Ingreso",
+                          "Defuncion"
+                        ),
+                        tipo_prueba = c("Antigeno", "PCR"),
+                        group_by_tipo_prueba = TRUE,
+                        tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
+                        group_by_tipo_paciente = FALSE,
+                        tipo_uci = c("SI", "NO", "NO APLICA", "SE IGNORA", "NO ESPECIFICADO"),
+                        group_by_tipo_uci = FALSE,
+                        tipo_sector = c(
+                          "CRUZ ROJA", "DIF", "ESTATAL", "IMSS",
+                          "IMSS-BIENESTAR", "ISSSTE", "MUNICIPAL",
+                          "PEMEX", "PRIVADA", "SEDENA", "SEMAR", "SSA",
+                          "UNIVERSITARIO", "NO ESPECIFICADO"
+                        ),
+                        group_by_tipo_sector = FALSE,
+                        defunciones = FALSE,
+                        edad_cut = NULL,
+                        fill_NA = TRUE,
+                        list_name = "positividad",
+                        quiet = FALSE,
+                        remove_inconclusive = TRUE,
+                        .grouping_vars = c()) {
+  if (any(stringr::str_detect(names(datos_covid), list_name))) {
+    stop(glue::glue(
+      "Impossible to create variable {list_name} ",
+      "in datos_covid as it already exists"
+    ))
   }
 
-  #Calculamos el total de pruebas
-  is_pcr  <- any(stringr::str_detect(tolower(tipo_prueba), "pcr"))
-  if (is_pcr){
-    .grouping_vars  <- c(.grouping_vars, "RESULTADO_LAB")
+  # Calculamos el total de pruebas
+  is_pcr <- any(stringr::str_detect(tolower(tipo_prueba), "pcr"))
+  if (is_pcr) {
+    .grouping_vars <- c(.grouping_vars, "RESULTADO_LAB")
   }
 
   is_anti <- any(stringr::str_detect(tolower(tipo_prueba), "ant.*geno"))
-  if (is_anti){
-    .grouping_vars  <- c(.grouping_vars, "RESULTADO_ANTIGENO")
+  if (is_anti) {
+    .grouping_vars <- c(.grouping_vars, "RESULTADO_ANTIGENO")
   }
 
-  if (!quiet){
+  if (!quiet) {
     message("Leyendo la base...")
   }
 
-  .numero_pruebas <- numero_pruebas(datos_covid = datos_covid, entidades = entidades,
-                                    group_by_entidad = group_by_entidad,
-                                    entidad_tipo = entidad_tipo,
-                                    fecha_tipo   = fecha_tipo,
-                                    tipo_prueba  = tipo_prueba,
-                                    group_by_tipo_prueba = group_by_tipo_prueba,
-                                    tipo_paciente = tipo_paciente,
-                                    group_by_tipo_paciente = group_by_tipo_paciente,
-                                    tipo_uci = tipo_uci,
-                                    group_by_tipo_uci = group_by_tipo_uci,
-                                    tipo_sector = tipo_sector,
-                                    group_by_tipo_sector = group_by_tipo_sector,
-                                    defunciones = defunciones,
-                                    edad_cut = edad_cut,
-                                    as_tibble = TRUE,
-                                    fill_zeros = fill_NA,
-                                    list_name = list_name,
-                                    .grouping_vars = .grouping_vars)
+  .numero_pruebas <- numero_pruebas(
+    datos_covid = datos_covid, entidades = entidades,
+    group_by_entidad = group_by_entidad,
+    entidad_tipo = entidad_tipo,
+    fecha_tipo = fecha_tipo,
+    tipo_prueba = tipo_prueba,
+    group_by_tipo_prueba = group_by_tipo_prueba,
+    tipo_paciente = tipo_paciente,
+    group_by_tipo_paciente = group_by_tipo_paciente,
+    tipo_uci = tipo_uci,
+    group_by_tipo_uci = group_by_tipo_uci,
+    tipo_sector = tipo_sector,
+    group_by_tipo_sector = group_by_tipo_sector,
+    defunciones = defunciones,
+    edad_cut = edad_cut,
+    as_tibble = TRUE,
+    fill_zeros = fill_NA,
+    list_name = list_name,
+    .grouping_vars = .grouping_vars
+  )
 
-  if (is_pcr & group_by_tipo_prueba){
-
-    if (!quiet){
+  if (is_pcr & group_by_tipo_prueba) {
+    if (!quiet) {
       message("Calculando PCR...")
     }
 
-    #Filtramos los totales
-    .pcr_totales   <- .numero_pruebas[list_name][[1]] %>%
+    # Filtramos los totales
+    .pcr_totales <- .numero_pruebas[list_name][[1]] %>%
       dplyr::filter(!!as.symbol("TIPO_PRUEBA") == "PCR")
 
-    if (remove_inconclusive){
+    if (remove_inconclusive) {
       .pcr_totales <- .pcr_totales %>%
-        dplyr::filter(!!as.symbol("RESULTADO_LAB") %in% c(1,2)) %>%
+        dplyr::filter(!!as.symbol("RESULTADO_LAB") %in% c(1, 2)) %>%
         dplyr::select(-dplyr::matches("RESULTADO_ANTIGENO|RESULTADO_LAB"))
     }
 
-    #Filtramos los positivos
+    # Filtramos los positivos
     .pcr_positivos <- .numero_pruebas[list_name][[1]] %>%
       dplyr::filter(!!as.symbol("TIPO_PRUEBA") == "PCR" & !!as.symbol("RESULTADO_LAB") == 1) %>%
       dplyr::select(-dplyr::matches("RESULTADO_ANTIGENO|RESULTADO_LAB"))
 
-    #Agrupamos por covariables y contamos
-    groups         <- stringr::str_subset(colnames(.pcr_positivos),
-                                          "\\bn\\b", negate = T)
+    # Agrupamos por covariables y contamos
+    groups <- stringr::str_subset(colnames(.pcr_positivos),
+      "\\bn\\b",
+      negate = T
+    )
 
-    #Obtenemos los positivos
+    # Obtenemos los positivos
     .pcr_positivos <- .pcr_positivos %>%
       dplyr::group_by_at(groups) %>%
       dplyr::summarise(!!as.symbol("n_positivos") := sum(!!as.symbol("n")), .groups = "keep")
 
-    #Obtenemos los totales
+    # Obtenemos los totales
     .pcr_totales <- .pcr_totales %>%
       dplyr::group_by_at(groups) %>%
       dplyr::summarise(!!as.symbol("n_pruebas") := sum(!!as.symbol("n")), .groups = "keep")
@@ -241,41 +258,42 @@ positividad <- function(datos_covid,
       dplyr::left_join(.pcr_positivos, by = groups) %>%
       dplyr::mutate(!!as.symbol("Positividad") := dplyr::if_else(
         !!as.symbol("n_pruebas") != 0,
-        as.numeric(!!as.symbol("n_positivos")) / as.numeric(!!as.symbol("n_pruebas")), NA_real_))
-
+        as.numeric(!!as.symbol("n_positivos")) / as.numeric(!!as.symbol("n_pruebas")), NA_real_
+      ))
   }
 
-  if (is_anti & group_by_tipo_prueba){
-
-    if (!quiet){
+  if (is_anti & group_by_tipo_prueba) {
+    if (!quiet) {
       message("Calculando Antigeno...")
     }
 
-    #Filtramos los totales
-    .anti_totales   <- .numero_pruebas[list_name][[1]] %>%
+    # Filtramos los totales
+    .anti_totales <- .numero_pruebas[list_name][[1]] %>%
       dplyr::filter(!!as.symbol("TIPO_PRUEBA") == "ANTIGENO")
 
-    if (remove_inconclusive){
+    if (remove_inconclusive) {
       .anti_totales <- .anti_totales %>%
-        dplyr::filter(!!as.symbol("RESULTADO_ANTIGENO") %in% c(1,2)) %>%
+        dplyr::filter(!!as.symbol("RESULTADO_ANTIGENO") %in% c(1, 2)) %>%
         dplyr::select(-dplyr::matches("RESULTADO_ANTIGENO|RESULTADO_LAB"))
     }
 
-    #Filtramos los positivos
+    # Filtramos los positivos
     .anti_positivos <- .numero_pruebas[list_name][[1]] %>%
       dplyr::filter(!!as.symbol("TIPO_PRUEBA") == "ANTIGENO" & !!as.symbol("RESULTADO_ANTIGENO") == 1) %>%
       dplyr::select(-dplyr::matches("RESULTADO_ANTIGENO|RESULTADO_LAB"))
 
-    #Agrupamos por covariables y contamos
-    groups         <- stringr::str_subset(colnames(.anti_positivos),
-                                          "\\bn\\b", negate = T)
+    # Agrupamos por covariables y contamos
+    groups <- stringr::str_subset(colnames(.anti_positivos),
+      "\\bn\\b",
+      negate = T
+    )
 
-    #Obtenemos los positivos
+    # Obtenemos los positivos
     .anti_positivos <- .anti_positivos %>%
       dplyr::group_by_at(groups) %>%
       dplyr::summarise(!!as.symbol("n_positivos") := sum(!!as.symbol("n")), .groups = "keep")
 
-    #Obtenemos los totales
+    # Obtenemos los totales
     .anti_totales <- .anti_totales %>%
       dplyr::group_by_at(groups) %>%
       dplyr::summarise(!!as.symbol("n_pruebas") := sum(!!as.symbol("n")), .groups = "keep")
@@ -284,22 +302,23 @@ positividad <- function(datos_covid,
       dplyr::left_join(.anti_positivos, by = groups) %>%
       dplyr::mutate(!!as.symbol("Positividad") := dplyr::if_else(
         !!as.symbol("n_pruebas") != 0,
-        as.numeric(!!as.symbol("n_positivos")) / as.numeric(!!as.symbol("n_pruebas")), NA_real_))
-
+        as.numeric(!!as.symbol("n_positivos")) / as.numeric(!!as.symbol("n_pruebas")), NA_real_
+      ))
   }
 
-  #Add both tests
-  if (!group_by_tipo_prueba){
-
+  # Add both tests
+  if (!group_by_tipo_prueba) {
     groups <- stringr::str_subset(colnames(.numero_pruebas[list_name][[1]]),
-                        "\\bn\\b|RESULTADO_LAB|RESULTADO_ANTIGENO", negate = T)
+      "\\bn\\b|RESULTADO_LAB|RESULTADO_ANTIGENO",
+      negate = T
+    )
 
-    #Obtenemos los totales
+    # Obtenemos los totales
     .totales <- .numero_pruebas[list_name][[1]] %>%
       dplyr::group_by_at(groups) %>%
       dplyr::summarise(!!as.symbol("n_pruebas") := sum(!!as.symbol("n")), .groups = "keep")
 
-    #Obtenemos los positivos
+    # Obtenemos los positivos
     .positivos <- .numero_pruebas[list_name][[1]] %>%
       dplyr::filter(dplyr::if_any(dplyr::starts_with("RESULTADO"), ~ (. == 1))) %>%
       dplyr::group_by_at(groups) %>%
@@ -309,20 +328,21 @@ positividad <- function(datos_covid,
       dplyr::left_join(.positivos, by = groups) %>%
       dplyr::mutate(!!as.symbol("Positividad") := dplyr::if_else(
         !!as.symbol("n_pruebas") != 0,
-        as.numeric(!!as.symbol("n_positivos")) / as.numeric(!!as.symbol("n_pruebas")), NA_real_))
+        as.numeric(!!as.symbol("n_positivos")) / as.numeric(!!as.symbol("n_pruebas")), NA_real_
+      ))
   }
 
-  if (!quiet){
+  if (!quiet) {
     message("Terminando de construir la base")
   }
-  if (is_pcr & is_anti & group_by_tipo_prueba){
+  if (is_pcr & is_anti & group_by_tipo_prueba) {
     .positividad <- .pcr %>%
       dplyr::bind_rows(.anti)
-  } else  if (is_pcr & !is_anti & group_by_tipo_prueba){
+  } else if (is_pcr & !is_anti & group_by_tipo_prueba) {
     .positividad <- .pcr
-  } else  if (!is_pcr & is_anti & group_by_tipo_prueba){
+  } else if (!is_pcr & is_anti & group_by_tipo_prueba) {
     .positividad <- .anti
-  } else if (!group_by_tipo_prueba){
+  } else if (!group_by_tipo_prueba) {
     .positividad <- .positividad
   } else {
     stop("Selecciona PCR o Antigeno en pruebas")
@@ -331,12 +351,11 @@ positividad <- function(datos_covid,
   .positividad <- .positividad %>%
     dplyr::relocate(!!as.symbol("Positividad"))
 
-  if (!quiet){
+  if (!quiet) {
     message("Terminado")
   }
-  .positividad        <- list(.positividad)
+  .positividad <- list(.positividad)
   names(.positividad) <- list_name
 
   return(append(datos_covid, .positividad))
-
 }
