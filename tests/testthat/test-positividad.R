@@ -42,7 +42,7 @@ test_that("Positividad", {
   ucis       <- unique(positividad_agrupados$positividad$DESCRIPCION_TIPO_UCI)
   expect_true(length(ucis) == 1 & ucis == "NO ESPECIFICADO")
 
-  #Chequeo del list_name-----
+  #Chequeo del list_name----
   positividad_prueba <- datos_covid %>% positividad(list_name = "Prueba", quiet = TRUE)
   expect_true("Prueba" %in% names(positividad_prueba))
 
