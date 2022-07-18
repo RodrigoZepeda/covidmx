@@ -166,7 +166,7 @@ numero_pruebas <- function(datos_covid,
   #> ENTIDAD----
   #Seleccionar la entidad
   entidad_tipo <- dplyr::case_when(
-    stringr::str_detect(tolower(entidad_tipo[1]), "m*dica|entidad_um") ~ "ENTIDAD_UM",
+    stringr::str_detect(tolower(entidad_tipo[1]), "m.*dica|entidad_um") ~ "ENTIDAD_UM",
     stringr::str_detect(tolower(entidad_tipo[1]), "residencia|entidad_res") ~ "ENTIDAD_RES",
     stringr::str_detect(tolower(entidad_tipo[1]), "nacimiento|entidad_nac") ~ "ENTIDAD_NAC",
   )
@@ -175,8 +175,8 @@ numero_pruebas <- function(datos_covid,
   fecha_tipo <-
     dplyr::case_when(
       stringr::str_detect(tolower(fecha_tipo[1]), "ingreso") ~ "FECHA_INGRESO",
-      stringr::str_detect(tolower(fecha_tipo[1]), "s*ntomas") ~ "FECHA_SINTOMAS",
-      stringr::str_detect(tolower(fecha_tipo[1]), "defunci*n|fecha_def") ~ "FECHA_DEF"
+      stringr::str_detect(tolower(fecha_tipo[1]), "s.*ntomas") ~ "FECHA_SINTOMAS",
+      stringr::str_detect(tolower(fecha_tipo[1]), "defunci.*n|fecha_def") ~ "FECHA_DEF"
     )
 
   #Checamos la variable de entidades
@@ -230,8 +230,11 @@ numero_pruebas <- function(datos_covid,
     datos_covid$dict[entidad_tipo][[1]] %>%
     dplyr::filter(
       stringr::str_detect(get("ENTIDAD_FEDERATIVA"),
-                          paste0("\\b",
-                                 paste0(entidades, collapse = "\\b|\\b"),"\\b")))
+                          paste0(paste0("^",paste0(entidades,"$")),collapse = "|")))
+
+  if (nrow(entidades) < 1){
+    stop("No logramos encontrar esas entidades")
+  }
 
   lista_entidades   <- paste0(entidades$CLAVE_ENTIDAD, collapse = "|")
   .num_pruebas      <- datos_covid$dats %>%
@@ -258,8 +261,7 @@ numero_pruebas <- function(datos_covid,
     datos_covid$dict["UCI"][[1]] %>%
     dplyr::filter(
       stringr::str_detect(get("DESCRIPCI\u00d3N"),
-                          paste0("\\b",
-                                 paste0(tipo_uci, collapse = "\\b|\\b"),"\\b")))
+                          paste0(paste0("^",tipo_uci,"$"), collapse = "|")))
 
   lista_claves     <- as.numeric(ucis$CLAVE)
   .num_pruebas     <- .num_pruebas %>%
@@ -271,8 +273,7 @@ numero_pruebas <- function(datos_covid,
     datos_covid$dict["SECTOR"][[1]] %>%
     dplyr::filter(
       stringr::str_detect(get("DESCRIPCI\u00d3N"),
-                          paste0("\\b",
-                                 paste0(tipo_sector, collapse = "\\b|\\b"),"\\b")))
+                          paste0(paste0("^",tipo_sector,"$"), collapse = "|")))
 
   lista_claves      <- as.numeric(sectores$CLAVE)
   .num_pruebas      <- .num_pruebas %>%
@@ -314,7 +315,7 @@ numero_pruebas <- function(datos_covid,
       dplyr::union_all(.antigeno)
   } else  if (is_pcr & !is_anti){
     .num_pruebas <- .pcr
-  } else  if (is_pcr & !is_anti){
+  } else  if (is_anti & !is_pcr){
     .num_pruebas <- .antigeno
   } else {
     stop("Selecciona PCR o Antigeno en pruebas")

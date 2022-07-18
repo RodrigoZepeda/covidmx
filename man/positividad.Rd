@@ -29,6 +29,7 @@ positividad(
   edad_cut = NULL,
   fill_NA = TRUE,
   list_name = "positividad",
+  quiet = TRUE,
   remove_inconclusive = TRUE,
   .grouping_vars = c()
 )
@@ -96,6 +97,8 @@ para todas las combinaciones de variables incluyendo como NA donde no se observa
 denominador. En caso contrario no se incluyen las filas donde no se observaron casos.}
 
 \item{list_name}{Asigna un nombre en la lista de datos a la base generada}
+
+\item{quiet}{Booleana si \code{TRUE} no arroja mensaje alguno.}
 
 \item{remove_inconclusive}{No considera las pruebas cuyo resultado es inconcluso o aún
 no ha sido otorgado}

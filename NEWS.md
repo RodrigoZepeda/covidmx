@@ -1,3 +1,9 @@
+# covidmx 0.4.1.0000
+* Se arregló el `bug` que impedía seleccionar solo `Antígeno` como pruebas en `numero_pruebas`
+* Se arregló el `bug` que impedía seleccionar solo `Antígeno` como pruebas en `positividad`
+* Se arregló el `bug` que impedía seleccionar  `Defuncón` como `fecha_tipo` en `numero_pruebas`
+* Se agregó la opción de `quiet` a `positividad`
+
 # covidmx 0.4.0.0000
 
 * Se arregló `bug` que al filtrar por `IMSS` devolvía `IMSS-BIENESTAR` en `tipo_sector`
