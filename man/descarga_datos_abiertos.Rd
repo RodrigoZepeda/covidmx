@@ -395,32 +395,32 @@ Para ver donde estan descargados tus datos usa \code{pins::board_cache_path()}. 
 
 \examples{
 \dontrun{
-#Descarga de la base de datos junto con diccionario en MariaDB
+# Descarga de la base de datos junto con diccionario en MariaDB
 datos_covid <- descarga_datos_abiertos()
 
-#Luego haces algo con esos datos...
+# Luego haces algo con esos datos...
 
-#Cuando terminas cierras la sesión:
+# Cuando terminas cierras la sesión:
 datos_covid$disconnect()
 
-#Descarga solo el diccionario
+# Descarga solo el diccionario
 diccionario <- descarga_diccionario()
 
-#O bien descarga solo los datos abiertos
+# O bien descarga solo los datos abiertos
 datos_abiertos <- descarga_db()
 
-#Pegalos en el formato que se necesita para el resto de funciones
+# Pegalos en el formato que se necesita para el resto de funciones
 datos_covid <- pega_db_datos_abiertos(datos_abiertos, diccionario)
 
-#Tambien puedes descargar paso por paso
-datos_abiertos <- descarga_db_datos_abiertos_tbl() \%>\% #Descarga
-                     unzip_db_datos_abiertos_tbl() \%>\% #Unzippea
-                     parse_db_datos_abiertos_tbl()     #MariaDB
+# Tambien puedes descargar paso por paso
+datos_abiertos <- descarga_db_datos_abiertos_tbl() \%>\% # Descarga
+  unzip_db_datos_abiertos_tbl() \%>\% # Unzippea
+  parse_db_datos_abiertos_tbl() # MariaDB
 
-#O bien el diccionario
-diccionario <- descarga_db_diccionario_ssa()   \%>\% #Descarga
-                    unzip_db_diccionario_ssa() \%>\% #Unzippea
-                    parse_db_diccionario_ssa()     #Tibble
+# O bien el diccionario
+diccionario <- descarga_db_diccionario_ssa() \%>\% # Descarga
+  unzip_db_diccionario_ssa() \%>\% # Unzippea
+  parse_db_diccionario_ssa() # Tibble
 }
 }
 \seealso{

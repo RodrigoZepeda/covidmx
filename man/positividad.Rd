@@ -129,33 +129,39 @@ This is not an official product / este no es un producto oficial
 \dontrun{
 datos_covid <- descarga_datos_abiertos(language = "Espanol")
 
-#Casos a nivel nacional por estado por tipo de prueba
+# Casos a nivel nacional por estado por tipo de prueba
 datos_covid <- datos_covid \%>\% positividad()
 head(datos_covid$casos)
 
-#Total nacional
+# Total nacional
 defunciones <- datos_covid \%>\% positividad(group_by_entidad = FALSE)
 
-#Positivos en Jalisco y Colima
-casos_col_jal <- datos_covid \%>\% positividad(entidades = c("JALISCO","COLIMA"))
+# Positivos en Jalisco y Colima
+casos_col_jal <- datos_covid \%>\% positividad(entidades = c("JALISCO", "COLIMA"))
 
-#Agrupando ambas pruebas en una sola
+# Agrupando ambas pruebas en una sola
 confirmados <- datos_covid \%>\%
-    positividad(entidades = c("JALISCO","COLIMA"),
-          group_by_tipo_prueba = FALSE)
+  positividad(
+    entidades = c("JALISCO", "COLIMA"),
+    group_by_tipo_prueba = FALSE
+  )
 
-#Regresa la suma de los de COLIMA + JALISCO
+# Regresa la suma de los de COLIMA + JALISCO
 casos_col_jal <- datos_covid \%>\%
-    positividad(entidades = c("JALISCO","COLIMA"),
-          tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-          group_by_tipo_paciente = TRUE)
+  positividad(
+    entidades = c("JALISCO", "COLIMA"),
+    tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+    group_by_tipo_paciente = TRUE
+  )
 
-#Si deseas agrupar por una variable que no este en las opciones
+# Si deseas agrupar por una variable que no este en las opciones
 casos_col_jal <- datos_covid \%>\%
-    positividad(entidades = c("JALISCO","COLIMA"),
-          tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-          group_by_tipo_paciente = TRUE,
-          .grouping_vars = c("DIABETES"))
+  positividad(
+    entidades = c("JALISCO", "COLIMA"),
+    tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+    group_by_tipo_paciente = TRUE,
+    .grouping_vars = c("DIABETES")
+  )
 }
 
 }
