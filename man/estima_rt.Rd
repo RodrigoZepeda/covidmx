@@ -90,16 +90,19 @@ This is not an official product / este no es un producto oficial
 \dontrun{
 datos_covid <- descarga_datos_abiertos(language = "Espanol")
 
-#Casos a nivel nacional en los confirmados
+# Casos a nivel nacional en los confirmados
 datos_covid <- datos_covid \%>\%
-        estima_rt(tipo_clasificacion == "Confirmados COVID",
-          group_by_entidad = FALSE)
+  estima_rt(tipo_clasificacion == "Confirmados COVID",
+    group_by_entidad = FALSE
+  )
 
-#Casos en AGS, CHI en los confirmados
+# Casos en AGS, CHI en los confirmados
 datos_covid <- datos_covid \%>\%
-        estima_rt(entidades = c("CHIHUAHUA","AGUASCALIENTES"),
-          tipo_clasificacion == "Confirmados COVID",
-          group_by_entidad = TRUE)
+  estima_rt(
+    entidades = c("CHIHUAHUA", "AGUASCALIENTES"),
+    tipo_clasificacion == "Confirmados COVID",
+    group_by_entidad = TRUE
+  )
 }
 
 }

@@ -51,18 +51,18 @@ La descarga usa el paquete \code{pins}
 }
 \examples{
 \dontrun{
-#Descarga de variantes a nivel nacional
-variantes_covid <- descarga_datos_variantes_GISAID('nacional')
+# Descarga de variantes a nivel nacional
+variantes_covid <- descarga_datos_variantes_GISAID("nacional")
 
-#Descarga de variantes para CDMX
-variantes_covid <- descarga_datos_variantes_GISAID('cdmx')
+# Descarga de variantes para CDMX
+variantes_covid <- descarga_datos_variantes_GISAID("cdmx")
 
-#Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
-#sin verificar que el contenido en Internet haya cambiado
-variantes_covid <- descarga_datos_variantes_GISAID('nacional')
+# Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
+# sin verificar que el contenido en Internet haya cambiado
+variantes_covid <- descarga_datos_variantes_GISAID("nacional")
 
-#Puedes forzarlo a checar el contenido en Internet usando
-variantes_covid <- descarga_datos_variantes_GISAID('nacional', force_download = TRUE)
+# Puedes forzarlo a checar el contenido en Internet usando
+variantes_covid <- descarga_datos_variantes_GISAID("nacional", force_download = TRUE)
 }
 }
 \references{

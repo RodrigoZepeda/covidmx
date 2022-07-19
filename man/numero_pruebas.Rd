@@ -126,27 +126,33 @@ This is not an official product / este no es un producto oficial
 \dontrun{
 datos_covid <- descarga_datos_abiertos(language = "Espanol")
 
-#Número de pruebas PCR/ANTI a nivel nacional por estado
+# Número de pruebas PCR/ANTI a nivel nacional por estado
 datos_covid <- datos_covid \%>\% numero_pruebas()
 head(datos_covid$numero_pruebas)
 
-#Número de pruebas nacionales pero sin separar por tipo ni estado
+# Número de pruebas nacionales pero sin separar por tipo ni estado
 datos_covid <- datos_covid \%>\%
-     numero_pruebas(group_by_entidad = FALSE, group_by_tipo_prueba = FALSE,
-     list_name = "Todas_las_pruebas")
+  numero_pruebas(
+    group_by_entidad = FALSE, group_by_tipo_prueba = FALSE,
+    list_name = "Todas_las_pruebas"
+  )
 
-#Positivos en Jalisco y Colima
+# Positivos en Jalisco y Colima
 casos_col_jal <- datos_covid \%>\%
-                   numero_pruebas(entidades = c("JALISCO","COLIMA"),
-                                  list_name = "Pruebas_jal_col")
+  numero_pruebas(
+    entidades = c("JALISCO", "COLIMA"),
+    list_name = "Pruebas_jal_col"
+  )
 
-#Si deseas agrupar por una variable que no este en las opciones asi como tipo paciente
+# Si deseas agrupar por una variable que no este en las opciones asi como tipo paciente
 casos_col_jal <- datos_covid \%>\%
-    numero_pruebas(entidades = c("JALISCO","COLIMA"),
-          tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-          group_by_tipo_paciente = TRUE,
-          .grouping_vars = c("DIABETES"),
-          list_name      = "Diabetescoljal")
+  numero_pruebas(
+    entidades = c("JALISCO", "COLIMA"),
+    tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+    group_by_tipo_paciente = TRUE,
+    .grouping_vars = c("DIABETES"),
+    list_name = "Diabetescoljal"
+  )
 }
 
 }

@@ -127,38 +127,44 @@ Por default calcula el total de casos.
 \dontrun{
 datos_covid <- descarga_datos_abiertos(language = "Espanol")
 
-#Casos a nivel nacional
+# Casos a nivel nacional
 datos_covid <- datos_covid \%>\% casos()
 head(datos_covid$casos)
 
-#Defunciones nacional
+# Defunciones nacional
 defunciones <- datos_covid \%>\% casos(defunciones = TRUE, list_name = "Defunciones")
 
-#Positivos en Jalisco y Colima
+# Positivos en Jalisco y Colima
 casos_col_jal <- datos_covid \%>\%
-                    casos(entidades = c("JALISCO","COLIMA"), list_name = "Jaliscolima")
+  casos(entidades = c("JALISCO", "COLIMA"), list_name = "Jaliscolima")
 
-#Agrupando casos por tipo de clasificacion
+# Agrupando casos por tipo de clasificacion
 confirmados <- datos_covid \%>\%
-    casos(entidades = c("JALISCO","COLIMA"),
-          group_by_tipo_clasificacion = TRUE, list_name = "Jaliscolima2")
+  casos(
+    entidades = c("JALISCO", "COLIMA"),
+    group_by_tipo_clasificacion = TRUE, list_name = "Jaliscolima2"
+  )
 
-#Regresa la suma de los de COLIMA + JALISCO
+# Regresa la suma de los de COLIMA + JALISCO
 casos_col_jal <- datos_covid \%>\%
-    casos(entidades = c("JALISCO","COLIMA"),
-          group_by_tipo_clasificacion = TRUE,
-          tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-          group_by_tipo_paciente = TRUE,
-          list_name = "Jalisco + colima")
+  casos(
+    entidades = c("JALISCO", "COLIMA"),
+    group_by_tipo_clasificacion = TRUE,
+    tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+    group_by_tipo_paciente = TRUE,
+    list_name = "Jalisco + colima"
+  )
 
-#Si deseas agrupar por una variable que no este en las opciones
+# Si deseas agrupar por una variable que no este en las opciones
 casos_col_jal <- datos_covid \%>\%
-    casos(entidades = c("JALISCO","COLIMA"),
-          group_by_tipo_clasificacion = TRUE,
-          tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-          group_by_tipo_paciente = TRUE,
-          list_name = "Jalisco + colima diabetes",
-          .grouping_vars = c("DIABETES"))
+  casos(
+    entidades = c("JALISCO", "COLIMA"),
+    group_by_tipo_clasificacion = TRUE,
+    tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+    group_by_tipo_paciente = TRUE,
+    list_name = "Jalisco + colima diabetes",
+    .grouping_vars = c("DIABETES")
+  )
 }
 
 }

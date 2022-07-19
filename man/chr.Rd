@@ -112,33 +112,39 @@ This is not an official product / este no es un producto oficial
 \dontrun{
 datos_covid <- descarga_datos_abiertos(language = "Espanol")
 
-#Casos a nivel nacional
+# Casos a nivel nacional
 datos_covid <- datos_covid \%>\% chr()
 head(datos_covid$`case hospitalization rate`)
 
-#Nacional
+# Nacional
 datos_covid <- datos_covid \%>\% chr(list_name = "chr nacional", group_by_entidad = F)
 
-#CFR en Jalisco y Colima
+# CFR en Jalisco y Colima
 datos_covid <- datos_covid \%>\%
-                    chr(entidades = c("JALISCO","COLIMA"), list_name = "chr_Jaliscolima")
+  chr(entidades = c("JALISCO", "COLIMA"), list_name = "chr_Jaliscolima")
 
-#Calcula el CHR suponiendo toda la base son confirmados
+# Calcula el CHR suponiendo toda la base son confirmados
 datos_covid <- datos_covid \%>\%
-    chr(entidades = c("JALISCO","COLIMA"),
-          tipo_clasificacion = c("Sospechosos","Confirmados COVID",
-          "Negativo a COVID","Inv\u00e1lido", "No realizado"),
-          group_by_tipo_clasificacion = TRUE, list_name = "Jaliscolima2_chr")
+  chr(
+    entidades = c("JALISCO", "COLIMA"),
+    tipo_clasificacion = c(
+      "Sospechosos", "Confirmados COVID",
+      "Negativo a COVID", "Inv\u00e1lido", "No realizado"
+    ),
+    group_by_tipo_clasificacion = TRUE, list_name = "Jaliscolima2_chr"
+  )
 
-#Distinguiendo sólo entre defunciones
+# Distinguiendo sólo entre defunciones
 datos_covid <- datos_covid \%>\%
-    chr(entidades = c("JALISCO","COLIMA"),
-          defunciones = TRUE,
-          list_name = "Jalisco + colima chr")
+  chr(
+    entidades = c("JALISCO", "COLIMA"),
+    defunciones = TRUE,
+    list_name = "Jalisco + colima chr"
+  )
 
-#Si deseas agrupar por una variable que no este en las opciones
+# Si deseas agrupar por una variable que no este en las opciones
 datos_covid <- datos_covid \%>\%
-    chr(.grouping_vars = c("DIABETES"), list_name = "chr_diab")
+  chr(.grouping_vars = c("DIABETES"), list_name = "chr_diab")
 }
 
 }

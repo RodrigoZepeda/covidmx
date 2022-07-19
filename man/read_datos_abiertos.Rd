@@ -274,25 +274,25 @@ Tambien puedes usar las auxiliares respectivas
 }
 \examples{
 \dontrun{
-#Lee los datos de MariaDB una vez descargados
+# Lee los datos de MariaDB una vez descargados
 descarga_datos_abiertos()
-datos_covid   <- read_datos_abiertos()
+datos_covid <- read_datos_abiertos()
 
-#Es lo mismo que:
-datos_covid   <- read_datos_abiertos_MariaDB()
+# Es lo mismo que:
+datos_covid <- read_datos_abiertos_MariaDB()
 
-#Descarga los datos y lee de un zip
+# Descarga los datos y lee de un zip
 direccion_zip <- descarga_db_datos_abiertos_tbl()
-datos_covid   <- read_datos_abiertos(direccion_zip)
+datos_covid <- read_datos_abiertos(direccion_zip)
 
-#Es lo mismo que:
-datos_covid   <- read_datos_abiertos_zip(direccion_zip)
+# Es lo mismo que:
+datos_covid <- read_datos_abiertos_zip(direccion_zip)
 
-#Descarga los datos y lee de un csv
+# Descarga los datos y lee de un csv
 direccion_zip <- descarga_db_datos_abiertos_tbl()
 direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
-datos_covid   <- read_datos_abiertos(direccion_csv)
+datos_covid <- read_datos_abiertos(direccion_csv)
 
-datos_covid   <- read_datos_abiertos_csv(direccion_csv)
+datos_covid <- read_datos_abiertos_csv(direccion_csv)
 }
 }
