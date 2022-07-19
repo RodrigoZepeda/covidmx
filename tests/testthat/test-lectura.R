@@ -1,7 +1,8 @@
 test_that("Lectura y descarga datos abiertos", {
 
   skip_if_offline()
-
+  setwd(tempdir())
+  
   #Checamos que sí se descarguen cosas
   dlink    <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
   download <- descarga_datos_abiertos(cache_datos = tempfile(), cache_diccionario = tempfile(),
