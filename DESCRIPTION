@@ -1,10 +1,11 @@
 Package: covidmx
 Title: Herramientas para el analisis de datos de COVID-19 en Mexico
-Version: 0.4.2.0000
+Version: 0.5.0.0000
 Authors@R: 
-    person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0003-4471-5270"))
-Description: ES: Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia  de Mexico, la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) y la Global Initiative on  Sharing All Influenza Data (GISAID). EN: Downloads and analyzes data for COVID-19 from the  Mexican General Directorate of Epidemiology, the IRAG network and GISAID. 
+    c(person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-4471-5270")),
+           person("Mauricio", "Hernandez-Avila", role = c("aut")))
+Description: Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia  de Mexico, la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) y la Global Initiative on  Sharing All Influenza Data (GISAID). EN: Downloads and analyzes data for COVID-19 from the  Mexican General Directorate of Epidemiology, the IRAG network and GISAID. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Language: es

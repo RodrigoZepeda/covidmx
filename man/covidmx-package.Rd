@@ -6,7 +6,7 @@
 \alias{covidmx-package}
 \title{covidmx: Herramientas para el analisis de datos de COVID-19 en Mexico}
 \description{
-ES: Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico, la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) y la Global Initiative on Sharing All Influenza Data (GISAID). EN: Downloads and analyzes data for COVID-19 from the Mexican General Directorate of Epidemiology, the IRAG network and GISAID.
+Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico, la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) y la Global Initiative on Sharing All Influenza Data (GISAID). EN: Downloads and analyzes data for COVID-19 from the Mexican General Directorate of Epidemiology, the IRAG network and GISAID.
 }
 \seealso{
 Useful links:
@@ -19,6 +19,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: Rodrigo Zepeda-Tello \email{rzepeda17@gmail.com} (\href{https://orcid.org/0000-0003-4471-5270}{ORCID})
+
+Authors:
+\itemize{
+  \item Mauricio Hernandez-Avila
+}
 
 }
 \keyword{internal}
