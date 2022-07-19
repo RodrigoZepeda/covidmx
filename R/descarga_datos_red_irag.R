@@ -20,59 +20,59 @@
 #' @param ...  parametros adicionales para `pins::pin_download`.
 #' @return `data.frame` con los datos de ocupacion hospitalaria
 #'
-#'@examples
-#'\dontrun{
-#'#Descarga de datos estatales
-#'ocupacion_hospitalaria <- descarga_datos_red_irag("Estatal")
+#' @examples
+#' \dontrun{
+#' # Descarga de datos estatales
+#' ocupacion_hospitalaria <- descarga_datos_red_irag("Estatal")
 #'
-#'#Descarga de datos por unidad medica
-#'ocupacion_hospitalaria <- descarga_datos_red_irag("Unidad Medica")
+#' # Descarga de datos por unidad medica
+#' ocupacion_hospitalaria <- descarga_datos_red_irag("Unidad Medica")
 #'
-#'#Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
-#'#sin verificar que el contenido en Internet haya cambiado
-#'ocupacion_hospitalaria <- descarga_datos_red_irag('Unidad Medica')
+#' # Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
+#' # sin verificar que el contenido en Internet haya cambiado
+#' ocupacion_hospitalaria <- descarga_datos_red_irag("Unidad Medica")
 #'
-#'#Puedes forzarlo a checar el contenido en Internet usando
-#'variantes_covid        <- descarga_datos_red_irag('Unidad Medica', force_download = TRUE)
-#'}
+#' # Puedes forzarlo a checar el contenido en Internet usando
+#' variantes_covid <- descarga_datos_red_irag("Unidad Medica", force_download = TRUE)
+#' }
 #' @encoding UTF-8
 #' @seealso [descarga_datos_variantes_GISAID] [descarga_datos_abiertos] [read_datos_abiertos]
 #' @export
-descarga_datos_red_irag <- function(nivel = c("Estatal","Unidad M\u00e9dica"),
+descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
                                     cache = NULL,
                                     use_cache_on_failure = TRUE,
                                     quiet = TRUE,
                                     force_download = FALSE,
-                                    show_warnings  = TRUE,
-                                    ...){
-
+                                    show_warnings = TRUE,
+                                    ...) {
   github <- "https://media.githubusercontent.com/media/"
   cuenta <- "RodrigoZepeda/CapacidadHospitalariaMX/master/processed/"
 
-  nivel  <- ifelse(tolower(nivel[1]) == "estatal", "estatal", "unidad_medica")
-  fname  <- glue::glue("{github}{cuenta}HospitalizacionesMX_{nivel}.csv")
+  nivel <- ifelse(tolower(nivel[1]) == "estatal", "estatal", "unidad_medica")
+  fname <- glue::glue("{github}{cuenta}HospitalizacionesMX_{nivel}.csv")
 
-  if (!quiet){
+  if (!quiet) {
     message(glue::glue("Descargando/downloading: {fname}"))
   }
 
-  #Creamos el board
+  # Creamos el board
   board <- pins::board_url(
-    urls = c("estatal"       = glue::glue("{github}{cuenta}HospitalizacionesMX_estatal.csv"),
-             "unidad_medica" = glue::glue("{github}{cuenta}HospitalizacionesMX_unidad_medica.csv")
+    urls = c(
+      "estatal" = glue::glue("{github}{cuenta}HospitalizacionesMX_estatal.csv"),
+      "unidad_medica" = glue::glue("{github}{cuenta}HospitalizacionesMX_unidad_medica.csv")
     ),
-    cache                = cache,
-    use_cache_on_failure = use_cache_on_failure)
+    cache = cache,
+    use_cache_on_failure = use_cache_on_failure
+  )
 
-  #FIXME
-  #This is a workaround as the pins package doesn't have metadata for downloads
-  #Checamos si está descargado y cuándo lo descargaste si fue hace menos de un dia te
-  #dejo con el mismo
+  # FIXME
+  # This is a workaround as the pins package doesn't have metadata for downloads
+  # Checamos si está descargado y cuándo lo descargaste si fue hace menos de un dia te
+  # dejo con el mismo
   tdif <- pin_get_download_time(board, nivel[1])
 
-  if (!force_download & tdif < 0.9){
-
-    if (show_warnings){
+  if (!force_download & tdif < 0.9) {
+    if (show_warnings) {
       warning(glue::glue("
                           La descarga mas reciente fue hace {tdif} dias. Como tiene menos de un dia
                           usare esa. Escribe force_download = TRUE si quieres descargar de
@@ -83,26 +83,25 @@ descarga_datos_red_irag <- function(nivel = c("Estatal","Unidad M\u00e9dica"),
                           download anyway. To turn off this message show_warnings = FALSE."))
     }
 
-    #Lee de memoria
+    # Lee de memoria
     dfile <- pin_path_from_memory(board, nivel[1])
-
   } else {
-    #Descarga si cambió
+    # Descarga si cambió
     dfile <- pins::pin_download(board = board, name = nivel[1], ...)
   }
 
   dats <- dfile %>%
     readr::read_csv(
-      locale    = readr::locale(encoding = "UTF-8"),
+      locale = readr::locale(encoding = "UTF-8"),
       col_types = readr::cols(
-          Estado        = readr::col_character(),
-          Fecha         = readr::col_date(format = "%Y-%m-%d"),
-          Actualizacion = readr::col_datetime(format = '%Y-%m-%dT%H:%M:%SZ')
+        Estado        = readr::col_character(),
+        Fecha         = readr::col_date(format = "%Y-%m-%d"),
+        Actualizacion = readr::col_datetime(format = "%Y-%m-%dT%H:%M:%SZ")
       )
     ) %>%
     janitor::clean_names()
 
-  #Escribimos en el pin que ya descargamos
+  # Escribimos en el pin que ya descargamos
   pin_write_download_time(board, nivel[1])
 
   return(dats)

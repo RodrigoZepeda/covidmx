@@ -28,7 +28,7 @@ pin_get_download_time <- function(board, name) {
 
 # Función que devuelve el path al archivo principal de un pin
 pin_path_from_memory <- function(board, name) {
-  fdir  <- pin_meta.pins_board_url(board, name)
+  fdir <- pin_meta.pins_board_url(board, name)
   dfile <- file.path(fdir$local$dir, fdir$file)
 
   return(dfile)
