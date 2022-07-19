@@ -880,12 +880,12 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
   }
 
 
-  #Check we have mariadb
-  #if (read_format == "mariadb" & !RMariaDB::mariadbHasDefault()) {
+  # Check we have mariadb
+  # if (read_format == "mariadb" & !RMariaDB::mariadbHasDefault()) {
   #  url_maria <- "https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html"
   #  stop(glue::glue("No puedo encontrar la conexion con MariaDB.
   #                   Ve a {url_maria} para mas informacion sobre como instalar."))
-  #}
+  # }
 
   if (read_format == "mariadb" & !quiet) {
     message(glue::glue("Por favor se paciente todo el proceso toma aprox 20 minutos.
