@@ -1,11 +1,11 @@
 pandoc: '2.18'
-pkgdown: 2.0.5
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   Estudio_de_Caso_CDMX: Estudio_de_Caso_CDMX.html
   Instalacion_de_MARIADB: Instalacion_de_MARIADB.html
   covidmx: covidmx.html
-last_built: 2022-07-18T22:31Z
+last_built: 2022-07-19T19:45Z
 urls:
   reference: https://rodrigozepeda.github.io/covidmx/reference
   article: https://rodrigozepeda.github.io/covidmx/articles
