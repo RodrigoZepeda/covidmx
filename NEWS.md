@@ -1,3 +1,7 @@
+# covidmx 0.5.1.0000
+* Se eliminó el chequeo de `MariaDBhasDefault` para los sistemas donde hay conexión
+a pesar de no tener el default. 
+
 # covidmx 0.5.0.0000
 * Se agregó la nueva variable `driver` a las conexiones a `MariaDB` para permitir otro tipo de `SQL`.
 * Se agregó la variable `sqlimport` para que eventualmente se pueda cambiar `mysqlimport` a `mariadb-import` por el cambio en `MariaDB` [acá](https://mariadb.com/kb/en/mysqlimport/).
