@@ -130,7 +130,8 @@ de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p>
 <span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"duckdb"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
 <span>  tblname <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
 <span>  drv <span class="op">=</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  dbdir <span class="op">=</span> <span class="st">":memory:"</span>,</span>
+<span>  dbdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".duckdb"</span><span class="op">)</span>,</span>
+<span>  pragma_memory_limit <span class="op">=</span> <span class="st">"1GB"</span>,</span>
 <span>  colClasses <span class="op">=</span> <span class="fu">get_col_class</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  sites.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`2022` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
 <span>    <span class="st">"/datos_abiertos/datos_abiertos_covid19.zip"</span><span class="op">)</span>, `2021` <span class="op">=</span></span>
@@ -171,8 +172,9 @@ de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p>
 <span><span class="fu">descarga_db</span><span class="op">(</span></span>
 <span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"duckdb"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
 <span>  tblname <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
+<span>  pragma_memory_limit <span class="op">=</span> <span class="st">"1GB"</span>,</span>
 <span>  drv <span class="op">=</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  dbdir <span class="op">=</span> <span class="st">":memory:"</span>,</span>
+<span>  dbdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".duckdb"</span><span class="op">)</span>,</span>
 <span>  colClasses <span class="op">=</span> <span class="fu">get_col_class</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  sites.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`2022` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
 <span>    <span class="st">"/datos_abiertos/datos_abiertos_covid19.zip"</span><span class="op">)</span>, `2021` <span class="op">=</span></span>
@@ -272,7 +274,8 @@ de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p>
 <span><span class="fu">parse_db_datos_abiertos_tbl</span><span class="op">(</span></span>
 <span>  <span class="va">datos_abiertos_unzipped_path</span>,</span>
 <span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"duckdb"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
-<span>  dbdir <span class="op">=</span> <span class="st">":memory:"</span>,</span>
+<span>  pragma_memory_limit <span class="op">=</span> <span class="st">"1GB"</span>,</span>
+<span>  dbdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".duckdb"</span><span class="op">)</span>,</span>
 <span>  drv <span class="op">=</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  colClasses <span class="op">=</span> <span class="fu">get_col_class</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  tblname <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
@@ -303,6 +306,11 @@ por default se llama <code>covidmx</code>.</p></dd>
 
 <dt>dbdir</dt>
 <dd><p>Parametro de <code><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb::dbConnect__duckdb_driver()</a></code></p></dd>
+
+
+<dt>pragma_memory_limit</dt>
+<dd><p>Memory limit for program <a href="https://duckdb.org/docs/sql/pragmas" class="external-link">PRAGMAS</a>.
+change it to around half of your RAM</p></dd>
 
 
 <dt>colClasses</dt>

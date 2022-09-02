@@ -93,8 +93,9 @@ Tambien puedes usar las auxiliares respectivas</p><ul><li><p><code>read_datos_ab
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_datos_abiertos</span><span class="op">(</span></span>
 <span>  <span class="va">datos_abiertos_path</span>,</span>
 <span>  tblname <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
+<span>  pragma_memory_limit <span class="op">=</span> <span class="st">"1GB"</span>,</span>
 <span>  drv <span class="op">=</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  dbdir <span class="op">=</span> <span class="st">":memory:"</span>,</span>
+<span>  dbdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".duckdb"</span><span class="op">)</span>,</span>
 <span>  colClasses <span class="op">=</span> <span class="fu">get_col_class</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"duckdb"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -108,7 +109,7 @@ Tambien puedes usar las auxiliares respectivas</p><ul><li><p><code>read_datos_ab
 <span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"duckdb"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
 <span>  tblname <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
 <span>  drv <span class="op">=</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  dbdir <span class="op">=</span> <span class="st">":memory:"</span>,</span>
+<span>  dbdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".duckdb"</span><span class="op">)</span>,</span>
 <span>  colClasses <span class="op">=</span> <span class="fu">get_col_class</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  download_process <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pins"</span>, <span class="st">"download.file"</span><span class="op">)</span>,</span>
 <span>  site.covid.dic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud."</span>, <span class="st">"gob.mx/gobmx/salud/datos_a"</span>,</span>
@@ -141,7 +142,7 @@ Tambien puedes usar las auxiliares respectivas</p><ul><li><p><code>read_datos_ab
 <span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"duckdb"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
 <span>  tblname <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
 <span>  drv <span class="op">=</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  dbdir <span class="op">=</span> <span class="st">":memory:"</span>,</span>
+<span>  dbdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".duckdb"</span><span class="op">)</span>,</span>
 <span>  colClasses <span class="op">=</span> <span class="fu">get_col_class</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  download_process <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pins"</span>, <span class="st">"download.file"</span><span class="op">)</span>,</span>
 <span>  site.covid.dic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud."</span>, <span class="st">"gob.mx/gobmx/salud/datos_a"</span>,</span>
@@ -163,6 +164,7 @@ Tambien puedes usar las auxiliares respectivas</p><ul><li><p><code>read_datos_ab
 <span>  <span class="va">dbdir</span>,</span>
 <span>  drv <span class="op">=</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  tblname <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
+<span>  pragma_memory_limit <span class="op">=</span> <span class="st">"1GB"</span>,</span>
 <span>  diccionario_zip_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  diccionario_unzipped_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  diccionario <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -194,6 +196,11 @@ Tambien puedes usar las auxiliares respectivas</p><ul><li><p><code>read_datos_ab
 <dt>tblname</dt>
 <dd><p>Nombre de la tabla dentro de el <code>DATABASE</code> <code>dbname</code> donde guardar los datos
 por default se llama <code>covidmx</code>.</p></dd>
+
+
+<dt>pragma_memory_limit</dt>
+<dd><p>Memory limit for program <a href="https://duckdb.org/docs/sql/pragmas" class="external-link">PRAGMAS</a>.
+change it to around half of your RAM</p></dd>
 
 
 <dt>drv</dt>
