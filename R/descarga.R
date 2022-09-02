@@ -62,6 +62,9 @@
 #' archivo ha cambiado y si hubo cambios entonces lo descarga.
 #'
 #' @param quiet (**opcional**) Variable para no mostrar mensajes
+#' 
+#' @param pragma_memory_limit Memory limit for program [PRAGMAS](https://duckdb.org/docs/sql/pragmas).
+#' change it to around half of your RAM 
 #'
 #' @param tblname Nombre de la tabla dentro de el \code{DATABASE} `dbname` donde guardar los datos
 #' por default se llama `covidmx`.
@@ -185,7 +188,8 @@
 descarga_datos_abiertos <- function(read_format = c("duckdb", "tibble"),
                                     tblname     = "covidmx",
                                     drv         = duckdb::duckdb(),
-                                    dbdir       = ":memory:",
+                                    dbdir       = tempfile(fileext = ".duckdb"),
+                                    pragma_memory_limit = "1GB",
                                     colClasses  = get_col_class(),
                                     sites.covid = c(
                                       "2022" = paste0(
@@ -240,6 +244,7 @@ descarga_datos_abiertos <- function(read_format = c("duckdb", "tibble"),
   datos_abiertos_tbl <- descarga_db(
     read_format = read_format,
     tblname     = tblname,
+    pragma_memory_limit = pragma_memory_limit,
     drv         = drv,
     dbdir       = dbdir,
     colClasses  = colClasses,
@@ -301,8 +306,9 @@ descarga_datos_abiertos <- function(read_format = c("duckdb", "tibble"),
 #' @param ... Parametros adicionales para `duckdb::dbConnect()` con  conexion de `duckdb::duckdb()`
 descarga_db <- function(read_format = c("duckdb", "tibble"),
                         tblname     = "covidmx",
+                        pragma_memory_limit = "1GB",
                         drv         = duckdb::duckdb(),
-                        dbdir       = ":memory:",
+                        dbdir       = tempfile(fileext = ".duckdb"),
                         colClasses  = get_col_class(),
                         sites.covid = c(
                           "2022" = paste0(
@@ -383,6 +389,7 @@ descarga_db <- function(read_format = c("duckdb", "tibble"),
       read_format = read_format,
       dbdir       = dbdir,
       drv         = drv,
+      pragma_memory_limit = pragma_memory_limit,
       colClasses  = colClasses,
       tblname     = tblname,
       clear_csv   = clear_csv,
@@ -818,7 +825,8 @@ parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALS
 #' @rdname descarga_datos_abiertos
 parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
                                         read_format = c("duckdb","tibble"),
-                                        dbdir       = ":memory:",
+                                        pragma_memory_limit = "1GB",
+                                        dbdir       = tempfile(fileext = ".duckdb"),
                                         drv         = duckdb::duckdb(),
                                         colClasses  = get_col_class(),
                                         tblname     = "covidmx",
@@ -904,6 +912,9 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
       ...
     )
 
+    #Pragma memory limit
+    DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit,"'"))
+    
     cli::cli_alert("Cargando los datos en duckdb")
     duckdb::duckdb_read_csv(con, tblname, unlist(datos_abiertos_unzipped_path), 
                             colClasses = colClasses)

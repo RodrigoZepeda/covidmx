@@ -18,7 +18,8 @@ descarga_datos_abiertos(
   read_format = c("duckdb", "tibble"),
   tblname = "covidmx",
   drv = duckdb::duckdb(),
-  dbdir = ":memory:",
+  dbdir = tempfile(fileext = ".duckdb"),
+  pragma_memory_limit = "1GB",
   colClasses = get_col_class(),
   sites.covid = c(`2022` = paste0("http://datosabiertos.salud.gob.mx/gobmx/salud",
     "/datos_abiertos/datos_abiertos_covid19.zip"), `2021` =
@@ -59,8 +60,9 @@ descarga_datos_abiertos(
 descarga_db(
   read_format = c("duckdb", "tibble"),
   tblname = "covidmx",
+  pragma_memory_limit = "1GB",
   drv = duckdb::duckdb(),
-  dbdir = ":memory:",
+  dbdir = tempfile(fileext = ".duckdb"),
   colClasses = get_col_class(),
   sites.covid = c(`2022` = paste0("http://datosabiertos.salud.gob.mx/gobmx/salud",
     "/datos_abiertos/datos_abiertos_covid19.zip"), `2021` =
@@ -160,7 +162,8 @@ parse_db_diccionario_ssa(diccionario_unzipped_path, clear_csv = FALSE)
 parse_db_datos_abiertos_tbl(
   datos_abiertos_unzipped_path,
   read_format = c("duckdb", "tibble"),
-  dbdir = ":memory:",
+  pragma_memory_limit = "1GB",
+  dbdir = tempfile(fileext = ".duckdb"),
   drv = duckdb::duckdb(),
   colClasses = get_col_class(),
   tblname = "covidmx",
@@ -182,6 +185,9 @@ por default se llama \code{covidmx}.}
 \item{drv}{Un  driver para \code{dbConnect} (default \code{duckdb::duckdb()})}
 
 \item{dbdir}{Parametro de \code{\link[duckdb:duckdb]{duckdb::dbConnect__duckdb_driver()}}}
+
+\item{pragma_memory_limit}{Memory limit for program \href{https://duckdb.org/docs/sql/pragmas}{PRAGMAS}.
+change it to around half of your RAM}
 
 \item{colClasses}{Clases de la columna para leer en \code{read.csv}}
 

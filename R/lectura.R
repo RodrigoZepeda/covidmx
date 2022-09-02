@@ -51,14 +51,16 @@
 #' @export
 read_datos_abiertos <- function(datos_abiertos_path,
                                 tblname     = "covidmx",
+                                pragma_memory_limit = "1GB",
                                 drv         = duckdb::duckdb(),
-                                dbdir       = ":memory:",
+                                dbdir       = tempfile(fileext = ".duckdb"),
                                 colClasses  = get_col_class(),
                                 read_format = c("duckdb", "tibble"),
                                 ...) {
   if (tools::file_ext(datos_abiertos_path) == "duckdb") {
     datos_covid <- read_datos_abiertos_duckdb(
       dbdir    = datos_abiertos_path,
+      pragma_memory_limit = pragma_memory_limit,
       drv      = drv,
       tblname  = tblname,
       ...
@@ -100,7 +102,7 @@ read_datos_abiertos_zip <- function(datos_abiertos_zip_paths,
                                     read_format = c("duckdb", "tibble"),
                                     tblname     = "covidmx",
                                     drv         = duckdb::duckdb(),
-                                    dbdir       = ":memory:",
+                                    dbdir       = tempfile(fileext = ".duckdb"),
                                     colClasses  = get_col_class(),
                                     download_process = c("pins", "download.file"),
                                     site.covid.dic = paste0(
@@ -145,7 +147,7 @@ read_datos_abiertos_csv <- function(datos_abiertos_unzipped_path,
                                     read_format = c("duckdb", "tibble"),
                                     tblname     = "covidmx",
                                     drv         = duckdb::duckdb(),
-                                    dbdir       = ":memory:",
+                                    dbdir       = tempfile(fileext = ".duckdb"),
                                     colClasses  = get_col_class(),
                                     download_process = c("pins", "download.file"),
                                     site.covid.dic = paste0(
@@ -178,6 +180,7 @@ read_datos_abiertos_csv <- function(datos_abiertos_unzipped_path,
 read_datos_abiertos_duckdb <- function(dbdir,
                                        drv         = duckdb::duckdb(),
                                        tblname = "covidmx",
+                                       pragma_memory_limit = "1GB",
                                        diccionario_zip_path = NULL,
                                        diccionario_unzipped_path = NULL,
                                        diccionario = NULL,
@@ -214,6 +217,9 @@ read_datos_abiertos_duckdb <- function(dbdir,
     dbdir = dbdir,
     ...
   )
+  
+  #Memory limit
+  DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit,"'"))
 
   dats <- dplyr::tbl(con, tblname)
   

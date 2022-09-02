@@ -11,8 +11,9 @@
 read_datos_abiertos(
   datos_abiertos_path,
   tblname = "covidmx",
+  pragma_memory_limit = "1GB",
   drv = duckdb::duckdb(),
-  dbdir = ":memory:",
+  dbdir = tempfile(fileext = ".duckdb"),
   colClasses = get_col_class(),
   read_format = c("duckdb", "tibble"),
   ...
@@ -26,7 +27,7 @@ read_datos_abiertos_zip(
   read_format = c("duckdb", "tibble"),
   tblname = "covidmx",
   drv = duckdb::duckdb(),
-  dbdir = ":memory:",
+  dbdir = tempfile(fileext = ".duckdb"),
   colClasses = get_col_class(),
   download_process = c("pins", "download.file"),
   site.covid.dic = paste0("http://datosabiertos.salud.", "gob.mx/gobmx/salud/datos_a",
@@ -59,7 +60,7 @@ read_datos_abiertos_csv(
   read_format = c("duckdb", "tibble"),
   tblname = "covidmx",
   drv = duckdb::duckdb(),
-  dbdir = ":memory:",
+  dbdir = tempfile(fileext = ".duckdb"),
   colClasses = get_col_class(),
   download_process = c("pins", "download.file"),
   site.covid.dic = paste0("http://datosabiertos.salud.", "gob.mx/gobmx/salud/datos_a",
@@ -81,6 +82,7 @@ read_datos_abiertos_duckdb(
   dbdir,
   drv = duckdb::duckdb(),
   tblname = "covidmx",
+  pragma_memory_limit = "1GB",
   diccionario_zip_path = NULL,
   diccionario_unzipped_path = NULL,
   diccionario = NULL,
@@ -107,6 +109,9 @@ read_datos_abiertos_duckdb(
 
 \item{tblname}{Nombre de la tabla dentro de el \code{DATABASE} \code{dbname} donde guardar los datos
 por default se llama \code{covidmx}.}
+
+\item{pragma_memory_limit}{Memory limit for program \href{https://duckdb.org/docs/sql/pragmas}{PRAGMAS}.
+change it to around half of your RAM}
 
 \item{drv}{Un  driver para \code{dbConnect} (default \code{duckdb::duckdb()})}
 
