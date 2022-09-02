@@ -80,21 +80,21 @@
 #'
 #' @examples
 #' \dontrun{
-#' datos_covid <- descarga_datos_abiertos(language = "Espanol")
+#' datos_covid <- descarga_datos_abiertos()
 #'
 #' # Casos a nivel nacional
-#' datos_covid <- datos_covid %>% chr()
+#' datos_covid <- datos_covid |> chr()
 #' head(datos_covid$`case hospitalization rate`)
 #'
 #' # Nacional
-#' datos_covid <- datos_covid %>% chr(list_name = "chr nacional", group_by_entidad = F)
+#' datos_covid <- datos_covid |> chr(list_name = "chr nacional", group_by_entidad = F)
 #'
 #' # CFR en Jalisco y Colima
-#' datos_covid <- datos_covid %>%
+#' datos_covid <- datos_covid |>
 #'   chr(entidades = c("JALISCO", "COLIMA"), list_name = "chr_Jaliscolima")
 #'
 #' # Calcula el CHR suponiendo toda la base son confirmados
-#' datos_covid <- datos_covid %>%
+#' datos_covid <- datos_covid |>
 #'   chr(
 #'     entidades = c("JALISCO", "COLIMA"),
 #'     tipo_clasificacion = c(
@@ -105,7 +105,7 @@
 #'   )
 #'
 #' # Distinguiendo sólo entre defunciones
-#' datos_covid <- datos_covid %>%
+#' datos_covid <- datos_covid |>
 #'   chr(
 #'     entidades = c("JALISCO", "COLIMA"),
 #'     defunciones = TRUE,
@@ -113,7 +113,7 @@
 #'   )
 #'
 #' # Si deseas agrupar por una variable que no este en las opciones
-#' datos_covid <- datos_covid %>%
+#' datos_covid <- datos_covid |>
 #'   chr(.grouping_vars = c("DIABETES"), list_name = "chr_diab")
 #' }
 #'
@@ -162,10 +162,10 @@ chr <- function(datos_covid,
 
   # Finally bind to previous object
   if (any(stringr::str_detect(names(datos_covid), list_name))) {
-    stop(glue::glue(
-      "Impossible to create variable {list_name} ",
-      "in datos_covid as it already exists"
-    ))
+    cli::cli_abort(
+      "Imposible crear elemento {list_name} pues ya existe en la lista.
+       Utiliza {.code list_name = 'nuevo_nombre'} para generar otro elemento"
+    )
   }
 
   if (incluir_paciente_no_especificado) {
@@ -175,7 +175,7 @@ chr <- function(datos_covid,
   }
 
   if (!quiet) {
-    message("Calculando los casos totales")
+    cli::cli_alert("Calculando los casos totales")
   }
 
   # Trick to get new name
@@ -204,7 +204,7 @@ chr <- function(datos_covid,
   )[[name_1]]
 
   if (!quiet) {
-    message("Calculando los casos hospitalizados")
+    cli::cli_alert("Calculando los casos hospitalizados")
   }
   .casos_hospitalizados <- casos(
     datos_covid = datos_covid,
@@ -228,18 +228,18 @@ chr <- function(datos_covid,
   )[[name_2]]
 
   if (!quiet) {
-    message("Calculando el chr")
+    cli::cli_alert("Calculando el chr")
   }
-  .casos_totales <- .casos_totales %>%
-    dplyr::left_join(.casos_hospitalizados %>%
+  .casos_totales <- .casos_totales |>
+    dplyr::left_join(.casos_hospitalizados |>
       dplyr::rename(!!as.symbol("h") := !!as.symbol("n")),
     by = colnames(.casos_totales)[which(colnames(.casos_totales) != "n")]
-    ) %>%
+    ) |>
     dplyr::mutate(!!as.symbol("CASE HOSPITALIZATION RATE") :=
       dplyr::if_else(!is.na(!!as.symbol("n")),
         as.numeric(!!as.symbol("h")) / as.numeric(!!as.symbol("n")),
         NA_real_
-      )) %>%
+      )) |>
     dplyr::select(-!!as.symbol("n"), -!!as.symbol("h"))
 
 

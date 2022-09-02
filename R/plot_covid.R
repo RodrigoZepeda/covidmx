@@ -35,29 +35,20 @@
 #' @examples
 #' \dontrun{
 #' # Grafica de casos por entidad
-#' datos_covid %>%
-#'   casos() %>%
-#'   plot_covid()
+#' datos_covid |>
+#'   casos(list_name = "casos_for_plot") |>
+#'   plot_covid(df_name = "casos_for_plot")
 #'
 #' # Grafica de casos nacional
-#' datos_covid %>%
-#'   casos(group_by_entidad = F) %>%
-#'   plot_covid()
-#'
-#' # Grafica de casos nacional
-#' datos_covid %>%
-#'   casos(group_by_entidad = F) %>%
-#'   plot_covid()
+#' datos_covid |>
+#'   casos(group_by_entidad = FALSE, list_name = "plot_nal") |>
+#'   plot_covid(df_name = "plot_nal")
 #'
 #' # Ajuste mediante splines
-#' datos_covid %>%
-#'   casos(group_by_entidad = F) %>%
-#'   plot_covid(type = "spline", spar = 0.5)
+#' datos_covid |>
+#'   casos(group_by_entidad = F, list_name = "spline_nacional") |>
+#'   plot_covid(df_name = "spline_nacional", type = "spline", spar = 0.5)
 #'
-#' # Ajuste mediante splines
-#' datos_covid %>%
-#'   casos(group_by_entidad = T, group_by_tipo_clasificacion = T, df_variable = "n") %>%
-#'   plot_covid()
 #' }
 #' @export
 
@@ -81,20 +72,23 @@ plot_covid <- function(datos_covid,
                          axis.line.x = ggplot2::element_line(color = "black"),
                          legend.position = "none"
                        ), ...) {
+  
   if (tibble::is_tibble(datos_covid)) {
     datos_covid <- list("datos_covid" = datos_covid)
-    df_name <- "datos_covid"
+    df_name     <- "datos_covid"
   }
 
   # Checamos la variable 1
   if (is.null(df_variable)) {
-    df_variable <- colnames(datos_covid[df_name][[1]] %>% dplyr::select_if(is.numeric))[1]
-    message(glue::glue("df_variable no fue especificada. Usaremos la columna `{df_variable}`"))
+    df_variable <- colnames(datos_covid[df_name][[1]] |> dplyr::select_if(is.numeric))[1]
+    cli::cli_alert_warning(
+      "{.code df_variable} no fue especificada. Usaremos la columna {df_variable}"
+    )
   }
 
   if (!requireNamespace("ggformula", quietly = TRUE)) {
-    stop(
-      "Necesitas instalar ggformula para `splines`",
+    cli::cli_abort(
+      "Necesitas instalar {.code ggformula} para {.code splines}",
       call. = FALSE
     )
   }
@@ -103,16 +97,20 @@ plot_covid <- function(datos_covid,
     anti_cols <- !(colnames(datos_covid[df_name][[1]]) %in%
       c(df_date_index, df_variable, "ENTIDAD_UM", "ABREVIATURA"))
     df_covariates <- colnames(datos_covid[df_name][[1]])[anti_cols]
-    message(glue::glue("df_covariates no fue especificada. Usaremos `{df_covariates}`"))
+    cli::cli_alert_warning(
+      "{.code df_covariates} no fue especificada. Usaremos `{df_covariates}`"
+    )
   }
 
   # Checamos la variable 1
   if (length(df_date_index) > 1) {
-    stop("Hay dos indices de fecha. Especifica df_date_index para seleccionar el adecuado")
+    cli::cli_abort(
+      "Hay dos indices de fecha. Especifica {.code df_date_index} para seleccionar el adecuado"
+    )
   }
 
   if (length(df_covariates) > 2) {
-    warning("No se recomiendan mas de dos covariables para los plots automaticos")
+    cli::cli_warn("No se recomiendan mas de dos covariables para los plots automaticos")
   }
 
   # Hack para cuando es el nacional y no tiene covariables
@@ -121,8 +119,8 @@ plot_covid <- function(datos_covid,
     df_covariates <- "covar"
   }
 
-  plot <- datos_covid[df_name][[1]] %>%
-    dplyr::mutate_at(df_variable, as.numeric) %>%
+  plot <- datos_covid[df_name][[1]] |>
+    dplyr::mutate_at(df_variable, as.numeric) |>
     ggplot2::ggplot() +
     ggplot2::facet_wrap(stats::as.formula(paste("~", paste(df_covariates, collapse = " + "))),
       scales = facet_scale, ncol = facet_ncol
@@ -146,25 +144,25 @@ plot_covid <- function(datos_covid,
   if (type[1] == "point") {
     plot <- plot +
       ggplot2::geom_point(ggplot2::aes(
-        x = .data[[df_date_index]], y = .data[[df_variable]],
+        x = as.Date(.data[[df_date_index]]), y = .data[[df_variable]],
         color = .data[[df_covariates[1]]]
       ))
   } else if (type[1] == "line") {
     plot <- plot +
       ggplot2::geom_line(ggplot2::aes(
-        x = .data[[df_date_index]], y = .data[[df_variable]],
+        x = as.Date(.data[[df_date_index]]), y = .data[[df_variable]],
         color = .data[[df_covariates[1]]]
       ))
   } else if (type[1] == "spline") {
     plot <- plot +
       ggformula::geom_spline(ggplot2::aes(
-        x = .data[[df_date_index]], y = .data[[df_variable]],
+        x = as.Date(.data[[df_date_index]]), y = .data[[df_variable]],
         color = .data[[df_covariates[1]]]
       ), ...)
   } else if (type[1] == "area") {
     plot <- plot +
       ggplot2::geom_area(ggplot2::aes(
-        x = .data[[df_date_index]], y = .data[[df_variable]],
+        x = as.Date(.data[[df_date_index]]), y = .data[[df_variable]],
         fill = .data[[df_covariates[1]]]
       ), ...)
   }

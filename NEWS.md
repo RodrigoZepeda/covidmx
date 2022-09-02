@@ -1,3 +1,11 @@
+# covidmx 0.6.0.0000
+
+## Breaking changes
+
+* Se eliminó `MariaDB` y ahora se utiliza `duckdb`. 
+* Se eliminó el requerimiento de instalar herramientas para abrir el `zip`. 
+* Se eliminó la dependencia de `glue` y se agregó una de `cli`. 
+
 # covidmx 0.5.1.0000
 * Se eliminó el chequeo de `MariaDBhasDefault` para los sistemas donde hay conexión
 a pesar de no tener el default. 

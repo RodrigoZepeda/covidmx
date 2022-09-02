@@ -5,6 +5,7 @@
 .gitignore
 .git/.*
 ^\.RData$
+^\.csv$
 ^\.Rhistory$
 ^_pkgdown\.yml$
 ^docs$

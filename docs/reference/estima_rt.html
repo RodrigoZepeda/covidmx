@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -28,7 +28,6 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
-    <a class="dropdown-item" href="../articles/Instalacion_de_MARIADB.html">Instalación de MariaDB</a>
   </div>
 </li>
 <li class="nav-item">
@@ -181,18 +180,25 @@ This is not an official product / este no es un producto oficial</p>
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"Espanol"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Casos a nivel nacional en los confirmados</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>        <span class="fu">estima_rt</span><span class="op">(</span><span class="va">tipo_clasificacion</span> <span class="op">==</span> <span class="st">"Confirmados COVID"</span>,</span></span>
-<span class="r-in"><span>          group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Casos a nivel nacional en los confirmados</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">estima_rt</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span>,</span></span>
+<span class="r-in"><span>    group_by_entidad   <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Casos en AGS, CHI en los confirmados</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>        <span class="fu">estima_rt</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CHIHUAHUA"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>          <span class="va">tipo_clasificacion</span> <span class="op">==</span> <span class="st">"Confirmados COVID"</span>,</span></span>
-<span class="r-in"><span>          group_by_entidad <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Casos en AGS, CHI en los confirmados</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">estima_rt</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CHIHUAHUA"</span>, <span class="st">"AGUASCALIENTES"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span>,</span></span>
+<span class="r-in"><span>    group_by_entidad <span class="op">=</span> <span class="cn">TRUE</span>, </span></span>
+<span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"rt_ch_ags"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span> </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="plot_covid.html">plot_covid</a></span><span class="op">(</span>df_name <span class="op">=</span> <span class="st">"rt_ch_ags"</span>, df_date_index <span class="op">=</span> <span class="st">"FECHA_SINTOMAS"</span>, </span></span>
+<span class="r-in"><span>             df_variable <span class="op">=</span> <span class="st">"Mean(R)"</span>, df_covariates <span class="op">=</span> <span class="st">"ENTIDAD_FEDERATIVA"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

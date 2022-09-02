@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -52,7 +52,6 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
-    <a class="dropdown-item" href="../articles/Instalacion_de_MARIADB.html">Instalación de MariaDB</a>
   </div>
 </li>
 <li class="nav-item">
@@ -130,82 +129,75 @@ precargados:</p>
 <div class="section level3">
 <h3 id="descarga-automática-de-base-de-datos-abiertos">Descarga automática de base de datos abiertos<a class="anchor" aria-label="anchor" href="#descarga-autom%C3%A1tica-de-base-de-datos-abiertos"></a>
 </h3>
-<blockquote>
-<p><strong>NOTA</strong> Necesitas tener una instalación de dos
-cosas:</p>
-<ol style="list-style-type: decimal">
-<li>El gestor de bases de datos <code>MariaDB</code> (puedes revisar <a href="https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html">el
-artículo respectivo</a>).</li>
-</ol>
-<!-- --><ol start="2" style="list-style-type: decimal">
-<li>Un descompresor de archivos <code>zip</code>. En Windows sugiero <a href="https://www.7-zip.org/" class="external-link"><code>7zip</code></a>; en Linux/Mac/Unix
-generalmente ya tienes <code>unzip</code> (y si no, instálalo)</li>
-</ol>
-</blockquote>
 <p>Lo más importante es comenzar descargando la base de datos abiertos.
 Esto lo puedes hacer como sigue:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Para propósito de este tutorial trabajaremos con una base de datos
 más pequeña disponible en el repositorio de <a href="https://github.com/RodrigoZepeda/covidmx" class="external-link">Github</a> la cual
-guardaremos en <code>MariaDB</code> bajo el nombre de
+guardaremos en <code>duckdb</code> bajo el nombre de
 <strong>tutorial</strong>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dlink</span>       <span class="op">&lt;-</span> <span class="st">"https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>site.covid <span class="op">=</span> <span class="va">dlink</span>, tblname <span class="op">=</span> <span class="st">"tutorial"</span><span class="op">)</span> </span></code></pre></div>
-<p>La descarga contiene una conexión a <code>MariaDB</code> dentro de
+<code class="sourceCode R"><span><span class="co">#Cómo vas a guardar tu base .duckdb</span></span>
+<span><span class="va">base_duck</span>   <span class="op">&lt;-</span> <span class="st">"mi_archivo.duckdb"</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dlink</span>       <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tutorial"</span> <span class="op">=</span> </span>
+<span>                   <span class="st">"https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>sites.covid <span class="op">=</span> <span class="va">dlink</span>, tblname <span class="op">=</span> <span class="st">"tutorial"</span>, </span>
+<span>                                       dbdir <span class="op">=</span> <span class="va">base_duck</span><span class="op">)</span> </span></code></pre></div>
+<p>La descarga contiene una conexión a <code>duckdb</code> dentro de
 <code>datos_covid$dats</code> la cual puedes operar con <a href="https://dbplyr.tidyverse.org/" class="external-link"><code>dbplyr</code></a>.</p>
 <p><strong>NO</strong> se agregan las etiquetas a los datos pues es muy
 tardado hacerlo:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dats</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dats</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: ??</span></span>
 <span><span class="co">#&gt; Columns: 40</span></span>
-<span><span class="co">#&gt; Database: mysql  [rockdrigo@localhost:NA/COVID]</span></span>
-<span><span class="co">#&gt; $ FECHA_ACTUALIZACION   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2022-07-14, 2022-07-14, 2022-07-14, 2022-07-14,…</span></span>
+<span><span class="co">#&gt; Database: DuckDB 0.3.5-dev1410 [root@Darwin 21.5.0:R 4.2.0//var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpModQ47/filef6977e8b2774.duckdb]</span></span>
+<span><span class="co">#&gt; $ FECHA_ACTUALIZACION   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2022-07-14, 2022-07-14, 2022-07-14, 2022-07-14,…</span></span>
 <span><span class="co">#&gt; $ ID_REGISTRO           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "78ce0b", "526821", "4ab051", "ba3171", "b970bb"…</span></span>
-<span><span class="co">#&gt; $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ SECTOR                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 12, 4, 4, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,…</span></span>
+<span><span class="co">#&gt; $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ SECTOR                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 12, 4, 4, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,…</span></span>
 <span><span class="co">#&gt; $ ENTIDAD_UM            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "03", "03", "03", "03", "03", "03", "03", "03", …</span></span>
-<span><span class="co">#&gt; $ SEXO                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></span>
+<span><span class="co">#&gt; $ SEXO                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></span>
 <span><span class="co">#&gt; $ ENTIDAD_NAC           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "09", "03", "25", "03", "03", "25", "03", "17", …</span></span>
 <span><span class="co">#&gt; $ ENTIDAD_RES           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "03", "03", "03", "03", "03", "03", "03", "03", …</span></span>
 <span><span class="co">#&gt; $ MUNICIPIO_RES         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "003", "008", "008", "008", "003", "003", "008",…</span></span>
-<span><span class="co">#&gt; $ TIPO_PACIENTE         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, …</span></span>
-<span><span class="co">#&gt; $ FECHA_INGRESO         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2021-07-08, 2021-07-01, 2021-07-01, 2021-07-01,…</span></span>
-<span><span class="co">#&gt; $ FECHA_SINTOMAS        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> 2021-07-04, 2021-07-01, 2021-07-01, 2021-07-01,…</span></span>
-<span><span class="co">#&gt; $ FECHA_DEF             <span style="color: #949494; font-style: italic;">&lt;date&gt;</span> -001-11-30, -001-11-30, -001-11-30, -001-11-30,…</span></span>
-<span><span class="co">#&gt; $ INTUBADO              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 2, 9…</span></span>
-<span><span class="co">#&gt; $ NEUMONIA              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ EDAD                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 17, 28, 30, 22, 32, 35, 24, 40, 21, 78, 13, 54, …</span></span>
-<span><span class="co">#&gt; $ NACIONALIDAD          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></span>
-<span><span class="co">#&gt; $ EMBARAZO              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 97, 97, 97, 97, 97, 97, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ HABLA_LENGUA_INDIG    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 99, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…</span></span>
-<span><span class="co">#&gt; $ INDIGENA              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 99, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…</span></span>
-<span><span class="co">#&gt; $ DIABETES              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ EPOC                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ ASMA                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ INMUSUPR              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ HIPERTENSION          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ OTRA_COM              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ CARDIOVASCULAR        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ OBESIDAD              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ RENAL_CRONICA         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ TABAQUISMO            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ OTRO_CASO             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ TOMA_MUESTRA_LAB      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ RESULTADO_LAB         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 97, 97, 97, 97, 1, 97, 97, 97, 97, 97, 4, 97,…</span></span>
-<span><span class="co">#&gt; $ TOMA_MUESTRA_ANTIGENO <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></span>
-<span><span class="co">#&gt; $ RESULTADO_ANTIGENO    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2, 2, 1, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, …</span></span>
-<span><span class="co">#&gt; $ CLASIFICACION_FINAL   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 7, 7, 3, 7, 7, 3, 3, 3, 7, 7, 3, 6, 7, 7, 7, 7, …</span></span>
-<span><span class="co">#&gt; $ MIGRANTE              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, …</span></span>
+<span><span class="co">#&gt; $ TIPO_PACIENTE         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, …</span></span>
+<span><span class="co">#&gt; $ FECHA_INGRESO         <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2021-07-08, 2021-07-01, 2021-07-01, 2021-07-01,…</span></span>
+<span><span class="co">#&gt; $ FECHA_SINTOMAS        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2021-07-04, 2021-07-01, 2021-07-01, 2021-07-01,…</span></span>
+<span><span class="co">#&gt; $ FECHA_DEF             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</span></span>
+<span><span class="co">#&gt; $ INTUBADO              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 2, 9…</span></span>
+<span><span class="co">#&gt; $ NEUMONIA              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ EDAD                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 17, 28, 30, 22, 32, 35, 24, 40, 21, 78, 13, 54, …</span></span>
+<span><span class="co">#&gt; $ NACIONALIDAD          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></span>
+<span><span class="co">#&gt; $ EMBARAZO              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 97, 97, 97, 97, 97, 97, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ HABLA_LENGUA_INDIG    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 99, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…</span></span>
+<span><span class="co">#&gt; $ INDIGENA              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 99, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…</span></span>
+<span><span class="co">#&gt; $ DIABETES              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ EPOC                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ ASMA                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ INMUSUPR              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ HIPERTENSION          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ OTRA_COM              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ CARDIOVASCULAR        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ OBESIDAD              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ RENAL_CRONICA         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ TABAQUISMO            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ OTRO_CASO             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ TOMA_MUESTRA_LAB      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ RESULTADO_LAB         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 97, 97, 97, 97, 1, 97, 97, 97, 97, 97, 4, 97,…</span></span>
+<span><span class="co">#&gt; $ TOMA_MUESTRA_ANTIGENO <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></span>
+<span><span class="co">#&gt; $ RESULTADO_ANTIGENO    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 1, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, …</span></span>
+<span><span class="co">#&gt; $ CLASIFICACION_FINAL   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 7, 7, 3, 7, 7, 3, 3, 3, 7, 7, 3, 6, 7, 7, 7, 7, …</span></span>
+<span><span class="co">#&gt; $ MIGRANTE              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, …</span></span>
 <span><span class="co">#&gt; $ PAIS_NACIONALIDAD     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "México", "México", "México", "México", "México"…</span></span>
 <span><span class="co">#&gt; $ PAIS_ORIGEN           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "97", "97", "97", "97", "97", "97", "97", "97", …</span></span>
-<span><span class="co">#&gt; $ UCI                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 2, 9…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ UCI                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 2, 9…</span></span></code></pre></div>
 <p>Sin embargo el diccionario se almacena como una lista en
 <code>dict</code> para su consulta y uso por las funciones internas:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dict</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dict</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 31</span></span>
 <span><span class="co">#&gt;  $ ORIGEN               : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span></span>
 <span><span class="co">#&gt;   ..$ CLAVE      : num [1:3] 1 2 99</span></span>
@@ -306,7 +298,7 @@ tardado hacerlo:</p>
 <span><span class="co">#&gt;   ..$ ENTIDAD_FEDERATIVA: chr [1:36] "AGUASCALIENTES" "BAJA CALIFORNIA" "BAJA CALIFORNIA SUR" "CAMPECHE" ...</span></span>
 <span><span class="co">#&gt;   ..$ ABREVIATURA       : chr [1:36] "AS" "BC" "BS" "CC" ...</span></span></code></pre></div>
 <p>por ejemplo para ver el diccionario de antígeno:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dict</span><span class="op">$</span><span class="va">RESULTADO_ANTIGENO</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">#&gt;   CLAVE DESCRIPCIÓN                 </span></span>
@@ -321,28 +313,39 @@ reciente.</p>
 </blockquote>
 </div>
 <div class="section level3">
-<h3 id="lectura-desde-mariadb">Lectura desde MariaDB<a class="anchor" aria-label="anchor" href="#lectura-desde-mariadb"></a>
+<h3 id="lectura-desde-duckdb">Lectura desde duckdb<a class="anchor" aria-label="anchor" href="#lectura-desde-duckdb"></a>
 </h3>
 <p>No es necesario volver a descargar si reinicias tu sesión de
 <code>R</code> siempre y cuando los hayas guardado en
-<code>MariaDB</code> (el default). Puedes sólo leer los datos abiertos
-que ya tienes usando la función <code>read_datos_abiertos.R</code>;</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span>tblname <span class="op">=</span> <span class="st">"tutorial"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<code>duckdb</code> estableciendo un <code>dbdir</code> (de lo contrario
+la base de datos sólo dura lo que dure tu sesión de <code>R</code>).
+Puedes sólo leer los datos abiertos que ya tienes usando la función
+<code>read_datos_abiertos.R</code>;</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span><span class="va">base_duck</span>, tblname <span class="op">=</span> <span class="st">"tutorial"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 3</span></span>
 <span><span class="co">#&gt;  $ dats      :List of 2</span></span>
 <span><span class="co">#&gt;   ..$ src       :List of 2</span></span>
-<span><span class="co">#&gt;   .. ..$ con  :Formal class 'MariaDBConnection' [package "RMariaDB"] with 7 slots</span></span>
+<span><span class="co">#&gt;   .. ..$ con  :Formal class 'duckdb_connection' [package "duckdb"] with 5 slots</span></span>
 <span><span class="co">#&gt;   .. ..$ disco: NULL</span></span>
-<span><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:4] "src_MariaDBConnection" "src_dbi" "src_sql" "src"</span></span>
-<span><span class="co">#&gt;   ..$ lazy_query:List of 5</span></span>
-<span><span class="co">#&gt;   .. ..$ x         : 'ident' chr "tutorial"</span></span>
-<span><span class="co">#&gt;   .. ..$ vars      : chr [1:40] "FECHA_ACTUALIZACION" "ID_REGISTRO" "ORIGEN" "SECTOR" ...</span></span>
-<span><span class="co">#&gt;   .. ..$ group_vars: chr(0) </span></span>
-<span><span class="co">#&gt;   .. ..$ order_vars: NULL</span></span>
-<span><span class="co">#&gt;   .. ..$ frame     : NULL</span></span>
-<span><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:3] "lazy_base_remote_query" "lazy_base_query" "lazy_query"</span></span>
-<span><span class="co">#&gt;   ..- attr(*, "class")= chr [1:5] "tbl_MariaDBConnection" "tbl_dbi" "tbl_sql" "tbl_lazy" ...</span></span>
+<span><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:4] "src_duckdb_connection" "src_dbi" "src_sql" "src"</span></span>
+<span><span class="co">#&gt;   ..$ lazy_query:List of 13</span></span>
+<span><span class="co">#&gt;   .. ..$ x                :List of 13</span></span>
+<span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr [1:2] "lazy_select_query" "lazy_query"</span></span>
+<span><span class="co">#&gt;   .. ..$ select           : tibble [40 × 5] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   .. ..$ where            : NULL</span></span>
+<span><span class="co">#&gt;   .. ..$ group_by         : NULL</span></span>
+<span><span class="co">#&gt;   .. ..$ order_by         : NULL</span></span>
+<span><span class="co">#&gt;   .. ..$ distinct         : logi FALSE</span></span>
+<span><span class="co">#&gt;   .. ..$ limit            : NULL</span></span>
+<span><span class="co">#&gt;   .. ..$ select_operation : chr "mutate"</span></span>
+<span><span class="co">#&gt;   .. ..$ last_op          : chr "mutate"</span></span>
+<span><span class="co">#&gt;   .. ..$ message_summarise: NULL</span></span>
+<span><span class="co">#&gt;   .. ..$ group_vars       : chr(0) </span></span>
+<span><span class="co">#&gt;   .. ..$ order_vars       : NULL</span></span>
+<span><span class="co">#&gt;   .. ..$ frame            : NULL</span></span>
+<span><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "lazy_select_query" "lazy_query"</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "class")= chr [1:5] "tbl_duckdb_connection" "tbl_dbi" "tbl_sql" "tbl_lazy" ...</span></span>
 <span><span class="co">#&gt;  $ disconnect:function ()  </span></span>
 <span><span class="co">#&gt;  $ dict      :List of 31</span></span>
 <span><span class="co">#&gt;   ..$ ORIGEN               : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span></span>
@@ -382,25 +385,15 @@ descargaste la base el programa te advertirá de que no tiene sentido
 volver a descargar.</p>
 <p>Podemos ver un ejemplo descargando sólo el diccionario (que ya
 descargamos arriba con <code>descarga_datos_abiertos</code>)</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diccionario_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_diccionario</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Descargando. Ten paciencia esto puede tardar bastante.</span></span>
-<span><span class="co">#&gt; Downloading. Be patient this could last a long time</span></span>
-<span><span class="co">#&gt; Warning in descarga_db_datos_abiertos_tbl(download_process = download_process, : La descarga mas reciente fue hace 0.000111978517638312 dias. Como tiene menos de un dia</span></span>
-<span><span class="co">#&gt; usare esa. Escribe force_download = TRUE si quieres descargar de</span></span>
-<span><span class="co">#&gt; todas formas. Para desactivar este mensaje show_warnings = FALSE.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Most recent download was 0.000111978517638312 days ago. It has less than a day hence</span></span>
-<span><span class="co">#&gt; I'll use that one. Write force_download = TRUE if you want to</span></span>
-<span><span class="co">#&gt; download anyway. To turn off this message show_warnings = FALSE.</span></span>
-<span><span class="co">#&gt; Descargado en / Downloaded at ~/Library/Caches/pins/url/4bc71ebd7cc4e5e80c874e7cb16ccbf6/diccionario_datos_covid19.zip</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: La descarga mas reciente de fue hace 0.00957 dias. Como tiene menos de un dia</span></span>
+<span><span class="co">#&gt; usare esa. Escribe `force_download = TRUE` si quieres descargar de todas</span></span>
+<span><span class="co">#&gt; formas. Para desactivar este mensaje `show_warnings = FALSE.`</span></span></code></pre></div>
 <p>Si de todas maneras quieres reintentar la descarga puedes usar
 <code>force_download = TRUE</code></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">diccionario_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_diccionario</a></span><span class="op">(</span>force_download <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Descargando. Ten paciencia esto puede tardar bastante.</span></span>
-<span><span class="co">#&gt; Downloading. Be patient this could last a long time</span></span>
-<span><span class="co">#&gt; Descargado en / Downloaded at ~/Library/Caches/pins/url/4bc71ebd7cc4e5e80c874e7cb16ccbf6/diccionario_datos_covid19.zip</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diccionario_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_diccionario</a></span><span class="op">(</span>force_download <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>lo cual verificará mediante <a href="https://pins.rstudio.com/" class="external-link"><code>pins</code></a> que la base en
 línea sea distinta de la que tienes almacenada y en caso afirmativo
 descargará los datos.</p>
@@ -411,9 +404,9 @@ descargará los datos.</p>
 <p>Si el proceso de descarga se interrumpe en algún momento puedes leer
 los datos abiertos de <code>zip</code> o bien del <code>csv</code>
 descomprimido con <code>read_datos_abiertos</code> también:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Descarga sólo el zip</span></span>
-<span><span class="va">zip_path</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_db_datos_abiertos_tbl</a></span><span class="op">(</span>site.covid <span class="op">=</span> <span class="va">dlink</span>, show_warnings <span class="op">=</span> <span class="cn">F</span>, quiet <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="va">zip_path</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_db_datos_abiertos_tbl</a></span><span class="op">(</span>sites.covid <span class="op">=</span> <span class="va">dlink</span>, show_warnings <span class="op">=</span> <span class="cn">F</span>, quiet <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span><span class="va">zip_path</span>, tblname <span class="op">=</span> <span class="st">"tutorial"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#O bien descomprime el zip y lee el csv</span></span>
@@ -425,90 +418,102 @@ variables <code>diccionario_zip_path</code>,
 cuando el diciconario es un archivo <code>zip</code>, un archivo
 <code>xlsx</code> o un <code>tibble</code> en tu sesiòn de
 <code>R</code> (respectivamente) como sigue:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Descarga el diccionario en zip</span></span>
 <span><span class="va">zip_path</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_db_diccionario_ssa</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span>diccionario_zip_path <span class="op">=</span> <span class="va">zip_path</span>, tblname <span class="op">=</span> <span class="st">"tutorial"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span><span class="va">base_duck</span>, diccionario_zip_path <span class="op">=</span> <span class="va">zip_path</span>, tblname <span class="op">=</span> <span class="st">"tutorial"</span><span class="op">)</span></span></code></pre></div>
 <p>Una vez descargados (o leídos), basta componer la base de datos con
 cualquiera de las funciones para tener una tabla de datos agregada por
 fecha y entidad.</p>
+<p>Para terminar de usar los datos, nos desconectamos de la base
+con:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Desconectado</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="lectura-de-la-base-de-datos-del-tutorial">Lectura de la base de datos del tutorial<a class="anchor" aria-label="anchor" href="#lectura-de-la-base-de-datos-del-tutorial"></a>
+</h3>
+<p>Para lo que sigue del tutorial usaremos los datos precargados:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">covidmx</span><span class="fu">::</span><span class="va"><a href="../reference/datosabiertos.html">datosabiertos</a></span> <span class="co">#Uso de los datos precargados</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="casos">Casos (Incidencia)<a class="anchor" aria-label="anchor" href="#casos"></a>
 </h3>
 <p>Las bases de datos se agregan a la lista bajo el nombre default
 <code>casos</code>. Por ejemplo:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>El objeto <code>casos</code> por default es un <code>tibble</code>
 con el que ya puedes operar:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM       n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     02             229 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     03             794 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02     02             240 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02     03             535 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03     02             269 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03     03             646 BAJA CALIFORNIA SUR BS</span></span></code></pre></div>
+<span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     02           229 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     03           794 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02     02           240 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02     03           535 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03     02           269 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03     03           646 BAJA CALIFORNIA SUR BS</span></span></code></pre></div>
 <p>Nota que lo que hace es agregar por fecha y por entidad de la unidad
 médica los casos.</p>
 <p>Se puede filtar por entidad de la unidad médica seleccionando las
 entidades de interés:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>,<span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span>,</span>
 <span>        list_name <span class="op">=</span> <span class="st">"BC/BCS"</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM       n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     02             229 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     03             794 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02     02             240 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02     03             535 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03     02             269 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03     03             646 BAJA CALIFORNIA SUR BS</span></span></code></pre>
+<span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     02           229 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     03           794 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02     02           240 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02     03           535 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03     02           269 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03     03           646 BAJA CALIFORNIA SUR BS</span></span></code></pre>
 <p>Si se quiere filtrar por entidad de nacimiento y que la fecha sea la
 de ingreso, por ejemplo:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades    <span class="op">=</span> <span class="st">"BAJA CALIFORNIA"</span>,</span>
 <span>          entidad_tipo <span class="op">=</span> <span class="st">"Nacimiento"</span>,</span>
 <span>          fecha_tipo   <span class="op">=</span> <span class="st">"Ingreso"</span>,</span>
 <span>          list_name    <span class="op">=</span> <span class="st">"DB_Filtro_Nac"</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   FECHA_INGRESO ENTIDAD_NAC       n ENTIDAD_FEDERATIVA ABREVIATURA</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01    02               15 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02    02               55 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03    02               27 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04    02               27 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05    02              224 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06    02              192 BAJA CALIFORNIA    BC</span></span></code></pre>
+<span><span class="co">#&gt;   FECHA_INGRESO ENTIDAD_NAC     n ENTIDAD_FEDERATIVA ABREVIATURA</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01    02             15 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02    02             55 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03    02             27 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04    02             27 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05    02            224 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06    02            192 BAJA CALIFORNIA    BC</span></span></code></pre>
 <p>Finalmente, si sólo se desean casos confirmados e inválidos:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades    <span class="op">=</span> <span class="st">"BAJA CALIFORNIA"</span>,</span>
 <span>          entidad_tipo <span class="op">=</span> <span class="st">"Nacimiento"</span>,</span>
 <span>          fecha_tipo   <span class="op">=</span> <span class="st">"Ingreso"</span>,</span>
 <span>          tipo_clasificacion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Confirmados COVID"</span>, <span class="st">"Invalido"</span><span class="op">)</span>,</span>
 <span>          list_name <span class="op">=</span> <span class="st">"BC_conf_inv"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   FECHA_INGRESO ENTIDAD_NAC       n ENTIDAD_FEDERATIVA ABREVIATURA</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01    02                3 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02    02                7 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03    02                5 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04    02                2 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05    02               35 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06    02               43 BAJA CALIFORNIA    BC</span></span></code></pre>
+<span><span class="co">#&gt;   FECHA_INGRESO ENTIDAD_NAC     n ENTIDAD_FEDERATIVA ABREVIATURA</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01    02              3 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02    02              7 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03    02              5 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04    02              2 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05    02             35 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06    02             43 BAJA CALIFORNIA    BC</span></span></code></pre>
 <p>Nota que por default el programa rellena con ceros lo que no se
 observó. Si quieres cancelar esta opción basta con cambiar
 <code>fill_zeros = FALSE</code>:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span>,</span>
 <span>          entidad_tipo <span class="op">=</span> <span class="st">"Nacimiento"</span>,</span>
 <span>          fecha_tipo   <span class="op">=</span> <span class="st">"Ingreso"</span>,</span>
@@ -516,19 +521,19 @@ observó. Si quieres cancelar esta opción basta con cambiar
 <span>          list_name <span class="op">=</span> <span class="st">"Sin fill zeros"</span>,</span>
 <span>          fill_zeros <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   FECHA_INGRESO ENTIDAD_NAC       n ENTIDAD_FEDERATIVA ABREVIATURA</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-05    01                1 AGUASCALIENTES     AS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-09    23                1 QUINTANA ROO       QR         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-10    23                1 QUINTANA ROO       QR         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-11    01                1 AGUASCALIENTES     AS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-12    01                1 AGUASCALIENTES     AS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-13    01                1 AGUASCALIENTES     AS</span></span></code></pre>
+<span><span class="co">#&gt;   FECHA_INGRESO ENTIDAD_NAC     n ENTIDAD_FEDERATIVA ABREVIATURA</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-05    01              1 AGUASCALIENTES     AS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-09    23              1 QUINTANA ROO       QR         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-10    23              1 QUINTANA ROO       QR         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-11    01              1 AGUASCALIENTES     AS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-12    01              1 AGUASCALIENTES     AS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-13    01              1 AGUASCALIENTES     AS</span></span></code></pre>
 <p>Si se desea que los casos vengan agregados (es decir
 <code>QUINTANA ROO + AGUASCALIENTES</code>) se puede cambiar la opción
 de <code>group_by_entidad</code> a <code>FALSE</code>:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"QUINTANA ROO"</span>,<span class="st">"AGUASCALIENTES"</span><span class="op">)</span>,</span>
 <span>          entidad_tipo       <span class="op">=</span> <span class="st">"Nacimiento"</span>,</span>
 <span>          fecha_tipo         <span class="op">=</span> <span class="st">"Ingreso"</span>,</span>
@@ -536,89 +541,89 @@ de <code>group_by_entidad</code> a <code>FALSE</code>:</p>
 <span>          group_by_entidad   <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>          list_name          <span class="op">=</span>   <span class="st">"QROO_AGS_juntos"</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
-<span><span class="co">#&gt;   FECHA_INGRESO       n</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01          0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02          0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03          0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04          0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05          1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06          0</span></span></code></pre>
+<span><span class="co">#&gt;   FECHA_INGRESO     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01        0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02        0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03        0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04        0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05        1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06        0</span></span></code></pre>
 <p>La variable <code>edad_cut</code> te permite quedarte sòlo con un
 grupo de edad o bien definir múltiples. Por ejemplo para quedarte sólo
 con los casos de 5 a 25 años:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>edad_cut <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">25</span><span class="op">)</span>, list_name <span class="op">=</span> <span class="st">"5_25"</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
-<span><span class="co">#&gt;   FECHA_SINTOMAS EDAD_CAT ENTIDAD_UM       n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     (5,25]   02              60 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     (5,25]   03             188 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02     (5,25]   02              50 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02     (5,25]   03             131 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03     (5,25]   02              57 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03     (5,25]   03             187 BAJA CALIFORNIA SUR BS</span></span></code></pre>
+<span><span class="co">#&gt;   FECHA_SINTOMAS EDAD_CAT ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     (5,25]   02            60 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     (5,25]   03           188 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02     (5,25]   02            50 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02     (5,25]   03           131 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03     (5,25]   02            57 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03     (5,25]   03           187 BAJA CALIFORNIA SUR BS</span></span></code></pre>
 <p>O bien definir grupos de edad de la forma <code>0-20</code>,
 <code>20-60</code> y <code>60+</code></p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>edad_cut <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">60</span>, <span class="cn">Inf</span><span class="op">)</span>, list_name <span class="op">=</span> <span class="st">"0_20_60"</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
-<span><span class="co">#&gt;   FECHA_SINTOMAS EDAD_CAT ENTIDAD_UM       n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     (0,20]   02              35 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     (0,20]   03             101 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-01     (20,60]  02             172 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-01     (20,60]  03             657 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-01     (60,Inf] 02              20 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-01     (60,Inf] 03              34 BAJA CALIFORNIA SUR BS</span></span></code></pre>
+<span><span class="co">#&gt;   FECHA_SINTOMAS EDAD_CAT ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     (0,20]   02            35 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     (0,20]   03           101 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-01     (20,60]  02           172 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-01     (20,60]  03           657 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-01     (60,Inf] 02            20 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-01     (60,Inf] 03            34 BAJA CALIFORNIA SUR BS</span></span></code></pre>
 <p>Puedes acumular diferentes bases de datos en la misma lista
 asignándoles nombres:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"Todos por entidad"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"Todos (nacional)"</span>,    group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"Todos por entidad"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"Todos (nacional)"</span>,    group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"Defunciones (todos)"</span>, defunciones <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
 <span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Todos (nacional)`</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Todos (nacional)`</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
-<span><span class="co">#&gt;   FECHA_SINTOMAS       n</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01        <span style="text-decoration: underline;">1</span>023</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02         775</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03         915</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04         960</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05        <span style="text-decoration: underline;">1</span>143</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06        <span style="text-decoration: underline;">1</span>068</span></span>
+<span><span class="co">#&gt;   FECHA_SINTOMAS     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01      <span style="text-decoration: underline;">1</span>023</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02       775</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03       915</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04       960</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05      <span style="text-decoration: underline;">1</span>143</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06      <span style="text-decoration: underline;">1</span>068</span></span>
 <span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Todos por entidad`</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Todos por entidad`</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM       n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     02             229 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     03             794 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02     02             240 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02     03             535 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03     02             269 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03     03             646 BAJA CALIFORNIA SUR BS</span></span>
+<span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     02           229 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     03           794 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02     02           240 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02     03           535 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03     02           269 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03     03           646 BAJA CALIFORNIA SUR BS</span></span>
 <span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Defunciones (todos)`</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Defunciones (todos)`</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM       n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     02               5 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     03              37 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02     02               7 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02     03              11 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03     02               7 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03     03              22 BAJA CALIFORNIA SUR BS</span></span></code></pre></div>
+<span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     02             5 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     03            37 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02     02             7 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02     03            11 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03     02             7 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03     03            22 BAJA CALIFORNIA SUR BS</span></span></code></pre></div>
 <p>Hay múltiples opciones permitiendo seleccionar variables específicas
 de unidades de cuidado intensivo, defunciones y si devolver la tabla
 como <code>tibble</code> o como conexión de <code>dbplyr</code> a
 <code>MARIADB</code>:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span></span>
 <span>    <span class="co">#Lista de entidades que deseas</span></span>
 <span>    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AGUASCALIENTES"</span>, <span class="st">"BAJA CALIFORNIA"</span>, <span class="st">"BAJA CALIFORNIA SUR"</span>,</span>
@@ -685,11 +690,11 @@ como <code>tibble</code> o como conexión de <code>dbplyr</code> a
 <span>    <span class="co">#Agrupa los resultados además por estado de diabetes y sexo</span></span>
 <span>    .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DIABETES"</span>, <span class="st">"SEXO"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Puedes ver la base generada así:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Ejemplo defunciones`</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Ejemplo defunciones`</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 14</span></span></span>
 <span><span class="co">#&gt;   FECHA_INGR…¹ DIABE…²  SEXO EDAD_…³ ENTID…⁴ CLASI…⁵ TIPO_…⁶   UCI     n ENTID…⁷</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01         2     2 (20,40] 03            3       2     2     2 BAJA C…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02         2     2 (20,40] 20            3       2     2     1 OAXACA </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02         2     2 (40,60] 03            3       2     2     1 BAJA C…</span></span>
@@ -699,8 +704,7 @@ como <code>tibble</code> o como conexión de <code>dbplyr</code> a
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: ABREVIATURA &lt;chr&gt;, CLASIFICACIÓN &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   DESCRIPCION_TIPO_PACIENTE &lt;chr&gt;, DESCRIPCION_TIPO_UCI &lt;chr&gt;, and</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​FECHA_INGRESO, ²​DIABETES, ³​EDAD_CAT,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​ENTIDAD_NAC, ⁵​CLASIFICACION_FINAL, ⁶​TIPO_PACIENTE, ⁷​ENTIDAD_FEDERATIVA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​ENTIDAD_NAC, ⁵​CLASIFICACION_FINAL, ⁶​TIPO_PACIENTE, ⁷​ENTIDAD_FEDERATIVA</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="número-de-pruebas">Número de pruebas<a class="anchor" aria-label="anchor" href="#n%C3%BAmero-de-pruebas"></a>
@@ -711,28 +715,28 @@ la función de <code>casos</code> con el agregado de que
 considerar (<code>Antígeno</code> o <code>PCR</code>) y
 <code>group_by_tipo_prueba</code> agrupa los resultados por tipo de
 prueba</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/numero_pruebas.html">numero_pruebas</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>,<span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span>,</span>
 <span>                 tipo_prueba <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Antigeno"</span>, <span class="st">"PCR"</span><span class="op">)</span>,</span>
 <span>                 group_by_tipo_prueba <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">numero_pruebas</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">numero_pruebas</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
-<span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM TIPO_PRUEBA       n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     02         ANTIGENO        208 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     02         PCR              37 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-01     03         ANTIGENO        723 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-01     03         PCR             119 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-02     02         ANTIGENO        211 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-02     02         PCR              53 BAJA CALIFORNIA     BC</span></span></code></pre></div>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">numero_pruebas</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM TIPO_PRUEBA     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01     02         ANTIGENO      208 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01     02         PCR            37 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-01     03         ANTIGENO      723 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-01     03         PCR           119 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-02     02         ANTIGENO      211 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-02     02         PCR            53 BAJA CALIFORNIA     BC</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">numero_pruebas</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>facet_ncol <span class="op">=</span> <span class="fl">2</span>, date_break_format <span class="op">=</span> <span class="st">"1 month"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `n`</span></span>
-<span><span class="co">#&gt; df_covariates no fue especificada. Usaremos `TIPO_PRUEBA`df_covariates no fue especificada. Usaremos `ENTIDAD_FEDERATIVA`</span></span></code></pre></div>
-<p><img src="covidmx_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_variable` no fue especificada. Usaremos la columna n</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_covariates` no fue especificada. Usaremos `TIPO_PRUEBA and ENTIDAD_FEDERATIVA`</span></span></code></pre></div>
+<p><img src="covidmx_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="positividad">Positividad<a class="anchor" aria-label="anchor" href="#positividad"></a>
@@ -751,23 +755,23 @@ concluyente.</p>
 <p><strong>Nota</strong> Positividad es la variable más lenta de
 calcular por ahora. Ten paciencia</p>
 </blockquote>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/positividad.html">positividad</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>,<span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span>,</span>
 <span>                 tipo_prueba <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Antigeno"</span>, <span class="st">"PCR"</span><span class="op">)</span>,</span>
 <span>                 group_by_tipo_prueba <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Leyendo la base...</span></span>
-<span><span class="co">#&gt; Calculando PCR...</span></span>
-<span><span class="co">#&gt; Calculando Antigeno...</span></span>
-<span><span class="co">#&gt; Terminando de construir la base</span></span>
-<span><span class="co">#&gt; Terminado</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Leyendo la base...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Calculando PCR...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Calculando Antigeno...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Terminando de construir la base</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Terminado</span></span>
 <span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   FECHA_SINTOMAS, ENTIDAD_UM, TIPO_PRUEBA, ENTIDAD_FEDERATIVA,</span></span></span>
 <span><span class="co"><span style="color: #949494;">#&gt; #   ABREVIATURA [6]</span></span></span>
 <span><span class="co">#&gt;   Positividad FECHA_SINTOMAS ENTIDAD_UM TIPO_P…¹ ENTID…² ABREV…³ n_pru…⁴ n_pos…⁵</span></span>
-<span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span></span></span>
+<span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.457 2021-07-01     02         PCR      BAJA C… BC           35      16</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       0.587 2021-07-01     03         PCR      BAJA C… BS          109      64</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       0.42  2021-07-02     02         PCR      BAJA C… BC           50      21</span></span>
@@ -776,8 +780,8 @@ calcular por ahora. Ten paciencia</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>       0.641 2021-07-03     03         PCR      BAJA C… BS           78      50</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​TIPO_PRUEBA, ²​ENTIDAD_FEDERATIVA,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ³​ABREVIATURA, ⁴​n_pruebas, ⁵​n_positivos</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>facet_ncol <span class="op">=</span> <span class="fl">2</span>, </span>
 <span>             facet_scale <span class="op">=</span> <span class="st">"fixed"</span>,</span>
 <span>             type <span class="op">=</span> <span class="st">"spline"</span>,</span>
@@ -785,7 +789,7 @@ calcular por ahora. Ten paciencia</p>
 <span>             date_break_format <span class="op">=</span> <span class="st">"7 days"</span>,</span>
 <span>             date_labels_format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span>,</span>
 <span>             df_covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TIPO_PRUEBA"</span>, <span class="st">"ENTIDAD_FEDERATIVA"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="covidmx_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<p><img src="covidmx_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="case-hospitalization-rate">Case Hospitalization Rate<a class="anchor" aria-label="anchor" href="#case-hospitalization-rate"></a>
@@ -795,8 +799,8 @@ terminaron hospitalizados entre el total de confirmados: <span class="math displ
 \textrm{CHR} = \frac{\text{Hospitalizados Confirmados}}{\text{Todos los
 confirmados}}
 \]</span> lo puedes calcular con <code>chr</code>:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/chr.html">chr</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/chr.html">chr</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM ENTIDAD_FEDERATIVA  ABREVIATURA CASE HOSPITALIZATI…¹</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -810,21 +814,21 @@ confirmados}}
 <p>Las variables para agrupar son casi las mismas que en
 <code>casos</code>. Por ejemplo si queremos agrupar el <code>chr</code>
 en distintas categorías de edad a nivel nacional:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/chr.html">chr</a></span><span class="op">(</span></span>
 <span>    group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    edad_cut  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">50</span>, <span class="cn">Inf</span><span class="op">)</span>,</span>
 <span>    list_name <span class="op">=</span> <span class="st">"CHR_edad_nacional"</span></span>
 <span>  <span class="op">)</span> </span>
 <span></span>
-<span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"line"</span>, </span>
 <span>             facet_ncol <span class="op">=</span> <span class="fl">4</span>, </span>
 <span>             date_break_format <span class="op">=</span> <span class="st">"7 days"</span>,</span>
 <span>             date_labels_format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span>,</span>
 <span>             df_name <span class="op">=</span> <span class="st">"CHR_edad_nacional"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="covidmx_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
+<p><img src="covidmx_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="case-fatality-rate">Case Fatality Rate<a class="anchor" aria-label="anchor" href="#case-fatality-rate"></a>
@@ -834,8 +838,8 @@ terminaron muertos: <span class="math display">\[
 \textrm{CFR} = \frac{\text{Defunciones Confirmadas}}{\text{Todos los
 confirmados}}
 \]</span> lo puedes calcular con <code>cfr</code>:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/cfr.html">cfr</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/cfr.html">cfr</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS ENTIDAD_UM ENTIDAD_FEDERATIVA  ABREVIATURA `CASE FATALITY RATE`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -848,37 +852,37 @@ confirmados}}
 <p>Las variables para agrupar son casi las mismas que en
 <code>casos</code>. Por ejemplo si queremos agrupar el <code>cfr</code>
 en distintas categorías de edad a nivel nacional:</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/cfr.html">cfr</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>, <span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span>,</span>
 <span>    group_by_entidad <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    list_name <span class="op">=</span> <span class="st">"CFR_BC"</span></span>
 <span>  <span class="op">)</span> </span>
 <span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">CFR_BC</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">CFR_BC</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"line"</span>, </span>
 <span>             facet_ncol <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>             date_break_format <span class="op">=</span> <span class="st">"7 days"</span>,</span>
 <span>             date_labels_format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="covidmx_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
+<p><img src="covidmx_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
 <p>Podemos también calcular la mortalidad dentro de los hospitalizados y
 ambulatorios:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/cfr.html">cfr</a></span><span class="op">(</span></span>
 <span>    tipo_paciente <span class="op">=</span> <span class="st">"HOSPITALIZADO"</span>,</span>
 <span>    group_by_entidad       <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    list_name <span class="op">=</span> <span class="st">"CFR_HOSPITALIZADOS"</span></span>
 <span>  <span class="op">)</span> </span>
 <span></span>
-<span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_name <span class="op">=</span> <span class="st">"CFR_HOSPITALIZADOS"</span>, </span>
 <span>             type <span class="op">=</span> <span class="st">"line"</span>, </span>
 <span>             facet_ncol <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>             date_break_format <span class="op">=</span> <span class="st">"7 days"</span>,</span>
 <span>             date_labels_format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span>,</span>
 <span>             df_variable <span class="op">=</span> <span class="st">"CASE FATALITY RATE"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="covidmx_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
+<p><img src="covidmx_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="número-efectivo-de-reproducción">Número efectivo de reproducción<a class="anchor" aria-label="anchor" href="#n%C3%BAmero-efectivo-de-reproducci%C3%B3n"></a>
@@ -888,8 +892,8 @@ ambulatorios:</p>
 el método y el intervalo serial <a href="https://cran.r-project.org/web/packages/EpiEstim/vignettes/demo.html" class="external-link">como
 en este ejemplo</a>.</p>
 <p>Podemos estimar el número a nivel nacional a partir de 2022:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/estima_rt.html">estima_rt</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="st">"BAJA CALIFORNIA"</span>,</span>
 <span>            min_date  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021/07/01"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 17</span></span></span>
@@ -906,30 +910,30 @@ en este ejemplo</a>.</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FECHA_SINTOMAS_start &lt;date&gt;, FECHA_SINTOMAS_end &lt;date&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FECHA_SINTOMAS &lt;date&gt;, and abbreviated variable names ¹​ENTIDAD_UM,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ²​ENTIDAD_FEDERATIVA, ³​ABREVIATURA, ⁴​`Mean(R)`, ⁵​`Std(R)`,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ⁶​`Quantile.0.025(R)`, ⁷​`Quantile.0.05(R)`, ⁸​`Quantile.0.25(R)`</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁶​`Quantile.0.025(R)`, ⁷​`Quantile.0.05(R)`, ⁸​`Quantile.0.25(R)`</span></span></span></code></pre>
 <p>O bien por entidad sólo con los confirmados covid:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/estima_rt.html">estima_rt</a></span><span class="op">(</span>tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span>,</span>
 <span>     list_name <span class="op">=</span> <span class="st">"RT_confirmados_COVID"</span>,</span>
 <span>     min_date  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021/07/01"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">RT_confirmados_COVID</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">RT_confirmados_COVID</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_date_index <span class="op">=</span> <span class="st">"FECHA_SINTOMAS"</span>, </span>
 <span>             df_variable <span class="op">=</span> <span class="st">"Mean(R)"</span>,</span>
 <span>             df_covariates <span class="op">=</span> <span class="st">"ENTIDAD_FEDERATIVA"</span>,</span>
 <span>             date_break_format <span class="op">=</span> <span class="st">"7 days"</span>,</span>
 <span>             date_labels_format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="covidmx_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
+<p><img src="covidmx_files/figure-html/unnamed-chunk-46-1.png" width="700"></p>
 </div>
 <div class="section level3">
-<h3 id="desconexión-de-mariadb">Desconexión de MariaDB<a class="anchor" aria-label="anchor" href="#desconexi%C3%B3n-de-mariadb"></a>
+<h3 id="desconexión-de-duckdb">Desconexión de duckdb<a class="anchor" aria-label="anchor" href="#desconexi%C3%B3n-de-duckdb"></a>
 </h3>
 <p>Una vez que terminaste de trabajar con la base original en
-<code>MariaDB</code> deconecta el pointer haciendo:</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code>duckdb</code> deconecta el pointer haciendo:</p>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -939,23 +943,23 @@ en este ejemplo</a>.</p>
 Github del reporte nacional en <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-link">RodrigoZepeda/VariantesCovid</a>
 a partir de las variantes de <a href="www.gisaid.org">GISAID</a> puedes
 hacer:</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Los datos se ven así:</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
 <span><span class="co">#&gt;   variant     semana   ano     n  freq Actualizacion       Fuente               </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> VOI Epsilon     28  <span style="text-decoration: underline;">2</span>020     1     1 2022-07-18 <span style="color: #949494;">12:46:07</span> GISAID: https://www.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> VOI Epsilon     38  <span style="text-decoration: underline;">2</span>020     1     1 2022-07-18 <span style="color: #949494;">12:46:07</span> GISAID: https://www.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> VOC Delta       39  <span style="text-decoration: underline;">2</span>020     2     1 2022-07-18 <span style="color: #949494;">12:46:07</span> GISAID: https://www.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> VOI Epsilon     46  <span style="text-decoration: underline;">2</span>020     1     1 2022-07-18 <span style="color: #949494;">12:46:07</span> GISAID: https://www.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> VOI Epsilon     47  <span style="text-decoration: underline;">2</span>020     2     1 2022-07-18 <span style="color: #949494;">12:46:07</span> GISAID: https://www.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> VOI Epsilon     48  <span style="text-decoration: underline;">2</span>020     5     1 2022-07-18 <span style="color: #949494;">12:46:07</span> GISAID: https://www.…</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> VOI Epsilon     28  <span style="text-decoration: underline;">2</span>020     1     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> VOI Epsilon     38  <span style="text-decoration: underline;">2</span>020     1     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> VOC Delta       39  <span style="text-decoration: underline;">2</span>020     2     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> VOI Epsilon     46  <span style="text-decoration: underline;">2</span>020     1     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> VOI Epsilon     47  <span style="text-decoration: underline;">2</span>020     2     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> VOI Epsilon     48  <span style="text-decoration: underline;">2</span>020     5     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span></code></pre></div>
 <p>Por <code>default</code> baja nacional pero también puedes usar
 “cdmx”:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"cdmx"</span><span class="op">)</span></span></code></pre></div>
 <p>En este caso, la descarga también es inteligente y necesitas poner
 <code>force_download = TRUE</code> si ha pasado menos de un día de tu
@@ -963,15 +967,15 @@ hacer:</p>
 quieres volver a bajar los datos.</p>
 <p>Puedes graficarlos con <code>geom_stream</code> dentro de la librería
 <code>ggstream</code>:</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Pasamos año y semana epidemiológica a fecha</span></span>
-<span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="va">variantes_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="va">variantes_covid</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>fecha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020/01/03"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                           by <span class="op">=</span> <span class="st">"7 days"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ano    <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">epiyear</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>                           by <span class="op">=</span> <span class="st">"7 days"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ano    <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">epiyear</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>semana <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/week.html" class="external-link">epiweek</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="co">#&gt; Joining, by = c("semana", "ano")</span></span>
@@ -991,7 +995,7 @@ quieres volver a bajar los datos.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_date</a></span><span class="op">(</span>date_breaks <span class="op">=</span> <span class="st">"3 months"</span>, date_labels <span class="op">=</span> <span class="st">"%b/%Y"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span><span class="st">"Variante"</span>, values <span class="op">=</span> <span class="fu">MetBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MetBrewer/man/met.brewer.html" class="external-link">met.brewer</a></span><span class="op">(</span><span class="st">"Cross"</span>, n <span class="op">=</span>  <span class="va">nvariantes</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Variantes de COVID-19 en México"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="covidmx_files/figure-html/unnamed-chunk-47-1.png" width="700"></p>
+<p><img src="covidmx_files/figure-html/unnamed-chunk-51-1.png" width="700"></p>
 <blockquote>
 <p>No olvides citar a <strong>GISAID</strong> así como a la publicación
 diaria en <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-link">RodrigoZepeda/VariantesCovid</a>
@@ -1005,19 +1009,19 @@ si las usas.</p>
 IRAG</a> de ocupación hospitalaria a nivel estatal o a nivel unidad
 médica mediante <code>descarga_datos_red_irag</code>. Estos se obtienen
 de la publicación diaria en <a href="https://github.com/RodrigoZepeda/CapacidadHospitalariaMX" class="external-link">RodrigoZepeda/CapacidadHospitalariaMX</a>.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estatales</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Los cuales se ven así:</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">estatales</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_covariates <span class="op">=</span> <span class="st">"estado"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `hospitalizados_percent`</span></span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">estatales</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_covariates <span class="op">=</span> <span class="st">"estado"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_variable` no fue especificada. Usaremos la columna hospitalizados_percent</span></span></code></pre></div>
 <p><img src="covidmx_files/figure-html/ocupacion-1.png" width="768"></p>
 <p>O bien por unidad médica:</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span>nivel <span class="op">=</span> <span class="st">"Unidad Médica"</span><span class="op">)</span></span></code></pre></div>
 <p>que se ven así:</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
 <span><span class="co">#&gt;   unidad_medica          estado insti…¹ clues hospi…² venti…³ uci_y…⁴ fecha     </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span></span>
@@ -1029,8 +1033,7 @@ de la publicación diaria en <a href="https://github.com/RodrigoZepeda/Capacidad
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Instituto Nacional de… Ciuda… SSA/CC  DFSS…     100      10      10 2020-04-01</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: actualizacion &lt;dttm&gt;, and abbreviated variable names</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ¹​institucion, ²​hospitalizados_percent, ³​ventilacion_percent,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​uci_y_ventilacion_percent</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​uci_y_ventilacion_percent</span></span></span></code></pre></div>
 <p>En este caso, la descarga también es inteligente y necesitas poner
 <code>force_download = TRUE</code> si ha pasado menos de un día de tu
 última descarga (almacenada mediante <code>pins</code> en cache) y
@@ -1048,39 +1051,108 @@ si las usas.</p>
 default grafica lo que està en <code>datos_covid$casos</code> y
 establecer cada cuándo hacer los cortes de fechas con
 <code>date_break_format</code></p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>date_break_format <span class="op">=</span> <span class="st">"1 week"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `n`</span></span>
-<span><span class="co">#&gt; df_covariates no fue especificada. Usaremos `ENTIDAD_FEDERATIVA`</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>date_break_format <span class="op">=</span> <span class="st">"1 week"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_variable` no fue especificada. Usaremos la columna n</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_covariates` no fue especificada. Usaremos `ENTIDAD_FEDERATIVA`</span></span></code></pre></div>
 <p><img src="covidmx_files/figure-html/nacionalentidad-1.png" width="700"></p>
 <p>pero puedes pedir otra con el eje x más limpio:</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="st">"Todos (nacional)"</span>, </span>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="st">"Todos (nacional)"</span>, </span>
 <span>                           date_break_format <span class="op">=</span> <span class="st">"1 week"</span>,</span>
 <span>                           date_labels_format <span class="op">=</span> <span class="st">"%m/%y"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `n`</span></span>
-<span><span class="co">#&gt; </span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_variable` no fue especificada. Usaremos la columna n</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_covariates` no fue especificada. Usaremos ``</span></span></code></pre></div>
 <p><img src="covidmx_files/figure-html/nacional-1.png" width="700"></p>
 <p>Para visualizar un suavizamiento con <em>splines</em> cambia el
 <code>type</code> y dale las opciones que darías a
 <code>geom_spline</code>:</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="st">"Todos (nacional)"</span>, type <span class="op">=</span> <span class="st">"spline"</span>, spar <span class="op">=</span> <span class="fl">0.5</span>, date_break_format <span class="op">=</span> <span class="st">"1 week"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; df_variable no fue especificada. Usaremos la columna `n`</span></span>
-<span><span class="co">#&gt; </span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_variable` no fue especificada. Usaremos la columna n</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_covariates` no fue especificada. Usaremos ``</span></span></code></pre></div>
 <p><img src="covidmx_files/figure-html/splineacional-1.png" width="700"></p>
 <p>Puedes visualizar hasta dos covariables a la vez con
 <code>df_covariates</code> y decirle cuál graficar con
 <code>df_variable</code>:</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="st">"Ejemplo defunciones"</span>, </span>
 <span>             df_variable <span class="op">=</span> <span class="st">"n"</span>, </span>
 <span>             df_covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEXO"</span>,<span class="st">"ENTIDAD_FEDERATIVA"</span><span class="op">)</span>,</span>
 <span>             date_break_format <span class="op">=</span> <span class="st">"3 weeks"</span>,</span>
 <span>             type <span class="op">=</span> <span class="st">"area"</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="covidmx_files/figure-html/unnamed-chunk-51-1.png" width="768"></p>
+<p><img src="covidmx_files/figure-html/unnamed-chunk-55-1.png" width="768"></p>
+</div>
+<div class="section level2">
+<h2 id="desconexión">Desconexión<a class="anchor" aria-label="anchor" href="#desconexi%C3%B3n"></a>
+</h2>
+<p>No olvides, cuando termines de usar <code>duckdb</code>
+desconectarte:</p>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="información-adicional">Información adicional<a class="anchor" aria-label="anchor" href="#informaci%C3%B3n-adicional"></a>
+</h2>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; R version 4.2.0 (2022-04-22)</span></span>
+<span><span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
+<span><span class="co">#&gt; Running under: macOS Big Sur/Monterey 10.16</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Matrix products: default</span></span>
+<span><span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib</span></span>
+<span><span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; locale:</span></span>
+<span><span class="co">#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attached base packages:</span></span>
+<span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; other attached packages:</span></span>
+<span><span class="co">#&gt; [1] ggplot2_3.3.6      dplyr_1.0.10       covidmx_0.6.0.0000</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span><span class="co">#&gt;   [1] mcmc_0.9-7            bitops_1.0-7          fs_1.5.2             </span></span>
+<span><span class="co">#&gt;   [4] bit64_4.0.5           lubridate_1.8.0       httr_1.4.4           </span></span>
+<span><span class="co">#&gt;   [7] rprojroot_2.0.3       tools_4.2.0           bslib_0.4.0          </span></span>
+<span><span class="co">#&gt;  [10] utf8_1.2.2            R6_2.5.1              coarseDataTools_0.6-6</span></span>
+<span><span class="co">#&gt;  [13] DBI_1.1.3             colorspace_2.0-3      duckdb_0.4.0         </span></span>
+<span><span class="co">#&gt;  [16] withr_2.5.0           tidyselect_1.1.2      gridExtra_2.3        </span></span>
+<span><span class="co">#&gt;  [19] EpiEstim_2.2-4        bit_4.0.4             curl_4.3.2           </span></span>
+<span><span class="co">#&gt;  [22] compiler_4.2.0        quantreg_5.94         textshaping_0.3.6    </span></span>
+<span><span class="co">#&gt;  [25] cli_3.3.0             SparseM_1.81          desc_1.4.1           </span></span>
+<span><span class="co">#&gt;  [28] labeling_0.4.2        sass_0.4.2            mosaicCore_0.9.2     </span></span>
+<span><span class="co">#&gt;  [31] scales_1.2.1          readr_2.1.2           ggridges_0.5.3       </span></span>
+<span><span class="co">#&gt;  [34] rappdirs_0.3.3        pkgdown_2.0.6         ggstream_0.1.0       </span></span>
+<span><span class="co">#&gt;  [37] systemfonts_1.0.4     stringr_1.4.1         digest_0.6.29        </span></span>
+<span><span class="co">#&gt;  [40] ggformula_0.10.2      rmarkdown_2.16        MCMCpack_1.6-3       </span></span>
+<span><span class="co">#&gt;  [43] pkgconfig_2.0.3       htmltools_0.5.3       labelled_2.9.1       </span></span>
+<span><span class="co">#&gt;  [46] dbplyr_2.2.1          fastmap_1.1.0         highr_0.9            </span></span>
+<span><span class="co">#&gt;  [49] rlang_1.0.5           readxl_1.4.1          rstudioapi_0.14      </span></span>
+<span><span class="co">#&gt;  [52] jquerylib_0.1.4       farver_2.1.1          generics_0.1.3       </span></span>
+<span><span class="co">#&gt;  [55] jsonlite_1.8.0        vroom_1.5.7           RCurl_1.98-1.8       </span></span>
+<span><span class="co">#&gt;  [58] magrittr_2.0.3        Matrix_1.4-1          Rcpp_1.0.9           </span></span>
+<span><span class="co">#&gt;  [61] munsell_0.5.0         fansi_1.0.3           MetBrewer_0.2.0      </span></span>
+<span><span class="co">#&gt;  [64] lifecycle_1.0.1       stringi_1.7.8         yaml_2.3.5           </span></span>
+<span><span class="co">#&gt;  [67] snakecase_0.11.0      MASS_7.3-58.1         plyr_1.8.7           </span></span>
+<span><span class="co">#&gt;  [70] ggstance_0.3.5        grid_4.2.0            blob_1.2.3           </span></span>
+<span><span class="co">#&gt;  [73] parallel_4.2.0        forcats_0.5.2         crayon_1.5.1         </span></span>
+<span><span class="co">#&gt;  [76] lattice_0.20-45       splines_4.2.0         haven_2.5.1          </span></span>
+<span><span class="co">#&gt;  [79] hms_1.1.2             knitr_1.40            pillar_1.8.1         </span></span>
+<span><span class="co">#&gt;  [82] reshape2_1.4.4        glue_1.6.2            evaluate_0.16        </span></span>
+<span><span class="co">#&gt;  [85] vctrs_0.4.1           tzdb_0.3.0            tweenr_2.0.1         </span></span>
+<span><span class="co">#&gt;  [88] MatrixModels_0.5-0    cellranger_1.1.0      gtable_0.3.1         </span></span>
+<span><span class="co">#&gt;  [91] purrr_0.3.4           polyclip_1.10-0       tidyr_1.2.0          </span></span>
+<span><span class="co">#&gt;  [94] incidence_1.7.3       assertthat_0.2.1      cachem_1.0.6         </span></span>
+<span><span class="co">#&gt;  [97] xfun_0.32             pins_1.0.2            ggforce_0.3.4        </span></span>
+<span><span class="co">#&gt; [100] janitor_2.1.0         coda_0.19-4           survival_3.4-0       </span></span>
+<span><span class="co">#&gt; [103] ragg_1.2.2            tibble_3.1.8          memoise_2.0.1        </span></span>
+<span><span class="co">#&gt; [106] fitdistrplus_1.1-8    ellipsis_0.3.2</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>
     </nav></aside>

@@ -56,7 +56,7 @@ de read_datos_abiertos()"><meta property="og:image" content="https://rodrigozepe
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -74,7 +74,6 @@ de read_datos_abiertos()"><meta property="og:image" content="https://rodrigozepe
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
-    <a class="dropdown-item" href="../articles/Instalacion_de_MARIADB.html">Instalación de MariaDB</a>
   </div>
 </li>
 <li class="nav-item">
@@ -128,30 +127,28 @@ de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p>
     <div class="section level2">
     <h2 id="ref-usage">Uso<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">descarga_datos_abiertos</span><span class="op">(</span></span>
-<span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MariaDB"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
-<span>  driver <span class="op">=</span> <span class="fu">RMariaDB</span><span class="fu">::</span><span class="fu"><a href="https://rmariadb.r-dbi.org/reference/dbConnect-MariaDBDriver-method.html" class="external-link">MariaDB</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  sqlimport <span class="op">=</span> <span class="st">"mysqlimport"</span>,</span>
-<span>  user <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_user"</span><span class="op">)</span>,</span>
-<span>  password <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_password"</span><span class="op">)</span>,</span>
-<span>  dbname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_dbname"</span><span class="op">)</span>,</span>
-<span>  host <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_host"</span><span class="op">)</span>,</span>
-<span>  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_group"</span><span class="op">)</span>,</span>
-<span>  port <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_port"</span><span class="op">)</span>,</span>
+<span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"duckdb"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
 <span>  tblname <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
-<span>  nthreads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  drv <span class="op">=</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  dbdir <span class="op">=</span> <span class="st">":memory:"</span>,</span>
+<span>  colClasses <span class="op">=</span> <span class="fu">get_col_class</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  sites.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`2022` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
+<span>    <span class="st">"/datos_abiertos/datos_abiertos_covid19.zip"</span><span class="op">)</span>, `2021` <span class="op">=</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
+<span>    <span class="st">"/datos_abiertos/historicos/2021/"</span>, <span class="st">"COVID19MEXICO2021.zip"</span><span class="op">)</span>, `2020` <span class="op">=</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
+<span>    <span class="st">"/datos_abiertos/historicos/2020/"</span>, <span class="st">"COVID19MEXICO2020.zip"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  download_process <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pins"</span>, <span class="st">"download.file"</span><span class="op">)</span>,</span>
-<span>  site.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx"</span>,</span>
-<span>    <span class="st">"/gobmx/salud/datos_abiertos/datos"</span>, <span class="st">"_abiertos_covid19.zip"</span><span class="op">)</span>,</span>
 <span>  site.covid.dic <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud."</span>, <span class="st">"gob.mx/gobmx/salud/datos_a"</span>,</span>
 <span>    <span class="st">"biertos/diccionario_datos_"</span>, <span class="st">"covid19.zip"</span><span class="op">)</span>,</span>
 <span>  unzip_command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"unzip_command"</span><span class="op">)</span>,</span>
 <span>  unzip_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"unzip_args"</span><span class="op">)</span>,</span>
 <span>  unzip_args_dict <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>exdir <span class="op">=</span> <span class="st">"."</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  check_unzip_install <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  clear_zip <span class="op">=</span> <span class="va">download_process</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">!=</span> <span class="st">"pins"</span>,</span>
+<span>  clear_zip <span class="op">=</span> <span class="op">(</span><span class="va">download_process</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">!=</span> <span class="st">"pins"</span><span class="op">)</span>,</span>
 <span>  clear_csv <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  use_dict <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  datos_abiertos_zip_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datos_abiertos_zip_paths <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  datos_abiertos_unzipped_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  datos_abiertos_tbl <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  diccionario_zip_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -168,37 +165,30 @@ de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p>
 <span>  download_file_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"curl"</span>, destfile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="va">quiet</span><span class="op">)</span>,</span>
 <span>  descarga_db_datos_abiertos_tbl_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  descarga_db_diccionario_ssa_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  prestatement <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"SET sql_mode = 'NO_ENGINE_SUBSTITUTION,"</span>,</span>
-<span>    <span class="st">"NO_AUTO_CREATE_USER';"</span><span class="op">)</span>,</span>
-<span>  additional_mysqlimport_flags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--local"</span><span class="op">)</span>,</span>
-<span>  load_data_infile_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>LOW_PRIORITY <span class="op">=</span> <span class="st">""</span>, CONCURRENT <span class="op">=</span> <span class="st">""</span>, LOCAL <span class="op">=</span> <span class="st">"LOCAL"</span>,</span>
-<span>    PARTITION <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">descarga_db</span><span class="op">(</span></span>
-<span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MariaDB"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
-<span>  driver <span class="op">=</span> <span class="fu">RMariaDB</span><span class="fu">::</span><span class="fu"><a href="https://rmariadb.r-dbi.org/reference/dbConnect-MariaDBDriver-method.html" class="external-link">MariaDB</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  sqlimport <span class="op">=</span> <span class="st">"mysqlimport"</span>,</span>
-<span>  user <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_user"</span><span class="op">)</span>,</span>
-<span>  password <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_password"</span><span class="op">)</span>,</span>
-<span>  dbname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_dbname"</span><span class="op">)</span>,</span>
-<span>  host <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_host"</span><span class="op">)</span>,</span>
-<span>  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_group"</span><span class="op">)</span>,</span>
-<span>  port <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_port"</span><span class="op">)</span>,</span>
+<span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"duckdb"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
 <span>  tblname <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
-<span>  nthreads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  drv <span class="op">=</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  dbdir <span class="op">=</span> <span class="st">":memory:"</span>,</span>
+<span>  colClasses <span class="op">=</span> <span class="fu">get_col_class</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  sites.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`2022` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
+<span>    <span class="st">"/datos_abiertos/datos_abiertos_covid19.zip"</span><span class="op">)</span>, `2021` <span class="op">=</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
+<span>    <span class="st">"/datos_abiertos/historicos/2021/"</span>, <span class="st">"COVID19MEXICO2021.zip"</span><span class="op">)</span>, `2020` <span class="op">=</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
+<span>    <span class="st">"/datos_abiertos/historicos/2020/"</span>, <span class="st">"COVID19MEXICO2020.zip"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  download_process <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pins"</span>, <span class="st">"download.file"</span><span class="op">)</span>,</span>
-<span>  site.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx"</span>,</span>
-<span>    <span class="st">"/gobmx/salud/datos_abiertos/datos"</span>, <span class="st">"_abiertos_covid19.zip"</span><span class="op">)</span>,</span>
 <span>  unzip_command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"unzip_command"</span><span class="op">)</span>,</span>
 <span>  unzip_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"unzip_args"</span><span class="op">)</span>,</span>
 <span>  check_unzip_install <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  clear_zip <span class="op">=</span> <span class="va">download_process</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">!=</span> <span class="st">"pins"</span>,</span>
+<span>  clear_zip <span class="op">=</span> <span class="op">(</span><span class="va">download_process</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">!=</span> <span class="st">"pins"</span><span class="op">)</span>,</span>
 <span>  clear_csv <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  force_download <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  show_warnings <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  datos_abiertos_zip_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  datos_abiertos_zip_paths <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  datos_abiertos_unzipped_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  datos_abiertos_tbl <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -207,11 +197,6 @@ de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p>
 <span>  use_cache_on_failure <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  download_file_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"curl"</span>, destfile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="va">quiet</span><span class="op">)</span>,</span>
 <span>  descarga_db_datos_abiertos_tbl_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  prestatement <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"SET sql_mode = 'NO_ENGINE_SUBSTITUTION,"</span>,</span>
-<span>    <span class="st">"NO_AUTO_CREATE_USER';"</span><span class="op">)</span>,</span>
-<span>  additional_mysqlimport_flags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--local"</span><span class="op">)</span>,</span>
-<span>  load_data_infile_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>LOW_PRIORITY <span class="op">=</span> <span class="st">""</span>, CONCURRENT <span class="op">=</span> <span class="st">""</span>, LOCAL <span class="op">=</span> <span class="st">"LOCAL"</span>,</span>
-<span>    PARTITION <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -237,8 +222,12 @@ de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p>
 <span></span>
 <span><span class="fu">descarga_db_datos_abiertos_tbl</span><span class="op">(</span></span>
 <span>  download_process <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pins"</span>, <span class="st">"download.file"</span><span class="op">)</span>,</span>
-<span>  site.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx"</span>,</span>
-<span>    <span class="st">"/gobmx/salud/datos_abiertos/datos"</span>, <span class="st">"_abiertos_covid19.zip"</span><span class="op">)</span>,</span>
+<span>  sites.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`2022` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
+<span>    <span class="st">"/datos_abiertos/datos_abiertos_covid19.zip"</span><span class="op">)</span>, `2021` <span class="op">=</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
+<span>    <span class="st">"/datos_abiertos/historicos/2021/"</span>, <span class="st">"COVID19MEXICO2021.zip"</span><span class="op">)</span>, `2020` <span class="op">=</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
+<span>    <span class="st">"/datos_abiertos/historicos/2020/"</span>, <span class="st">"COVID19MEXICO2020.zip"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  board_url_name <span class="op">=</span> <span class="st">"datos_abiertos"</span>,</span>
 <span>  cache <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -264,7 +253,7 @@ de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">unzip_db_datos_abiertos_tbl</span><span class="op">(</span></span>
-<span>  <span class="va">datos_abiertos_zip_path</span>,</span>
+<span>  <span class="va">datos_abiertos_zip_paths</span>,</span>
 <span>  unzip_command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"unzip_command"</span><span class="op">)</span>,</span>
 <span>  unzip_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"unzip_args"</span><span class="op">)</span>,</span>
 <span>  check_unzip_install <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -282,24 +271,13 @@ de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p>
 <span></span>
 <span><span class="fu">parse_db_datos_abiertos_tbl</span><span class="op">(</span></span>
 <span>  <span class="va">datos_abiertos_unzipped_path</span>,</span>
-<span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MariaDB"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
-<span>  driver <span class="op">=</span> <span class="fu">RMariaDB</span><span class="fu">::</span><span class="fu"><a href="https://rmariadb.r-dbi.org/reference/dbConnect-MariaDBDriver-method.html" class="external-link">MariaDB</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  sqlimport <span class="op">=</span> <span class="st">"mysqlimport"</span>,</span>
-<span>  user <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_user"</span><span class="op">)</span>,</span>
-<span>  password <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_password"</span><span class="op">)</span>,</span>
-<span>  dbname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_dbname"</span><span class="op">)</span>,</span>
-<span>  host <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_host"</span><span class="op">)</span>,</span>
-<span>  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_group"</span><span class="op">)</span>,</span>
-<span>  port <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_port"</span><span class="op">)</span>,</span>
+<span>  read_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"duckdb"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
+<span>  dbdir <span class="op">=</span> <span class="st">":memory:"</span>,</span>
+<span>  drv <span class="op">=</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  colClasses <span class="op">=</span> <span class="fu">get_col_class</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  tblname <span class="op">=</span> <span class="st">"covidmx"</span>,</span>
-<span>  nthreads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  clear_csv <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  prestatement <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"SET sql_mode = 'NO_ENGINE_SUBSTITUTION,"</span>,</span>
-<span>    <span class="st">"NO_AUTO_CREATE_USER';"</span><span class="op">)</span>,</span>
-<span>  additional_mysqlimport_flags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--local"</span><span class="op">)</span>,</span>
-<span>  load_data_infile_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>LOW_PRIORITY <span class="op">=</span> <span class="st">""</span>, CONCURRENT <span class="op">=</span> <span class="st">""</span>, LOCAL <span class="op">=</span> <span class="st">"LOCAL"</span>,</span>
-<span>    PARTITION <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -309,47 +287,9 @@ de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p>
     <div class="section level2">
     <h2 id="argumentos">Argumentos<a class="anchor" aria-label="anchor" href="#argumentos"></a></h2>
     <dl><dt>read_format</dt>
-<dd><p><code>"MariaDB"</code> o <code>"tibble"</code> establece el formato
+<dd><p><code>"duckdb"</code> o <code>"tibble"</code> establece el formato
 de lectura de la base de datos. En la mayoria de los casos <code>"tibble"</code> va a
 resultar en un error de memoria.</p></dd>
-
-
-<dt>driver</dt>
-<dd><p>An <code>SQL</code> driver for <code>dbConnect</code></p></dd>
-
-
-<dt>sqlimport</dt>
-<dd><p>An import command similar to <code>mysqlimport</code></p></dd>
-
-
-<dt>user</dt>
-<dd><p>Usuario para <code>dbConnect</code> i.e. tu usuario de <code>MariaDB</code>.
-Puedes ponerlo como variable ambiental con <code>Sys.setenv("MariaDB_user" = "tu_usuario")</code></p></dd>
-
-
-<dt>password</dt>
-<dd><p>password para <code>dbConnect</code> i.e. tu password de <code>MariaDB</code>
-Puedes ponerlo como variable ambiental con <code>Sys.setenv("MariaDB_password" = "tu_passwodrd")</code></p></dd>
-
-
-<dt>dbname</dt>
-<dd><p>Nombre de la base de datos <code>DATABASE</code> para<code>dbConnect</code> puedes ponerlo
-con <code>Sys.setenv("MariaDB_dbname" = "covidmx")</code></p></dd>
-
-
-<dt>host</dt>
-<dd><p>(<strong>opcional</strong>) Host para <code>dbConnect</code>. Si no sabes cual tienes seguro es <code>localhost</code>. Puedes
-ponerlo con <code>Sys.setenv("MariaDB_host" = "localhost")</code></p></dd>
-
-
-<dt>group</dt>
-<dd><p>(<strong>opcional</strong>)  Grupo de <code>dbConnect</code> i.e. tu grupo de <code>MariaDB</code>. Ponlo como variable ambiental
-usando <code>Sys.setenv("MariaDB_group" = "tu_grupo")</code></p></dd>
-
-
-<dt>port</dt>
-<dd><p>Puerto de la conexion con <code>MariaDB</code>. Puedes ponerlo con
-<code>Sys.setenv("MariaDB_group" = "tu_grupo")</code></p></dd>
 
 
 <dt>tblname</dt>
@@ -357,8 +297,21 @@ usando <code>Sys.setenv("MariaDB_group" = "tu_grupo")</code></p></dd>
 por default se llama <code>covidmx</code>.</p></dd>
 
 
-<dt>nthreads</dt>
-<dd><p>Número de <code>threads</code> para escribir el archivo en <code>MariaDB</code>.</p></dd>
+<dt>drv</dt>
+<dd><p>Un  driver para <code>dbConnect</code> (default <code><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb::duckdb()</a></code>)</p></dd>
+
+
+<dt>dbdir</dt>
+<dd><p>Parametro de <code><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb::dbConnect__duckdb_driver()</a></code></p></dd>
+
+
+<dt>colClasses</dt>
+<dd><p>Clases de la columna para leer en <code>read.csv</code></p></dd>
+
+
+<dt>sites.covid</dt>
+<dd><p>Sitio web con el vinculo al archivo <code>.zip</code> de los datos abiertos. Puedes
+cambiarlo por uno de los historicos, por ejemplo.</p></dd>
 
 
 <dt>download_process</dt>
@@ -366,11 +319,6 @@ por default se llama <code>covidmx</code>.</p></dd>
 Se recomienda <code>pins</code> pues guarda en memoria la fecha de la ultima descarga y analiza
 si ha pasado mas de un dia desde la descarga. En caso afirmativo verifica si el
 archivo ha cambiado y si hubo cambios entonces lo descarga.</p></dd>
-
-
-<dt>site.covid</dt>
-<dd><p>Sitio web con el vinculo al archivo <code>.zip</code> de los datos abiertos. Puedes
-cambiarlo por uno de los historicos, por ejemplo.</p></dd>
 
 
 <dt>site.covid.dic</dt>
@@ -410,7 +358,7 @@ default es que si.</p></dd>
 <dd><p>Si descargar el diccionario de <code>site.covid.dic</code>.</p></dd>
 
 
-<dt>datos_abiertos_zip_path</dt>
+<dt>datos_abiertos_zip_paths</dt>
 <dd><p>Camino a los datos abiertos si ya los descargaste en <code>zip</code></p></dd>
 
 
@@ -488,26 +436,6 @@ si se elige este metodo para descargar.</p></dd>
 <code><a href="https://pins.rstudio.com/reference/pin_download.html" class="external-link">pins::pin_download</a></code> de datos abiertos</p></dd>
 
 
-<dt>prestatement</dt>
-<dd><p>Opciones adicionales para <code>MariaDB</code> yo pongo las que me han funcionado
-en que sea mas veloz la carta.</p></dd>
-
-
-<dt>additional_mysqlimport_flags</dt>
-<dd><p>La instalacion se hace con el siguiente comando para <code>MariaDB</code>:</p><div class="sourceCode"><pre><code>
-mysqlimport --default-character-set=UTF8 --fields-terminated-by=',' --ignore-lines=1
---fields-enclosed-by='\"' --lines-terminated-by='\n' --user={user}" --password={password}
---use-threads={nthreads} {silent_flag} {additional_mysqlimport_flags} {dbname} ./{tblname}.csv
-</code></pre></div></dd>
-
-
-<dt>load_data_infile_options</dt>
-<dd><p>Lista de opciones por si la importacion con <code>mysqlimport</code> no
-funciona se use un <code>LOAD DATA INFILE</code> como aquí <a href="https://dev.mysql.com/doc/refman/8.0/en/load-data.html" class="external-link">https://dev.mysql.com/doc/refman/8.0/en/load-data.html</a>
-Las variables se pasan como lista asi por ejemplo si queremos agregar la variable local se
-pone <code>list("LOCAL" = "LOCAL")</code> y si no la queremos <code>list("LOCAL" = "")</code>.</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Parametros adicionales para <code><a href="https://pins.rstudio.com/reference/pin_download.html" class="external-link">pins::pin_download</a></code></p></dd>
 
@@ -525,24 +453,20 @@ si se elige este metodo de descarga.</p></dd>
     <h2 id="valor">Valor<a class="anchor" aria-label="anchor" href="#valor"></a></h2>
     
 
-<p>List of values:</p><ul><li><p>dats        - Tabla conectada mediante <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">DBI::dbConnect</a></code> (si <code>MariaDB</code>) o
+<p>Lista de valores:</p><ul><li><p>dats        - Tabla conectada mediante <code><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb::dbConnect__duckdb_driver()</a></code> (si <code>duckdb</code>) o
 tibble (si <code>tibble</code>)</p></li>
 <li><p>disconnect  - Funcion para cerrar la conexion a la base de datos.</p></li>
 <li><p>dict        - Lista de <code>tibble</code>s con el diccionario de datos para cada variable</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="detalles">Detalles<a class="anchor" aria-label="anchor" href="#detalles"></a></h2>
-    <p>Necesitas tener una instalacion funcionando de <a href="https://mariadb.com/" class="external-link"><code>MariaDB</code></a>. El programa
-se encarga de descargar la base de datos de la DGE, abrir el archivo <code>.zip</code> y crear una
-tabla de nombre <code>covidmx</code> dentro de tu database <code>dbname</code>. Asegurate de que tu usuario <code>user</code>
-tenga permisos de escritura. Para mas informacion sobre instalacion y uso de <code>MariaDB</code>
-consulta <a href="https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html">el articulo correspondiente</a>.</p>
-<p>Si tienes RAM que te sobre puedes no crear una base de datos en <code>MariaDB</code> sino leer directo
+    <p>Si tienes RAM que te sobre puedes no crear una base de datos en <code>duckdb</code> sino leer directo
 el archivo <code>csv</code>. Esto se logra con <code>read_format = tibble</code>. No lo recomiendo pues puedes
 terminar con tu sesion de <code>R</code> si se te acaba la memoria.</p>
-<p><em>Windows</em> Para abrir el archivo <code>.zip</code> requieres tambien descargar e instalar <a href="https://www.7-zip.org/" class="external-link"><code>7Zip</code></a>
-por default el sistema lo busca en <code>C:\\Program Files\\7-Zip\\7z.exe</code> pero si no esta ese
-directorio es necesario que en <code>unzip_command</code> especifiques el camino donde se instalo <code>7z.exe</code>.</p>
+<p><em>Windows</em> Para abrir el archivo <code>.zip</code> quiza requieras tambien descargar e instalar
+<a href="https://www.7-zip.org/" class="external-link"><code>7Zip</code></a> por default el sistema lo busca en
+<code>C:\\Program Files\\7-Zip\\7z.exe</code> pero si no esta ese directorio es necesario que
+en <code>unzip_command</code> especifiques el camino donde se instalo <code>7z.exe</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="nota">Nota<a class="anchor" aria-label="anchor" href="#nota"></a></h2>
@@ -572,32 +496,32 @@ haya pasado mas de un dia.</p>
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co">#Descarga de la base de datos junto con diccionario en MariaDB</span></span></span>
+<span class="r-in"><span><span class="co"># Descarga de la base de datos junto con diccionario en duckdb</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">descarga_datos_abiertos</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Luego haces algo con esos datos...</span></span></span>
+<span class="r-in"><span><span class="co"># Luego haces algo con esos datos...</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Cuando terminas cierras la sesión:</span></span></span>
+<span class="r-in"><span><span class="co"># Cuando terminas cierras la sesion:</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Descarga solo el diccionario</span></span></span>
-<span class="r-in"><span><span class="va">diccionario</span> <span class="op">&lt;-</span> <span class="fu">descarga_diccionario</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Descarga solo el diccionario</span></span></span>
+<span class="r-in"><span><span class="va">diccionario</span>    <span class="op">&lt;-</span> <span class="fu">descarga_diccionario</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#O bien descarga solo los datos abiertos</span></span></span>
+<span class="r-in"><span><span class="co"># O bien descarga solo los datos abiertos</span></span></span>
 <span class="r-in"><span><span class="va">datos_abiertos</span> <span class="op">&lt;-</span> <span class="fu">descarga_db</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Pegalos en el formato que se necesita para el resto de funciones</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">pega_db_datos_abiertos</span><span class="op">(</span><span class="va">datos_abiertos</span>, <span class="va">diccionario</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Pegalos en el formato que se necesita para el resto de funciones</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span>    <span class="op">&lt;-</span> <span class="fu">pega_db_datos_abiertos</span><span class="op">(</span><span class="va">datos_abiertos</span>, <span class="va">diccionario</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Tambien puedes descargar paso por paso</span></span></span>
-<span class="r-in"><span><span class="va">datos_abiertos</span> <span class="op">&lt;-</span> <span class="fu">descarga_db_datos_abiertos_tbl</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="co">#Descarga</span></span></span>
-<span class="r-in"><span>                     <span class="fu">unzip_db_datos_abiertos_tbl</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="co">#Unzippea</span></span></span>
-<span class="r-in"><span>                     <span class="fu">parse_db_datos_abiertos_tbl</span><span class="op">(</span><span class="op">)</span>     <span class="co">#MariaDB</span></span></span>
+<span class="r-in"><span><span class="co"># Tambien puedes descargar paso por paso</span></span></span>
+<span class="r-in"><span><span class="va">datos_abiertos</span> <span class="op">&lt;-</span> <span class="fu">descarga_db_datos_abiertos_tbl</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Descarga</span></span></span>
+<span class="r-in"><span>  <span class="fu">unzip_db_datos_abiertos_tbl</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Unzippea</span></span></span>
+<span class="r-in"><span>  <span class="fu">parse_db_datos_abiertos_tbl</span><span class="op">(</span><span class="op">)</span> <span class="co"># Duckdb</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#O bien el diccionario</span></span></span>
-<span class="r-in"><span><span class="va">diccionario</span> <span class="op">&lt;-</span> <span class="fu">descarga_db_diccionario_ssa</span><span class="op">(</span><span class="op">)</span>   <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="co">#Descarga</span></span></span>
-<span class="r-in"><span>                    <span class="fu">unzip_db_diccionario_ssa</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="co">#Unzippea</span></span></span>
-<span class="r-in"><span>                    <span class="fu">parse_db_diccionario_ssa</span><span class="op">(</span><span class="op">)</span>     <span class="co">#Tibble</span></span></span>
+<span class="r-in"><span><span class="co"># O bien el diccionario</span></span></span>
+<span class="r-in"><span><span class="va">diccionario</span> <span class="op">&lt;-</span> <span class="fu">descarga_db_diccionario_ssa</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Descarga</span></span></span>
+<span class="r-in"><span>  <span class="fu">unzip_db_diccionario_ssa</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Unzippea</span></span></span>
+<span class="r-in"><span>  <span class="fu">parse_db_diccionario_ssa</span><span class="op">(</span><span class="op">)</span> <span class="co"># Tibble</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

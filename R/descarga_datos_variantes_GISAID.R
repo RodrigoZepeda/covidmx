@@ -69,17 +69,17 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
   # Ponemos el diccionario
   github <- "https://raw.githubusercontent.com/"
   cuenta <- "RodrigoZepeda/VariantesCovid/main/tablas/"
-  fname <- glue::glue("{github}{cuenta}Proporcion_variantes_{nivel[1]}.csv")
+  fname  <- paste0(github,cuenta,"Proporcion_variantes_",nivel[1],".csv")
 
   if (!quiet) {
-    message(glue::glue("Descargando/downloading: {fname}"))
+    cli::cli_alert("Descargando/downloading: {fname}")
   }
 
   # Creamos el board
   board <- pins::board_url(
     urls = c(
-      "nacional" = glue::glue("{github}{cuenta}Proporcion_variantes_nacional.csv"),
-      "cdmx" = glue::glue("{github}{cuenta}Proporcion_variantes_cdmx.csv")
+      "nacional" = paste0(github, cuenta,"Proporcion_variantes_nacional.csv"),
+      "cdmx"     = paste0(github, cuenta,"Proporcion_variantes_cdmx.csv")
     ),
     cache = cache,
     use_cache_on_failure = use_cache_on_failure
@@ -93,14 +93,12 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
 
   if (!force_download & tdif < 0.9) {
     if (show_warnings) {
-      warning(glue::glue("
-                          La descarga mas reciente fue hace {tdif} dias. Como tiene menos de un dia
-                          usare esa. Escribe force_download = TRUE si quieres descargar de
-                          todas formas. Para desactivar este mensaje show_warnings = FALSE.
-
-                          Most recent download was {tdif} days ago. It has less than a day hence
-                          I'll use that one. Write force_download = TRUE if you want to
-                          download anyway. To turn off this message show_warnings = FALSE."))
+      cli::cli_warn(
+        paste("La descarga mas reciente fue",
+              "hace {round(tdif,5)} dias. Como tiene menos de un dia usare esa.",
+              "Escribe {.code force_download = TRUE} si quieres descargar de",
+              "todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}")
+      )
     }
 
     # Lee de memoria
@@ -110,7 +108,7 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
     dfile <- pins::pin_download(board = board, name = nivel[1], ...)
   }
 
-  dats <- dfile %>%
+  dats <- dfile |>
     readr::read_csv(
       locale = readr::locale(encoding = "UTF-8"),
       col_types = readr::cols(

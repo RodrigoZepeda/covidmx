@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -52,7 +52,6 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
     <a class="dropdown-item" href="articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
-    <a class="dropdown-item" href="articles/Instalacion_de_MARIADB.html">Instalación de MariaDB</a>
   </div>
 </li>
 <li class="nav-item">
@@ -102,7 +101,9 @@
 <h1 id="uso">Uso<a class="anchor" aria-label="anchor" href="#uso"></a>
 </h1>
 <p>Puedes descargar la información de variantes de <a href="www.gisaid.org">GISAID</a> de la <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-link">publicación de Github</a>, ocupación hospitalaria de <a href="https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome" class="external-link">RED IRAG</a> a partir del <a href="https://github.com/RodrigoZepeda/CapacidadHospitalariaMX" class="external-link">Github</a> y datos abiertos de la <a href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico" class="external-link">SSA</a> todo con los siguientes comandos.</p>
-<p><strong>Nota</strong> Para usar los datos abiertos de la <code>DGE</code> te sugiero instalar también <code>MariaDB</code> <a href="https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html">(ver guía)</a> y si estás en <code>Windows</code> también instala <a href="https://www.7-zip.org/" class="external-link">7-zip</a>.</p>
+<blockquote>
+<p>El proceso está optimizado mediante <code>duckdb</code> para que puedas realizar <code>queries</code> sobre la base de &gt; 15 millones de personas en segundos.</p>
+</blockquote>
 <pre class="{r}"><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RodrigoZepeda/covidmx" class="external-link">covidmx</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Datos de variantes (cdmx o nacional)</span></span>
@@ -115,39 +116,29 @@
 <span><span class="co">#Datos de ocupación hopsitalaria de Red IRAG ('Estatal' o 'Unidad Médica')</span></span>
 <span><span class="va">ocupacion</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span><span class="st">"Estatal"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#Descarga datos abiertos de covid, guarda en MARIADB y te da una conexión</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span></span>
-<span>    user      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_user"</span><span class="op">)</span>,</span>
-<span>    password  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_password"</span><span class="op">)</span>,</span>
-<span>    dbname    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_dbname"</span><span class="op">)</span>,</span>
-<span>    host      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_host"</span><span class="op">)</span>,</span>
-<span>    group     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_group"</span><span class="op">)</span>,</span>
-<span>    port      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MariaDB_port"</span><span class="op">)</span></span>
-<span><span class="op">)</span> </span>
-<span></span>
-<span><span class="co">#Una vez descargados la próxima vez que los quieras basta con leerlos</span></span>
-<span><span class="co"># datos_covid &lt;- read_datos_abiertos() </span></span>
+<span><span class="co">#Descarga datos abiertos de covid, guarda en duckdb y te da una conexión</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="co">#Calcula los casos (totales) por entidad y devuelve un tibble</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Calcula la cantidad de pruebas realizadas</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/numero_pruebas.html">numero_pruebas</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/numero_pruebas.html">numero_pruebas</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Calcula la positividad</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/positividad.html">positividad</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/positividad.html">positividad</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Calcula el case fatality rate</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/cfr.html">cfr</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/cfr.html">cfr</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Calcula el case hospitalization rate</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/chr.html">chr</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/chr.html">chr</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Estimación del número efectivo de reproducción</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/estima_rt.html">estima_rt</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/estima_rt.html">estima_rt</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#¡Grafica!</span></span>
-<span><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<span><span class="va">datos_covid</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/plot_covid.html">plot_covid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
 <div class="figure">
 <img src="reference/figures/readme-nacional.png" alt=""><p class="caption">Gráfica con los casos de SINAVE de los datos abiertos de las 32 entidades cada una de ellas variando por color.</p>
 </div>
@@ -158,7 +149,7 @@
 <h2 id="casos-opciones-de-lectura-de-datos-abiertos">Casos (opciones de lectura de datos abiertos)<a class="anchor" aria-label="anchor" href="#casos-opciones-de-lectura-de-datos-abiertos"></a>
 </h2>
 <p>Todas las opciones de <strong>casos</strong>:</p>
-<pre class="{r}"><code><span><span class="va">datos_covid</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<pre class="{r}"><code><span><span class="va">datos_covid</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span></span>
 <span>    <span class="co">#Lista de entidades que deseas</span></span>
 <span>    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AGUASCALIENTES"</span>, <span class="st">"BAJA CALIFORNIA"</span>, </span>
@@ -268,7 +259,6 @@
 </h2>
 <ul>
 <li><p>Para ver todas las funciones del paquete ve a <a href="https://rodrigozepeda.github.io/covidmx/articles/covidmx.html">Primeros Pasos</a></p></li>
-<li><p>Para instalar <code>MariaDB</code> checa <a href="https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html">esta guía</a></p></li>
 <li><p>Puedes ver un estudio de caso del paquete para <a href="https://rodrigozepeda.github.io/covidmx/articles/Estudio_de_Caso_CDMX.html">Ciudad de México en este link</a></p></li>
 </ul>
 </div>

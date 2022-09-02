@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -52,7 +52,6 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
-    <a class="dropdown-item" href="../articles/Instalacion_de_MARIADB.html">Instalación de MariaDB</a>
   </div>
 </li>
 <li class="nav-item">
@@ -92,7 +91,7 @@
                         <h4 data-toc-skip class="author">Rodrigo
 Zepeda</h4>
             
-            <h4 data-toc-skip class="date">2022-07-19</h4>
+            <h4 data-toc-skip class="date">2022-09-02</h4>
       
       <small class="dont-index">Código: <a href="https://github.com/RodrigoZepeda/covidmx/blob/HEAD/vignettes/articles/Estudio_de_Caso_CDMX.Rmd" class="external-link"><code>vignettes/articles/Estudio_de_Caso_CDMX.Rmd</code></a></small>
       <div class="d-none name"><code>Estudio_de_Caso_CDMX.Rmd</code></div>
@@ -117,25 +116,28 @@ las gráficas y el análisis de datos</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">MetBrewer</span><span class="op">)</span> <span class="co"># Paletas de colores </span></span></code></pre></div>
 <p>Y descargamos los datos:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<blockquote>
-<p><strong>Nota</strong> No olvides que necesitas instalar <a href="https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html">MariaDB</a>
-en todas las plataformas (o tener demasiada <code>RAM</code>) y en
-Windows adicionalmente requieres <a href="https://www.7-zip.org/" class="external-link"><code>7zip</code></a> u otro descompresor
-de archivos <code>zip</code> que no sea el <code>tar</code> default.</p>
-</blockquote>
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>show_warnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Descargando la informacion</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Liberando los archivos <span style="color: #0000BB;">.zip</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67% | ETA:  2s</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Parseando los archivos <span style="color: #0000BB;">.csv</span> en duckdb</span></span></code></pre>
+<pre><code><span><span class="co">## → Cargando los datos en duckdb</span></span></code></pre>
+<pre><code><span><span class="co">## → Tabla creada: conexion en proceso</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> No olvides desconectar la base con `datos_covid$disconnect()` al final.</span></span></code></pre>
+<pre><code><span><span class="co">## → Removiendo los archivos .csv</span></span></code></pre>
 <div class="section level2">
 <h2 id="casos-semanales-y-número-efectivo-de-reproducción">Casos semanales y número efectivo de reproducción<a class="anchor" aria-label="anchor" href="#casos-semanales-y-n%C3%BAmero-efectivo-de-reproducci%C3%B3n"></a>
 </h2>
 <p>Comenzamos con el primer panel para lo cual necesitamos correr dos
 funciones: la de casos y la del número efectivo de reproducción.
 Calculamos ambos seleccionando la entidad y sólo los confirmados:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">#Calculamos los casos</span></span>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>entidades          <span class="op">=</span> <span class="st">"CIUDAD DE MÉXICO"</span>,</span>
 <span>        group_by_entidad   <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>        tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>        tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">#Y calculamos el estima_rt</span></span>
 <span>  <span class="fu"><a href="../reference/estima_rt.html">estima_rt</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="st">"CIUDAD DE MÉXICO"</span>,</span>
 <span>     min_date  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021/11/20"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span>,</span>
@@ -149,75 +151,74 @@ Calculamos ambos seleccionando la entidad y sólo los confirmados:</p>
 <span>    <span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Cada una de las bases de datos se encuentran dentro de
 <code>datos_covid</code> con diferente nombre:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "dats"       "disconnect" "dict"       "casos"      "estima_rt"</span></span></code></pre>
 <p>Por otro lado descargamos los datos de variantes</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"cdmx"</span><span class="op">)</span></span></code></pre></div>
 <p>Generamos entonces una base única a partir del
 <code>2021/11/20</code> que contenga información de variantes y
 casos</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Limpiamos del estima_rt los últimas dos semanas porque se cae</span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">estima_rt</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">estima_rt</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">estima_rt</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">estima_rt</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span> <span class="op">&lt;=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">today</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html" class="external-link">weeks</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Filtramos las fechas para coincidir con el RT</span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span> <span class="op">&gt;=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021/11/20"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="co">#Asignamos semana epidemiológica y año para la coloración y colapsamos por semana</span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>SEMANA_EPI <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/week.html" class="external-link">epiweek</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ANIO_EPI   <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">epiyear</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">SEMANA_EPI</span>, <span class="va">ANIO_EPI</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>SEMANA_EPI <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/week.html" class="external-link">epiweek</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ANIO_EPI   <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">epiyear</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">SEMANA_EPI</span>, <span class="va">ANIO_EPI</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"keep"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Unimos la información de variantes</span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">#Renombramos pues la base de variantes ya trae una n</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>casos_covid <span class="op">=</span> <span class="va">n</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>casos_covid <span class="op">=</span> <span class="va">n</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">#Juntamos la info de variantes</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">variantes</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEMANA_EPI"</span> <span class="op">=</span> <span class="st">"semana"</span>, <span class="st">"ANIO_EPI"</span> <span class="op">=</span> <span class="st">"ano"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">variantes</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEMANA_EPI"</span> <span class="op">=</span> <span class="st">"semana"</span>, <span class="st">"ANIO_EPI"</span> <span class="op">=</span> <span class="st">"ano"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">#Truco para convertir semana epidemiológica en fecha</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>fecha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="st">"2021/11/20"</span><span class="op">)</span>, <span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">today</a></span><span class="op">(</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"1 week"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>SEMANA_EPI <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/week.html" class="external-link">epiweek</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>fecha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="st">"2021/11/20"</span><span class="op">)</span>, <span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">today</a></span><span class="op">(</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"1 week"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>SEMANA_EPI <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/week.html" class="external-link">epiweek</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ANIO_EPI <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">epiyear</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>    by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEMANA_EPI"</span>, <span class="st">"ANIO_EPI"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>Así se ve la base generada:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># Groups:   SEMANA_EPI, ANIO_EPI [2]</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># Groups:   SEMANA_EPI, ANIO_EPI [1]</span></span></span>
 <span><span class="co">##   SEMANA_EPI ANIO_EPI casos_c…¹ variant     n    freq Actualizacion       Fuente</span></span>
-<span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int64&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1     <span style="text-decoration: underline;">2</span>022     <span style="text-decoration: underline;">75</span>983 Omicro…     2 0.004<span style="text-decoration: underline;">10</span> 2022-07-18 <span style="color: #949494;">12:46:07</span> GISAI…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>          1     <span style="text-decoration: underline;">2</span>022     <span style="text-decoration: underline;">75</span>983 VOC De…    17 0.034<span style="text-decoration: underline;">8</span>  2022-07-18 <span style="color: #949494;">12:46:07</span> GISAI…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>          1     <span style="text-decoration: underline;">2</span>022     <span style="text-decoration: underline;">75</span>983 Omicro…   469 0.961   2022-07-18 <span style="color: #949494;">12:46:07</span> GISAI…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span>          2     <span style="text-decoration: underline;">2</span>022    <span style="text-decoration: underline;">107</span>518 Omicro…     1 0.004<span style="text-decoration: underline;">18</span> 2022-07-18 <span style="color: #949494;">12:46:07</span> GISAI…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span>          2     <span style="text-decoration: underline;">2</span>022    <span style="text-decoration: underline;">107</span>518 VOC De…     5 0.020<span style="text-decoration: underline;">9</span>  2022-07-18 <span style="color: #949494;">12:46:07</span> GISAI…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span>          2     <span style="text-decoration: underline;">2</span>022    <span style="text-decoration: underline;">107</span>518 Omicro…   233 0.975   2022-07-18 <span style="color: #949494;">12:46:07</span> GISAI…</span></span>
+<span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1     <span style="text-decoration: underline;">2</span>022     <span style="text-decoration: underline;">76</span>290 Omicro…     1 0.002<span style="text-decoration: underline;">02</span> 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAI…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>          1     <span style="text-decoration: underline;">2</span>022     <span style="text-decoration: underline;">76</span>290 Omicro…     1 0.002<span style="text-decoration: underline;">02</span> 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAI…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>          1     <span style="text-decoration: underline;">2</span>022     <span style="text-decoration: underline;">76</span>290 Omicro…     2 0.004<span style="text-decoration: underline;">03</span> 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAI…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span>          1     <span style="text-decoration: underline;">2</span>022     <span style="text-decoration: underline;">76</span>290 Omicro…     3 0.006<span style="text-decoration: underline;">05</span> 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAI…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span>          1     <span style="text-decoration: underline;">2</span>022     <span style="text-decoration: underline;">76</span>290 VOC De…    17 0.034<span style="text-decoration: underline;">3</span>  2022-09-01 <span style="color: #949494;">03:16:35</span> GISAI…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span>          1     <span style="text-decoration: underline;">2</span>022     <span style="text-decoration: underline;">76</span>290 Omicro…   472 0.952   2022-09-01 <span style="color: #949494;">03:16:35</span> GISAI…</span></span>
 <span><span class="co">## <span style="color: #949494;"># … with 1 more variable: fecha &lt;date&gt;, and abbreviated variable name</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   ¹​casos_covid</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;">#   ¹​casos_covid</span></span></span></code></pre>
 <p>Hacemos la gráfica comenzando con unas barras con colores por
 variante</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fecha</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">casos_covid</span><span class="op">)</span><span class="op">*</span><span class="va">freq</span>, fill <span class="op">=</span> <span class="va">variant</span><span class="op">)</span>, </span>
 <span>           data <span class="op">=</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span><span class="st">"Variante"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MetBrewer/man/met.brewer.html" class="external-link">met.brewer</a></span><span class="op">(</span><span class="st">"Cross"</span>, n <span class="op">=</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>Sobreponemos el <em>RT</em> y agregamos formato</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cdmx_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fecha</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">casos_covid</span><span class="op">)</span><span class="op">*</span><span class="va">freq</span>, fill <span class="op">=</span> <span class="va">variant</span><span class="op">)</span>, </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">casos_covid</span><span class="op">)</span><span class="op">*</span><span class="va">freq</span>, fill <span class="op">=</span> <span class="va">variant</span><span class="op">)</span>, </span>
 <span>           data <span class="op">=</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co">#Se multiplica por 40,000 para andar cerca de la media de casos</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FECHA_SINTOMAS</span>, <span class="fl">40000</span><span class="op">*</span><span class="va">`Median(R)`</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">estima_rt</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span>, <span class="fl">40000</span><span class="op">*</span><span class="va">`Median(R)`</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">estima_rt</span>,</span>
 <span>            linetype <span class="op">=</span> <span class="st">"solid"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span><span class="st">"Variante"</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MetBrewer/man/met.brewer.html" class="external-link">met.brewer</a></span><span class="op">(</span><span class="st">"Cross"</span>, n <span class="op">=</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
@@ -239,14 +240,14 @@ variante</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_date</a></span><span class="op">(</span>date_breaks <span class="op">=</span> <span class="st">"1 month"</span>, date_labels <span class="op">=</span> <span class="st">"%b-%Y"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cdmx_rt</span></span></code></pre></div>
-<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-11-1.png" width="1152"></p>
+<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-10-1.png" width="1152"></p>
 </div>
 <div class="section level2">
 <h2 id="ocupación-hospitalaria-y-hospitalizaciones">Ocupación hospitalaria y hospitalizaciones<a class="anchor" aria-label="anchor" href="#ocupaci%C3%B3n-hospitalaria-y-hospitalizaciones"></a>
 </h2>
 <p>Por otro lado descargamos la información de ocupación hospitalaria de
 la RED IRAG.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Descarga de datos por estado</span></span>
 <span><span class="va">ocupacion_estado</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span><span class="st">"Estatal"</span><span class="op">)</span></span>
 <span></span>
@@ -254,19 +255,19 @@ la RED IRAG.</p>
 <span><span class="va">ocupacion_UM</span>     <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span><span class="st">"Unidad Médica"</span><span class="op">)</span></span></code></pre></div>
 <p>Obtenemos entonces las unidades médicas con mayor ocupación en la
 fecha más reciente:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ocupacion_UM</span> <span class="op">&lt;-</span> <span class="va">ocupacion_UM</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">estado</span> <span class="op">==</span> <span class="st">"Ciudad de México"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ocupacion_UM</span> <span class="op">&lt;-</span> <span class="va">ocupacion_UM</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">estado</span> <span class="op">==</span> <span class="st">"Ciudad de México"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">fecha</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Por otro lado juntamos las bases de ocupación y de casos
 hospitalizados por fecha de ingreso</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Obtenemos la ocupación por estado</span></span>
-<span><span class="va">ocupacion_cdmx</span> <span class="op">&lt;-</span> <span class="va">ocupacion_estado</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">ocupacion_cdmx</span> <span class="op">&lt;-</span> <span class="va">ocupacion_estado</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">estado</span> <span class="op">==</span> <span class="st">"Ciudad de México"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Y los casos hospitalizados por fecha de ingreso</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span></span>
 <span>  entidades        <span class="op">=</span> <span class="st">"CIUDAD DE MÉXICO"</span>,</span>
 <span>  group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  fecha_tipo       <span class="op">=</span> <span class="st">"Ingreso"</span>,</span>
@@ -275,10 +276,10 @@ hospitalizados por fecha de ingreso</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Pegamos en la misma base</span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">hospitalizados</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">hospitalizados</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">hospitalizados</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">hospitalizados</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">ocupacion_cdmx</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"FECHA_INGRESO"</span> <span class="op">=</span> <span class="st">"fecha"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Finalmente realizamos la gráfica</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Obtenemos el máximo de pacientes para el reescalamiento</span></span>
 <span><span class="va">m_pacientes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">hospitalizados</span><span class="op">$</span><span class="va">n</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -287,9 +288,9 @@ hospitalizados por fecha de ingreso</p>
 <span>  </span>
 <span><span class="co">#Reescalamos el porcentaje para que aparezca</span></span>
 <span><span class="va">plot_hospitalizados</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">hospitalizados</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_area</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FECHA_INGRESO</span>, y <span class="op">=</span> <span class="va">hospitalizados_percent</span><span class="op">/</span><span class="fl">100</span><span class="op">*</span><span class="va">m_pacientes</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_area</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">FECHA_INGRESO</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">hospitalizados_percent</span><span class="op">/</span><span class="fl">100</span><span class="op">*</span><span class="va">m_pacientes</span><span class="op">)</span>,</span>
 <span>            fill <span class="op">=</span> <span class="va">colores</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span>, alpha <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FECHA_INGRESO</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>, color <span class="op">=</span> <span class="va">colores</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">FECHA_INGRESO</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>, color <span class="op">=</span> <span class="va">colores</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="st">"2020/04/02"</span><span class="op">)</span>, <span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">today</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_date</a></span><span class="op">(</span>date_breaks <span class="op">=</span> <span class="st">"3 months"</span>, date_labels <span class="op">=</span> <span class="st">"%b-%Y"</span>, expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -312,14 +313,14 @@ hospitalizados por fecha de ingreso</p>
 <span>                                         name    <span class="op">=</span> <span class="st">"Ocupación de la Red IRAG (%)"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot_hospitalizados</span></span></code></pre></div>
-<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>Por otro lado graficamos la ocupación por unidad:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Arreglamos como factor y quitamos los de cero ocupación</span></span>
-<span><span class="va">ocupacion_UM</span> <span class="op">&lt;-</span> <span class="va">ocupacion_UM</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">ocupacion_UM</span> <span class="op">&lt;-</span> <span class="va">ocupacion_UM</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>unidad_medica <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">unidad_medica</span>, </span>
 <span>                                levels <span class="op">=</span> <span class="va">unidad_medica</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">hospitalizados_percent</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>                                ordered <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>                                ordered <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">hospitalizados_percent</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Reescalamos el porcentaje para que aparezca</span></span>
@@ -340,14 +341,14 @@ hospitalizados por fecha de ingreso</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/label_percent.html" class="external-link">label_percent</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot_ocupacion</span></span></code></pre></div>
-<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <p>Podemos conjuntar ambos en un solo gráfico con
 <code>cowplot</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot_hosp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">plot_hospitalizados</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">plot_ocupacion</span>, ncol <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                       rel_widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">plot_hosp</span></span></code></pre></div>
-<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-17-1.png" width="1152"></p>
+<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-16-1.png" width="1152"></p>
 </div>
 <div class="section level2">
 <h2 id="positividad">Positividad<a class="anchor" aria-label="anchor" href="#positividad"></a>
@@ -355,8 +356,8 @@ hospitalizados por fecha de ingreso</p>
 <p>Generamos la gráfica de positividad donde además se coloque el número
 de pruebas por semana. Para ello calculamos tanto la positividad como el
 número de pruebas:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">#Calculamos también la positividad</span></span>
 <span>  <span class="fu"><a href="../reference/positividad.html">positividad</a></span><span class="op">(</span></span>
 <span>    entidades            <span class="op">=</span> <span class="st">"CIUDAD DE MÉXICO"</span>, </span>
@@ -366,18 +367,18 @@ número de pruebas:</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>Generamos la gráfica de positividad distinguiendo por tipo de
 prueba:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Nos quedamos sólo a  partir de 2022</span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">2022</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Para poner al nivel</span></span>
 <span><span class="va">mpruebas</span>         <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span><span class="op">$</span><span class="va">n_pruebas</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">positividad_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FECHA_SINTOMAS</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">n_pruebas</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">TIPO_PRUEBA</span><span class="op">)</span>, </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">n_pruebas</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">TIPO_PRUEBA</span><span class="op">)</span>, </span>
 <span>           alpha <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FECHA_SINTOMAS</span>, y <span class="op">=</span> <span class="va">Positividad</span><span class="op">*</span><span class="va">mpruebas</span>, color <span class="op">=</span> <span class="va">TIPO_PRUEBA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">Positividad</span><span class="op">*</span><span class="va">mpruebas</span>, color <span class="op">=</span> <span class="va">TIPO_PRUEBA</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_date</a></span><span class="op">(</span>date_breaks <span class="op">=</span> <span class="st">"1 month"</span>, date_labels <span class="op">=</span> <span class="st">"%b-%Y"</span>, expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
@@ -400,7 +401,7 @@ prueba:</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">positividad_plot</span></span></code></pre></div>
-<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="mortalidad">Mortalidad<a class="anchor" aria-label="anchor" href="#mortalidad"></a>
@@ -408,9 +409,9 @@ prueba:</p>
 <p>Por último generamos la gráfica de defunciones. Para ello tomamos la
 misma función que en casos pero con <code>defunciones = TRUE</code> en 4
 grupos de edad:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Calculamos las defunciones por grupo de edad</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span></span>
 <span>    entidades        <span class="op">=</span> <span class="st">"CIUDAD DE MÉXICO"</span>,</span>
 <span>    group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -419,13 +420,13 @@ grupos de edad:</p>
 <span>    edad_cut         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span>, <span class="fl">40</span>, <span class="fl">60</span>, <span class="cn">Inf</span><span class="op">)</span>,</span>
 <span>    list_name        <span class="op">=</span> <span class="st">"defunciones"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Nos quedamos sólo con 2022</span></span>
-<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">defunciones</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">defunciones</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">defunciones</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">defunciones</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">FECHA_DEF</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2022</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot_defunciones</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">defunciones</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FECHA_DEF</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">EDAD_CAT</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">FECHA_DEF</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">EDAD_CAT</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">EDAD_CAT</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
@@ -442,20 +443,20 @@ grupos de edad:</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot_defunciones</span></span></code></pre></div>
-<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 <p>Finalmente unimos este panel con el de positividad</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot_defun_pos</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">positividad_plot</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">plot_defunciones</span>,</span>
 <span>                             rel_widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">plot_defun_pos</span></span></code></pre></div>
-<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-22-1.png" width="1152"></p>
+<p><img src="Estudio_de_Caso_CDMX_files/figure-html/unnamed-chunk-21-1.png" width="1152"></p>
 </div>
 <div class="section level2">
 <h2 id="generación-del-reporte">Generación del reporte<a class="anchor" aria-label="anchor" href="#generaci%C3%B3n-del-reporte"></a>
 </h2>
 <p>Finalmente juntamos todas las gráficas en un solo grid, agregamos el
 título:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Juntamos los plots</span></span>
 <span><span class="va">gráfica_sin_titulo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">cdmx_rt</span>, <span class="va">plot_hosp</span>, <span class="va">plot_defun_pos</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
@@ -463,9 +464,70 @@ título:</p>
 <span><span class="va">plot_title</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/ggdraw.html" class="external-link">ggdraw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/draw_label.html" class="external-link">draw_label</a></span><span class="op">(</span><span class="st">"CIUDAD DE MÉXICO"</span>, fontface<span class="op">=</span><span class="st">'bold'</span>, size <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span></code></pre></div>
 <p>Y ¡magia! quedó la gráfica que elaboramos con los datos del
 paquete</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">plot_title</span>, <span class="va">gráfica_sin_titulo</span>, ncol <span class="op">=</span> <span class="fl">1</span>, rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="CDMX.png" width="4125"></p>
+</div>
+<div class="section level2">
+<h2 id="información-adicional">Información adicional<a class="anchor" aria-label="anchor" href="#informaci%C3%B3n-adicional"></a>
+</h2>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## R version 4.2.0 (2022-04-22)</span></span>
+<span><span class="co">## Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
+<span><span class="co">## Running under: macOS Big Sur/Monterey 10.16</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Matrix products: default</span></span>
+<span><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib</span></span>
+<span><span class="co">## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## locale:</span></span>
+<span><span class="co">## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## attached base packages:</span></span>
+<span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## other attached packages:</span></span>
+<span><span class="co">##  [1] MetBrewer_0.2.0    glue_1.6.2         ggtext_0.1.1       cowplot_1.1.1     </span></span>
+<span><span class="co">##  [5] forcats_0.5.2      stringr_1.4.1      dplyr_1.0.10       purrr_0.3.4       </span></span>
+<span><span class="co">##  [9] readr_2.1.2        tidyr_1.2.0        tibble_3.1.8       ggplot2_3.3.6     </span></span>
+<span><span class="co">## [13] tidyverse_1.3.2    lubridate_1.8.0    covidmx_0.6.0.0000</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## loaded via a namespace (and not attached):</span></span>
+<span><span class="co">##   [1] mcmc_0.9-7            bitops_1.0-7          fs_1.5.2             </span></span>
+<span><span class="co">##   [4] bit64_4.0.5           httr_1.4.4            rprojroot_2.0.3      </span></span>
+<span><span class="co">##   [7] tools_4.2.0           backports_1.4.1       bslib_0.4.0          </span></span>
+<span><span class="co">##  [10] utf8_1.2.2            R6_2.5.1              coarseDataTools_0.6-6</span></span>
+<span><span class="co">##  [13] DBI_1.1.3             colorspace_2.0-3      duckdb_0.4.0         </span></span>
+<span><span class="co">##  [16] withr_2.5.0           tidyselect_1.1.2      gridExtra_2.3        </span></span>
+<span><span class="co">##  [19] EpiEstim_2.2-4        bit_4.0.4             curl_4.3.2           </span></span>
+<span><span class="co">##  [22] compiler_4.2.0        quantreg_5.94         textshaping_0.3.6    </span></span>
+<span><span class="co">##  [25] cli_3.3.0             rvest_1.0.3           SparseM_1.81         </span></span>
+<span><span class="co">##  [28] xml2_1.3.3            desc_1.4.1            labeling_0.4.2       </span></span>
+<span><span class="co">##  [31] sass_0.4.2            scales_1.2.1          rappdirs_0.3.3       </span></span>
+<span><span class="co">##  [34] pkgdown_2.0.6         systemfonts_1.0.4     digest_0.6.29        </span></span>
+<span><span class="co">##  [37] rmarkdown_2.16        MCMCpack_1.6-3        pkgconfig_2.0.3      </span></span>
+<span><span class="co">##  [40] htmltools_0.5.3       dbplyr_2.2.1          fastmap_1.1.0        </span></span>
+<span><span class="co">##  [43] highr_0.9             rlang_1.0.5           readxl_1.4.1         </span></span>
+<span><span class="co">##  [46] rstudioapi_0.14       farver_2.1.1          jquerylib_0.1.4      </span></span>
+<span><span class="co">##  [49] generics_0.1.3        jsonlite_1.8.0        vroom_1.5.7          </span></span>
+<span><span class="co">##  [52] googlesheets4_1.0.1   RCurl_1.98-1.8        magrittr_2.0.3       </span></span>
+<span><span class="co">##  [55] Matrix_1.4-1          Rcpp_1.0.9            munsell_0.5.0        </span></span>
+<span><span class="co">##  [58] fansi_1.0.3           lifecycle_1.0.1       stringi_1.7.8        </span></span>
+<span><span class="co">##  [61] yaml_2.3.5            snakecase_0.11.0      MASS_7.3-58.1        </span></span>
+<span><span class="co">##  [64] plyr_1.8.7            grid_4.2.0            blob_1.2.3           </span></span>
+<span><span class="co">##  [67] parallel_4.2.0        crayon_1.5.1          lattice_0.20-45      </span></span>
+<span><span class="co">##  [70] splines_4.2.0         haven_2.5.1           gridtext_0.1.4.9000  </span></span>
+<span><span class="co">##  [73] hms_1.1.2             knitr_1.40            pillar_1.8.1         </span></span>
+<span><span class="co">##  [76] markdown_1.1          reshape2_1.4.4        reprex_2.0.2         </span></span>
+<span><span class="co">##  [79] evaluate_0.16         modelr_0.1.9          png_0.1-7            </span></span>
+<span><span class="co">##  [82] vctrs_0.4.1           tzdb_0.3.0            MatrixModels_0.5-0   </span></span>
+<span><span class="co">##  [85] cellranger_1.1.0      gtable_0.3.1          incidence_1.7.3      </span></span>
+<span><span class="co">##  [88] assertthat_0.2.1      cachem_1.0.6          xfun_0.32            </span></span>
+<span><span class="co">##  [91] pins_1.0.2            janitor_2.1.0         broom_1.0.1          </span></span>
+<span><span class="co">##  [94] coda_0.19-4           survival_3.4-0        ragg_1.2.2           </span></span>
+<span><span class="co">##  [97] googledrive_2.0.0     gargle_1.2.0          memoise_2.0.1        </span></span>
+<span><span class="co">## [100] fitdistrplus_1.1-8    ellipsis_0.3.2</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>
     </nav></aside>

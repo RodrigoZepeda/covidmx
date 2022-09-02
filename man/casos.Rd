@@ -125,28 +125,28 @@ Por default calcula el total de casos.
 }
 \examples{
 \dontrun{
-datos_covid <- descarga_datos_abiertos(language = "Espanol")
+datos_covid <- descarga_datos_abiertos()
 
 # Casos a nivel nacional
-datos_covid <- datos_covid \%>\% casos()
+datos_covid <- datos_covid |> casos()
 head(datos_covid$casos)
 
 # Defunciones nacional
-defunciones <- datos_covid \%>\% casos(defunciones = TRUE, list_name = "Defunciones")
+defunciones <- datos_covid |> casos(defunciones = TRUE, list_name = "Defunciones")
 
 # Positivos en Jalisco y Colima
-casos_col_jal <- datos_covid \%>\%
+casos_col_jal <- datos_covid |>
   casos(entidades = c("JALISCO", "COLIMA"), list_name = "Jaliscolima")
 
 # Agrupando casos por tipo de clasificacion
-confirmados <- datos_covid \%>\%
+confirmados <- datos_covid |>
   casos(
     entidades = c("JALISCO", "COLIMA"),
     group_by_tipo_clasificacion = TRUE, list_name = "Jaliscolima2"
   )
 
 # Regresa la suma de los de COLIMA + JALISCO
-casos_col_jal <- datos_covid \%>\%
+casos_col_jal <- datos_covid |>
   casos(
     entidades = c("JALISCO", "COLIMA"),
     group_by_tipo_clasificacion = TRUE,
@@ -156,7 +156,7 @@ casos_col_jal <- datos_covid \%>\%
   )
 
 # Si deseas agrupar por una variable que no este en las opciones
-casos_col_jal <- datos_covid \%>\%
+casos_col_jal <- datos_covid |>
   casos(
     entidades = c("JALISCO", "COLIMA"),
     group_by_tipo_clasificacion = TRUE,

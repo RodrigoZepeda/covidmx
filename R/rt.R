@@ -62,25 +62,28 @@
 #'
 #' @examples
 #' \dontrun{
-#' datos_covid <- descarga_datos_abiertos(language = "Espanol")
+#' datos_covid <- descarga_datos_abiertos()
 #'
 #' # Casos a nivel nacional en los confirmados
-#' datos_covid <- datos_covid %>%
-#'   estima_rt(tipo_clasificacion == "Confirmados COVID",
-#'     group_by_entidad = FALSE
+#' datos_covid <- datos_covid |>
+#'   estima_rt(
+#'     tipo_clasificacion = "Confirmados COVID",
+#'     group_by_entidad   = FALSE
 #'   )
 #'
 #' # Casos en AGS, CHI en los confirmados
-#' datos_covid <- datos_covid %>%
+#' datos_covid |>
 #'   estima_rt(
 #'     entidades = c("CHIHUAHUA", "AGUASCALIENTES"),
-#'     tipo_clasificacion == "Confirmados COVID",
-#'     group_by_entidad = TRUE
-#'   )
+#'     tipo_clasificacion = "Confirmados COVID",
+#'     group_by_entidad = TRUE, 
+#'     list_name = "rt_ch_ags"
+#'   ) |> 
+#'   plot_covid(df_name = "rt_ch_ags", df_date_index = "FECHA_SINTOMAS", 
+#'              df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA")
 #' }
 #'
 #' @export
-
 estima_rt <- function(datos_covid,
                       entidades = c(
                         "AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
@@ -122,13 +125,13 @@ estima_rt <- function(datos_covid,
                       ),
                       ...) {
   if (any(stringr::str_detect(names(datos_covid), list_name))) {
-    stop(glue::glue(
-      "Impossible to create variable {list_name} ",
-      "in datos_covid as it already exists"
-    ))
+    cli::cli_abort(
+      "Imposible crear elemento {list_name} pues ya existe en la lista.
+       Utiliza {.code list_name = 'nuevo_nombre'} para generar otro elemento"
+    )
   }
 
-  message("Estimando casos")
+  cli::cli_alert_info("Estimando casos")
   .casos <- casos(
     datos_covid = datos_covid,
     entidades = entidades,
@@ -154,39 +157,38 @@ estima_rt <- function(datos_covid,
     .grouping_vars = c()
   )[[list_name]]
 
-  message("Estimando RT")
+  cli::cli_alert_info("Estimando RT")
 
   # Detectamos cuál es la fecha
   fecha_name <- stringr::str_subset(colnames(.casos), "FECHA")
-  col_gp <- stringr::str_subset(colnames(.casos), "FECHA|\\bn\\b", negate = TRUE)
+  col_gp     <- stringr::str_subset(colnames(.casos), "FECHA|\\bn\\b", negate = TRUE)
 
   if (length(col_gp) > 0) {
     for (col in col_gp) {
-      .casos <- .casos %>%
+      .casos <- .casos |>
         dplyr::group_by_at(col, .add = TRUE)
     }
   }
 
-  .casos <- .casos %>%
-    dplyr::filter(!!as.symbol(fecha_name) >= !!min_date) %>%
+  .casos <- .casos |>
+    dplyr::filter(!!as.symbol(fecha_name) >= !!min_date) |>
     dplyr::filter(!!as.symbol(fecha_name) <= !!max_date)
 
-  mfec <- .casos[fecha_name] %>%
-    dplyr::summarise(!!as.symbol("min") := min(!!as.symbol(fecha_name))) %>%
+  mfec <- .casos[fecha_name] |>
+    dplyr::summarise(!!as.symbol("min") := min(!!as.symbol(fecha_name))) |>
     as.vector()
 
-  message("Calculando el RT")
-  df_rt <- .casos %>%
-    dplyr::arrange(!!as.symbol(fecha_name)) %>%
+  df_rt <- .casos |>
+    dplyr::arrange(!!as.symbol(fecha_name)) |>
     dplyr::summarise(EpiEstim::estimate_R(as.numeric(!!as.symbol("n")),
       method = method, config = config, ...
-    )$R) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(!!as.symbol(paste0(fecha_name, "_start")) := mfec$min[1] + lubridate::days(!!as.symbol("t_start"))) %>%
-    dplyr::mutate(!!as.symbol(paste0(fecha_name, "_end")) := mfec$min[1] + lubridate::days(!!as.symbol("t_end"))) %>%
+    )$R) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(!!as.symbol(paste0(fecha_name, "_start")) := mfec$min[1] + lubridate::days(!!as.symbol("t_start"))) |>
+    dplyr::mutate(!!as.symbol(paste0(fecha_name, "_end")) := mfec$min[1] + lubridate::days(!!as.symbol("t_end"))) |>
     dplyr::mutate(!!as.symbol(fecha_name) := mfec$min[1] + lubridate::days((!!as.symbol("t_start") + !!as.symbol("t_end")) / 2))
 
-  message("Terminado")
+  cli::cli_alert("Terminado")
   df_rt <- list(df_rt)
   names(df_rt) <- list_name
 

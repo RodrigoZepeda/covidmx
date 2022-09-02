@@ -2,11 +2,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom DBI dbConnect
-#' @importFrom DBI dbSendStatement
-#' @importFrom DBI dbClearResult
-#' @importFrom DBI dbWriteTable
-#' @importFrom DBI dbDisconnect
 #' @importFrom dplyr arrange_at
 #' @importFrom dplyr filter
 #' @importFrom dplyr group_by_at
@@ -25,7 +20,6 @@
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 scale_y_continuous
 #' @importFrom ggplot2 theme_classic
-#' @importFrom glue glue
 #' @importFrom RCurl url.exists
 #' @importFrom readr col_character
 #' @importFrom readr col_date
@@ -35,7 +29,6 @@
 #' @importFrom readr read_csv
 #' @importFrom readxl read_excel
 #' @importFrom rlang .data
-#' @importFrom RMariaDB MariaDB
 #' @importFrom scales comma
 #' @importFrom scales percent
 #' @importFrom stringr str_detect

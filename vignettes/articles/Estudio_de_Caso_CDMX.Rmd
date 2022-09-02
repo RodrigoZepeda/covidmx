@@ -32,26 +32,22 @@ library(MetBrewer) # Paletas de colores
 
 Y descargamos los datos:
 
-```{r, eval = FALSE}
-datos_covid <- descarga_datos_abiertos()
+```{r}
+datos_covid <- descarga_datos_abiertos(show_warnings = FALSE)
 ```
 
-```{r, echo = FALSE, message=FALSE, warning=FALSE}
-datos_covid <- read_datos_abiertos()
-```
 
-> **Nota** No olvides que necesitas instalar [MariaDB](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html) en todas las plataformas (o tener demasiada `RAM`) y en Windows adicionalmente requieres [`7zip`](https://www.7-zip.org/) u otro descompresor de archivos `zip` que no sea el `tar` default. 
 
 ## Casos semanales y número efectivo de reproducción
 
 Comenzamos con el primer panel para lo cual necesitamos correr dos funciones: la de casos y la del número efectivo de reproducción. Calculamos ambos seleccionando la entidad y sólo los confirmados:
 
 ```{r, message=FALSE}
-datos_covid <- datos_covid %>%
+datos_covid <- datos_covid |>
   #Calculamos los casos
   casos(entidades          = "CIUDAD DE MÉXICO",
         group_by_entidad   = FALSE,
-        tipo_clasificacion = "Confirmados COVID") %>%
+        tipo_clasificacion = "Confirmados COVID") |>
   #Y calculamos el estima_rt
   estima_rt(entidades = "CIUDAD DE MÉXICO",
      min_date  = as.Date("2021/11/20", format = "%Y/%m/%d"),
@@ -80,30 +76,30 @@ Generamos entonces una base única a partir del `2021/11/20` que contenga inform
 
 ```{r}
 #Limpiamos del estima_rt los últimas dos semanas porque se cae
-datos_covid$estima_rt <- datos_covid$estima_rt %>%
+datos_covid$estima_rt <- datos_covid$estima_rt |>
   filter(FECHA_SINTOMAS <= today() - weeks(2))
 
 #Filtramos las fechas para coincidir con el RT
-datos_covid$casos <- datos_covid$casos %>%
+datos_covid$casos <- datos_covid$casos |>
   filter(FECHA_SINTOMAS >= as.Date("2021/11/20", format = "%Y/%m/%d")) 
 
 #Asignamos semana epidemiológica y año para la coloración y colapsamos por semana
-datos_covid$casos <- datos_covid$casos %>%
-  mutate(SEMANA_EPI = epiweek(FECHA_SINTOMAS)) %>%
-  mutate(ANIO_EPI   = epiyear(FECHA_SINTOMAS)) %>%
-  group_by(SEMANA_EPI, ANIO_EPI) %>%
+datos_covid$casos <- datos_covid$casos |>
+  mutate(SEMANA_EPI = epiweek(FECHA_SINTOMAS)) |>
+  mutate(ANIO_EPI   = epiyear(FECHA_SINTOMAS)) |>
+  group_by(SEMANA_EPI, ANIO_EPI) |>
   summarise(n = sum(n), .groups = "keep")
 
 #Unimos la información de variantes
-datos_covid$casos <- datos_covid$casos %>%
+datos_covid$casos <- datos_covid$casos |>
   #Renombramos pues la base de variantes ya trae una n
-  rename(casos_covid = n) %>%
+  rename(casos_covid = n) |>
   #Juntamos la info de variantes
-  left_join(variantes, by = c("SEMANA_EPI" = "semana", "ANIO_EPI" = "ano")) %>%
+  left_join(variantes, by = c("SEMANA_EPI" = "semana", "ANIO_EPI" = "ano")) |>
   #Truco para convertir semana epidemiológica en fecha
   left_join(
-    tibble(fecha = seq(ymd("2021/11/20"), today(), by = "1 week")) %>%
-      mutate(SEMANA_EPI = epiweek(fecha)) %>%
+    tibble(fecha = seq(ymd("2021/11/20"), today(), by = "1 week")) |>
+      mutate(SEMANA_EPI = epiweek(fecha)) |>
       mutate(ANIO_EPI = epiyear(fecha)), 
     by = c("SEMANA_EPI", "ANIO_EPI")
   )
@@ -128,10 +124,10 @@ Sobreponemos el _RT_ y agregamos formato
 
 ```{r, warning=FALSE, fig.width=12}
 cdmx_rt <- ggplot() +
-  geom_col(aes(x = fecha, y = as.numeric(casos_covid)*freq, fill = variant), 
+  geom_col(aes(x = as.Date(fecha), y = as.numeric(casos_covid)*freq, fill = variant), 
            data = datos_covid$casos) +
   #Se multiplica por 40,000 para andar cerca de la media de casos
-  geom_line(aes(x = FECHA_SINTOMAS, 40000*`Median(R)`), data = datos_covid$estima_rt,
+  geom_line(aes(x = as.Date(FECHA_SINTOMAS), 40000*`Median(R)`), data = datos_covid$estima_rt,
             linetype = "solid", linewidth = 1) + 
   scale_fill_manual("Variante", values = met.brewer("Cross", n = 6)) +
   labs(
@@ -170,8 +166,8 @@ ocupacion_UM     <- descarga_datos_red_irag("Unidad Médica")
 Obtenemos entonces las unidades médicas con mayor ocupación en la fecha más reciente:
 
 ```{r}
-ocupacion_UM <- ocupacion_UM %>% 
-  filter(estado == "Ciudad de México") %>%
+ocupacion_UM <- ocupacion_UM |> 
+  filter(estado == "Ciudad de México") |>
   filter(fecha == max(fecha))
 ```
 
@@ -179,11 +175,11 @@ Por otro lado juntamos las bases de ocupación y de casos hospitalizados por fec
 
 ```{r}
 #Obtenemos la ocupación por estado
-ocupacion_cdmx <- ocupacion_estado %>%
+ocupacion_cdmx <- ocupacion_estado |>
   filter(estado == "Ciudad de México")
 
 #Y los casos hospitalizados por fecha de ingreso
-datos_covid <- datos_covid %>% casos(
+datos_covid <- datos_covid |> casos(
   entidades        = "CIUDAD DE MÉXICO",
   group_by_entidad = FALSE,
   fecha_tipo       = "Ingreso",
@@ -192,7 +188,7 @@ datos_covid <- datos_covid %>% casos(
 )
 
 #Pegamos en la misma base
-datos_covid$hospitalizados <- datos_covid$hospitalizados %>%
+datos_covid$hospitalizados <- datos_covid$hospitalizados |>
   left_join(ocupacion_cdmx, by = c("FECHA_INGRESO" = "fecha"))
 ```
 
@@ -207,9 +203,9 @@ colores     <- met.brewer("Cross")
   
 #Reescalamos el porcentaje para que aparezca
 plot_hospitalizados <- ggplot(datos_covid$hospitalizados) +
-  geom_area(aes(x = FECHA_INGRESO, y = hospitalizados_percent/100*m_pacientes),
+  geom_area(aes(x = as.Date(FECHA_INGRESO), y = hospitalizados_percent/100*m_pacientes),
             fill = colores[8], alpha = 0.25) +
-  geom_line(aes(x = FECHA_INGRESO, y = as.double(n)), color = colores[1]) +
+  geom_line(aes(x = as.Date(FECHA_INGRESO), y = as.double(n)), color = colores[1]) +
   theme_minimal() +
   coord_cartesian(xlim = c(ymd("2020/04/02"), today())) +
   scale_x_date(date_breaks = "3 months", date_labels = "%b-%Y", expand = c(0,0)) +
@@ -238,10 +234,10 @@ Por otro lado graficamos la ocupación por unidad:
 
 ```{r}
 #Arreglamos como factor y quitamos los de cero ocupación
-ocupacion_UM <- ocupacion_UM %>%
+ocupacion_UM <- ocupacion_UM |>
   mutate(unidad_medica = factor(unidad_medica, 
                                 levels = unidad_medica[order(hospitalizados_percent)],
-                                ordered = TRUE)) %>%
+                                ordered = TRUE)) |>
   filter(hospitalizados_percent > 0)
 
 #Reescalamos el porcentaje para que aparezca
@@ -277,7 +273,7 @@ plot_hosp
 Generamos la gráfica de positividad donde además se coloque el número de pruebas por semana. Para ello calculamos tanto la positividad como el número de pruebas:
 
 ```{r, message=FALSE}
-datos_covid <- datos_covid %>%
+datos_covid <- datos_covid |>
   #Calculamos también la positividad
   positividad(
     entidades            = "CIUDAD DE MÉXICO", 
@@ -291,16 +287,16 @@ Generamos la gráfica de positividad distinguiendo por tipo de prueba:
 
 ```{r, warning=FALSE}
 #Nos quedamos sólo a  partir de 2022
-datos_covid$positividad <- datos_covid$positividad %>%
+datos_covid$positividad <- datos_covid$positividad |>
   filter(year(FECHA_SINTOMAS) >= 2022)
 
 #Para poner al nivel
 mpruebas         <- max(datos_covid$positividad$n_pruebas) |> as.numeric()
 
 positividad_plot <- ggplot(datos_covid$positividad) +
-  geom_col(aes(x = FECHA_SINTOMAS, y = as.numeric(n_pruebas), fill = TIPO_PRUEBA), 
+  geom_col(aes(x = as.Date(FECHA_SINTOMAS), y = as.numeric(n_pruebas), fill = TIPO_PRUEBA), 
            alpha = 0.25) +
-  geom_line(aes(x = FECHA_SINTOMAS, y = Positividad*mpruebas, color = TIPO_PRUEBA)) +
+  geom_line(aes(x = as.Date(FECHA_SINTOMAS), y = Positividad*mpruebas, color = TIPO_PRUEBA)) +
   theme_minimal() +
   scale_x_date(date_breaks = "1 month", date_labels = "%b-%Y", expand = c(0,0)) +
   labs(
@@ -331,7 +327,7 @@ Por último generamos la gráfica de defunciones. Para ello tomamos la misma fun
 
 ```{r}
 #Calculamos las defunciones por grupo de edad
-datos_covid <- datos_covid %>%
+datos_covid <- datos_covid |>
   casos(
     entidades        = "CIUDAD DE MÉXICO",
     group_by_entidad = FALSE,
@@ -344,11 +340,11 @@ datos_covid <- datos_covid %>%
 
 ```{r}
 #Nos quedamos sólo con 2022
-datos_covid$defunciones <- datos_covid$defunciones %>%
+datos_covid$defunciones <- datos_covid$defunciones |>
   filter(year(FECHA_DEF) == 2022)
 
 plot_defunciones <- ggplot(datos_covid$defunciones) +
-  geom_col(aes(x = FECHA_DEF, y = as.numeric(n), fill = EDAD_CAT)) +
+  geom_col(aes(x = as.Date(FECHA_DEF), y = as.numeric(n), fill = EDAD_CAT)) +
   facet_wrap(~EDAD_CAT, scales = "free_y") +
   theme_minimal() +
   labs(
@@ -401,4 +397,11 @@ plot_grid(plot_title, gráfica_sin_titulo, ncol = 1, rel_heights = c(0.1, 1))
 ```{r, echo = FALSE}
 knitr::include_graphics("CDMX.png")
 ```
+
+## Información adicional
+
+```{r}
+sessionInfo()
+```
+
 

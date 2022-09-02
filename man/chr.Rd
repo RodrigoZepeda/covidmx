@@ -110,21 +110,21 @@ This is not an official product / este no es un producto oficial
 }
 \examples{
 \dontrun{
-datos_covid <- descarga_datos_abiertos(language = "Espanol")
+datos_covid <- descarga_datos_abiertos()
 
 # Casos a nivel nacional
-datos_covid <- datos_covid \%>\% chr()
+datos_covid <- datos_covid |> chr()
 head(datos_covid$`case hospitalization rate`)
 
 # Nacional
-datos_covid <- datos_covid \%>\% chr(list_name = "chr nacional", group_by_entidad = F)
+datos_covid <- datos_covid |> chr(list_name = "chr nacional", group_by_entidad = F)
 
 # CFR en Jalisco y Colima
-datos_covid <- datos_covid \%>\%
+datos_covid <- datos_covid |>
   chr(entidades = c("JALISCO", "COLIMA"), list_name = "chr_Jaliscolima")
 
 # Calcula el CHR suponiendo toda la base son confirmados
-datos_covid <- datos_covid \%>\%
+datos_covid <- datos_covid |>
   chr(
     entidades = c("JALISCO", "COLIMA"),
     tipo_clasificacion = c(
@@ -135,7 +135,7 @@ datos_covid <- datos_covid \%>\%
   )
 
 # Distinguiendo sólo entre defunciones
-datos_covid <- datos_covid \%>\%
+datos_covid <- datos_covid |>
   chr(
     entidades = c("JALISCO", "COLIMA"),
     defunciones = TRUE,
@@ -143,7 +143,7 @@ datos_covid <- datos_covid \%>\%
   )
 
 # Si deseas agrupar por una variable que no este en las opciones
-datos_covid <- datos_covid \%>\%
+datos_covid <- datos_covid |>
   chr(.grouping_vars = c("DIABETES"), list_name = "chr_diab")
 }
 
