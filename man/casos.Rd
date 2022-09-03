@@ -166,5 +166,4 @@ casos_col_jal <- datos_covid |>
     .grouping_vars = c("DIABETES")
   )
 }
-
 }
