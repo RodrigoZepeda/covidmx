@@ -86,7 +86,7 @@ plot_covid <- function(datos_covid,
     )
   }
 
-  if (!requireNamespace("ggformula", quietly = TRUE)) {
+  if (!requireNamespace("ggformula", quietly = TRUE) & type[1] == "spline") {
     cli::cli_abort(
       "Necesitas instalar {.code ggformula} para {.code splines}",
       call. = FALSE

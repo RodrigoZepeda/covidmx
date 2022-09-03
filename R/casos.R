@@ -132,7 +132,6 @@
 #'     .grouping_vars = c("DIABETES")
 #'   )
 #' }
-#'
 #' @export
 
 casos <- function(datos_covid,

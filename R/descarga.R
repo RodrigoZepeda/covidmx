@@ -915,11 +915,11 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
     #Pragma memory limit
     DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit,"'"))
     
-    cli::cli_alert("Cargando los datos en duckdb")
+    cli::cli_alert_info("Cargando los datos en duckdb")
     duckdb::duckdb_read_csv(con, tblname, unlist(datos_abiertos_unzipped_path), 
                             colClasses = colClasses)
     
-    cli::cli_alert("Tabla creada: conexion en proceso")
+    cli::cli_alert_info("Tabla creada: conexion en proceso")
     dats <- dplyr::tbl(con, tblname)
     
     #Formateo
@@ -951,7 +951,7 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
   }
 
   if (clear_csv){
-    cli::cli_alert("Removiendo los archivos .csv")
+    cli::cli_alert_info("Removiendo los archivos .csv")
     for (fname in datos_abiertos_unzipped_path){
       if (file.exists(fname)) {
         file.remove(fname)
