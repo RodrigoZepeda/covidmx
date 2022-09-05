@@ -239,7 +239,7 @@ read_datos_abiertos_duckdb <- function(dbdir,
 
   # Creamos función de desconexión
   disconnect <- function() {
-    duckdb::dbDisconnect(con)
+    duckdb::dbDisconnect(con, shutdown = TRUE)
     cli::cli_alert_success("Desconectado")
   }
   
