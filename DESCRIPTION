@@ -4,7 +4,8 @@ Version: 0.6.0.0000
 Authors@R: 
     c(person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4471-5270")),
-           person("Mauricio", "Hernandez-Avila", role = c("aut")))
+           person("Mauricio", "Hernandez-Avila", role = c("aut")),
+           person(given = "Instituto Mexicano del Seguro Social", role = c("cph", "fnd")))
 Description: Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia  de Mexico, la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) y la Global Initiative on  Sharing All Influenza Data (GISAID). EN: Downloads and analyzes data for COVID-19 from the  Mexican General Directorate of Epidemiology, the IRAG network and GISAID. 
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -52,4 +53,4 @@ Depends:
     R (>= 4.2.0)
 LazyData: true
 Config/testthat/edition: 3
-Config/testthat/parallel: false
+Config/testthat/parallel: true

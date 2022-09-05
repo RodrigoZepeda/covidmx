@@ -24,7 +24,7 @@ test_that("duckdb", {
   #Lectura con duckdb
   datos_covid <- read_datos_abiertos(datos_abiertos_path = tempduck, use_dict = FALSE,
                                      read_format = "duckdb", tblname = "test", quiet = TRUE, 
-                                     show_warnings = F, force_download = T)
+                                     show_warnings = F, force_download = T, read_only = TRUE)
   expect_gt(as.numeric(dplyr::collect(dplyr::tally(datos_covid$dats))[[1]]), 0)
   datos_covid$disconnect()
   

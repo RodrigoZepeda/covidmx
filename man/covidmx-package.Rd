@@ -25,5 +25,10 @@ Authors:
   \item Mauricio Hernandez-Avila
 }
 
+Other contributors:
+\itemize{
+  \item Instituto Mexicano del Seguro Social [copyright holder, funder]
+}
+
 }
 \keyword{internal}
