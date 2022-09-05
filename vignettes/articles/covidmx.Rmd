@@ -624,7 +624,7 @@ estatales <- descarga_datos_red_irag()
 Los cuales se ven así:
 
 ```{r ocupacion, fig.height=16, fig.width=8}
-estatales |> plot_covid(df_covariates = "estado")
+estatales |> plot_covid(df_covariates = "Estado")
 ```
 
 O bien por unidad médica:

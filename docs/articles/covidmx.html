@@ -153,7 +153,7 @@ tardado hacerlo:</p>
 <code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dats</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: ??</span></span>
 <span><span class="co">#&gt; Columns: 40</span></span>
-<span><span class="co">#&gt; Database: DuckDB 0.3.5-dev1410 [root@Darwin 21.5.0:R 4.2.0//var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpefZHzx/file101993d28f3ce.duckdb]</span></span>
+<span><span class="co">#&gt; Database: DuckDB 0.3.5-dev1410 [root@Darwin 21.5.0:R 4.2.0//var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//Rtmp3x4EDm/file135581140e758.duckdb]</span></span>
 <span><span class="co">#&gt; $ FECHA_ACTUALIZACION   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2022-07-14, 2022-07-14, 2022-07-14, 2022-07-14,…</span></span>
 <span><span class="co">#&gt; $ ID_REGISTRO           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "78ce0b", "526821", "4ab051", "ba3171", "b970bb"…</span></span>
 <span><span class="co">#&gt; $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, …</span></span>
@@ -387,7 +387,7 @@ volver a descargar.</p>
 descargamos arriba con <code>descarga_datos_abiertos</code>)</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diccionario_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_diccionario</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: La descarga mas reciente de fue hace 0.04163 dias. Como tiene menos de un dia</span></span>
+<span><span class="co">#&gt; Warning: La descarga mas reciente de fue hace 0.02222 dias. Como tiene menos de un dia</span></span>
 <span><span class="co">#&gt; usare esa. Escribe `force_download = TRUE` si quieres descargar de todas</span></span>
 <span><span class="co">#&gt; formas. Para desactivar este mensaje `show_warnings = FALSE.`</span></span></code></pre></div>
 <p>Si de todas maneras quieres reintentar la descarga puedes usar
@@ -951,12 +951,12 @@ hacer:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
 <span><span class="co">#&gt;   variant     semana   ano     n  freq Actualizacion       Fuente               </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> VOI Epsilon     28  <span style="text-decoration: underline;">2</span>020     1     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> VOI Epsilon     38  <span style="text-decoration: underline;">2</span>020     1     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> VOC Delta       39  <span style="text-decoration: underline;">2</span>020     2     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> VOI Epsilon     46  <span style="text-decoration: underline;">2</span>020     1     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> VOI Epsilon     47  <span style="text-decoration: underline;">2</span>020     2     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> VOI Epsilon     48  <span style="text-decoration: underline;">2</span>020     5     1 2022-09-01 <span style="color: #949494;">03:16:35</span> GISAID: https://www.…</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> VOI Epsilon     28  <span style="text-decoration: underline;">2</span>020     1     1 2022-09-05 <span style="color: #949494;">03:14:30</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> VOI Epsilon     38  <span style="text-decoration: underline;">2</span>020     1     1 2022-09-05 <span style="color: #949494;">03:14:30</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> VOC Delta       39  <span style="text-decoration: underline;">2</span>020     2     1 2022-09-05 <span style="color: #949494;">03:14:30</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> VOI Epsilon     46  <span style="text-decoration: underline;">2</span>020     1     1 2022-09-05 <span style="color: #949494;">03:14:30</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> VOI Epsilon     47  <span style="text-decoration: underline;">2</span>020     2     1 2022-09-05 <span style="color: #949494;">03:14:30</span> GISAID: https://www.…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> VOI Epsilon     48  <span style="text-decoration: underline;">2</span>020     5     1 2022-09-05 <span style="color: #949494;">03:14:30</span> GISAID: https://www.…</span></span></code></pre></div>
 <p>Por <code>default</code> baja nacional pero también puedes usar
 “cdmx”:</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
@@ -1013,8 +1013,8 @@ de la publicación diaria en <a href="https://github.com/RodrigoZepeda/Capacidad
 <code class="sourceCode R"><span><span class="va">estatales</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Los cuales se ven así:</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">estatales</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_covariates <span class="op">=</span> <span class="st">"estado"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_variable` no fue especificada. Usaremos la columna hospitalizados_percent</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">estatales</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_covariates <span class="op">=</span> <span class="st">"Estado"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> `df_variable` no fue especificada. Usaremos la columna Hospitalizados (%)</span></span></code></pre></div>
 <p><img src="covidmx_files/figure-html/ocupacion-1.png" width="768"></p>
 <p>O bien por unidad médica:</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
@@ -1023,7 +1023,7 @@ de la publicación diaria en <a href="https://github.com/RodrigoZepeda/Capacidad
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unidad_medica</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
-<span><span class="co">#&gt;   unidad_medica          estado insti…¹ clues hospi…² venti…³ uci_y…⁴ fecha     </span></span>
+<span><span class="co">#&gt;   `Unidad médica`        Estado Insti…¹ CLUES Hospi…² Venti…³ UCI y…⁴ Fecha     </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Hospital Regional de … México SSA/CC  MCSS…     100      17      33 2020-04-01</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Hospital Juárez de Mé… Ciuda… SSA/CC  DFSS…     100      89      89 2020-04-01</span></span>
@@ -1031,9 +1031,9 @@ de la publicación diaria en <a href="https://github.com/RodrigoZepeda/Capacidad
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Instituto Nacional de… Ciuda… SSA/CC  DFSS…     100      94      94 2020-04-01</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Instituto Nacional de… Ciuda… SSA/CC  DFSS…     100      50      50 2020-04-01</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Instituto Nacional de… Ciuda… SSA/CC  DFSS…     100      10      10 2020-04-01</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: actualizacion &lt;dttm&gt;, and abbreviated variable names</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​institucion, ²​hospitalizados_percent, ³​ventilacion_percent,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​uci_y_ventilacion_percent</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: Actualizacion &lt;dttm&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​Institución, ²​`Hospitalizados (%)`, ³​`Ventilación (%)`,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​`UCI y Ventilación (%)`</span></span></span></code></pre></div>
 <p>En este caso, la descarga también es inteligente y necesitas poner
 <code>force_download = TRUE</code> si ha pasado menos de un día de tu
 última descarga (almacenada mediante <code>pins</code> en cache) y
@@ -1139,20 +1139,19 @@ desconectarte:</p>
 <span><span class="co">#&gt;  [58] magrittr_2.0.3        Matrix_1.4-1          Rcpp_1.0.9           </span></span>
 <span><span class="co">#&gt;  [61] munsell_0.5.0         fansi_1.0.3           MetBrewer_0.2.0      </span></span>
 <span><span class="co">#&gt;  [64] lifecycle_1.0.1       stringi_1.7.8         yaml_2.3.5           </span></span>
-<span><span class="co">#&gt;  [67] snakecase_0.11.0      MASS_7.3-58.1         plyr_1.8.7           </span></span>
-<span><span class="co">#&gt;  [70] ggstance_0.3.5        grid_4.2.0            blob_1.2.3           </span></span>
-<span><span class="co">#&gt;  [73] parallel_4.2.0        forcats_0.5.2         crayon_1.5.1         </span></span>
-<span><span class="co">#&gt;  [76] lattice_0.20-45       splines_4.2.0         haven_2.5.1          </span></span>
-<span><span class="co">#&gt;  [79] hms_1.1.2             knitr_1.40            pillar_1.8.1         </span></span>
-<span><span class="co">#&gt;  [82] reshape2_1.4.4        glue_1.6.2            evaluate_0.16        </span></span>
-<span><span class="co">#&gt;  [85] vctrs_0.4.1           tzdb_0.3.0            tweenr_2.0.1         </span></span>
-<span><span class="co">#&gt;  [88] MatrixModels_0.5-0    cellranger_1.1.0      gtable_0.3.1         </span></span>
-<span><span class="co">#&gt;  [91] purrr_0.3.4           polyclip_1.10-0       tidyr_1.2.0          </span></span>
-<span><span class="co">#&gt;  [94] incidence_1.7.3       assertthat_0.2.1      cachem_1.0.6         </span></span>
-<span><span class="co">#&gt;  [97] xfun_0.32             pins_1.0.2            ggforce_0.3.4        </span></span>
-<span><span class="co">#&gt; [100] janitor_2.1.0         coda_0.19-4           survival_3.4-0       </span></span>
-<span><span class="co">#&gt; [103] ragg_1.2.2            tibble_3.1.8          memoise_2.0.1        </span></span>
-<span><span class="co">#&gt; [106] fitdistrplus_1.1-8    ellipsis_0.3.2</span></span></code></pre></div>
+<span><span class="co">#&gt;  [67] MASS_7.3-58.1         plyr_1.8.7            ggstance_0.3.5       </span></span>
+<span><span class="co">#&gt;  [70] grid_4.2.0            blob_1.2.3            parallel_4.2.0       </span></span>
+<span><span class="co">#&gt;  [73] forcats_0.5.2         crayon_1.5.1          lattice_0.20-45      </span></span>
+<span><span class="co">#&gt;  [76] splines_4.2.0         haven_2.5.1           hms_1.1.2            </span></span>
+<span><span class="co">#&gt;  [79] knitr_1.40            pillar_1.8.1          reshape2_1.4.4       </span></span>
+<span><span class="co">#&gt;  [82] glue_1.6.2            evaluate_0.16         vctrs_0.4.1          </span></span>
+<span><span class="co">#&gt;  [85] tzdb_0.3.0            tweenr_2.0.1          MatrixModels_0.5-0   </span></span>
+<span><span class="co">#&gt;  [88] cellranger_1.1.0      gtable_0.3.1          purrr_0.3.4          </span></span>
+<span><span class="co">#&gt;  [91] polyclip_1.10-0       tidyr_1.2.0           incidence_1.7.3      </span></span>
+<span><span class="co">#&gt;  [94] assertthat_0.2.1      cachem_1.0.6          xfun_0.32            </span></span>
+<span><span class="co">#&gt;  [97] pins_1.0.2            ggforce_0.3.4         coda_0.19-4          </span></span>
+<span><span class="co">#&gt; [100] survival_3.4-0        ragg_1.2.2            tibble_3.1.8         </span></span>
+<span><span class="co">#&gt; [103] memoise_2.0.1         fitdistrplus_1.1-8    ellipsis_0.3.2</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>
     </nav></aside>

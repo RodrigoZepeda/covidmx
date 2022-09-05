@@ -167,8 +167,8 @@ Obtenemos entonces las unidades médicas con mayor ocupación en la fecha más r
 
 ```{r}
 ocupacion_UM <- ocupacion_UM |> 
-  filter(estado == "Ciudad de México") |>
-  filter(fecha == max(fecha))
+  filter(Estado == "Ciudad de México") |>
+  filter(Fecha == max(Fecha))
 ```
 
 Por otro lado juntamos las bases de ocupación y de casos hospitalizados por fecha de ingreso
@@ -176,7 +176,7 @@ Por otro lado juntamos las bases de ocupación y de casos hospitalizados por fec
 ```{r}
 #Obtenemos la ocupación por estado
 ocupacion_cdmx <- ocupacion_estado |>
-  filter(estado == "Ciudad de México")
+  filter(Estado == "Ciudad de México")
 
 #Y los casos hospitalizados por fecha de ingreso
 datos_covid <- datos_covid |> casos(
@@ -189,7 +189,7 @@ datos_covid <- datos_covid |> casos(
 
 #Pegamos en la misma base
 datos_covid$hospitalizados <- datos_covid$hospitalizados |>
-  left_join(ocupacion_cdmx, by = c("FECHA_INGRESO" = "fecha"))
+  left_join(ocupacion_cdmx, by = c("FECHA_INGRESO" = "Fecha"))
 ```
 
 Finalmente realizamos la gráfica
@@ -203,7 +203,7 @@ colores     <- met.brewer("Cross")
   
 #Reescalamos el porcentaje para que aparezca
 plot_hospitalizados <- ggplot(datos_covid$hospitalizados) +
-  geom_area(aes(x = as.Date(FECHA_INGRESO), y = hospitalizados_percent/100*m_pacientes),
+  geom_area(aes(x = as.Date(FECHA_INGRESO), y = `Hospitalizados (%)`/100*m_pacientes),
             fill = colores[8], alpha = 0.25) +
   geom_line(aes(x = as.Date(FECHA_INGRESO), y = as.double(n)), color = colores[1]) +
   theme_minimal() +
@@ -235,14 +235,14 @@ Por otro lado graficamos la ocupación por unidad:
 ```{r}
 #Arreglamos como factor y quitamos los de cero ocupación
 ocupacion_UM <- ocupacion_UM |>
-  mutate(unidad_medica = factor(unidad_medica, 
-                                levels = unidad_medica[order(hospitalizados_percent)],
+  mutate(`Unidad médica` = factor(`Unidad médica`, 
+                                levels = `Unidad médica`[order(`Hospitalizados (%)`)],
                                 ordered = TRUE)) |>
-  filter(hospitalizados_percent > 0)
+  filter(`Hospitalizados (%)` > 0)
 
 #Reescalamos el porcentaje para que aparezca
 plot_ocupacion <- ggplot(ocupacion_UM) +
-  geom_col(aes(x = unidad_medica, y = hospitalizados_percent/100, fill = hospitalizados_percent)) +
+  geom_col(aes(x = `Unidad médica`, y = `Hospitalizados (%)`/100, fill = `Hospitalizados (%)`)) +
   labs(
     x = "", 
     y = "Ocupación de la Unidad Médica (%)",
