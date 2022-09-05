@@ -117,13 +117,28 @@ estima_rt <- function(datos_covid,
                       min_date = as.Date("2021/11/21", format = "%Y/%m/%d"),
                       max_date = as.Date(Sys.time()),
                       method = "parametric_si",
-                      config = EpiEstim::make_config(
-                        list(
-                          mean_si = 3.5,
-                          std_si = 1.5
-                        )
-                      ),
+                      config = if (requireNamespace("EpiEstim", quietly = TRUE)) {
+                        EpiEstim::make_config(
+                          list(
+                            mean_si = 3.5,
+                            std_si = 1.5
+                          ))} else {NULL},
                       ...) {
+  
+  if (!requireNamespace("EpiEstim", quietly = TRUE)){
+    cli::cli_abort(
+     "Por favor instala {.code EpiEstim} para poder calcular el RT con
+     {.code install.packages('EpiEstim')}"
+    )
+  }
+  
+  if (!requireNamespace("lubridate", quietly = TRUE)){
+    cli::cli_abort(
+      "Por favor instala {.code lubridate} para poder calcular el RT con
+     {.code install.packages('lubridate')}"
+    )
+  }
+  
   if (any(stringr::str_detect(names(datos_covid), list_name))) {
     cli::cli_abort(
       "Imposible crear elemento {list_name} pues ya existe en la lista.

@@ -73,6 +73,13 @@ plot_covid <- function(datos_covid,
                          legend.position = "none"
                        ), ...) {
   
+  if (!requireNamespace("ggplot2", quietly = TRUE)){
+    cli::cli_abort(
+      "Para graficar, por favor instala {.code ggplot2} y {.code scales} haciendo
+      {.code install.packages(c('ggplot2','scales'))}"
+    )
+  }
+  
   if (tibble::is_tibble(datos_covid)) {
     datos_covid <- list("datos_covid" = datos_covid)
     df_name     <- "datos_covid"

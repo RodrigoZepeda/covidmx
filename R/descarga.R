@@ -348,7 +348,7 @@ descarga_db <- function(read_format = c("duckdb", "tibble"),
 
   # Descargamos los datos de la ssa
   if (is.null(datos_abiertos_zip_paths) & is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)) {
-    cli::cli_alert_info("Descargando la informacion")
+    cli::cli_alert_info("Descargando la informacion. Ten paciencia esto tarda.")
     descarga_db_datos_abiertos_tbl_args <- list(
       "download_process"     = download_process,
       "sites.covid"          = sites.covid,
@@ -503,7 +503,7 @@ descarga_db_datos_abiertos_tbl <- function(download_process = c("pins", "downloa
   download_process <- ifelse(download_process[1] == "download.file", "download.file", "pins")
   download_paths   <- vector(mode = "list", length = length(sites.covid))
   
-  cli::cli_progress_bar(total = length(sites.covid))
+  cli::cli_progress_bar("Descargando", total = length(sites.covid))
   
   for (sitenum in 1:length(sites.covid)){
     
@@ -624,7 +624,7 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_paths,
                                         clear_zip = FALSE) {
 
   
-  cli::cli_progress_bar(total = length(datos_abiertos_zip_paths))
+  cli::cli_progress_bar("Leyendo archivos zip", total = length(datos_abiertos_zip_paths))
   csv_files   <- vector(mode = "list", length = length(datos_abiertos_zip_paths))
   
   for (zipnum in 1:length(datos_abiertos_zip_paths)){
@@ -840,6 +840,11 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
   } else {
     cli::cli_abort("{.code read_format} invalido. Selecciona {.code 'duckdb'} o {.code 'tibble'}")
   }
+  
+  #Check we have dbplyr
+  if (!requireNamespace("dbplyr", quietly = TRUE) & read_format == "duckdb"){
+    cli::cli_abort("Por favor instala {.code dbplyr} con {.code install.packages('dbplyr')}")
+  }
 
 
   if (read_format == "tibble") {
@@ -915,11 +920,11 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
     #Pragma memory limit
     DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit,"'"))
     
-    cli::cli_alert_info("Cargando los datos en duckdb")
+    cli::cli_alert_info("Cargando los datos en duckdb...")
     duckdb::duckdb_read_csv(con, tblname, unlist(datos_abiertos_unzipped_path), 
                             colClasses = colClasses)
     
-    cli::cli_alert_info("Tabla creada: conexion en proceso")
+    cli::cli_alert_info("Tabla creada: conexion en proceso...")
     dats <- dplyr::tbl(con, tblname)
     
     #Formateo

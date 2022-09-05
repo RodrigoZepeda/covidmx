@@ -22,7 +22,12 @@ estima_rt(
   min_date = as.Date("2021/11/21", format = "\%Y/\%m/\%d"),
   max_date = as.Date(Sys.time()),
   method = "parametric_si",
-  config = EpiEstim::make_config(list(mean_si = 3.5, std_si = 1.5)),
+  config = if (requireNamespace("EpiEstim", quietly = TRUE)) {
+    
+    EpiEstim::make_config(list(mean_si = 3.5, std_si = 1.5))
+ } else {
+     NULL
+ },
   ...
 )
 }

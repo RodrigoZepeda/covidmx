@@ -96,8 +96,7 @@ descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
         Fecha         = readr::col_date(format = "%Y-%m-%d"),
         Actualizacion = readr::col_datetime(format = "%Y-%m-%dT%H:%M:%SZ")
       )
-    ) |>
-    janitor::clean_names()
+    ) 
 
   # Escribimos en el pin que ya descargamos
   pin_write_download_time(board, nivel[1])
