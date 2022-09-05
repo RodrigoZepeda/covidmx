@@ -943,7 +943,7 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
 
     # Creamos funcion de desconexion
     disconnect <- function() {
-      duckdb::dbDisconnect(con)
+      duckdb::dbDisconnect(con, shutdown = TRUE)
       cli::cli_alert_success("Desconectado")
     }
 
