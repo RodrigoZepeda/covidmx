@@ -100,11 +100,82 @@ Zepeda</h4>
 
     
     
-<div class="section level2">
-<h2 id="por-qué-me-conviene-usar-covidmx">¿Por qué me conviene usar <code>covidmx</code>?<a class="anchor" aria-label="anchor" href="#por-qu%C3%A9-me-conviene-usar-covidmx"></a>
-</h2>
+<div class="section level3">
+<h3 id="por-qué-me-conviene-usar-covidmx">¿Por qué me conviene usar <code>covidmx</code>?<a class="anchor" aria-label="anchor" href="#por-qu%C3%A9-me-conviene-usar-covidmx"></a>
+</h3>
 <p>Centraliza la información y la lectura de la base es más rápida que
-lo que ocurriría normalmente</p>
+lo que ocurriría normalmente. Gracias a <code>covidmx</code> pierdes
+menos tiempo descargando y le dedicas más tiempo a analizar.</p>
+</div>
+<div class="section level3">
+<h3 id="para-qué-me-sirve-la-descarga-con-pins">¿Para qué me sirve la descarga con <code>pins</code>?<a class="anchor" aria-label="anchor" href="#para-qu%C3%A9-me-sirve-la-descarga-con-pins"></a>
+</h3>
+<p>El paquete de <a href="https://pins.rstudio.com/" class="external-link"><code>pins</code></a> registra una
+dirección web y verifica que no haya cambiado el archivo presente en la
+dirección antes de descargar de nuevo. Esto te permite no perder tanto
+tiempo en la descarga.</p>
+</div>
+<div class="section level3">
+<h3 id="para-qué-me-sirve-duckdb">¿Para qué me sirve <code>duckdb</code>?<a class="anchor" aria-label="anchor" href="#para-qu%C3%A9-me-sirve-duckdb"></a>
+</h3>
+<p><a href="https://duckdb.org/docs/guides/index" class="external-link"><code>duckdb</code></a> es
+un sistema de bases de datos caracterizado por su velocidad y por leer
+de memoria (disco duro) las bases. Usando <code>duckdb</code> tu
+computadora no sufre por poca <code>RAM</code> y opera más rápido que
+con un <code>tibble</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="cómo-guardar-la-base-descargada">Cómo guardar la base descargada<a class="anchor" aria-label="anchor" href="#c%C3%B3mo-guardar-la-base-descargada"></a>
+</h3>
+<p>Utiliza la opción <code>dbdir</code> para crear un archivo
+<code>.duckdb</code> y guardar tus datos en formato <code>duckdb</code>.
+Como ejemplo:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Descarga y almacena en archivo duckdb</span></span>
+<span><span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>dbdir <span class="op">=</span> <span class="st">"ejemplo.duckdb"</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co">#Lee de archivo duckdb</span></span>
+<span><span class="fu"><a href="../reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span>dbdir <span class="op">=</span> <span class="st">"ejemplo.duckdb"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="deseo-aplicar-una-función-directamente-a-datos_coviddats-y-se-vuelve-muy-lento-se-acaba-la-memoria">Deseo aplicar una función directamente a
+<code>datos_covid$dats</code> y se vuelve muy lento / se acaba la
+memoria<a class="anchor" aria-label="anchor" href="#deseo-aplicar-una-funci%C3%B3n-directamente-a-datos_coviddats-y-se-vuelve-muy-lento-se-acaba-la-memoria"></a>
+</h3>
+<p>Probablemente la función no tenga un equivalente en
+<code>duckdb</code>. La recomendación es aplicar la mayor cantidad de
+filtros y selecciones que puedas en <code>duckdb</code> y después
+aplicarle la función que quieras. Ejemplo:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">covidmx</span><span class="fu">::</span><span class="va"><a href="../reference/datosabiertos.html">datosabiertos</a></span></span>
+<span></span>
+<span><span class="co">#No recomendado primero aplicar función ajena a duck y luego semana</span></span>
+<span><span class="co">#tampoco se recomienda quedarte con todas las variables</span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dats</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>dia_semana <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/day.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SEXO</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co">#Recomendado: quedarte solo las variables q necesitas y primero aplicar</span></span>
+<span><span class="co">#las funciones de dbplyr</span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">SEXO</span>, <span class="va">FECHA_SINTOMAS</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SEXO</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>dia_semana <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/day.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="al-leer-con-tibble-se-me-acaba-la-memoria">Al leer con <code>tibble</code> se me acaba la memoria<a class="anchor" aria-label="anchor" href="#al-leer-con-tibble-se-me-acaba-la-memoria"></a>
+</h3>
+<p>Esto es normal pues los <code>tibble</code> viven en tu memoria
+<code>RAM</code>. Cambia <code>read_format</code> a
+<code>"duckdb"</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="al-leer-con-duckdb-se-me-acaba-la-memoria">Al leer con <code>duckdb</code> se me acaba la memoria<a class="anchor" aria-label="anchor" href="#al-leer-con-duckdb-se-me-acaba-la-memoria"></a>
+</h3>
+<p>Esto es normal si tu memoria <code>RAM</code> es pequeña. Cambia
+<code>pragma_memory_limit = "1GB"</code> a algo más pequeño tomando en
+cuenta que el límite de <a href="https://duckdb.org/docs/sql/pragmas" class="external-link">PRAGMA</a> siempre debe ser
+menor al de tu <code>RAM</code> (recomiendo la mitad o menos).</p>
 </div>
 <div class="section level2">
 <h2 id="errores-comunes">Errores comunes<a class="anchor" aria-label="anchor" href="#errores-comunes"></a>
@@ -117,7 +188,7 @@ another process.<a class="anchor" aria-label="anchor" href="#error-rapi_startup-
 <p>El problema es que estás usando el <code>driver</code> de
 <code>duckdb</code> en otro lado. Prueba la opción con
 <code>read_only</code>:
-<code>drv = duckdb::duckdb(read_only = TRUE)</code>.</p>
+<code>drv = duckdb::duckdb(dbdir = 'tu/archivo.duckdb', read_only = TRUE)</code>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>

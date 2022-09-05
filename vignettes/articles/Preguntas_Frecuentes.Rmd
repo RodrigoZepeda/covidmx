@@ -9,14 +9,70 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# ¿Por qué me conviene usar `covidmx`?
+## ¿Por qué me conviene usar `covidmx`?
 
-Centraliza la información y la lectura de la base es más rápida que lo que ocurriría normalmente 
+Centraliza la información y la lectura de la base es más rápida que lo que ocurriría normalmente. Gracias a `covidmx` pierdes menos tiempo descargando y le dedicas más tiempo a analizar. 
+
+## ¿Para qué me sirve la descarga con `pins`?
+
+El paquete de [`pins`](https://pins.rstudio.com/) registra una dirección web y verifica que no haya
+cambiado el archivo presente en la dirección antes de descargar de nuevo. Esto te permite 
+no perder tanto tiempo en la descarga.
+
+## ¿Para qué me sirve `duckdb`?
+
+[`duckdb`](https://duckdb.org/docs/guides/index) es un sistema de bases de datos caracterizado por su velocidad y por leer de memoria
+(disco duro) las bases. Usando `duckdb` tu computadora no sufre por poca `RAM` y opera más rápido que con un `tibble`. 
+
+## Cómo guardar la base descargada
+
+Utiliza la opción `dbdir` para crear un archivo `.duckdb` y guardar tus datos en formato `duckdb`. Como
+ejemplo:
+
+```{r, eval = FALSE}
+#Descarga y almacena en archivo duckdb
+descarga_datos_abiertos(dbdir = "ejemplo.duckdb") 
+
+#Lee de archivo duckdb
+read_datos_abiertos(dbdir = "ejemplo.duckdb")
+```
+
+
+## Deseo aplicar una función directamente a `datos_covid$dats` y se vuelve muy lento / se acaba la memoria
+
+Probablemente la función no tenga un equivalente en `duckdb`. La recomendación es aplicar la mayor
+cantidad de filtros y selecciones que puedas en `duckdb` y después aplicarle la función que quieras. Ejemplo:
+
+```{r, eval = FALSE}
+datos_covid <- covidmx::datosabiertos
+
+#No recomendado primero aplicar función ajena a duck y luego semana
+#tampoco se recomienda quedarte con todas las variables
+datos_covid$dats |>
+  mutate(dia_semana = lubridate::wday(FECHA_SINTOMAS)) |>
+  filter(SEXO == 1) 
+
+#Recomendado: quedarte solo las variables q necesitas y primero aplicar
+#las funciones de dbplyr
+datos_covid$dats %>%
+  select(SEXO, FECHA_SINTOMAS) |>
+  filter(SEXO == 1) |>
+  mutate(dia_semana = lubridate::wday(FECHA_SINTOMAS)) 
+```
+
+## Al leer con `tibble` se me acaba la memoria
+
+Esto es normal pues los `tibble` viven en tu memoria `RAM`. Cambia `read_format` a `"duckdb"`. 
+
+## Al leer con `duckdb` se me acaba la memoria
+
+Esto es normal si tu memoria `RAM` es pequeña. Cambia `pragma_memory_limit = "1GB"` a algo más pequeño
+tomando en cuenta que el límite de [PRAGMA](https://duckdb.org/docs/sql/pragmas) siempre debe ser menor al de tu `RAM` (recomiendo la mitad o menos). 
 
 # Errores comunes
 
 ## Error: rapi_startup: Failed to open database: IO Error: Cannot open file. The process cannot access the file because it is being used by another process.
 
 El problema es que estás usando el `driver` de `duckdb` en otro lado. Prueba la opción con `read_only`:
-`drv = duckdb::duckdb(read_only = TRUE)`.
+`drv = duckdb::duckdb(dbdir = 'tu/archivo.duckdb', read_only = TRUE)`.
 
