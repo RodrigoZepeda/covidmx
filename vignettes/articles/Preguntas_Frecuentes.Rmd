@@ -1,0 +1,22 @@
+---
+title: "Preguntas Frecuentes"
+author: "Rodrigo Zepeda"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# ¿Por qué me conviene usar `covidmx`?
+
+Centraliza la información y la lectura de la base es más rápida que lo que ocurriría normalmente 
+
+# Errores comunes
+
+## Error: rapi_startup: Failed to open database: IO Error: Cannot open file. The process cannot access the file because it is being used by another process.
+
+El problema es que estás usando el `driver` de `duckdb` en otro lado. Prueba la opción con `read_only`:
+`drv = duckdb::duckdb(read_only = TRUE)`.
+

@@ -3,8 +3,9 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   Estudio_de_Caso_CDMX: Estudio_de_Caso_CDMX.html
+  Preguntas_Frecuentes: Preguntas_Frecuentes.html
   covidmx: covidmx.html
-last_built: 2022-09-05T15:49Z
+last_built: 2022-09-05T17:10Z
 urls:
   reference: https://rodrigozepeda.github.io/covidmx/reference
   article: https://rodrigozepeda.github.io/covidmx/articles

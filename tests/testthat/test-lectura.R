@@ -50,7 +50,7 @@ test_that("Lectura y descarga datos abiertos", {
   #Lectura desde el csv v3------
   datos_covid <- read_datos_abiertos(csv_dssa, read_format = "tibble", show_warnings = FALSE,
                                      cache_datos = tempfile(), force_download = TRUE,
-                                     clear_csv = FALSE,
+                                     clear_csv = FALSE, 
                                      quiet = TRUE, cache_diccionario = tempfile())
   expect_true(nrow(datos_covid$dats) > 0)
 

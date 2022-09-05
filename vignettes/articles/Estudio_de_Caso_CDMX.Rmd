@@ -32,7 +32,7 @@ library(MetBrewer) # Paletas de colores
 
 Y descargamos los datos:
 
-```{r}
+```{r, message = FALSE}
 datos_covid <- descarga_datos_abiertos(show_warnings = FALSE)
 ```
 

@@ -1,3 +1,8 @@
+# covidmx 0.6.1.0000
+
+* Se agregó IMSS a la licencia.
+* Se arregló un test que se rompía en windows relacionado con [este issue de duckdb](https://github.com/duckdb/duckdb/issues/77).
+
 # covidmx 0.6.0.0000
 
 ## Breaking changes
