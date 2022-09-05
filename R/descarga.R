@@ -31,8 +31,8 @@
 #' terminar con tu sesion de `R` si se te acaba la memoria.
 #'
 #' _Windows_ Para abrir el archivo `.zip` quiza requieras tambien descargar e instalar
-#'  [`7Zip`](https://www.7-zip.org/) por default el sistema lo busca en 
-#'  `C:\\Program Files\\7-Zip\\7z.exe` pero si no esta ese directorio es necesario que 
+#'  [`7Zip`](https://www.7-zip.org/) por default el sistema lo busca en
+#'  `C:\\Program Files\\7-Zip\\7z.exe` pero si no esta ese directorio es necesario que
 #'  en `unzip_command` especifiques el camino donde se instalo `7z.exe`.
 #'
 #' @section Uso de `pins`:
@@ -62,9 +62,9 @@
 #' archivo ha cambiado y si hubo cambios entonces lo descarga.
 #'
 #' @param quiet (**opcional**) Variable para no mostrar mensajes
-#' 
+#'
 #' @param pragma_memory_limit Memory limit for program [PRAGMAS](https://duckdb.org/docs/sql/pragmas).
-#' change it to around half of your RAM 
+#' change it to around half of your RAM
 #'
 #' @param tblname Nombre de la tabla dentro de el \code{DATABASE} `dbname` donde guardar los datos
 #' por default se llama `covidmx`.
@@ -143,7 +143,7 @@
 #' @param drv  Un  driver para `dbConnect` (default `duckdb::duckdb()`)
 #'
 #' @param dbdir Parametro de [duckdb::dbConnect__duckdb_driver()]
-#' 
+#'
 #' @param colClasses Clases de la columna para leer en `read.csv`
 #' @return Lista de valores:
 #' \itemize{
@@ -163,13 +163,13 @@
 #' datos_covid$disconnect()
 #'
 #' # Descarga solo el diccionario
-#' diccionario    <- descarga_diccionario()
+#' diccionario <- descarga_diccionario()
 #'
 #' # O bien descarga solo los datos abiertos
 #' datos_abiertos <- descarga_db()
 #'
 #' # Pegalos en el formato que se necesita para el resto de funciones
-#' datos_covid    <- pega_db_datos_abiertos(datos_abiertos, diccionario)
+#' datos_covid <- pega_db_datos_abiertos(datos_abiertos, diccionario)
 #'
 #' # Tambien puedes descargar paso por paso
 #' datos_abiertos <- descarga_db_datos_abiertos_tbl() |> # Descarga
@@ -184,25 +184,28 @@
 #' @encoding UTF-8
 #' @seealso [descarga_datos_red_irag] [descarga_datos_variantes_GISAID] [read_datos_abiertos] [casos]
 #' @export
-#FIXME 
+# FIXME
 descarga_datos_abiertos <- function(read_format = c("duckdb", "tibble"),
-                                    tblname     = "covidmx",
-                                    drv         = duckdb::duckdb(),
-                                    dbdir       = tempfile(fileext = ".duckdb"),
+                                    tblname = "covidmx",
+                                    drv = duckdb::duckdb(),
+                                    dbdir = tempfile(fileext = ".duckdb"),
                                     pragma_memory_limit = "1GB",
-                                    colClasses  = get_col_class(),
+                                    colClasses = get_col_class(),
                                     sites.covid = c(
                                       "2022" = paste0(
                                         "http://datosabiertos.salud.gob.mx/gobmx/salud",
-                                        "/datos_abiertos/datos_abiertos_covid19.zip"), 
+                                        "/datos_abiertos/datos_abiertos_covid19.zip"
+                                      ),
                                       "2021" = paste0(
                                         "https://datosabiertos.salud.gob.mx/gobmx/salud",
                                         "/datos_abiertos/historicos/2021/",
-                                        "COVID19MEXICO2021.zip"),
+                                        "COVID19MEXICO2021.zip"
+                                      ),
                                       "2020" = paste0(
                                         "https://datosabiertos.salud.gob.mx/gobmx/salud",
                                         "/datos_abiertos/historicos/2020/",
-                                        "COVID19MEXICO2020.zip")
+                                        "COVID19MEXICO2020.zip"
+                                      )
                                     ),
                                     download_process = c("pins", "download.file"),
                                     site.covid.dic = paste0(
@@ -211,20 +214,20 @@ descarga_datos_abiertos <- function(read_format = c("duckdb", "tibble"),
                                       "biertos/diccionario_datos_",
                                       "covid19.zip"
                                     ),
-                                    unzip_command       = Sys.getenv("unzip_command"),
-                                    unzip_args          = Sys.getenv("unzip_args"),
-                                    unzip_args_dict     = list("exdir" = ".", "overwrite" = TRUE),
+                                    unzip_command = Sys.getenv("unzip_command"),
+                                    unzip_args = Sys.getenv("unzip_args"),
+                                    unzip_args_dict = list("exdir" = ".", "overwrite" = TRUE),
                                     check_unzip_install = TRUE,
-                                    clear_zip           = (download_process[1] != "pins"),
-                                    clear_csv           = TRUE,
-                                    use_dict            = TRUE,
-                                    datos_abiertos_zip_paths    = NULL,
+                                    clear_zip = (download_process[1] != "pins"),
+                                    clear_csv = TRUE,
+                                    use_dict = TRUE,
+                                    datos_abiertos_zip_paths = NULL,
                                     datos_abiertos_unzipped_path = NULL,
-                                    datos_abiertos_tbl        = NULL,
-                                    diccionario_zip_path      = NULL,
+                                    datos_abiertos_tbl = NULL,
+                                    diccionario_zip_path = NULL,
                                     diccionario_unzipped_path = NULL,
                                     diccionario = NULL,
-                                    quiet       = FALSE,
+                                    quiet = FALSE,
                                     cache_datos = NULL,
                                     use_cache_on_failure = TRUE,
                                     cache_diccionario = NULL,
@@ -238,9 +241,8 @@ descarga_datos_abiertos <- function(read_format = c("duckdb", "tibble"),
                                       quiet    = quiet
                                     ),
                                     descarga_db_datos_abiertos_tbl_args = list(),
-                                    descarga_db_diccionario_ssa_args    = list(),
+                                    descarga_db_diccionario_ssa_args = list(),
                                     ...) {
-  
   datos_abiertos_tbl <- descarga_db(
     read_format = read_format,
     tblname     = tblname,
@@ -305,32 +307,35 @@ descarga_datos_abiertos <- function(read_format = c("duckdb", "tibble"),
 #' @param cache parametro para el cache de `pins::board_url`
 #' @param ... Parametros adicionales para `duckdb::dbConnect()` con  conexion de `duckdb::duckdb()`
 descarga_db <- function(read_format = c("duckdb", "tibble"),
-                        tblname     = "covidmx",
+                        tblname = "covidmx",
                         pragma_memory_limit = "1GB",
-                        drv         = duckdb::duckdb(),
-                        dbdir       = tempfile(fileext = ".duckdb"),
-                        colClasses  = get_col_class(),
+                        drv = duckdb::duckdb(),
+                        dbdir = tempfile(fileext = ".duckdb"),
+                        colClasses = get_col_class(),
                         sites.covid = c(
                           "2022" = paste0(
                             "http://datosabiertos.salud.gob.mx/gobmx/salud",
-                            "/datos_abiertos/datos_abiertos_covid19.zip"), 
+                            "/datos_abiertos/datos_abiertos_covid19.zip"
+                          ),
                           "2021" = paste0(
                             "https://datosabiertos.salud.gob.mx/gobmx/salud",
                             "/datos_abiertos/historicos/2021/",
-                            "COVID19MEXICO2021.zip"),
+                            "COVID19MEXICO2021.zip"
+                          ),
                           "2020" = paste0(
                             "https://datosabiertos.salud.gob.mx/gobmx/salud",
                             "/datos_abiertos/historicos/2020/",
-                            "COVID19MEXICO2020.zip")
+                            "COVID19MEXICO2020.zip"
+                          )
                         ),
                         download_process = c("pins", "download.file"),
-                        unzip_command    = Sys.getenv("unzip_command"),
-                        unzip_args       = Sys.getenv("unzip_args"),
+                        unzip_command = Sys.getenv("unzip_command"),
+                        unzip_args = Sys.getenv("unzip_args"),
                         check_unzip_install = TRUE,
-                        clear_zip           = (download_process[1] != "pins"),
-                        clear_csv           = TRUE,
-                        force_download      = FALSE,
-                        show_warnings       = TRUE,
+                        clear_zip = (download_process[1] != "pins"),
+                        clear_csv = TRUE,
+                        force_download = FALSE,
+                        show_warnings = TRUE,
                         datos_abiertos_zip_paths = NULL,
                         datos_abiertos_unzipped_path = NULL,
                         datos_abiertos_tbl = NULL,
@@ -476,15 +481,18 @@ descarga_db_datos_abiertos_tbl <- function(download_process = c("pins", "downloa
                                            sites.covid = c(
                                              "2022" = paste0(
                                                "http://datosabiertos.salud.gob.mx/gobmx/salud",
-                                               "/datos_abiertos/datos_abiertos_covid19.zip"), 
+                                               "/datos_abiertos/datos_abiertos_covid19.zip"
+                                             ),
                                              "2021" = paste0(
                                                "https://datosabiertos.salud.gob.mx/gobmx/salud",
                                                "/datos_abiertos/historicos/2021/",
-                                               "COVID19MEXICO2021.zip"),
+                                               "COVID19MEXICO2021.zip"
+                                             ),
                                              "2020" = paste0(
                                                "https://datosabiertos.salud.gob.mx/gobmx/salud",
                                                "/datos_abiertos/historicos/2020/",
-                                               "COVID19MEXICO2020.zip")
+                                               "COVID19MEXICO2020.zip"
+                                             )
                                            ),
                                            quiet = FALSE,
                                            board_url_name = "datos_abiertos",
@@ -501,78 +509,77 @@ descarga_db_datos_abiertos_tbl <- function(download_process = c("pins", "downloa
 
   # Method for download
   download_process <- ifelse(download_process[1] == "download.file", "download.file", "pins")
-  download_paths   <- vector(mode = "list", length = length(sites.covid))
-  
+  download_paths <- vector(mode = "list", length = length(sites.covid))
+
   cli::cli_progress_bar("Descargando", total = length(sites.covid))
-  
-  for (sitenum in 1:length(sites.covid)){
-    
+
+  for (sitenum in 1:length(sites.covid)) {
     cli::cli_progress_update()
-    
+
     site.covid <- sites.covid[sitenum]
-    
+
     # Check site exists
     if (!RCurl::url.exists(site.covid)) {
       cli::cli_abort(
         "El sitio de {.strong {names(sites.covid)[sitenum]}} dado por:
-        {.url {site.covid}} 
+        {.url {site.covid}}
         no existe o no puede ser encontrado. Verifica exista y tu conexion a Internet sea estable."
       )
     }
-  
+
 
     if (download_process == "download.file") {
-  
+
       # Attempt to download
       download_file_args <- append(list("url" = site.covid), download_file_args)
       do.call(download.file, download_file_args)
-  
+
       # Return path
       download_paths[[sitenum]] <- download_file_args$destfile
     } else {
-  
+
       # Attempt to create board
-      bname <- paste0(board_url_name,"_", as.character(sitenum))
+      bname <- paste0(board_url_name, "_", as.character(sitenum))
       names(site.covid) <- bname
       board_url_args <- list(
-        "urls"  = site.covid,
-        "cache" = cache, 
+        "urls" = site.covid,
+        "cache" = cache,
         "use_cache_on_failure" = use_cache_on_failure
       )
       board <- do.call(pins::board_url, board_url_args)
-  
+
       # Obtenemos la diferencia de tiempo de cuando se bajo por vez ultia
       tdif <- pin_get_download_time(board, bname)
-  
+
       if (!force_download & tdif < 0.9) {
         if (show_warnings) {
           cli::cli_warn(
-              paste("La descarga mas reciente de {.strong {names(sites.covid)[sitenum]}} fue",
-               "hace {round(tdif,5)} dias. Como tiene menos de un dia usare esa.",
-               "Escribe {.code force_download = TRUE} si quieres descargar de",
-               "todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}")
+            paste(
+              "La descarga mas reciente de {.strong {names(sites.covid)[sitenum]}} fue",
+              "hace {round(tdif,5)} dias. Como tiene menos de un dia usare esa.",
+              "Escribe {.code force_download = TRUE} si quieres descargar de",
+              "todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}"
+            )
           )
         }
-  
+
         # Lee de memoria
         download_paths[[sitenum]] <- pin_path_from_memory(board, bname)
-        
       } else {
         # Descarga si cambio
         download_paths[[sitenum]] <- pins::pin_download(board = board, name = bname, ...)
-        
+
         # Escribimos en el pin que ya descargamos
         pin_write_download_time(board, bname)
       }
     }
-    
   }
-  
+
   cli::cli_progress_done()
 
-  #Add names
+  # Add names
   names(download_paths) <- names(sites.covid)
-  
+
   return(download_paths)
 }
 
@@ -618,21 +625,18 @@ descarga_db_diccionario_ssa <- function(download_process = c("pins", "download.f
 #' @rdname descarga_datos_abiertos
 unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_paths,
                                         unzip_command = Sys.getenv("unzip_command"),
-                                        unzip_args    = Sys.getenv("unzip_args"),
+                                        unzip_args = Sys.getenv("unzip_args"),
                                         check_unzip_install = TRUE,
                                         quiet = FALSE,
                                         clear_zip = FALSE) {
-
-  
   cli::cli_progress_bar("Leyendo archivos zip", total = length(datos_abiertos_zip_paths))
-  csv_files   <- vector(mode = "list", length = length(datos_abiertos_zip_paths))
-  
-  for (zipnum in 1:length(datos_abiertos_zip_paths)){
-    
+  csv_files <- vector(mode = "list", length = length(datos_abiertos_zip_paths))
+
+  for (zipnum in 1:length(datos_abiertos_zip_paths)) {
     cli::cli_progress_update()
-    
+
     datos_abiertos_zip_path <- datos_abiertos_zip_paths[[zipnum]]
-    
+
     # Unzip file
     filecon <- tryCatch(
       {
@@ -640,63 +644,74 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_paths,
         fname <- list.files(pattern = "?.*COVID19.*.csv", full.names = T)[1]
       },
       warning = function(cond) {
-        
+
         # Establecemos el comando para unzipear
         if (is.null(unzip_command) | unzip_command == "") {
           unzip_command <- ifelse(tolower(.Platform$OS.type) == "windows",
-                                  "\"C:\\Program Files\\7-Zip\\7z.exe\"", "unzip"
+            "\"C:\\Program Files\\7-Zip\\7z.exe\"", "unzip"
           )
         }
-        
+
         # Establecemos argumentos adicionales
         if (is.null(unzip_args) | unzip_args == "") {
           unzip_args <- ifelse(tolower(.Platform$OS.type) == "windows", "-x", "-o")
         }
-        
+
         # Checamos que exusta la herramienta para unzippear
         if (check_unzip_install & stringr::str_detect(R.version$os, "darwin|linux")) {
           is_unzip <- system2("which", unzip_command, stdout = T, stderr = T)
           if (length(is_unzip) == 0) {
             cli::cli_abort(
-              c("Por favor instala unzip:",
+              c(
+                "Por favor instala unzip:",
                 "+ {.strong [OSX]:} {.code brew install unzip}",
                 "+ {.strong [Debian/Ubuntu]:} {.code apt install unzip}",
-                "  o bien desde {.url http://infozip.sourceforge.net/UnZip.html}")
+                "  o bien desde {.url http://infozip.sourceforge.net/UnZip.html}"
+              )
             )
           }
         } else if (check_unzip_install & tolower(.Platform$OS.type) == "windows") {
           is_unzip <- shell(paste("if exist", unzip_command, "echo yes"), intern = T)
           if (is_unzip != "yes") {
             cli::cli_abort(
-              c(paste("Por favor instala {.strong 7zip} de {.url https://www.7-zip.org/}",
-                      "y en {.code unzip_command} pon el camino hacia el archivo {.strong 7z.exe}"),
-                paste("> {.emph Ejemplo:} {.code unzip_db_datos_abiertos_tbl(..., unzip_command",
-                "= 'C:\\Program Files\\7-Zip\\7z.exe')}"))
+              c(
+                paste(
+                  "Por favor instala {.strong 7zip} de {.url https://www.7-zip.org/}",
+                  "y en {.code unzip_command} pon el camino hacia el archivo {.strong 7z.exe}"
+                ),
+                paste(
+                  "> {.emph Ejemplo:} {.code unzip_db_datos_abiertos_tbl(..., unzip_command",
+                  "= 'C:\\Program Files\\7-Zip\\7z.exe')}"
+                )
+              )
             )
           }
         }
-        
-        #Unzippeamos
+
+        # Unzippeamos
         system2(unzip_command, args = c(unzip_args, datos_abiertos_zip_path), stdout = !quiet)
         fname <- list.files(pattern = ".*COVID19.*.csv", full.names = T)[1]
       },
       error = function(cond) {
         cli::cli_abort("No se puede leer {.file {datos_abiertos_zip_path}}")
-      })
-      
-    csv_files[[zipnum]] <- file.path(dirname(fname), 
-                                     paste0(names(datos_abiertos_zip_paths)[zipnum], ".csv"))
+      }
+    )
+
+    csv_files[[zipnum]] <- file.path(
+      dirname(fname),
+      paste0(names(datos_abiertos_zip_paths)[zipnum], ".csv")
+    )
     file.rename(fname, csv_files[[zipnum]])
-    
+
     if (clear_zip & file.exists(datos_abiertos_zip_path)) {
       file.remove(datos_abiertos_zip_path)
     }
   }
-  
+
   cli::cli_progress_done()
 
   names(csv_files) <- names(datos_abiertos_zip_paths)
-  
+
   return(csv_files)
 }
 
@@ -705,13 +720,14 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_paths,
 unzip_db_diccionario_ssa <- function(diccionario_zip_path,
                                      unzip_args_dict = list("exdir" = ".", "overwrite" = TRUE),
                                      clear_zip = FALSE) {
-  
   filenames <- unzip(zipfile = diccionario_zip_path[[1]], list = TRUE)
-  fname     <- filenames[which(stringr::str_detect(filenames$Name, "Cat.*logo.*")), "Name"]
+  fname <- filenames[which(stringr::str_detect(filenames$Name, "Cat.*logo.*")), "Name"]
 
-  unzip_args <- append(list("zipfile" = diccionario_zip_path[[1]], 
-                            "files" = fname), unzip_args_dict)
-  filecon    <- do.call(unzip, unzip_args)
+  unzip_args <- append(list(
+    "zipfile" = diccionario_zip_path[[1]],
+    "files" = fname
+  ), unzip_args_dict)
+  filecon <- do.call(unzip, unzip_args)
 
   if (clear_zip & file.exists(diccionario_zip_path[[1]])) {
     unlink(diccionario_zip_path)
@@ -824,14 +840,14 @@ parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALS
 #' @export
 #' @rdname descarga_datos_abiertos
 parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
-                                        read_format = c("duckdb","tibble"),
+                                        read_format = c("duckdb", "tibble"),
                                         pragma_memory_limit = "1GB",
-                                        dbdir       = tempfile(fileext = ".duckdb"),
-                                        drv         = duckdb::duckdb(),
-                                        colClasses  = get_col_class(),
-                                        tblname     = "covidmx",
-                                        quiet       = TRUE,
-                                        clear_csv   = FALSE,
+                                        dbdir = tempfile(fileext = ".duckdb"),
+                                        drv = duckdb::duckdb(),
+                                        colClasses = get_col_class(),
+                                        tblname = "covidmx",
+                                        quiet = TRUE,
+                                        clear_csv = FALSE,
                                         ...) {
 
   # Formato de lectura
@@ -840,23 +856,23 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
   } else {
     cli::cli_abort("{.code read_format} invalido. Selecciona {.code 'duckdb'} o {.code 'tibble'}")
   }
-  
-  #Check we have dbplyr
-  if (!requireNamespace("dbplyr", quietly = TRUE) & read_format == "duckdb"){
+
+  # Check we have dbplyr
+  if (!requireNamespace("dbplyr", quietly = TRUE) & read_format == "duckdb") {
     cli::cli_abort("Por favor instala {.code dbplyr} con {.code install.packages('dbplyr')}")
   }
 
 
   if (read_format == "tibble") {
-    
+
     # Desactivamos que nos hable
     readr_progress_old <- getOption("readr.show_progress")
     options(readr.show_progress = !quiet)
-  
+
     # Desactivamos las parsing warnings
     old_warning <- getOption("warn")
     options(warn = -1)
-  
+
     # Leemos el archivo
     dats <- readr::read_csv(datos_abiertos_unzipped_path,
       locale = readr::locale(encoding = "UTF-8"),
@@ -898,15 +914,14 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
         UCI                   = readr::col_double()
       )
     )
-  
+
     # Set readr progress
     options(readr.show_progress = readr_progress_old)
     options(warn = old_warning)
-    
+
     disconnect <- function() {
       cli::cli_alert_success("Desconectado")
     }
-    
   } else {
 
     # Creamos la conexion de duck
@@ -917,26 +932,30 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
       ...
     )
 
-    #Pragma memory limit
-    DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit,"'"))
-    
+    # Pragma memory limit
+    DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit, "'"))
+
     cli::cli_alert_info("Cargando los datos en duckdb...")
-    duckdb::duckdb_read_csv(con, tblname, unlist(datos_abiertos_unzipped_path), 
-                            colClasses = colClasses)
-    
+    duckdb::duckdb_read_csv(con, tblname, unlist(datos_abiertos_unzipped_path),
+      colClasses = colClasses
+    )
+
     cli::cli_alert_info("Tabla creada: conexion en proceso...")
     dats <- dplyr::tbl(con, tblname)
-    
-    #Formateo
-    dats <- dats |> 
+
+    # Formateo
+    dats <- dats |>
       dplyr::mutate(dplyr::across(
-        dplyr::all_of(c("ORIGEN", "SECTOR", "SEXO", 
-                        "TIPO_PACIENTE", "INTUBADO", "NEUMONIA", "EDAD", "NACIONALIDAD", "EMBARAZO",
-                        "HABLA_LENGUA_INDIG", "INDIGENA", "DIABETES", "EPOC", "ASMA", "INMUSUPR", "HIPERTENSION", "OTRA_COM",
-                        "CARDIOVASCULAR", "OBESIDAD", "RENAL_CRONICA", "TABAQUISMO", "OTRO_CASO",  "TOMA_MUESTRA_LAB",
-                        "RESULTADO_LAB", "TOMA_MUESTRA_ANTIGENO", "RESULTADO_ANTIGENO", "CLASIFICACION_FINAL", "MIGRANTE",
-                        "UCI"))
-        , ~ as.integer(.))) |>
+        dplyr::all_of(c(
+          "ORIGEN", "SECTOR", "SEXO",
+          "TIPO_PACIENTE", "INTUBADO", "NEUMONIA", "EDAD", "NACIONALIDAD", "EMBARAZO",
+          "HABLA_LENGUA_INDIG", "INDIGENA", "DIABETES", "EPOC", "ASMA", "INMUSUPR", "HIPERTENSION", "OTRA_COM",
+          "CARDIOVASCULAR", "OBESIDAD", "RENAL_CRONICA", "TABAQUISMO", "OTRO_CASO", "TOMA_MUESTRA_LAB",
+          "RESULTADO_LAB", "TOMA_MUESTRA_ANTIGENO", "RESULTADO_ANTIGENO", "CLASIFICACION_FINAL", "MIGRANTE",
+          "UCI"
+        )),
+        ~ as.integer(.)
+      )) |>
       dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ dplyr::if_else(. == "9999-99-99", NA_character_, .))) |>
       dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ dplyr::if_else(. == "-001-11-30", NA_character_, .))) |>
       dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ strptime(., "%Y-%m-%d")))
@@ -955,12 +974,12 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
     }
   }
 
-  if (clear_csv){
+  if (clear_csv) {
     cli::cli_alert_info("Removiendo los archivos .csv")
-    for (fname in datos_abiertos_unzipped_path){
+    for (fname in datos_abiertos_unzipped_path) {
       if (file.exists(fname)) {
         file.remove(fname)
-      } 
+      }
     }
   }
 

@@ -76,11 +76,13 @@
 #'   estima_rt(
 #'     entidades = c("CHIHUAHUA", "AGUASCALIENTES"),
 #'     tipo_clasificacion = "Confirmados COVID",
-#'     group_by_entidad = TRUE, 
+#'     group_by_entidad = TRUE,
 #'     list_name = "rt_ch_ags"
-#'   ) |> 
-#'   plot_covid(df_name = "rt_ch_ags", df_date_index = "FECHA_SINTOMAS", 
-#'              df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA")
+#'   ) |>
+#'   plot_covid(
+#'     df_name = "rt_ch_ags", df_date_index = "FECHA_SINTOMAS",
+#'     df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA"
+#'   )
 #' }
 #'
 #' @export
@@ -122,23 +124,26 @@ estima_rt <- function(datos_covid,
                           list(
                             mean_si = 3.5,
                             std_si = 1.5
-                          ))} else {NULL},
+                          )
+                        )
+                      } else {
+                        NULL
+                      },
                       ...) {
-  
-  if (!requireNamespace("EpiEstim", quietly = TRUE)){
+  if (!requireNamespace("EpiEstim", quietly = TRUE)) {
     cli::cli_abort(
-     "Por favor instala {.code EpiEstim} para poder calcular el RT con
+      "Por favor instala {.code EpiEstim} para poder calcular el RT con
      {.code install.packages('EpiEstim')}"
     )
   }
-  
-  if (!requireNamespace("lubridate", quietly = TRUE)){
+
+  if (!requireNamespace("lubridate", quietly = TRUE)) {
     cli::cli_abort(
       "Por favor instala {.code lubridate} para poder calcular el RT con
      {.code install.packages('lubridate')}"
     )
   }
-  
+
   if (any(stringr::str_detect(names(datos_covid), list_name))) {
     cli::cli_abort(
       "Imposible crear elemento {list_name} pues ya existe en la lista.
@@ -176,7 +181,7 @@ estima_rt <- function(datos_covid,
 
   # Detectamos cuál es la fecha
   fecha_name <- stringr::str_subset(colnames(.casos), "FECHA")
-  col_gp     <- stringr::str_subset(colnames(.casos), "FECHA|\\bn\\b", negate = TRUE)
+  col_gp <- stringr::str_subset(colnames(.casos), "FECHA|\\bn\\b", negate = TRUE)
 
   if (length(col_gp) > 0) {
     for (col in col_gp) {
