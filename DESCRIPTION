@@ -43,6 +43,7 @@ Suggests:
     rmarkdown,
     rstudioapi,
     scales,
+    sessioninfo,
     testthat (>= 3.0.0),
     tidyverse,
     usethis

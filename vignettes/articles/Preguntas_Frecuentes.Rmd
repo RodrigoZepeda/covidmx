@@ -68,8 +68,6 @@ Esto es normal pues los `tibble` viven en tu memoria `RAM`. Cambia `read_format`
 Esto es normal si tu memoria `RAM` es pequeña. Cambia `pragma_memory_limit = "1GB"` a algo más pequeño
 tomando en cuenta que el límite de [PRAGMA](https://duckdb.org/docs/sql/pragmas) siempre debe ser menor al de tu `RAM` (recomiendo la mitad o menos). 
 
-# Errores comunes
-
 ## Error: rapi_startup: Failed to open database: IO Error: Cannot open file. The process cannot access the file because it is being used by another process.
 
 El problema es que estás usando el `driver` de `duckdb` en otro lado. Prueba la opción con `read_only`:

@@ -401,7 +401,7 @@ knitr::include_graphics("CDMX.png")
 ## Información adicional
 
 ```{r}
-sessionInfo()
+sessioninfo::session_info()
 ```
 
 

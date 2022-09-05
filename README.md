@@ -29,15 +29,26 @@ library(covidmx)
 #Datos de variantes (cdmx o nacional)
 variantes   <- descarga_datos_variantes_GISAID("nacional")
 
-#Todas las descargas del paquete son inteligentes y si ha pasado poco tiempo desde tu
-#última descarga te pregunta primero antes de comprometerse a descargar de nuevo
-descarga_datos_variantes_GISAID("nacional") #desactiva con force_download = TRUE
-
 #Datos de ocupación hopsitalaria de Red IRAG ('Estatal' o 'Unidad Médica')
 ocupacion   <- descarga_datos_red_irag("Estatal")
 
-#Descarga datos abiertos de covid, guarda en duckdb y te da una conexión
-datos_covid <- descarga_datos_abiertos() 
+#Descarga datos abiertos de covid, guarda en duckdb (mi_archivo/de_datos.duckdb) 
+# y te da una conexión
+datos_covid <- descarga_datos_abiertos(dbdir = "mi_archivo/de_datos.duckdb") 
+```
+
+Todas las descargas del paquete son inteligentes y si ha pasado poco tiempo desde tu
+última descarga te pregunta primero antes de comprometerse a descargar de nuevo.
+
+Puedes volver a leer tu base descargada haciendo:
+
+```{r}
+datos_covid <- read_datos_abiertos("mi_archivo/de_datos.duckdb") 
+```
+
+Las funciones principales del paquete son:
+
+```{r}
 
 #Calcula los casos (totales) por entidad y devuelve un tibble
 datos_covid <- datos_covid %>% casos()
@@ -181,4 +192,8 @@ datos_covid %>%
 + Para ver todas las funciones del paquete ve a [Primeros Pasos](https://rodrigozepeda.github.io/covidmx/articles/covidmx.html)
 
 + Puedes ver un estudio de caso del paquete para [Ciudad de México en este link](https://rodrigozepeda.github.io/covidmx/articles/Estudio_de_Caso_CDMX.html)
+
++ Puedes ver [las preguntas frecuentes acá](https://rodrigozepeda.github.io/covidmx/articles/Preguntas_Frecuentes.html) o bien levantar un 
+[issue en Github](https://github.com/RodrigoZepeda/covidmx/issues/new) con el `label` de `question`. 
+
 

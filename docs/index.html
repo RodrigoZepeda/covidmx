@@ -110,16 +110,17 @@
 <span><span class="co">#Datos de variantes (cdmx o nacional)</span></span>
 <span><span class="va">variantes</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"nacional"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#Todas las descargas del paquete son inteligentes y si ha pasado poco tiempo desde tu</span></span>
-<span><span class="co">#última descarga te pregunta primero antes de comprometerse a descargar de nuevo</span></span>
-<span><span class="fu"><a href="reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="st">"nacional"</span><span class="op">)</span> <span class="co">#desactiva con force_download = TRUE</span></span>
-<span></span>
 <span><span class="co">#Datos de ocupación hopsitalaria de Red IRAG ('Estatal' o 'Unidad Médica')</span></span>
 <span><span class="va">ocupacion</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span><span class="st">"Estatal"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#Descarga datos abiertos de covid, guarda en duckdb y te da una conexión</span></span>
-<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span><span class="op">)</span> </span>
-<span></span>
+<span><span class="co">#Descarga datos abiertos de covid, guarda en duckdb (mi_archivo/de_datos.duckdb) </span></span>
+<span><span class="co"># y te da una conexión</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>dbdir <span class="op">=</span> <span class="st">"mi_archivo/de_datos.duckdb"</span><span class="op">)</span> </span></code></pre>
+<p>Todas las descargas del paquete son inteligentes y si ha pasado poco tiempo desde tu última descarga te pregunta primero antes de comprometerse a descargar de nuevo.</p>
+<p>Puedes volver a leer tu base descargada haciendo:</p>
+<pre class="{r}"><code><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span><span class="st">"mi_archivo/de_datos.duckdb"</span><span class="op">)</span> </span></code></pre>
+<p>Las funciones principales del paquete son:</p>
+<pre class="{r}"><code><span></span>
 <span><span class="co">#Calcula los casos (totales) por entidad y devuelve un tibble</span></span>
 <span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -261,6 +262,7 @@
 <ul>
 <li><p>Para ver todas las funciones del paquete ve a <a href="https://rodrigozepeda.github.io/covidmx/articles/covidmx.html">Primeros Pasos</a></p></li>
 <li><p>Puedes ver un estudio de caso del paquete para <a href="https://rodrigozepeda.github.io/covidmx/articles/Estudio_de_Caso_CDMX.html">Ciudad de México en este link</a></p></li>
+<li><p>Puedes ver <a href="https://rodrigozepeda.github.io/covidmx/articles/Preguntas_Frecuentes.html">las preguntas frecuentes acá</a> o bien levantar un <a href="https://github.com/RodrigoZepeda/covidmx/issues/new" class="external-link">issue en Github</a> con el <code>label</code> de <code>question</code>.</p></li>
 </ul>
 </div>
 </div>

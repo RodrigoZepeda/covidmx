@@ -689,6 +689,6 @@ datos_covid$disconnect()
 ## Información adicional
 
 ```{r}
-sessionInfo()
+sessioninfo::session_info()
 ```
 

@@ -100,33 +100,33 @@ Zepeda</h4>
 
     
     
-<div class="section level3">
-<h3 id="por-qué-me-conviene-usar-covidmx">¿Por qué me conviene usar <code>covidmx</code>?<a class="anchor" aria-label="anchor" href="#por-qu%C3%A9-me-conviene-usar-covidmx"></a>
-</h3>
+<div class="section level2">
+<h2 id="por-qué-me-conviene-usar-covidmx">¿Por qué me conviene usar <code>covidmx</code>?<a class="anchor" aria-label="anchor" href="#por-qu%C3%A9-me-conviene-usar-covidmx"></a>
+</h2>
 <p>Centraliza la información y la lectura de la base es más rápida que
 lo que ocurriría normalmente. Gracias a <code>covidmx</code> pierdes
 menos tiempo descargando y le dedicas más tiempo a analizar.</p>
 </div>
-<div class="section level3">
-<h3 id="para-qué-me-sirve-la-descarga-con-pins">¿Para qué me sirve la descarga con <code>pins</code>?<a class="anchor" aria-label="anchor" href="#para-qu%C3%A9-me-sirve-la-descarga-con-pins"></a>
-</h3>
+<div class="section level2">
+<h2 id="para-qué-me-sirve-la-descarga-con-pins">¿Para qué me sirve la descarga con <code>pins</code>?<a class="anchor" aria-label="anchor" href="#para-qu%C3%A9-me-sirve-la-descarga-con-pins"></a>
+</h2>
 <p>El paquete de <a href="https://pins.rstudio.com/" class="external-link"><code>pins</code></a> registra una
 dirección web y verifica que no haya cambiado el archivo presente en la
 dirección antes de descargar de nuevo. Esto te permite no perder tanto
 tiempo en la descarga.</p>
 </div>
-<div class="section level3">
-<h3 id="para-qué-me-sirve-duckdb">¿Para qué me sirve <code>duckdb</code>?<a class="anchor" aria-label="anchor" href="#para-qu%C3%A9-me-sirve-duckdb"></a>
-</h3>
+<div class="section level2">
+<h2 id="para-qué-me-sirve-duckdb">¿Para qué me sirve <code>duckdb</code>?<a class="anchor" aria-label="anchor" href="#para-qu%C3%A9-me-sirve-duckdb"></a>
+</h2>
 <p><a href="https://duckdb.org/docs/guides/index" class="external-link"><code>duckdb</code></a> es
 un sistema de bases de datos caracterizado por su velocidad y por leer
 de memoria (disco duro) las bases. Usando <code>duckdb</code> tu
 computadora no sufre por poca <code>RAM</code> y opera más rápido que
 con un <code>tibble</code>.</p>
 </div>
-<div class="section level3">
-<h3 id="cómo-guardar-la-base-descargada">Cómo guardar la base descargada<a class="anchor" aria-label="anchor" href="#c%C3%B3mo-guardar-la-base-descargada"></a>
-</h3>
+<div class="section level2">
+<h2 id="cómo-guardar-la-base-descargada">Cómo guardar la base descargada<a class="anchor" aria-label="anchor" href="#c%C3%B3mo-guardar-la-base-descargada"></a>
+</h2>
 <p>Utiliza la opción <code>dbdir</code> para crear un archivo
 <code>.duckdb</code> y guardar tus datos en formato <code>duckdb</code>.
 Como ejemplo:</p>
@@ -137,11 +137,11 @@ Como ejemplo:</p>
 <span><span class="co">#Lee de archivo duckdb</span></span>
 <span><span class="fu"><a href="../reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span>dbdir <span class="op">=</span> <span class="st">"ejemplo.duckdb"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="deseo-aplicar-una-función-directamente-a-datos_coviddats-y-se-vuelve-muy-lento-se-acaba-la-memoria">Deseo aplicar una función directamente a
+<div class="section level2">
+<h2 id="deseo-aplicar-una-función-directamente-a-datos_coviddats-y-se-vuelve-muy-lento-se-acaba-la-memoria">Deseo aplicar una función directamente a
 <code>datos_covid$dats</code> y se vuelve muy lento / se acaba la
 memoria<a class="anchor" aria-label="anchor" href="#deseo-aplicar-una-funci%C3%B3n-directamente-a-datos_coviddats-y-se-vuelve-muy-lento-se-acaba-la-memoria"></a>
-</h3>
+</h2>
 <p>Probablemente la función no tenga un equivalente en
 <code>duckdb</code>. La recomendación es aplicar la mayor cantidad de
 filtros y selecciones que puedas en <code>duckdb</code> y después
@@ -162,34 +162,30 @@ aplicarle la función que quieras. Ejemplo:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SEXO</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>dia_semana <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/day.html" class="external-link">wday</a></span><span class="op">(</span><span class="va">FECHA_SINTOMAS</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="al-leer-con-tibble-se-me-acaba-la-memoria">Al leer con <code>tibble</code> se me acaba la memoria<a class="anchor" aria-label="anchor" href="#al-leer-con-tibble-se-me-acaba-la-memoria"></a>
-</h3>
+<div class="section level2">
+<h2 id="al-leer-con-tibble-se-me-acaba-la-memoria">Al leer con <code>tibble</code> se me acaba la memoria<a class="anchor" aria-label="anchor" href="#al-leer-con-tibble-se-me-acaba-la-memoria"></a>
+</h2>
 <p>Esto es normal pues los <code>tibble</code> viven en tu memoria
 <code>RAM</code>. Cambia <code>read_format</code> a
 <code>"duckdb"</code>.</p>
 </div>
-<div class="section level3">
-<h3 id="al-leer-con-duckdb-se-me-acaba-la-memoria">Al leer con <code>duckdb</code> se me acaba la memoria<a class="anchor" aria-label="anchor" href="#al-leer-con-duckdb-se-me-acaba-la-memoria"></a>
-</h3>
+<div class="section level2">
+<h2 id="al-leer-con-duckdb-se-me-acaba-la-memoria">Al leer con <code>duckdb</code> se me acaba la memoria<a class="anchor" aria-label="anchor" href="#al-leer-con-duckdb-se-me-acaba-la-memoria"></a>
+</h2>
 <p>Esto es normal si tu memoria <code>RAM</code> es pequeña. Cambia
 <code>pragma_memory_limit = "1GB"</code> a algo más pequeño tomando en
 cuenta que el límite de <a href="https://duckdb.org/docs/sql/pragmas" class="external-link">PRAGMA</a> siempre debe ser
 menor al de tu <code>RAM</code> (recomiendo la mitad o menos).</p>
 </div>
 <div class="section level2">
-<h2 id="errores-comunes">Errores comunes<a class="anchor" aria-label="anchor" href="#errores-comunes"></a>
-</h2>
-<div class="section level3">
-<h3 id="error-rapi_startup-failed-to-open-database-io-error-cannot-open-file--the-process-cannot-access-the-file-because-it-is-being-used-by-another-process-">Error: rapi_startup: Failed to open database: IO Error: Cannot open
+<h2 id="error-rapi_startup-failed-to-open-database-io-error-cannot-open-file--the-process-cannot-access-the-file-because-it-is-being-used-by-another-process-">Error: rapi_startup: Failed to open database: IO Error: Cannot open
 file. The process cannot access the file because it is being used by
 another process.<a class="anchor" aria-label="anchor" href="#error-rapi_startup-failed-to-open-database-io-error-cannot-open-file--the-process-cannot-access-the-file-because-it-is-being-used-by-another-process-"></a>
-</h3>
+</h2>
 <p>El problema es que estás usando el <code>driver</code> de
 <code>duckdb</code> en otro lado. Prueba la opción con
 <code>read_only</code>:
 <code>drv = duckdb::duckdb(dbdir = 'tu/archivo.duckdb', read_only = TRUE)</code>.</p>
-</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>
     </nav></aside>
