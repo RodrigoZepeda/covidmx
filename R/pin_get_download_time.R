@@ -9,7 +9,7 @@ pin_get_download_time <- function(board, name) {
 
   if (name %in% pins::pin_list(board)) {
     fdir <- pin_meta.pins_board_url(board, name)
-    pd   <- base::file.path(fdir$local$dir, "descarga.txt")
+    pd <- base::file.path(fdir$local$dir, "descarga.txt")
 
     if (file.exists(pd)) {
       # Leemos cuando fue la descarga
@@ -28,7 +28,7 @@ pin_get_download_time <- function(board, name) {
 
 # Función que devuelve el path al archivo principal de un pin
 pin_path_from_memory <- function(board, name) {
-  fdir  <- pin_meta.pins_board_url(board, name)
+  fdir <- pin_meta.pins_board_url(board, name)
   dfile <- base::file.path(fdir$local$dir, fdir$file)
 
   return(dfile)
