@@ -2,6 +2,7 @@
 title: "Introducción a covidmx"
 author: "Rodrigo Zepeda-Tello"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
@@ -37,18 +38,9 @@ datos_covid <- covidmx::datosabiertos #Uso de los datos precargados
 ```
 >
 
-
 ## Datos Abiertos de la Dirección General de Epidemiología
 
 ### Descarga automática de base de datos abiertos 
-
-> **NOTA** Necesitas tener una instalación de dos cosas:
->
-> 1.  El gestor de bases de datos `MariaDB` (puedes revisar [el artículo respectivo](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html)).
->
-> <!-- -->
->
-> 2.  Un descompresor de archivos `zip`. En Windows sugiero [`7zip`](https://www.7-zip.org/); en Linux/Mac/Unix generalmente ya tienes `unzip` (y si no, instálalo)
 
 Lo más importante es comenzar descargando la base de datos abiertos. Esto lo puedes hacer como sigue:
 
@@ -56,25 +48,35 @@ Lo más importante es comenzar descargando la base de datos abiertos. Esto lo pu
 datos_covid <- descarga_datos_abiertos()
 ```
 
-Para propósito de este tutorial trabajaremos con una base de datos más pequeña disponible en el repositorio de [Github](https://github.com/RodrigoZepeda/covidmx) la cual guardaremos en `MariaDB` bajo el nombre de **tutorial**. 
-
-```{r, message = FALSE, warning=FALSE}
-dlink       <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
-datos_covid <- descarga_datos_abiertos(site.covid = dlink, tblname = "tutorial") 
+Para propósito de este tutorial trabajaremos con una base de datos más pequeña disponible en el repositorio de [Github](https://github.com/RodrigoZepeda/covidmx) la cual guardaremos en `duckdb` bajo el nombre de **tutorial**. 
+```{r, eval = FALSE}
+#Cómo vas a guardar tu base .duckdb
+base_duck   <- "mi_archivo.duckdb"
 ```
 
-La descarga contiene una conexión a `MariaDB` dentro de `datos_covid$dats` la cual puedes operar con [`dbplyr`](https://dbplyr.tidyverse.org/). 
+```{r, echo = FALSE}
+base_duck   <- tempfile(fileext = ".duckdb") #para el tutorial pero puedes crear un "archivo.duckdb"
+```
+
+```{r, message = FALSE, warning=FALSE}
+dlink       <- c("tutorial" = 
+                   "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip")
+datos_covid <- descarga_datos_abiertos(sites.covid = dlink, tblname = "tutorial", 
+                                       dbdir = base_duck) 
+```
+
+La descarga contiene una conexión a `duckdb` dentro de `datos_covid$dats` la cual puedes operar con [`dbplyr`](https://dbplyr.tidyverse.org/). 
 
 **NO** se agregan las etiquetas a los datos pues es muy tardado hacerlo:
 
 ```{r glimpse-1}
-datos_covid$dats %>% dplyr::glimpse()
+datos_covid$dats |> dplyr::glimpse()
 ```
 
 Sin embargo el diccionario se almacena como una lista en `dict` para su consulta y uso por las funciones internas:
 
 ```{r glimpse-2}
-datos_covid$dict %>% dplyr::glimpse()
+datos_covid$dict |> dplyr::glimpse()
 ```
 
 por ejemplo para ver el diccionario de antígeno:
@@ -85,12 +87,12 @@ datos_covid$dict$RESULTADO_ANTIGENO
 
 > **¿Se te fue el Internet?** No te preocupes, `descarga_datos_abiertos` trabajará con tu descarga más reciente. 
 
-### Lectura desde MariaDB 
+### Lectura desde duckdb 
 
-No es necesario volver a descargar si reinicias tu sesión de `R` siempre y cuando los hayas guardado en `MariaDB` (el default). Puedes sólo leer los datos abiertos que ya tienes usando la función `read_datos_abiertos.R`;
+No es necesario volver a descargar si reinicias tu sesión de `R` siempre y cuando los hayas guardado en `duckdb` estableciendo un `dbdir` (de lo contrario la base de datos sólo dura lo que dure tu sesión de `R`). Puedes sólo leer los datos abiertos que ya tienes usando la función `read_datos_abiertos.R`;
 
 ```{r, message = FALSE, warning=FALSE}
-read_datos_abiertos(tblname = "tutorial") %>% glimpse()
+read_datos_abiertos(base_duck, tblname = "tutorial") |> glimpse()
 ```
 
 El proceso de descarga de cualquier base de `covidmx` es un proceso inteligente. Si no ha pasado más de un día desde que descargaste la base el programa te advertirá de que no tiene sentido volver a descargar. 
@@ -115,7 +117,7 @@ Si el proceso de descarga se interrumpe en algún momento puedes leer los datos 
 
 ```{r, eval = TRUE, warning=FALSE, message=FALSE}
 #Descarga sólo el zip
-zip_path    <- descarga_db_datos_abiertos_tbl(site.covid = dlink, show_warnings = F, quiet = T)
+zip_path    <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = F, quiet = T)
 datos_covid <- read_datos_abiertos(zip_path, tblname = "tutorial")
 
 #O bien descomprime el zip y lee el csv
@@ -128,23 +130,38 @@ Lo mismo puedes hacer si tienes el diccionario descargado con las variables `dic
 ```{r, message = FALSE, warning=FALSE}
 #Descarga el diccionario en zip
 zip_path    <- descarga_db_diccionario_ssa()
-datos_covid <- read_datos_abiertos(diccionario_zip_path = zip_path, tblname = "tutorial")
+datos_covid <- read_datos_abiertos(base_duck, diccionario_zip_path = zip_path, tblname = "tutorial")
 ```
 
-Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad. 
+Una vez descargados (o leídos), basta componer la base de datos con cualquiera de las funciones para tener una tabla de datos agregada por fecha y entidad.
+
+Para terminar de usar los datos, nos desconectamos de la base con:
+
+```{r}
+datos_covid$disconnect()
+```
+
+### Lectura de la base de datos del tutorial
+
+Para lo que sigue del tutorial usaremos los datos precargados:
+
+```{r}
+datos_covid <- covidmx::datosabiertos #Uso de los datos precargados
+```
+
 
 ### Casos (Incidencia) {#casos}
 
 Las bases de datos se agregan a la lista bajo el nombre default `casos`. Por ejemplo:
 
 ```{r, eval = TRUE}
-datos_covid <- datos_covid %>% casos()
+datos_covid <- datos_covid |> casos()
 ```
 
 El objeto `casos` por default es un `tibble` con el que ya puedes operar:
 
 ```{r}
-datos_covid$casos %>% head()
+datos_covid$casos |> head()
 ```
 
 Nota que lo que hace es agregar por fecha y por entidad de la unidad médica los casos.
@@ -152,13 +169,13 @@ Nota que lo que hace es agregar por fecha y por entidad de la unidad médica los
 Se puede filtar por entidad de la unidad médica seleccionando las entidades de interés:
 
 ```{r, eval = FALSE}
-datos_covid %>% 
+datos_covid |> 
   casos(entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR"),
         list_name = "BC/BCS") 
 ```
 
 ```{r, echo = FALSE}
-head((datos_covid %>% 
+head((datos_covid |> 
   casos(entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR"), 
         list_name = "prueba"))$prueba)
 ```
@@ -166,7 +183,7 @@ head((datos_covid %>%
 Si se quiere filtrar por entidad de nacimiento y que la fecha sea la de ingreso, por ejemplo:
 
 ```{r, eval = FALSE}
-datos_covid %>% 
+datos_covid |> 
     casos(entidades    = "BAJA CALIFORNIA",
           entidad_tipo = "Nacimiento",
           fecha_tipo   = "Ingreso",
@@ -174,20 +191,20 @@ datos_covid %>%
 ```
 
 ```{r, echo = FALSE}
-tf <- datos_covid %>% 
+tf <- datos_covid |> 
   casos(entidades    = "BAJA CALIFORNIA", 
         entidad_tipo = "Nacimiento",
         fecha_tipo   = "Ingreso", list_name = "prueba")
 ```
 
 ```{r, echo = FALSE}
-head(tf$prueba %>% arrange(FECHA_INGRESO, ENTIDAD_NAC))
+head(tf$prueba |> arrange(FECHA_INGRESO, ENTIDAD_NAC))
 ```
 
 Finalmente, si sólo se desean casos confirmados e inválidos:
 
 ```{r, eval = FALSE}
-datos_covid %>% 
+datos_covid |> 
     casos(entidades    = "BAJA CALIFORNIA",
           entidad_tipo = "Nacimiento",
           fecha_tipo   = "Ingreso",
@@ -196,20 +213,20 @@ datos_covid %>%
 ```
 
 ```{r, echo = FALSE}
-tf <- datos_covid %>% 
+tf <- datos_covid |> 
     casos(entidades    = "BAJA CALIFORNIA",
           entidad_tipo = "Nacimiento",
           fecha_tipo   = "Ingreso",
           tipo_clasificacion = c("Confirmados COVID", "Invalido"), 
           list_name = "prueba") 
 
-head(tf$prueba %>% arrange(FECHA_INGRESO, ENTIDAD_NAC))
+head(tf$prueba |> arrange(FECHA_INGRESO, ENTIDAD_NAC))
 ```
 
 Nota que por default el programa rellena con ceros lo que no se observó. Si quieres cancelar esta opción basta con cambiar `fill_zeros = FALSE`:
 
 ```{r, eval = FALSE}
-datos_covid %>% 
+datos_covid |> 
     casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"),
           entidad_tipo = "Nacimiento",
           fecha_tipo   = "Ingreso",
@@ -219,7 +236,7 @@ datos_covid %>%
 ```
 
 ```{r, echo = FALSE}
-tf <- datos_covid %>% 
+tf <- datos_covid |> 
     casos(entidades    = c("QUINTANA ROO","AGUASCALIENTES"),
           entidad_tipo = "Nacimiento",
           fecha_tipo   = "Ingreso",
@@ -227,13 +244,13 @@ tf <- datos_covid %>%
           fill_zeros = FALSE, 
           list_name = "prueba") 
 
-head(tf$prueba %>% arrange(FECHA_INGRESO, ENTIDAD_NAC))
+head(tf$prueba |> arrange(FECHA_INGRESO, ENTIDAD_NAC))
 ```
 
 Si se desea que los casos vengan agregados (es decir `QUINTANA ROO + AGUASCALIENTES`) se puede cambiar la opción de `group_by_entidad` a `FALSE`:
 
 ```{r, eval = FALSE}
-datos_covid %>% 
+datos_covid |> 
     casos(entidades          = c("QUINTANA ROO","AGUASCALIENTES"),
           entidad_tipo       = "Nacimiento",
           fecha_tipo         = "Ingreso",
@@ -243,7 +260,7 @@ datos_covid %>%
 ```
 
 ```{r, echo = FALSE}
-tf <- datos_covid %>% 
+tf <- datos_covid |> 
     casos(entidades        = c("QUINTANA ROO","AGUASCALIENTES"),
           entidad_tipo     = "Nacimiento",
           fecha_tipo       = "Ingreso",
@@ -251,52 +268,52 @@ tf <- datos_covid %>%
           group_by_entidad = FALSE,
           list_name        = "prueba") 
 
-head(tf$prueba %>% arrange(FECHA_INGRESO))
+head(tf$prueba |> arrange(FECHA_INGRESO))
 ```
 
 La variable `edad_cut` te permite quedarte sòlo con un grupo de edad o bien definir múltiples. Por ejemplo para quedarte sólo con los casos de 5 a 25 años:
 
 ```{r, eval = FALSE}
-datos_covid %>% 
+datos_covid |> 
   casos(edad_cut = c(5, 25), list_name = "5_25") 
 ```
 
 ```{r, echo = FALSE}
-head((datos_covid %>% 
+head((datos_covid |> 
   casos(edad_cut = c(5, 25), list_name = "prueba"))$prueba)
 ```
 
 O bien definir grupos de edad de la forma `0-20`, `20-60` y `60+`
 
 ```{r, eval = FALSE}
-datos_covid %>% 
+datos_covid |> 
   casos(edad_cut = c(0, 20, 60, Inf), list_name = "0_20_60") 
 ```
 
 ```{r, echo = FALSE}
-head((datos_covid %>% 
+head((datos_covid |> 
   casos(edad_cut = c(0, 20, 60, Inf), list_name = "prueba"))$prueba)
 ```
 
 Puedes acumular diferentes bases de datos en la misma lista asignándoles nombres:
 
 ```{r, eval = TRUE}
-datos_covid <- datos_covid %>% 
-  casos(list_name = "Todos por entidad") %>%
-  casos(list_name = "Todos (nacional)",    group_by_entidad = FALSE) %>% 
+datos_covid <- datos_covid |> 
+  casos(list_name = "Todos por entidad") |>
+  casos(list_name = "Todos (nacional)",    group_by_entidad = FALSE) |> 
   casos(list_name = "Defunciones (todos)", defunciones = TRUE) 
 
-datos_covid$`Todos (nacional)` %>% head()
+datos_covid$`Todos (nacional)` |> head()
 
-datos_covid$`Todos por entidad` %>% head()
+datos_covid$`Todos por entidad` |> head()
 
-datos_covid$`Defunciones (todos)` %>% head()
+datos_covid$`Defunciones (todos)` |> head()
 ```
 
 Hay múltiples opciones permitiendo seleccionar variables específicas de unidades de cuidado intensivo, defunciones y si devolver la tabla como `tibble` o como conexión de `dbplyr` a `MARIADB`:
 
 ```{r, eval = TRUE}
-datos_covid <- datos_covid %>% 
+datos_covid <- datos_covid |> 
   casos(
     #Lista de entidades que deseas
     entidades = c("AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR",
@@ -367,7 +384,7 @@ datos_covid <- datos_covid %>%
 Puedes ver la base generada así:
 
 ```{r}
-datos_covid$`Ejemplo defunciones` %>% head()
+datos_covid$`Ejemplo defunciones` |> head()
 ```
 
 ### Número de pruebas
@@ -375,16 +392,16 @@ datos_covid$`Ejemplo defunciones` %>% head()
 Para calcular el número de pruebas los argumentos son los mismos que la función de `casos` con el agregado de que `tipo_prueba` es un vector donde se seleccionan las pruebas a considerar (`Antígeno` o `PCR`) y `group_by_tipo_prueba` agrupa los resultados por tipo de prueba
 
 ```{r}
-datos_covid <- datos_covid %>% 
+datos_covid <- datos_covid |> 
   numero_pruebas(entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR"),
                  tipo_prueba = c("Antigeno", "PCR"),
                  group_by_tipo_prueba = TRUE)
 
-datos_covid$numero_pruebas %>% head()
+datos_covid$numero_pruebas |> head()
 ```
 
 ```{r, warning = FALSE}
-datos_covid$numero_pruebas %>% 
+datos_covid$numero_pruebas |> 
   plot_covid(facet_ncol = 2, date_break_format = "1 month")
 ```
 
@@ -396,16 +413,16 @@ Para calcular la positividad la única forma actual es con un `tibble`.  Los arg
 > **Nota** Positividad es la variable más lenta de calcular por ahora. Ten paciencia
 
 ```{r}
-datos_covid <- datos_covid %>% 
+datos_covid <- datos_covid |> 
   positividad(entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR"),
                  tipo_prueba = c("Antigeno", "PCR"),
                  group_by_tipo_prueba = TRUE)
 
-datos_covid$positividad %>% head()
+datos_covid$positividad |> head()
 ```
 
 ```{r, warning = FALSE}
-datos_covid$positividad %>% 
+datos_covid$positividad |> 
   plot_covid(facet_ncol = 2, 
              facet_scale = "fixed",
              type = "spline",
@@ -425,7 +442,7 @@ $$
 lo puedes calcular con `chr`:
 
 ```{r, message=FALSE}
-datos_covid <- datos_covid %>% chr()
+datos_covid <- datos_covid |> chr()
 ```
 
 ```{r, echo = FALSE}
@@ -435,14 +452,14 @@ head(datos_covid$`case hospitalization rate`)
 Las variables para agrupar son casi las mismas que en `casos`. Por ejemplo si queremos agrupar el `chr` en distintas categorías de edad a nivel nacional:
 
 ```{r, message=FALSE, warning=FALSE}
-datos_covid <- datos_covid %>% 
+datos_covid <- datos_covid |> 
   chr(
     group_by_entidad = FALSE,
     edad_cut  = c(0, 20, 50, Inf),
     list_name = "CHR_edad_nacional"
   ) 
 
-datos_covid %>%
+datos_covid |>
   plot_covid(type = "line", 
              facet_ncol = 4, 
              date_break_format = "7 days",
@@ -459,7 +476,7 @@ $$
 lo puedes calcular con `cfr`:
 
 ```{r, message=FALSE}
-datos_covid <- datos_covid %>% cfr()
+datos_covid <- datos_covid |> cfr()
 ```
 
 ```{r, echo = FALSE}
@@ -469,13 +486,13 @@ head(datos_covid$`case fatality rate`)
 Las variables para agrupar son casi las mismas que en `casos`. Por ejemplo si queremos agrupar el `cfr` en distintas categorías de edad a nivel nacional:
 
 ```{r, message = FALSE, warning=FALSE}
-datos_covid <- datos_covid %>% 
+datos_covid <- datos_covid |> 
   cfr(entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
     group_by_entidad = TRUE,
     list_name = "CFR_BC"
   ) 
 
-datos_covid$CFR_BC %>%
+datos_covid$CFR_BC |>
   plot_covid(type = "line", 
              facet_ncol = 2,
              date_break_format = "7 days",
@@ -485,14 +502,14 @@ datos_covid$CFR_BC %>%
 Podemos también calcular la mortalidad dentro de los hospitalizados y ambulatorios:
 
 ```{r, message=FALSE, warning=FALSE}
-datos_covid <- datos_covid %>% 
+datos_covid <- datos_covid |> 
   cfr(
     tipo_paciente = "HOSPITALIZADO",
     group_by_entidad       = FALSE,
     list_name = "CFR_HOSPITALIZADOS"
   ) 
 
-datos_covid %>%
+datos_covid |>
   plot_covid(df_name = "CFR_HOSPITALIZADOS", 
              type = "line", 
              facet_ncol = 2,
@@ -509,7 +526,7 @@ para la cual es necesario especificar el método y el intervalo serial [como en 
 Podemos estimar el número a nivel nacional a partir de 2022:
 
 ```{r, message = FALSE}
-datos_covid <- datos_covid %>% 
+datos_covid <- datos_covid |> 
   estima_rt(entidades = "BAJA CALIFORNIA",
             min_date  = as.Date("2021/07/01", format = "%Y/%m/%d"))
 ```
@@ -521,12 +538,12 @@ head(datos_covid$estima_rt)
 O bien por entidad sólo con los confirmados covid:
 
 ```{r, message = FALSE}
-datos_covid <- datos_covid %>% 
+datos_covid <- datos_covid |> 
   estima_rt(tipo_clasificacion = "Confirmados COVID",
      list_name = "RT_confirmados_COVID",
      min_date  = as.Date("2021/07/01", format = "%Y/%m/%d"))
 
-datos_covid$RT_confirmados_COVID %>%
+datos_covid$RT_confirmados_COVID |>
   plot_covid(df_date_index = "FECHA_SINTOMAS", 
              df_variable = "Mean(R)",
              df_covariates = "ENTIDAD_FEDERATIVA",
@@ -534,9 +551,9 @@ datos_covid$RT_confirmados_COVID %>%
              date_labels_format = "%d/%m/%Y")
 ```
 
-### Desconexión de MariaDB
+### Desconexión de duckdb
 
-Una vez que terminaste de trabajar con la base original en `MariaDB` deconecta el pointer haciendo:
+Una vez que terminaste de trabajar con la base original en `duckdb` deconecta el pointer haciendo:
 
 ```{r}
 datos_covid$disconnect()
@@ -553,7 +570,7 @@ variantes_covid <- descarga_datos_variantes_GISAID()
 Los datos se ven así:
 
 ```{r}
-variantes_covid %>% head()
+variantes_covid |> head()
 ```
 
 Por `default` baja nacional pero también puedes usar "cdmx":
@@ -569,11 +586,11 @@ Puedes graficarlos con `geom_stream` dentro de la librería `ggstream`:
 library(ggplot2)
 
 #Pasamos año y semana epidemiológica a fecha
-variantes_covid <- variantes_covid %>%
+variantes_covid <- variantes_covid |>
   left_join(
     data.frame(fecha = seq(as.Date("2020/01/03", format = "%Y/%m/%d"), as.Date(Sys.time()),
-                           by = "7 days")) %>%
-      mutate(ano    = lubridate::epiyear(fecha)) %>%
+                           by = "7 days")) |>
+      mutate(ano    = lubridate::epiyear(fecha)) |>
       mutate(semana = lubridate::epiweek(fecha))
     )
 
@@ -607,7 +624,7 @@ estatales <- descarga_datos_red_irag()
 Los cuales se ven así:
 
 ```{r ocupacion, fig.height=16, fig.width=8}
-estatales %>% plot_covid(df_covariates = "estado")
+estatales |> plot_covid(df_covariates = "estado")
 ```
 
 O bien por unidad médica:
@@ -619,7 +636,7 @@ unidad_medica <- descarga_datos_red_irag(nivel = "Unidad Médica")
 que se ven así:
 
 ```{r}
-unidad_medica %>% head()
+unidad_medica |> head()
 ```
 
 En este caso, la descarga también es inteligente y necesitas poner `force_download = TRUE` si ha pasado menos de un día de tu última descarga (almacenada mediante `pins` en cache) y quieres volver a bajar los datos. 
@@ -632,13 +649,13 @@ En este caso, la descarga también es inteligente y necesitas poner `force_downl
 Para graficar puedes usar la función `plot_covid` por default grafica lo que està en `datos_covid$casos` y establecer cada cuándo hacer los cortes de fechas con `date_break_format` 
 
 ```{r nacionalentidad}
-datos_covid %>% plot_covid(date_break_format = "1 week")
+datos_covid |> plot_covid(date_break_format = "1 week")
 ```
 
 pero puedes pedir otra con el eje x más limpio:
 
 ```{r nacional}
-datos_covid %>% plot_covid("Todos (nacional)", 
+datos_covid |> plot_covid("Todos (nacional)", 
                            date_break_format = "1 week",
                            date_labels_format = "%m/%y")
 ```
@@ -646,18 +663,32 @@ datos_covid %>% plot_covid("Todos (nacional)",
 Para visualizar un suavizamiento con *splines* cambia el `type` y dale las opciones que darías a `geom_spline`:
 
 ```{r splineacional}
-datos_covid %>% 
+datos_covid |> 
   plot_covid("Todos (nacional)", type = "spline", spar = 0.5, date_break_format = "1 week")
 ```
 
 Puedes visualizar hasta dos covariables a la vez con `df_covariates` y decirle cuál graficar con `df_variable`:
 
 ```{r, fig.height=25, fig.width=8}
-datos_covid %>% 
+datos_covid |> 
   plot_covid("Ejemplo defunciones", 
              df_variable = "n", 
              df_covariates = c("SEXO","ENTIDAD_FEDERATIVA"),
              date_break_format = "3 weeks",
              type = "area") 
+```
+
+## Desconexión
+
+No olvides, cuando termines de usar `duckdb` desconectarte:
+
+```{r}
+datos_covid$disconnect()
+```
+
+## Información adicional
+
+```{r}
+sessionInfo()
 ```
 

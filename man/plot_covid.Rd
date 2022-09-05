@@ -60,28 +60,19 @@ This is not an official product / este no es un producto oficial
 \examples{
 \dontrun{
 # Grafica de casos por entidad
-datos_covid \%>\%
-  casos() \%>\%
-  plot_covid()
+datos_covid |>
+  casos(list_name = "casos_for_plot") |>
+  plot_covid(df_name = "casos_for_plot")
 
 # Grafica de casos nacional
-datos_covid \%>\%
-  casos(group_by_entidad = F) \%>\%
-  plot_covid()
-
-# Grafica de casos nacional
-datos_covid \%>\%
-  casos(group_by_entidad = F) \%>\%
-  plot_covid()
+datos_covid |>
+  casos(group_by_entidad = FALSE, list_name = "plot_nal") |>
+  plot_covid(df_name = "plot_nal")
 
 # Ajuste mediante splines
-datos_covid \%>\%
-  casos(group_by_entidad = F) \%>\%
-  plot_covid(type = "spline", spar = 0.5)
+datos_covid |>
+  casos(group_by_entidad = F, list_name = "spline_nacional") |>
+  plot_covid(df_name = "spline_nacional", type = "spline", spar = 0.5)
 
-# Ajuste mediante splines
-datos_covid \%>\%
-  casos(group_by_entidad = T, group_by_tipo_clasificacion = T, df_variable = "n") \%>\%
-  plot_covid()
 }
 }

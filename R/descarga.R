@@ -26,19 +26,14 @@
 #'
 #' @details
 #'
-#' Necesitas tener una instalacion funcionando de [`MariaDB`](https://mariadb.com/). El programa
-#' se encarga de descargar la base de datos de la DGE, abrir el archivo `.zip` y crear una
-#' tabla de nombre `covidmx` dentro de tu database `dbname`. Asegurate de que tu usuario `user`
-#' tenga permisos de escritura. Para mas informacion sobre instalacion y uso de `MariaDB`
-#' consulta [el articulo correspondiente](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html).
-#'
-#' Si tienes RAM que te sobre puedes no crear una base de datos en `MariaDB` sino leer directo
+#' Si tienes RAM que te sobre puedes no crear una base de datos en `duckdb` sino leer directo
 #' el archivo `csv`. Esto se logra con `read_format = tibble`. No lo recomiendo pues puedes
 #' terminar con tu sesion de `R` si se te acaba la memoria.
 #'
-#' _Windows_ Para abrir el archivo `.zip` requieres tambien descargar e instalar [`7Zip`](https://www.7-zip.org/)
-#' por default el sistema lo busca en `C:\\Program Files\\7-Zip\\7z.exe` pero si no esta ese
-#' directorio es necesario que en `unzip_command` especifiques el camino donde se instalo `7z.exe`.
+#' _Windows_ Para abrir el archivo `.zip` quiza requieras tambien descargar e instalar
+#'  [`7Zip`](https://www.7-zip.org/) por default el sistema lo busca en 
+#'  `C:\\Program Files\\7-Zip\\7z.exe` pero si no esta ese directorio es necesario que 
+#'  en `unzip_command` especifiques el camino donde se instalo `7z.exe`.
 #'
 #' @section Uso de `pins`:
 #'
@@ -57,7 +52,7 @@
 #' estas usando `pins` pues puede romperse la dependencia. Si accidentalmente lo borraste
 #' usa `pins::board_cache_path()` para ir al `path` y borrar manualmente toda la carpeta.
 #'
-#' @param read_format \code{"MariaDB"} o \code{"tibble"} establece el formato
+#' @param read_format \code{"duckdb"} o \code{"tibble"} establece el formato
 #' de lectura de la base de datos. En la mayoria de los casos \code{"tibble"} va a
 #' resultar en un error de memoria.
 #'
@@ -67,24 +62,9 @@
 #' archivo ha cambiado y si hubo cambios entonces lo descarga.
 #'
 #' @param quiet (**opcional**) Variable para no mostrar mensajes
-#'
-#' @param user Usuario para \code{dbConnect} i.e. tu usuario de `MariaDB`.
-#' Puedes ponerlo como variable ambiental con `Sys.setenv("MariaDB_user" = "tu_usuario")`
-#'
-#' @param password password para \code{dbConnect} i.e. tu password de `MariaDB`
-#' Puedes ponerlo como variable ambiental con `Sys.setenv("MariaDB_password" = "tu_passwodrd")`
-#'
-#' @param dbname Nombre de la base de datos \code{DATABASE} para\code{dbConnect} puedes ponerlo
-#' con `Sys.setenv("MariaDB_dbname" = "covidmx")`
-#'
-#' @param host (**opcional**) Host para \code{dbConnect}. Si no sabes cual tienes seguro es `localhost`. Puedes
-#' ponerlo con `Sys.setenv("MariaDB_host" = "localhost")`
-#'
-#' @param group (**opcional**)  Grupo de \code{dbConnect} i.e. tu grupo de `MariaDB`. Ponlo como variable ambiental
-#' usando `Sys.setenv("MariaDB_group" = "tu_grupo")`
-#'
-#' @param port Puerto de la conexion con `MariaDB`. Puedes ponerlo con
-#' `Sys.setenv("MariaDB_group" = "tu_grupo")`
+#' 
+#' @param pragma_memory_limit Memory limit for program [PRAGMAS](https://duckdb.org/docs/sql/pragmas).
+#' change it to around half of your RAM 
 #'
 #' @param tblname Nombre de la tabla dentro de el \code{DATABASE} `dbname` donde guardar los datos
 #' por default se llama `covidmx`.
@@ -102,7 +82,7 @@
 #'
 #' @param board_url_name_dict Establece el nombre del `pins::board_url` para los datos abiertos
 #'
-#' @param site.covid Sitio web con el vinculo al archivo `.zip` de los datos abiertos. Puedes
+#' @param sites.covid Sitio web con el vinculo al archivo `.zip` de los datos abiertos. Puedes
 #' cambiarlo por uno de los historicos, por ejemplo.
 #'
 #' @param site.covid.dic Sitio para descarga del diccionario de datos.
@@ -115,8 +95,6 @@
 #'
 #' @param use_dict Si descargar el diccionario de `site.covid.dic`.
 #'
-#' @param nthreads Número de `threads` para escribir el archivo en `MariaDB`.
-#'
 #' @param unzip_command Forma de extraer la base de datos de datos abiertos. La forma de
 #' llamarla es con `system2(unzip_command, args = c(unzip_args, file_download_data))`.
 #'
@@ -124,21 +102,6 @@
 #' llamarla es con `system2(unzip_command, args = c(unzip_args, file_download_data))`.
 #'
 #' @param unzip_args_dict Lista de argumentos para usar `utils::unzip` en el diccionario de datos.
-#'
-#' @param prestatement Opciones adicionales para `MariaDB` yo pongo las que me han funcionado
-#' en que sea mas veloz la carta.
-#'
-#' @param additional_mysqlimport_flags La instalacion se hace con el siguiente comando para `MariaDB`:
-#' \preformatted{
-#' mysqlimport --default-character-set=UTF8 --fields-terminated-by=',' --ignore-lines=1
-#' --fields-enclosed-by='\"' --lines-terminated-by='\\n' --user={user}" --password={password}
-#' --use-threads={nthreads} {silent_flag} {additional_mysqlimport_flags} {dbname} ./{tblname}.csv
-#' }
-#'
-#' @param load_data_infile_options Lista de opciones por si la importacion con `mysqlimport` no
-#' funciona se use un `LOAD DATA INFILE` como aquí \url{https://dev.mysql.com/doc/refman/8.0/en/load-data.html}
-#' Las variables se pasan como lista asi por ejemplo si queremos agregar la variable local se
-#' pone `list("LOCAL" = "LOCAL")` y si no la queremos `list("LOCAL" = "")`.
 #'
 #' @param check_unzip_install Bandera de verificacion para checar si tienes lo necesario para
 #' unzippear los datos.
@@ -159,7 +122,7 @@
 #'
 #' @param show_warnings si arrojar `warnings`
 #'
-#' @param datos_abiertos_zip_path Camino a los datos abiertos si ya los descargaste en `zip`
+#' @param datos_abiertos_zip_paths Camino a los datos abiertos si ya los descargaste en `zip`
 #'
 #' @param datos_abiertos_unzipped_path Camino a los datos abiertos `csv` si ya los descargaste y
 #' descomprimiste el archivo `zip` en un `csv`
@@ -177,87 +140,91 @@
 #'
 #' @param ... Parametros adicionales para `DBI::dbConnect`.
 #'
-#' @param driver  An `SQL` driver for `dbConnect`
+#' @param drv  Un  driver para `dbConnect` (default `duckdb::duckdb()`)
 #'
-#' @param sqlimport  An import command similar to `mysqlimport`
-#'
-#' @return List of values:
+#' @param dbdir Parametro de [duckdb::dbConnect__duckdb_driver()]
+#' 
+#' @param colClasses Clases de la columna para leer en `read.csv`
+#' @return Lista de valores:
 #' \itemize{
-#'   \item dats        - Tabla conectada mediante `DBI::dbConnect` (si `MariaDB`) o
+#'   \item dats        - Tabla conectada mediante `duckdb::dbConnect__duckdb_driver()` (si `duckdb`) o
 #'                       tibble (si `tibble`)
 #'   \item disconnect  - Funcion para cerrar la conexion a la base de datos.
 #'   \item dict        - Lista de `tibble`s con el diccionario de datos para cada variable
 #' }
 #' @examples
 #' \dontrun{
-#' # Descarga de la base de datos junto con diccionario en MariaDB
+#' # Descarga de la base de datos junto con diccionario en duckdb
 #' datos_covid <- descarga_datos_abiertos()
 #'
 #' # Luego haces algo con esos datos...
 #'
-#' # Cuando terminas cierras la sesión:
+#' # Cuando terminas cierras la sesion:
 #' datos_covid$disconnect()
 #'
 #' # Descarga solo el diccionario
-#' diccionario <- descarga_diccionario()
+#' diccionario    <- descarga_diccionario()
 #'
 #' # O bien descarga solo los datos abiertos
 #' datos_abiertos <- descarga_db()
 #'
 #' # Pegalos en el formato que se necesita para el resto de funciones
-#' datos_covid <- pega_db_datos_abiertos(datos_abiertos, diccionario)
+#' datos_covid    <- pega_db_datos_abiertos(datos_abiertos, diccionario)
 #'
 #' # Tambien puedes descargar paso por paso
-#' datos_abiertos <- descarga_db_datos_abiertos_tbl() %>% # Descarga
-#'   unzip_db_datos_abiertos_tbl() %>% # Unzippea
-#'   parse_db_datos_abiertos_tbl() # MariaDB
+#' datos_abiertos <- descarga_db_datos_abiertos_tbl() |> # Descarga
+#'   unzip_db_datos_abiertos_tbl() |> # Unzippea
+#'   parse_db_datos_abiertos_tbl() # Duckdb
 #'
 #' # O bien el diccionario
-#' diccionario <- descarga_db_diccionario_ssa() %>% # Descarga
-#'   unzip_db_diccionario_ssa() %>% # Unzippea
+#' diccionario <- descarga_db_diccionario_ssa() |> # Descarga
+#'   unzip_db_diccionario_ssa() |> # Unzippea
 #'   parse_db_diccionario_ssa() # Tibble
 #' }
 #' @encoding UTF-8
 #' @seealso [descarga_datos_red_irag] [descarga_datos_variantes_GISAID] [read_datos_abiertos] [casos]
 #' @export
-
-descarga_datos_abiertos <- function(read_format = c("MariaDB", "tibble"),
-                                    driver = RMariaDB::MariaDB(),
-                                    sqlimport = "mysqlimport",
-                                    user = Sys.getenv("MariaDB_user"),
-                                    password = Sys.getenv("MariaDB_password"),
-                                    dbname = Sys.getenv("MariaDB_dbname"),
-                                    host = Sys.getenv("MariaDB_host"),
-                                    group = Sys.getenv("MariaDB_group"),
-                                    port = Sys.getenv("MariaDB_port"),
-                                    tblname = "covidmx",
-                                    nthreads = max(parallel::detectCores() - 1, 1),
-                                    download_process = c("pins", "download.file"),
-                                    site.covid = paste0(
-                                      "http://datosabiertos.salud.gob.mx",
-                                      "/gobmx/salud/datos_abiertos/datos",
-                                      "_abiertos_covid19.zip"
+#FIXME 
+descarga_datos_abiertos <- function(read_format = c("duckdb", "tibble"),
+                                    tblname     = "covidmx",
+                                    drv         = duckdb::duckdb(),
+                                    dbdir       = tempfile(fileext = ".duckdb"),
+                                    pragma_memory_limit = "1GB",
+                                    colClasses  = get_col_class(),
+                                    sites.covid = c(
+                                      "2022" = paste0(
+                                        "http://datosabiertos.salud.gob.mx/gobmx/salud",
+                                        "/datos_abiertos/datos_abiertos_covid19.zip"), 
+                                      "2021" = paste0(
+                                        "https://datosabiertos.salud.gob.mx/gobmx/salud",
+                                        "/datos_abiertos/historicos/2021/",
+                                        "COVID19MEXICO2021.zip"),
+                                      "2020" = paste0(
+                                        "https://datosabiertos.salud.gob.mx/gobmx/salud",
+                                        "/datos_abiertos/historicos/2020/",
+                                        "COVID19MEXICO2020.zip")
                                     ),
+                                    download_process = c("pins", "download.file"),
                                     site.covid.dic = paste0(
                                       "http://datosabiertos.salud.",
                                       "gob.mx/gobmx/salud/datos_a",
                                       "biertos/diccionario_datos_",
                                       "covid19.zip"
                                     ),
-                                    unzip_command = Sys.getenv("unzip_command"),
-                                    unzip_args = Sys.getenv("unzip_args"),
-                                    unzip_args_dict = list("exdir" = ".", "overwrite" = TRUE),
+                                    unzip_command       = Sys.getenv("unzip_command"),
+                                    unzip_args          = Sys.getenv("unzip_args"),
+                                    unzip_args_dict     = list("exdir" = ".", "overwrite" = TRUE),
                                     check_unzip_install = TRUE,
-                                    clear_zip = download_process[1] != "pins",
-                                    clear_csv = TRUE,
-                                    use_dict = TRUE,
-                                    datos_abiertos_zip_path = NULL,
+                                    clear_zip           = (download_process[1] != "pins"),
+                                    clear_csv           = TRUE,
+                                    use_dict            = TRUE,
+                                    datos_abiertos_zip_paths    = NULL,
                                     datos_abiertos_unzipped_path = NULL,
-                                    datos_abiertos_tbl = NULL,
-                                    diccionario_zip_path = NULL,
+                                    datos_abiertos_tbl        = NULL,
+                                    diccionario_zip_path      = NULL,
                                     diccionario_unzipped_path = NULL,
                                     diccionario = NULL,
-                                    quiet = FALSE,
+                                    quiet       = FALSE,
                                     cache_datos = NULL,
                                     use_cache_on_failure = TRUE,
                                     cache_diccionario = NULL,
@@ -271,33 +238,18 @@ descarga_datos_abiertos <- function(read_format = c("MariaDB", "tibble"),
                                       quiet    = quiet
                                     ),
                                     descarga_db_datos_abiertos_tbl_args = list(),
-                                    descarga_db_diccionario_ssa_args = list(),
-                                    prestatement = paste0(
-                                      "SET sql_mode = 'NO_ENGINE_SUBSTITUTION,",
-                                      "NO_AUTO_CREATE_USER';"
-                                    ),
-                                    additional_mysqlimport_flags = c("--local"),
-                                    load_data_infile_options = list(
-                                      "LOW_PRIORITY" = "",
-                                      "CONCURRENT"   = "",
-                                      "LOCAL"        = "LOCAL",
-                                      "PARTITION"    = ""
-                                    ),
+                                    descarga_db_diccionario_ssa_args    = list(),
                                     ...) {
+  
   datos_abiertos_tbl <- descarga_db(
     read_format = read_format,
-    driver = driver,
-    sqlimport = sqlimport,
-    user = user,
-    password = password,
-    dbname = dbname,
-    host = host,
-    group = group,
-    port = port,
-    tblname = tblname,
-    nthreads = nthreads,
+    tblname     = tblname,
+    pragma_memory_limit = pragma_memory_limit,
+    drv         = drv,
+    dbdir       = dbdir,
+    colClasses  = colClasses,
     download_process = download_process,
-    site.covid = site.covid,
+    sites.covid = sites.covid,
     unzip_command = unzip_command,
     unzip_args = unzip_args,
     check_unzip_install = check_unzip_install,
@@ -305,7 +257,7 @@ descarga_datos_abiertos <- function(read_format = c("MariaDB", "tibble"),
     clear_csv = clear_csv,
     force_download = force_download,
     show_warnings = show_warnings,
-    datos_abiertos_zip_path = datos_abiertos_zip_path,
+    datos_abiertos_zip_paths = datos_abiertos_zip_paths,
     datos_abiertos_unzipped_path = datos_abiertos_unzipped_path,
     datos_abiertos_tbl = datos_abiertos_tbl,
     quiet = quiet,
@@ -314,9 +266,7 @@ descarga_datos_abiertos <- function(read_format = c("MariaDB", "tibble"),
     cache = cache_datos,
     download_file_args = download_file_args,
     descarga_db_datos_abiertos_tbl_args = descarga_db_datos_abiertos_tbl_args,
-    prestatement = prestatement,
-    additional_mysqlimport_flags = additional_mysqlimport_flags,
-    load_data_infile_options = load_data_infile_options, ...
+    ...
   )
 
 
@@ -353,32 +303,35 @@ descarga_datos_abiertos <- function(read_format = c("MariaDB", "tibble"),
 #' @export
 #' @rdname descarga_datos_abiertos
 #' @param cache parametro para el cache de `pins::board_url`
-#' @param ... Parametros adicionales para `BI::dbConnect()` con  conexion de `RMariaDB::MariaDB()`
-descarga_db <- function(read_format = c("MariaDB", "tibble"),
-                        driver = RMariaDB::MariaDB(),
-                        sqlimport = "mysqlimport",
-                        user = Sys.getenv("MariaDB_user"),
-                        password = Sys.getenv("MariaDB_password"),
-                        dbname = Sys.getenv("MariaDB_dbname"),
-                        host = Sys.getenv("MariaDB_host"),
-                        group = Sys.getenv("MariaDB_group"),
-                        port = Sys.getenv("MariaDB_port"),
-                        tblname = "covidmx",
-                        nthreads = max(parallel::detectCores() - 1, 1),
-                        download_process = c("pins", "download.file"),
-                        site.covid = paste0(
-                          "http://datosabiertos.salud.gob.mx",
-                          "/gobmx/salud/datos_abiertos/datos",
-                          "_abiertos_covid19.zip"
+#' @param ... Parametros adicionales para `duckdb::dbConnect()` con  conexion de `duckdb::duckdb()`
+descarga_db <- function(read_format = c("duckdb", "tibble"),
+                        tblname     = "covidmx",
+                        pragma_memory_limit = "1GB",
+                        drv         = duckdb::duckdb(),
+                        dbdir       = tempfile(fileext = ".duckdb"),
+                        colClasses  = get_col_class(),
+                        sites.covid = c(
+                          "2022" = paste0(
+                            "http://datosabiertos.salud.gob.mx/gobmx/salud",
+                            "/datos_abiertos/datos_abiertos_covid19.zip"), 
+                          "2021" = paste0(
+                            "https://datosabiertos.salud.gob.mx/gobmx/salud",
+                            "/datos_abiertos/historicos/2021/",
+                            "COVID19MEXICO2021.zip"),
+                          "2020" = paste0(
+                            "https://datosabiertos.salud.gob.mx/gobmx/salud",
+                            "/datos_abiertos/historicos/2020/",
+                            "COVID19MEXICO2020.zip")
                         ),
-                        unzip_command = Sys.getenv("unzip_command"),
-                        unzip_args = Sys.getenv("unzip_args"),
+                        download_process = c("pins", "download.file"),
+                        unzip_command    = Sys.getenv("unzip_command"),
+                        unzip_args       = Sys.getenv("unzip_args"),
                         check_unzip_install = TRUE,
-                        clear_zip = download_process[1] != "pins",
-                        clear_csv = TRUE,
-                        force_download = FALSE,
-                        show_warnings = TRUE,
-                        datos_abiertos_zip_path = NULL,
+                        clear_zip           = (download_process[1] != "pins"),
+                        clear_csv           = TRUE,
+                        force_download      = FALSE,
+                        show_warnings       = TRUE,
+                        datos_abiertos_zip_paths = NULL,
                         datos_abiertos_unzipped_path = NULL,
                         datos_abiertos_tbl = NULL,
                         quiet = FALSE,
@@ -391,24 +344,14 @@ descarga_db <- function(read_format = c("MariaDB", "tibble"),
                           quiet    = quiet
                         ),
                         descarga_db_datos_abiertos_tbl_args = list(),
-                        prestatement = paste0(
-                          "SET sql_mode = 'NO_ENGINE_SUBSTITUTION,",
-                          "NO_AUTO_CREATE_USER';"
-                        ),
-                        additional_mysqlimport_flags = c("--local"),
-                        load_data_infile_options = list(
-                          "LOW_PRIORITY" = "",
-                          "CONCURRENT"   = "",
-                          "LOCAL"        = "LOCAL",
-                          "PARTITION"    = ""
-                        ),
                         ...) {
 
   # Descargamos los datos de la ssa
-  if (is.null(datos_abiertos_zip_path) & is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)) {
+  if (is.null(datos_abiertos_zip_paths) & is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)) {
+    cli::cli_alert_info("Descargando la informacion. Ten paciencia esto tarda.")
     descarga_db_datos_abiertos_tbl_args <- list(
       "download_process"     = download_process,
-      "site.covid"           = site.covid,
+      "sites.covid"          = sites.covid,
       "quiet"                = quiet,
       "board_url_name"       = board_url_name,
       "cache"                = cache,
@@ -416,19 +359,20 @@ descarga_db <- function(read_format = c("MariaDB", "tibble"),
       "force_download"       = force_download,
       "show_warnings"        = show_warnings,
       "download_file_args"   = download_file_args
-    ) %>%
+    ) |>
       append(descarga_db_datos_abiertos_tbl_args)
 
-    datos_abiertos_zip_path <- do.call(
+    datos_abiertos_zip_paths <- do.call(
       descarga_db_datos_abiertos_tbl,
       descarga_db_datos_abiertos_tbl_args
     )
   }
 
   # Liberamos el zip
-  if (!is.null(datos_abiertos_zip_path) & is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)) {
+  if (!is.null(datos_abiertos_zip_paths) & is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)) {
+    cli::cli_alert_info("Liberando los archivos {.file .zip}")
     datos_abiertos_unzipped_path <- unzip_db_datos_abiertos_tbl(
-      datos_abiertos_zip_path = datos_abiertos_zip_path,
+      datos_abiertos_zip_paths = datos_abiertos_zip_paths,
       unzip_command = unzip_command,
       unzip_args = unzip_args,
       clear_zip = clear_zip,
@@ -437,26 +381,19 @@ descarga_db <- function(read_format = c("MariaDB", "tibble"),
     )
   }
 
-  # Parseamos el file en tibble o MARIADB
+  # Parseamos el file en tibble o duckdb
   if (!is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)) {
+    cli::cli_alert_info("Parseando los archivos {.file .csv} en {read_format[1]}")
     datos_abiertos_tbl <- parse_db_datos_abiertos_tbl(
       datos_abiertos_unzipped_path = datos_abiertos_unzipped_path,
-      driver         = driver,
-      sqlimport      = sqlimport,
-      read_format    = read_format,
-      user           = user,
-      password       = password,
-      dbname         = dbname,
-      host           = host,
-      group          = group,
-      port           = port,
-      tblname        = tblname,
-      nthreads       = nthreads,
-      clear_csv      = clear_csv,
-      quiet          = quiet,
-      prestatement   = prestatement,
-      additional_mysqlimport_flags = additional_mysqlimport_flags,
-      load_data_infile_options     = load_data_infile_options,
+      read_format = read_format,
+      dbdir       = dbdir,
+      drv         = drv,
+      pragma_memory_limit = pragma_memory_limit,
+      colClasses  = colClasses,
+      tblname     = tblname,
+      clear_csv   = clear_csv,
+      quiet       = quiet,
       ...
     )
   }
@@ -505,7 +442,7 @@ descarga_diccionario <- function(download_process = c("pins", "download.file"),
       "show_warnings"           = show_warnings,
       "use_cache_on_failure"    = use_cache_on_failure,
       "download_file_args_dict" = download_file_args_dict
-    ) %>%
+    ) |>
       append(descarga_db_diccionario_ssa_args)
 
     diccionario_zip_path <- do.call(descarga_db_diccionario_ssa, descarga_db_diccionario_ssa_args)
@@ -536,10 +473,18 @@ descarga_diccionario <- function(download_process = c("pins", "download.file"),
 #' @param cache parametro para el cache de `pins::board_url`
 #' @param ... Parametros adicionales para `pins::pin_download`
 descarga_db_datos_abiertos_tbl <- function(download_process = c("pins", "download.file"),
-                                           site.covid = paste0(
-                                             "http://datosabiertos.salud.gob.mx",
-                                             "/gobmx/salud/datos_abiertos/datos",
-                                             "_abiertos_covid19.zip"
+                                           sites.covid = c(
+                                             "2022" = paste0(
+                                               "http://datosabiertos.salud.gob.mx/gobmx/salud",
+                                               "/datos_abiertos/datos_abiertos_covid19.zip"), 
+                                             "2021" = paste0(
+                                               "https://datosabiertos.salud.gob.mx/gobmx/salud",
+                                               "/datos_abiertos/historicos/2021/",
+                                               "COVID19MEXICO2021.zip"),
+                                             "2020" = paste0(
+                                               "https://datosabiertos.salud.gob.mx/gobmx/salud",
+                                               "/datos_abiertos/historicos/2020/",
+                                               "COVID19MEXICO2020.zip")
                                            ),
                                            quiet = FALSE,
                                            board_url_name = "datos_abiertos",
@@ -556,72 +501,79 @@ descarga_db_datos_abiertos_tbl <- function(download_process = c("pins", "downloa
 
   # Method for download
   download_process <- ifelse(download_process[1] == "download.file", "download.file", "pins")
-
-  # Check site exists
-  if (!RCurl::url.exists(site.covid)) {
-    stop(glue::glue(
-      "El sitio {site.covid} no existe o no puede ser encontrado. ",
-      "Verifica exista y tu conexion a Internet sea estable."
-    ))
-  }
-
-  # Add message
-  if (!quiet) {
-    message(glue::glue("Descargando. Ten paciencia esto puede tardar bastante.
-                        Downloading. Be patient this could last a long time"))
-  }
-
-  if (download_process == "download.file") {
-
-    # Attempt to download
-    download_file_args <- append(list("url" = site.covid), download_file_args)
-    do.call(download.file, download_file_args)
-
-    # Return path
-    pathname <- download_file_args$destfile
-  } else {
-
-    # Attempt to create board
-    names(site.covid) <- board_url_name
-    board_url_args <- list(
-      "urls" = site.covid, "cache" = cache,
-      "use_cache_on_failure" = use_cache_on_failure
-    )
-    board <- do.call(pins::board_url, board_url_args)
-
-    # Obtenemos la diferencia de tiempo de cuando se bajó por vez últia
-    tdif <- pin_get_download_time(board, board_url_name)
-
-    if (!force_download & tdif < 0.9) {
-      if (show_warnings) {
-        warning(glue::glue("
-                          La descarga mas reciente fue hace {tdif} dias. Como tiene menos de un dia
-                          usare esa. Escribe force_download = TRUE si quieres descargar de
-                          todas formas. Para desactivar este mensaje show_warnings = FALSE.
-
-                          Most recent download was {tdif} days ago. It has less than a day hence
-                          I'll use that one. Write force_download = TRUE if you want to
-                          download anyway. To turn off this message show_warnings = FALSE."))
-      }
-
-      # Lee de memoria
-      pathname <- pin_path_from_memory(board, board_url_name)
-    } else {
-      # Descarga si cambió
-      pathname <- pins::pin_download(board = board, name = board_url_name, ...)
+  download_paths   <- vector(mode = "list", length = length(sites.covid))
+  
+  cli::cli_progress_bar("Descargando", total = length(sites.covid))
+  
+  for (sitenum in 1:length(sites.covid)){
+    
+    cli::cli_progress_update()
+    
+    site.covid <- sites.covid[sitenum]
+    
+    # Check site exists
+    if (!RCurl::url.exists(site.covid)) {
+      cli::cli_abort(
+        "El sitio de {.strong {names(sites.covid)[sitenum]}} dado por:
+        {.url {site.covid}} 
+        no existe o no puede ser encontrado. Verifica exista y tu conexion a Internet sea estable."
+      )
     }
+  
 
-    # Escribimos en el pin que ya descargamos
-    pin_write_download_time(board, board_url_name)
+    if (download_process == "download.file") {
+  
+      # Attempt to download
+      download_file_args <- append(list("url" = site.covid), download_file_args)
+      do.call(download.file, download_file_args)
+  
+      # Return path
+      download_paths[[sitenum]] <- download_file_args$destfile
+    } else {
+  
+      # Attempt to create board
+      bname <- paste0(board_url_name,"_", as.character(sitenum))
+      names(site.covid) <- bname
+      board_url_args <- list(
+        "urls"  = site.covid,
+        "cache" = cache, 
+        "use_cache_on_failure" = use_cache_on_failure
+      )
+      board <- do.call(pins::board_url, board_url_args)
+  
+      # Obtenemos la diferencia de tiempo de cuando se bajo por vez ultia
+      tdif <- pin_get_download_time(board, bname)
+  
+      if (!force_download & tdif < 0.9) {
+        if (show_warnings) {
+          cli::cli_warn(
+              paste("La descarga mas reciente de {.strong {names(sites.covid)[sitenum]}} fue",
+               "hace {round(tdif,5)} dias. Como tiene menos de un dia usare esa.",
+               "Escribe {.code force_download = TRUE} si quieres descargar de",
+               "todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}")
+          )
+        }
+  
+        # Lee de memoria
+        download_paths[[sitenum]] <- pin_path_from_memory(board, bname)
+        
+      } else {
+        # Descarga si cambio
+        download_paths[[sitenum]] <- pins::pin_download(board = board, name = bname, ...)
+        
+        # Escribimos en el pin que ya descargamos
+        pin_write_download_time(board, bname)
+      }
+    }
+    
   }
+  
+  cli::cli_progress_done()
 
-
-  # Add message
-  if (!quiet) {
-    message(glue::glue("Descargado en / Downloaded at {pathname}"))
-  }
-
-  return(pathname)
+  #Add names
+  names(download_paths) <- names(sites.covid)
+  
+  return(download_paths)
 }
 
 #' @export
@@ -647,80 +599,105 @@ descarga_db_diccionario_ssa <- function(download_process = c("pins", "download.f
                                         ),
                                         ...) {
 
-  # Corremos el mismo programa sólo que con la base de diccionario
+  # Corremos el mismo programa solo que con la base de diccionario
   descarga_db_datos_abiertos_tbl(
     download_process = download_process,
-    site.covid = site.covid.dic,
-    board_url_name = board_url_name_dict,
-    cache = cache_diccionario,
+    sites.covid      = site.covid.dic,
+    board_url_name   = board_url_name_dict,
+    cache            = cache_diccionario,
     use_cache_on_failure = use_cache_on_failure,
     download_file_args = download_file_args_dict,
-    quiet = quiet,
-    force_download = force_download,
-    show_warnings = show_warnings,
+    quiet              = quiet,
+    force_download     = force_download,
+    show_warnings      = show_warnings,
     ...
   )
 }
 
 #' @export
 #' @rdname descarga_datos_abiertos
-unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_path,
+unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_paths,
                                         unzip_command = Sys.getenv("unzip_command"),
-                                        unzip_args = Sys.getenv("unzip_args"),
+                                        unzip_args    = Sys.getenv("unzip_args"),
                                         check_unzip_install = TRUE,
                                         quiet = FALSE,
                                         clear_zip = FALSE) {
 
-  # Establecemos el comando para unzipear
-  if (is.null(unzip_command) | unzip_command == "") {
-    unzip_command <- ifelse(tolower(.Platform$OS.type) == "windows",
-      "\"C:\\Program Files\\7-Zip\\7z.exe\"", "unzip"
-    )
-  }
-
-  # Establecemos argumentos adicionales
-  if (is.null(unzip_args) | unzip_args == "") {
-    unzip_args <- ifelse(tolower(.Platform$OS.type) == "windows", "-x", "-o")
-  }
-
-  # Checamos que exusta la herramienta para unzippear
-  if (check_unzip_install & stringr::str_detect(R.version$os, "darwin|linux")) {
-    is_unzip <- system2("which", unzip_command, stdout = T, stderr = T)
-    if (length(is_unzip) == 0) {
-      stop(glue::glue("Por favor instala unzip:
-                       [OSX]: brew install unzip
-                       [Debian/Ubuntu]: apt install unzip"))
+  
+  cli::cli_progress_bar("Leyendo archivos zip", total = length(datos_abiertos_zip_paths))
+  csv_files   <- vector(mode = "list", length = length(datos_abiertos_zip_paths))
+  
+  for (zipnum in 1:length(datos_abiertos_zip_paths)){
+    
+    cli::cli_progress_update()
+    
+    datos_abiertos_zip_path <- datos_abiertos_zip_paths[[zipnum]]
+    
+    # Unzip file
+    filecon <- tryCatch(
+      {
+        unzip(datos_abiertos_zip_path, overwrite = TRUE)
+        fname <- list.files(pattern = "?.*COVID19.*.csv", full.names = T)[1]
+      },
+      warning = function(cond) {
+        
+        # Establecemos el comando para unzipear
+        if (is.null(unzip_command) | unzip_command == "") {
+          unzip_command <- ifelse(tolower(.Platform$OS.type) == "windows",
+                                  "\"C:\\Program Files\\7-Zip\\7z.exe\"", "unzip"
+          )
+        }
+        
+        # Establecemos argumentos adicionales
+        if (is.null(unzip_args) | unzip_args == "") {
+          unzip_args <- ifelse(tolower(.Platform$OS.type) == "windows", "-x", "-o")
+        }
+        
+        # Checamos que exusta la herramienta para unzippear
+        if (check_unzip_install & stringr::str_detect(R.version$os, "darwin|linux")) {
+          is_unzip <- system2("which", unzip_command, stdout = T, stderr = T)
+          if (length(is_unzip) == 0) {
+            cli::cli_abort(
+              c("Por favor instala unzip:",
+                "+ {.strong [OSX]:} {.code brew install unzip}",
+                "+ {.strong [Debian/Ubuntu]:} {.code apt install unzip}",
+                "  o bien desde {.url http://infozip.sourceforge.net/UnZip.html}")
+            )
+          }
+        } else if (check_unzip_install & tolower(.Platform$OS.type) == "windows") {
+          is_unzip <- shell(paste("if exist", unzip_command, "echo yes"), intern = T)
+          if (is_unzip != "yes") {
+            cli::cli_abort(
+              c(paste("Por favor instala {.strong 7zip} de {.url https://www.7-zip.org/}",
+                      "y en {.code unzip_command} pon el camino hacia el archivo {.strong 7z.exe}"),
+                paste("> {.emph Ejemplo:} {.code unzip_db_datos_abiertos_tbl(..., unzip_command",
+                "= 'C:\\Program Files\\7-Zip\\7z.exe')}"))
+            )
+          }
+        }
+        
+        #Unzippeamos
+        system2(unzip_command, args = c(unzip_args, datos_abiertos_zip_path), stdout = !quiet)
+        fname <- list.files(pattern = ".*COVID19.*.csv", full.names = T)[1]
+      },
+      error = function(cond) {
+        cli::cli_abort("No se puede leer {.file {datos_abiertos_zip_path}}")
+      })
+      
+    csv_files[[zipnum]] <- file.path(dirname(fname), 
+                                     paste0(names(datos_abiertos_zip_paths)[zipnum], ".csv"))
+    file.rename(fname, csv_files[[zipnum]])
+    
+    if (clear_zip & file.exists(datos_abiertos_zip_path)) {
+      file.remove(datos_abiertos_zip_path)
     }
-  } else if (check_unzip_install & tolower(.Platform$OS.type) == "windows") {
-    is_unzip <- shell(glue::glue("if exist {unzip_command} echo yes"), intern = T)
-    if (is_unzip != "yes") {
-      stop(glue::glue("Por favor instala 7zip de https://www.7-zip.org/
-                       y en unzip_command pon el camino hacia el archivo 7z.exe
-                       Ej: unzip_command=\"'C:\\Program Files\\7-Zip\\7z.exe'\""))
-    }
   }
+  
+  cli::cli_progress_done()
 
-  # Unzip file
-  filecon <- tryCatch(
-    {
-      unzip(datos_abiertos_zip_path, overwrite = TRUE)
-      list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
-    },
-    warning = function(cond) {
-      system2(unzip_command, args = c(unzip_args, datos_abiertos_zip_path), stdout = !quiet)
-      list.files(pattern = "*COVID19MEXICO.csv", full.names = T)[1]
-    },
-    error = function(cond) {
-      stop(glue::glue("No se puede leer {datos_abiertos_zip_path}
-                     Unable to read {datos_abiertos_zip_path}"))
-    }
-  )
-
-  if (clear_zip & file.exists(datos_abiertos_zip_path)) {
-    file.remove(datos_abiertos_zip_path)
-  }
-
-  return(filecon)
+  names(csv_files) <- names(datos_abiertos_zip_paths)
+  
+  return(csv_files)
 }
 
 #' @export
@@ -728,13 +705,15 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_path,
 unzip_db_diccionario_ssa <- function(diccionario_zip_path,
                                      unzip_args_dict = list("exdir" = ".", "overwrite" = TRUE),
                                      clear_zip = FALSE) {
-  filenames <- unzip(zipfile = diccionario_zip_path, list = TRUE)
-  fname <- filenames[which(stringr::str_detect(filenames$Name, "Cat.*logo.*")), "Name"]
+  
+  filenames <- unzip(zipfile = diccionario_zip_path[[1]], list = TRUE)
+  fname     <- filenames[which(stringr::str_detect(filenames$Name, "Cat.*logo.*")), "Name"]
 
-  unzip_args <- append(list("zipfile" = diccionario_zip_path, "files" = fname), unzip_args_dict)
-  filecon <- do.call(unzip, unzip_args)
+  unzip_args <- append(list("zipfile" = diccionario_zip_path[[1]], 
+                            "files" = fname), unzip_args_dict)
+  filecon    <- do.call(unzip, unzip_args)
 
-  if (clear_zip & file.exists(diccionario_zip_path)) {
+  if (clear_zip & file.exists(diccionario_zip_path[[1]])) {
     unlink(diccionario_zip_path)
   }
 
@@ -745,61 +724,60 @@ unzip_db_diccionario_ssa <- function(diccionario_zip_path,
 #' @rdname descarga_datos_abiertos
 parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALSE) {
   if (!file.exists(diccionario_unzipped_path)) {
-    stop(glue::glue("No puedo encontrar {diccionario_unzipped_path}
-                     I can't find {diccionario_unzipped_path}"))
+    cli::cli_abort("No puedo encontrar {.file {diccionario_unzipped_path}}")
   }
 
   diccionario <- list()
 
-  diccionario <- diccionario %>%
+  diccionario <- diccionario |>
     append(
       list("ORIGEN" = readxl::read_excel(diccionario_unzipped_path,
         sheet = "Cat\u00e1logo ORIGEN",
         col_types = c("numeric", "text")
       ))
-    ) %>%
+    ) |>
     append(
       list("SECTOR" = readxl::read_excel(diccionario_unzipped_path,
         sheet = "Cat\u00e1logo SECTOR",
         col_types = c("numeric", "text")
       ))
-    ) %>%
+    ) |>
     append(
       list("SEXO" = readxl::read_excel(diccionario_unzipped_path,
         sheet = "Cat\u00e1logo SEXO",
         col_types = c("numeric", "text")
       ))
-    ) %>%
+    ) |>
     append(
       list("PACIENTE" = readxl::read_excel(diccionario_unzipped_path,
         sheet = "Cat\u00e1logo TIPO_PACIENTE",
         col_types = c("numeric", "text")
       ))
-    ) %>%
+    ) |>
     append(
       list("NACIONALIDAD" = readxl::read_excel(diccionario_unzipped_path,
         sheet = "Cat\u00e1logo NACIONALIDAD",
         col_types = c("numeric", "text")
       ))
-    ) %>%
+    ) |>
     append(
       list("RESULTADO_LAB" = readxl::read_excel(diccionario_unzipped_path,
         sheet = "Cat\u00e1logo RESULTADO_LAB",
         col_types = c("numeric", "text")
       ))
-    ) %>%
+    ) |>
     append(
       list("RESULTADO_ANTIGENO" = readxl::read_excel(diccionario_unzipped_path,
         sheet = "Cat\u00e1logo RESULTADO_ANTIGENO",
         col_types = c("numeric", "text")
       ))
-    ) %>%
+    ) |>
     append(
       list("CLASIFICACION_FINAL" = readxl::read_excel(diccionario_unzipped_path,
         sheet = "Cat\u00e1logo CLASIFICACION_FINAL",
         col_types = c("numeric", "text", "text")
       ))
-    ) %>%
+    ) |>
     append(
       list("MUNICIPIO_RES" = readxl::read_excel(diccionario_unzipped_path,
         sheet = "Cat\u00e1logo MUNICIPIOS",
@@ -822,7 +800,7 @@ parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALS
     "OTRA_COMORBILIDAD", "OBESIDAD", "RENAL_CRONICA", "TABAQUISMO", "UCI"
   )) {
     names(lista_si_no) <- variable
-    diccionario <- diccionario %>% append(lista_si_no)
+    diccionario <- diccionario |> append(lista_si_no)
   }
 
   #> CATALOGO ENTIDAD
@@ -833,7 +811,7 @@ parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALS
 
   for (variable in c("ENTIDAD_UM", "ENTIDAD_RES", "ENTIDAD_NAC")) {
     names(lista_entidad) <- variable
-    diccionario <- diccionario %>% append(lista_entidad)
+    diccionario <- diccionario |> append(lista_entidad)
   }
 
   if (clear_csv & file.exists(diccionario_unzipped_path)) {
@@ -846,245 +824,144 @@ parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALS
 #' @export
 #' @rdname descarga_datos_abiertos
 parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
-                                        read_format = c("MariaDB", "tibble"),
-                                        driver = RMariaDB::MariaDB(),
-                                        sqlimport = "mysqlimport",
-                                        user = Sys.getenv("MariaDB_user"),
-                                        password = Sys.getenv("MariaDB_password"),
-                                        dbname = Sys.getenv("MariaDB_dbname"),
-                                        host = Sys.getenv("MariaDB_host"),
-                                        group = Sys.getenv("MariaDB_group"),
-                                        port = Sys.getenv("MariaDB_port"),
-                                        tblname = "covidmx",
-                                        nthreads = max(parallel::detectCores() - 1, 1),
-                                        quiet = TRUE,
-                                        clear_csv = FALSE,
-                                        prestatement = paste0(
-                                          "SET sql_mode = 'NO_ENGINE_SUBSTITUTION,",
-                                          "NO_AUTO_CREATE_USER';"
-                                        ),
-                                        additional_mysqlimport_flags = c("--local"),
-                                        load_data_infile_options = list(
-                                          "LOW_PRIORITY" = "",
-                                          "CONCURRENT"   = "",
-                                          "LOCAL"        = "LOCAL",
-                                          "PARTITION"    = ""
-                                        ),
+                                        read_format = c("duckdb","tibble"),
+                                        pragma_memory_limit = "1GB",
+                                        dbdir       = tempfile(fileext = ".duckdb"),
+                                        drv         = duckdb::duckdb(),
+                                        colClasses  = get_col_class(),
+                                        tblname     = "covidmx",
+                                        quiet       = TRUE,
+                                        clear_csv   = FALSE,
                                         ...) {
 
   # Formato de lectura
-  if (tolower(read_format[1]) %in% c("mariadb", "tibble")) {
+  if (tolower(read_format[1]) %in% c("duckdb", "tibble")) {
     read_format <- tolower(read_format[1])
   } else {
-    stop("Formato invalido. Selecciona MariaDB o tibble")
+    cli::cli_abort("{.code read_format} invalido. Selecciona {.code 'duckdb'} o {.code 'tibble'}")
+  }
+  
+  #Check we have dbplyr
+  if (!requireNamespace("dbplyr", quietly = TRUE) & read_format == "duckdb"){
+    cli::cli_abort("Por favor instala {.code dbplyr} con {.code install.packages('dbplyr')}")
   }
 
 
-  # Check we have mariadb
-  # if (read_format == "mariadb" & !RMariaDB::mariadbHasDefault()) {
-  #  url_maria <- "https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html"
-  #  stop(glue::glue("No puedo encontrar la conexion con MariaDB.
-  #                   Ve a {url_maria} para mas informacion sobre como instalar."))
-  # }
-
-  if (read_format == "mariadb" & !quiet) {
-    message(glue::glue("Por favor se paciente todo el proceso toma aprox 20 minutos.
-                        Please be patient the whole process takes around 20 minutes."))
-  }
-
-  # Si es MARIADB regresa sólo la primera entrada si es tibble regresa todo
-  if (read_format == "mariadb") {
-    n_max <- 1
-  } else {
-    n_max <- Inf
-  }
-
-  # Desactivamos que nos hable
-  readr_progress_old <- getOption("readr.show_progress")
-  options(readr.show_progress = !quiet)
-
-  # Desactivamos las parsing warnings
-  old_warning <- getOption("warn")
-  options(warn = -1)
-
-  # Leemos el archivo
-  header <- readr::read_csv(datos_abiertos_unzipped_path,
-    locale = readr::locale(encoding = "UTF-8"),
-    n_max = n_max,
-    trim_ws = TRUE,
-    col_types = readr::cols(
-      .default              = readr::col_character(),
-      FECHA_ACTUALIZACION   = readr::col_date(format = "%Y-%m-%d"),
-      ORIGEN                = readr::col_double(),
-      SECTOR                = readr::col_double(),
-      SEXO                  = readr::col_double(),
-      TIPO_PACIENTE         = readr::col_double(),
-      FECHA_INGRESO         = readr::col_date(format = "%Y-%m-%d"),
-      FECHA_SINTOMAS        = readr::col_date(format = "%Y-%m-%d"),
-      FECHA_DEF             = readr::col_date(format = "%Y-%m-%d"),
-      INTUBADO              = readr::col_double(),
-      NEUMONIA              = readr::col_double(),
-      EDAD                  = readr::col_double(),
-      NACIONALIDAD          = readr::col_double(),
-      EMBARAZO              = readr::col_double(),
-      HABLA_LENGUA_INDIG    = readr::col_double(),
-      INDIGENA              = readr::col_double(),
-      DIABETES              = readr::col_double(),
-      EPOC                  = readr::col_double(),
-      ASMA                  = readr::col_double(),
-      INMUSUPR              = readr::col_double(),
-      HIPERTENSION          = readr::col_double(),
-      OTRA_COM              = readr::col_double(),
-      CARDIOVASCULAR        = readr::col_double(),
-      OBESIDAD              = readr::col_double(),
-      RENAL_CRONICA         = readr::col_double(),
-      TABAQUISMO            = readr::col_double(),
-      OTRO_CASO             = readr::col_double(),
-      TOMA_MUESTRA_LAB      = readr::col_double(),
-      RESULTADO_LAB         = readr::col_double(),
-      TOMA_MUESTRA_ANTIGENO = readr::col_double(),
-      RESULTADO_ANTIGENO    = readr::col_double(),
-      CLASIFICACION_FINAL   = readr::col_double(),
-      MIGRANTE              = readr::col_double(),
-      UCI                   = readr::col_double()
-    )
-  )
-
-  # Set readr progress
-  options(readr.show_progress = readr_progress_old)
-  options(warn = old_warning)
-
-  # Si estamos en tibble ya acabamos
   if (read_format == "tibble") {
-    dats <- header
+    
+    # Desactivamos que nos hable
+    readr_progress_old <- getOption("readr.show_progress")
+    options(readr.show_progress = !quiet)
+  
+    # Desactivamos las parsing warnings
+    old_warning <- getOption("warn")
+    options(warn = -1)
+  
+    # Leemos el archivo
+    dats <- readr::read_csv(datos_abiertos_unzipped_path,
+      locale = readr::locale(encoding = "UTF-8"),
+      trim_ws = TRUE,
+      col_types = readr::cols(
+        .default              = readr::col_character(),
+        FECHA_ACTUALIZACION   = readr::col_date(format = "%Y-%m-%d"),
+        ORIGEN                = readr::col_double(),
+        SECTOR                = readr::col_double(),
+        SEXO                  = readr::col_double(),
+        TIPO_PACIENTE         = readr::col_double(),
+        FECHA_INGRESO         = readr::col_date(format = "%Y-%m-%d"),
+        FECHA_SINTOMAS        = readr::col_date(format = "%Y-%m-%d"),
+        FECHA_DEF             = readr::col_date(format = "%Y-%m-%d"),
+        INTUBADO              = readr::col_double(),
+        NEUMONIA              = readr::col_double(),
+        EDAD                  = readr::col_double(),
+        NACIONALIDAD          = readr::col_double(),
+        EMBARAZO              = readr::col_double(),
+        HABLA_LENGUA_INDIG    = readr::col_double(),
+        INDIGENA              = readr::col_double(),
+        DIABETES              = readr::col_double(),
+        EPOC                  = readr::col_double(),
+        ASMA                  = readr::col_double(),
+        INMUSUPR              = readr::col_double(),
+        HIPERTENSION          = readr::col_double(),
+        OTRA_COM              = readr::col_double(),
+        CARDIOVASCULAR        = readr::col_double(),
+        OBESIDAD              = readr::col_double(),
+        RENAL_CRONICA         = readr::col_double(),
+        TABAQUISMO            = readr::col_double(),
+        OTRO_CASO             = readr::col_double(),
+        TOMA_MUESTRA_LAB      = readr::col_double(),
+        RESULTADO_LAB         = readr::col_double(),
+        TOMA_MUESTRA_ANTIGENO = readr::col_double(),
+        RESULTADO_ANTIGENO    = readr::col_double(),
+        CLASIFICACION_FINAL   = readr::col_double(),
+        MIGRANTE              = readr::col_double(),
+        UCI                   = readr::col_double()
+      )
+    )
+  
+    # Set readr progress
+    options(readr.show_progress = readr_progress_old)
+    options(warn = old_warning)
+    
     disconnect <- function() {
-      message("Happy coding!")
+      cli::cli_alert_success("Desconectado")
     }
-
-    # Si es MARIADB cargamos la base
+    
   } else {
 
-    # Creamos la conexión de MARIADB
-    dbname <- ifelse(dbname == "", "covidmx", dbname)
-    host <- ifelse(host == "", "localhost", host)
-    port <- ifelse(port == "", "8787", port)
-
-    if (!quiet) {
-      message(
-        glue::glue("DATASET {dbname}
-                    at {host}
-                    using port = {port}")
-      )
-    }
-
-    # Get file connection
-    con <- DBI::dbConnect(
-      drv = driver,
-      host = host,
-      port = port,
-      user = user,
-      group = group,
-      password = password,
-      dbname = dbname,
+    # Creamos la conexion de duck
+    con <- duckdb::dbConnect(
+      drv       = drv,
+      dbdir     = dbdir,
+      read_only = FALSE,
       ...
     )
 
-    # Creating MARIADB table format
-    dbres <- DBI::dbSendStatement(conn = con, statement = prestatement)
-    DBI::dbClearResult(dbres)
-
-    # Overwriting table
-    DBI::dbWriteTable(conn = con, name = tblname, value = header, overwrite = T)
-
-    # Deleting what has been written
-    dbres <- DBI::dbSendStatement(conn = con, statement = glue::glue("DELETE FROM {tblname};"))
-    DBI::dbClearResult(dbres)
-
-    # Rename file because mysql only works with specific name in MARIADB
-    if (file.exists(glue::glue("./{tblname}.csv")) &
-      datos_abiertos_unzipped_path != glue::glue("./{tblname}.csv")) {
-      file.remove(glue::glue("./{tblname}.csv"))
-    }
-    file.rename(datos_abiertos_unzipped_path, glue::glue("./{tblname}.csv"))
-
-    # Then we create the table
-    silent_flag <- ifelse(quiet, "--silent", "")
-    other_flags <- paste0(additional_mysqlimport_flags, collapse = " ")
-
-    tryCatch(
-      {
-        if (!quiet) {
-          message(glue::glue(
-            "Intentando crear tabla en paralelo con mysqlimport | ",
-            "Attempting to create table in parallel with mysqlimport"
-          ))
-        }
-
-        system(glue::glue(
-          "{sqlimport}",
-          " --default-character-set=UTF8",
-          " --fields-terminated-by=','",
-          " --ignore-lines=1",
-          " --fields-enclosed-by='\"'",
-          " --lines-terminated-by='\\n'",
-          " --user={user}",
-          " --password={password}",
-          " --use-threads={nthreads}",
-          " {silent_flag}",
-          " {other_flags}",
-          " {dbname} ./{tblname}.csv"
-        ), ignore.stdout = !quiet)
-      },
-      error = function(e) {
-        if (!quiet) {
-          message(glue::glue(
-            "Intentando crear tabla con LOAD DATA INFILE | ",
-            "Attempting to create table in parallel with LOAD DATA INFILE"
-          ))
-        }
-        # Writing to table
-        query_to_writedata <- glue::glue(
-          "LOAD DATA ",
-          "{load_data_infile_options$LOW_PRIORITY} ",
-          "{load_data_infile_options$CONCURRENT} ",
-          "{load_data_infile_options$LOCAL} ",
-          "INFILE \'{tblname}.csv\' ",
-          "REPLACE INTO TABLE {tblname} ",
-          "CHARACTER SET UTF8 ",
-          "COLUMNS TERMINATED BY ',' ",
-          "ENCLOSED BY '\"'",
-          "LINES TERMINATED BY '\\n' ",
-          "IGNORE 1 LINES;"
-        )
-
-        dbres <- DBI::dbSendStatement(conn = con, statement = query_to_writedata)
-        DBI::dbClearResult(dbres)
-      }
-    )
-
-    if (!quiet) {
-      message(glue::glue("Cree la tabla {tblname} | Created {tblname} table"))
-    }
+    #Pragma memory limit
+    DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit,"'"))
+    
+    cli::cli_alert_info("Cargando los datos en duckdb...")
+    duckdb::duckdb_read_csv(con, tblname, unlist(datos_abiertos_unzipped_path), 
+                            colClasses = colClasses)
+    
+    cli::cli_alert_info("Tabla creada: conexion en proceso...")
     dats <- dplyr::tbl(con, tblname)
+    
+    #Formateo
+    dats <- dats |> 
+      dplyr::mutate(dplyr::across(
+        dplyr::all_of(c("ORIGEN", "SECTOR", "SEXO", 
+                        "TIPO_PACIENTE", "INTUBADO", "NEUMONIA", "EDAD", "NACIONALIDAD", "EMBARAZO",
+                        "HABLA_LENGUA_INDIG", "INDIGENA", "DIABETES", "EPOC", "ASMA", "INMUSUPR", "HIPERTENSION", "OTRA_COM",
+                        "CARDIOVASCULAR", "OBESIDAD", "RENAL_CRONICA", "TABAQUISMO", "OTRO_CASO",  "TOMA_MUESTRA_LAB",
+                        "RESULTADO_LAB", "TOMA_MUESTRA_ANTIGENO", "RESULTADO_ANTIGENO", "CLASIFICACION_FINAL", "MIGRANTE",
+                        "UCI"))
+        , ~ as.integer(.))) |>
+      dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ dplyr::if_else(. == "9999-99-99", NA_character_, .))) |>
+      dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ dplyr::if_else(. == "-001-11-30", NA_character_, .))) |>
+      dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ strptime(., "%Y-%m-%d")))
 
-    # Creamos función de desconexión
+    # Creamos funcion de desconexion
     disconnect <- function() {
-      DBI::dbDisconnect(con)
+      duckdb::dbDisconnect(con)
+      cli::cli_alert_success("Desconectado")
     }
 
-    # Mensaje de desconexión
+    # Mensaje de desconexion
     if (!quiet) {
-      message(glue::glue("No olvides desconectar la base con datos_covid$disconnect() al final.
-
-                          Don't forget to disconnect the dataset with datos_covid$disconnect() at
-                          the end."))
+      cli::cli_alert_info(
+        "No olvides desconectar la base con {.code datos_covid$disconnect()} al final."
+      )
     }
   }
 
-  if (clear_csv & file.exists(glue::glue("{tblname}.csv"))) {
-    file.remove(glue::glue("{tblname}.csv"))
-  } else if (clear_csv & file.exists(datos_abiertos_unzipped_path)) {
-    file.remove(datos_abiertos_unzipped_path)
+  if (clear_csv){
+    cli::cli_alert_info("Removiendo los archivos .csv")
+    for (fname in datos_abiertos_unzipped_path){
+      if (file.exists(fname)) {
+        file.remove(fname)
+      } 
+    }
   }
 
   return(list(dats = dats, disconnect = disconnect))

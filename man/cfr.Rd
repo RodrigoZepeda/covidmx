@@ -119,21 +119,21 @@ This is not an official product / este no es un producto oficial
 }
 \examples{
 \dontrun{
-datos_covid <- descarga_datos_abiertos(language = "Espanol")
+datos_covid <- descarga_datos_abiertos()
 
 # Casos a nivel nacional
-datos_covid <- datos_covid \%>\% cfr()
+datos_covid <- datos_covid |> cfr()
 head(datos_covid$`case fatality rate`)
 
 # Nacional
-datos_covid <- datos_covid \%>\% cfr(list_name = "cfr_nacional", group_by_entidad = F)
+datos_covid <- datos_covid |> cfr(list_name = "cfr_nacional", group_by_entidad = F)
 
 # CFR en Jalisco y Colima
-datos_covid <- datos_covid \%>\%
+datos_covid <- datos_covid |>
   cfr(entidades = c("JALISCO", "COLIMA"), list_name = "cfr_Jaliscolima")
 
 # Calcula el CFR suponiendo toda la base son confirmados
-datos_covid <- datos_covid \%>\%
+datos_covid <- datos_covid |>
   cfr(
     entidades = c("JALISCO", "COLIMA"),
     tipo_clasificacion = c(
@@ -144,7 +144,7 @@ datos_covid <- datos_covid \%>\%
   )
 
 # Distinguiendo entre ambulatorio y hospitalizado
-datos_covid <- datos_covid \%>\%
+datos_covid <- datos_covid |>
   casos(
     entidades = c("JALISCO", "COLIMA"),
     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
@@ -153,17 +153,17 @@ datos_covid <- datos_covid \%>\%
   )
 
 # CFR en ambulatorios y hospitalizados
-datos_covid \%>\%
+datos_covid |>
   cfr(
     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
     group_by_tipo_paciente = TRUE,
     group_by_entidad = FALSE,
     list_name = "CFR_hosp_amb"
-  ) \%>\%
+  ) |>
   plot_covid(df_name = "CFR_hosp_amb", type = "line", facet_ncol = 3)
 
 # Si deseas agrupar por una variable que no este en las opciones
-datos_covid <- datos_covid \%>\%
+datos_covid <- datos_covid |>
   cfr(.grouping_vars = c("DIABETES"), list_name = "cfr_diab")
 }
 

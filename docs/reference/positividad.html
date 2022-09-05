@@ -12,7 +12,7 @@ por covariables."><meta property="og:image" content="https://rodrigozepeda.githu
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -30,7 +30,6 @@ por covariables."><meta property="og:image" content="https://rodrigozepeda.githu
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
-    <a class="dropdown-item" href="../articles/Instalacion_de_MARIADB.html">Instalación de MariaDB</a>
   </div>
 </li>
 <li class="nav-item">
@@ -236,35 +235,45 @@ This is not an official product / este no es un producto oficial</p>
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"Espanol"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Casos a nivel nacional por estado por tipo de prueba</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">positividad</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Casos a nivel nacional por estado por tipo de prueba</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">positividad</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Total nacional</span></span></span>
-<span class="r-in"><span><span class="va">defunciones</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">positividad</span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Total nacional</span></span></span>
+<span class="r-in"><span><span class="va">defunciones</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">positividad</span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span>, list_name <span class="op">=</span> <span class="st">"posnac"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Positivos en Jalisco y Colima</span></span></span>
-<span class="r-in"><span><span class="va">casos_col_jal</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">positividad</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>,<span class="st">"COLIMA"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Positivos en Jalisco y Colima</span></span></span>
+<span class="r-in"><span><span class="va">casos_col_jal</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span></span>
+<span class="r-in"><span>     <span class="fu">positividad</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>, <span class="st">"COLIMA"</span><span class="op">)</span>, list_name <span class="op">=</span> <span class="st">"jalcol_positivida"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Agrupando ambas pruebas en una sola</span></span></span>
-<span class="r-in"><span><span class="va">confirmados</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>    <span class="fu">positividad</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>,<span class="st">"COLIMA"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>          group_by_tipo_prueba <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Agrupando ambas pruebas en una sola</span></span></span>
+<span class="r-in"><span><span class="va">confirmados</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">positividad</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>, <span class="st">"COLIMA"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    group_by_tipo_prueba <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"jalcol_positivida_todos"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Regresa la suma de los de COLIMA + JALISCO</span></span></span>
-<span class="r-in"><span><span class="va">casos_col_jal</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>    <span class="fu">positividad</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>,<span class="st">"COLIMA"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>          tipo_paciente <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AMBULATORIO"</span>, <span class="st">"HOSPITALIZADO"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>          group_by_tipo_paciente <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Regresa la suma de los de COLIMA + JALISCO</span></span></span>
+<span class="r-in"><span><span class="va">casos_col_jal</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">positividad</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>, <span class="st">"COLIMA"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    tipo_paciente <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AMBULATORIO"</span>, <span class="st">"HOSPITALIZADO"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    group_by_tipo_paciente <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"jalcol_positivida_todos_2"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Si deseas agrupar por una variable que no este en las opciones</span></span></span>
-<span class="r-in"><span><span class="va">casos_col_jal</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>    <span class="fu">positividad</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>,<span class="st">"COLIMA"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>          tipo_paciente <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AMBULATORIO"</span>, <span class="st">"HOSPITALIZADO"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>          group_by_tipo_paciente <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>          .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DIABETES"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Si deseas agrupar por una variable que no este en las opciones</span></span></span>
+<span class="r-in"><span><span class="va">casos_col_jal</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">positividad</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"JALISCO"</span>, <span class="st">"COLIMA"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    tipo_paciente <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AMBULATORIO"</span>, <span class="st">"HOSPITALIZADO"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    group_by_tipo_paciente <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>    .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DIABETES"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"jalcol_positivida_todos_ambhosp"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

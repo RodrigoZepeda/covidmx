@@ -21,7 +21,7 @@ remotes::install_github("RodrigoZepeda/covidmx")
 
 Puedes descargar la información de variantes de [GISAID](www.gisaid.org) de la [publicación de Github](https://github.com/RodrigoZepeda/VariantesCovid), ocupación hospitalaria de [RED IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome) a partir del [Github](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) y datos abiertos de la [SSA](https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico) todo con los siguientes comandos.
 
-**Nota** Para usar los datos abiertos de la `DGE` te sugiero instalar también `MariaDB` [(ver guía)](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html) y si estás en `Windows` también instala [7-zip](https://www.7-zip.org/). 
+> El proceso está optimizado mediante `duckdb` para que puedas realizar `queries` sobre la base de > 15 millones de personas en segundos. 
 
 ```{r}
 library(covidmx)
@@ -36,18 +36,8 @@ descarga_datos_variantes_GISAID("nacional") #desactiva con force_download = TRUE
 #Datos de ocupación hopsitalaria de Red IRAG ('Estatal' o 'Unidad Médica')
 ocupacion   <- descarga_datos_red_irag("Estatal")
 
-#Descarga datos abiertos de covid, guarda en MARIADB y te da una conexión
-datos_covid <- descarga_datos_abiertos(
-    user      = Sys.getenv("MariaDB_user"),
-    password  = Sys.getenv("MariaDB_password"),
-    dbname    = Sys.getenv("MariaDB_dbname"),
-    host      = Sys.getenv("MariaDB_host"),
-    group     = Sys.getenv("MariaDB_group"),
-    port      = Sys.getenv("MariaDB_port")
-) 
-
-#Una vez descargados la próxima vez que los quieras basta con leerlos
-# datos_covid <- read_datos_abiertos() 
+#Descarga datos abiertos de covid, guarda en duckdb y te da una conexión
+datos_covid <- descarga_datos_abiertos() 
 
 #Calcula los casos (totales) por entidad y devuelve un tibble
 datos_covid <- datos_covid %>% casos()
@@ -189,8 +179,6 @@ datos_covid %>%
 ## Más información
 
 + Para ver todas las funciones del paquete ve a [Primeros Pasos](https://rodrigozepeda.github.io/covidmx/articles/covidmx.html)
-
-+ Para instalar `MariaDB` checa [esta guía](https://rodrigozepeda.github.io/covidmx/articles/Instalacion_de_MARIADB.html)
 
 + Puedes ver un estudio de caso del paquete para [Ciudad de México en este link](https://rodrigozepeda.github.io/covidmx/articles/Estudio_de_Caso_CDMX.html)
 

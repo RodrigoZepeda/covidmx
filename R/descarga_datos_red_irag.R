@@ -49,17 +49,17 @@ descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
   cuenta <- "RodrigoZepeda/CapacidadHospitalariaMX/master/processed/"
 
   nivel <- ifelse(tolower(nivel[1]) == "estatal", "estatal", "unidad_medica")
-  fname <- glue::glue("{github}{cuenta}HospitalizacionesMX_{nivel}.csv")
+  fname <- paste0(github, cuenta, "HospitalizacionesMX_",nivel[1],".csv")
 
   if (!quiet) {
-    message(glue::glue("Descargando/downloading: {fname}"))
+    cli::cli_alert("Descargando/downloading: {fname}")
   }
 
   # Creamos el board
   board <- pins::board_url(
     urls = c(
-      "estatal" = glue::glue("{github}{cuenta}HospitalizacionesMX_estatal.csv"),
-      "unidad_medica" = glue::glue("{github}{cuenta}HospitalizacionesMX_unidad_medica.csv")
+      "estatal" = paste0(github, cuenta, "HospitalizacionesMX_estatal.csv"),
+      "unidad_medica" = paste0(github, cuenta, "HospitalizacionesMX_unidad_medica.csv")
     ),
     cache = cache,
     use_cache_on_failure = use_cache_on_failure
@@ -73,14 +73,12 @@ descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
 
   if (!force_download & tdif < 0.9) {
     if (show_warnings) {
-      warning(glue::glue("
-                          La descarga mas reciente fue hace {tdif} dias. Como tiene menos de un dia
-                          usare esa. Escribe force_download = TRUE si quieres descargar de
-                          todas formas. Para desactivar este mensaje show_warnings = FALSE.
-
-                          Most recent download was {tdif} days ago. It has less than a day hence
-                          I'll use that one. Write force_download = TRUE if you want to
-                          download anyway. To turn off this message show_warnings = FALSE."))
+      cli::cli_warn(
+        paste("La descarga mas reciente de fue",
+              "hace {round(tdif,5)} dias. Como tiene menos de un dia usare esa.",
+              "Escribe {.code force_download = TRUE} si quieres descargar de",
+              "todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}")
+      )
     }
 
     # Lee de memoria
@@ -90,7 +88,7 @@ descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
     dfile <- pins::pin_download(board = board, name = nivel[1], ...)
   }
 
-  dats <- dfile %>%
+  dats <- dfile |>
     readr::read_csv(
       locale = readr::locale(encoding = "UTF-8"),
       col_types = readr::cols(
@@ -98,8 +96,7 @@ descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
         Fecha         = readr::col_date(format = "%Y-%m-%d"),
         Actualizacion = readr::col_datetime(format = "%Y-%m-%dT%H:%M:%SZ")
       )
-    ) %>%
-    janitor::clean_names()
+    ) 
 
   # Escribimos en el pin que ya descargamos
   pin_write_download_time(board, nivel[1])

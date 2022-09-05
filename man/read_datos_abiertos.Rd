@@ -5,41 +5,30 @@
 \alias{read_datos_abiertos}
 \alias{read_datos_abiertos_zip}
 \alias{read_datos_abiertos_csv}
-\alias{read_datos_abiertos_MariaDB}
+\alias{read_datos_abiertos_duckdb}
 \title{LEE LA BASE DE DATOS ABIERTOS DE LA DIRECCION GENERAL DE EPIDEMIOLOGIA QUE YA DESCARGASTE}
 \usage{
 read_datos_abiertos(
-  datos_abiertos_path = NULL,
-  driver = RMariaDB::MariaDB(),
-  sqlimport = "mysqlimport",
-  read_format = c("MariaDB", "tibble"),
-  user = Sys.getenv("MariaDB_user"),
-  password = Sys.getenv("MariaDB_password"),
-  dbname = Sys.getenv("MariaDB_dbname"),
-  host = Sys.getenv("MariaDB_host"),
-  group = Sys.getenv("MariaDB_group"),
-  port = Sys.getenv("MariaDB_port"),
+  datos_abiertos_path,
   tblname = "covidmx",
-  nthreads = max(parallel::detectCores() - 1, 1),
+  pragma_memory_limit = "1GB",
+  drv = duckdb::duckdb(),
+  dbdir = tempfile(fileext = ".duckdb"),
+  colClasses = get_col_class(),
+  read_format = c("duckdb", "tibble"),
   ...
 )
 
 read_datos_abiertos_zip(
-  datos_abiertos_zip_path,
+  datos_abiertos_zip_paths,
   diccionario_zip_path = NULL,
   diccionario_unzipped_path = NULL,
   diccionario = NULL,
-  read_format = c("MariaDB", "tibble"),
-  driver = RMariaDB::MariaDB(),
-  sqlimport = "mysqlimport",
-  user = Sys.getenv("MariaDB_user"),
-  password = Sys.getenv("MariaDB_password"),
-  dbname = Sys.getenv("MariaDB_dbname"),
-  host = Sys.getenv("MariaDB_host"),
-  group = Sys.getenv("MariaDB_group"),
-  port = Sys.getenv("MariaDB_port"),
+  read_format = c("duckdb", "tibble"),
   tblname = "covidmx",
-  nthreads = max(parallel::detectCores() - 1, 1),
+  drv = duckdb::duckdb(),
+  dbdir = tempfile(fileext = ".duckdb"),
+  colClasses = get_col_class(),
   download_process = c("pins", "download.file"),
   site.covid.dic = paste0("http://datosabiertos.salud.", "gob.mx/gobmx/salud/datos_a",
     "biertos/diccionario_datos_", "covid19.zip"),
@@ -47,7 +36,7 @@ read_datos_abiertos_zip(
   unzip_args = Sys.getenv("unzip_args"),
   unzip_args_dict = list(exdir = ".", overwrite = TRUE),
   check_unzip_install = TRUE,
-  clear_zip = download_process[1] != "pins",
+  clear_zip = (download_process[1] != "pins"),
   clear_csv = TRUE,
   use_dict = TRUE,
   quiet = FALSE,
@@ -60,11 +49,6 @@ read_datos_abiertos_zip(
   board_url_name_dict = "diccionario_covid",
   download_file_args = list(method = "curl", destfile = tempfile(), quiet = quiet),
   descarga_db_diccionario_ssa_args = list(),
-  prestatement = paste0("SET sql_mode = 'NO_ENGINE_SUBSTITUTION,",
-    "NO_AUTO_CREATE_USER';"),
-  additional_mysqlimport_flags = c("--local"),
-  load_data_infile_options = list(LOW_PRIORITY = "", CONCURRENT = "", LOCAL = "LOCAL",
-    PARTITION = ""),
   ...
 )
 
@@ -73,17 +57,11 @@ read_datos_abiertos_csv(
   diccionario_zip_path = NULL,
   diccionario_unzipped_path = NULL,
   diccionario = NULL,
-  read_format = c("MariaDB", "tibble"),
-  driver = RMariaDB::MariaDB(),
-  sqlimport = "mysqlimport",
-  user = Sys.getenv("MariaDB_user"),
-  password = Sys.getenv("MariaDB_password"),
-  dbname = Sys.getenv("MariaDB_dbname"),
-  host = Sys.getenv("MariaDB_host"),
-  group = Sys.getenv("MariaDB_group"),
-  port = Sys.getenv("MariaDB_port"),
+  read_format = c("duckdb", "tibble"),
   tblname = "covidmx",
-  nthreads = max(parallel::detectCores() - 1, 1),
+  drv = duckdb::duckdb(),
+  dbdir = tempfile(fileext = ".duckdb"),
+  colClasses = get_col_class(),
   download_process = c("pins", "download.file"),
   site.covid.dic = paste0("http://datosabiertos.salud.", "gob.mx/gobmx/salud/datos_a",
     "biertos/diccionario_datos_", "covid19.zip"),
@@ -97,23 +75,14 @@ read_datos_abiertos_csv(
   board_url_name_dict = "diccionario_covid",
   download_file_args = list(method = "curl", destfile = tempfile(), quiet = quiet),
   descarga_db_diccionario_ssa_args = list(),
-  prestatement = paste0("SET sql_mode = 'NO_ENGINE_SUBSTITUTION,",
-    "NO_AUTO_CREATE_USER';"),
-  additional_mysqlimport_flags = c("--local"),
-  load_data_infile_options = list(LOW_PRIORITY = "", CONCURRENT = "", LOCAL = "LOCAL",
-    PARTITION = ""),
   ...
 )
 
-read_datos_abiertos_MariaDB(
-  user = Sys.getenv("MariaDB_user"),
-  password = Sys.getenv("MariaDB_password"),
-  dbname = Sys.getenv("MariaDB_dbname"),
-  host = Sys.getenv("MariaDB_host"),
-  group = Sys.getenv("MariaDB_group"),
-  port = Sys.getenv("MariaDB_port"),
-  driver = RMariaDB::MariaDB(),
+read_datos_abiertos_duckdb(
+  dbdir,
+  drv = duckdb::duckdb(),
   tblname = "covidmx",
+  pragma_memory_limit = "1GB",
   diccionario_zip_path = NULL,
   diccionario_unzipped_path = NULL,
   diccionario = NULL,
@@ -136,43 +105,27 @@ read_datos_abiertos_MariaDB(
 )
 }
 \arguments{
-\item{datos_abiertos_path}{Camino a los datos abiertos si son un \code{zip} o un \code{csv} o bien
-dejar en \code{NULL} si se quiere leer de \code{MariaDB}}
-
-\item{driver}{An \code{SQL} driver for \code{dbConnect}}
-
-\item{sqlimport}{An import command similar to \code{mysqlimport}}
-
-\item{read_format}{\code{"MariaDB"} o \code{"tibble"} establece el formato
-de lectura de la base de datos. En la mayoria de los casos \code{"tibble"} va a
-resultar en un error de memoria.}
-
-\item{user}{Usuario para \code{dbConnect} i.e. tu usuario de \code{MariaDB}.
-Puedes ponerlo como variable ambiental con \code{Sys.setenv("MariaDB_user" = "tu_usuario")}}
-
-\item{password}{password para \code{dbConnect} i.e. tu password de \code{MariaDB}
-Puedes ponerlo como variable ambiental con \code{Sys.setenv("MariaDB_password" = "tu_passwodrd")}}
-
-\item{dbname}{Nombre de la base de datos \code{DATABASE} para\code{dbConnect} puedes ponerlo
-con \code{Sys.setenv("MariaDB_dbname" = "covidmx")}}
-
-\item{host}{(\strong{opcional}) Host para \code{dbConnect}. Si no sabes cual tienes seguro es \code{localhost}. Puedes
-ponerlo con \code{Sys.setenv("MariaDB_host" = "localhost")}}
-
-\item{group}{(\strong{opcional})  Grupo de \code{dbConnect} i.e. tu grupo de \code{MariaDB}. Ponlo como variable ambiental
-usando \code{Sys.setenv("MariaDB_group" = "tu_grupo")}}
-
-\item{port}{Puerto de la conexion con \code{MariaDB}. Puedes ponerlo con
-\code{Sys.setenv("MariaDB_group" = "tu_grupo")}}
+\item{datos_abiertos_path}{Camino a los datos abiertos si son un \code{zip}, un \code{csv} o un \code{.duckdb}}
 
 \item{tblname}{Nombre de la tabla dentro de el \code{DATABASE} \code{dbname} donde guardar los datos
 por default se llama \code{covidmx}.}
 
-\item{nthreads}{Número de \code{threads} para escribir el archivo en \code{MariaDB}.}
+\item{pragma_memory_limit}{Memory limit for program \href{https://duckdb.org/docs/sql/pragmas}{PRAGMAS}.
+change it to around half of your RAM}
+
+\item{drv}{Un  driver para \code{dbConnect} (default \code{duckdb::duckdb()})}
+
+\item{dbdir}{Parametro de \code{\link[duckdb:duckdb]{duckdb::dbConnect__duckdb_driver()}}}
+
+\item{colClasses}{Clases de la columna para leer en \code{read.csv}}
+
+\item{read_format}{\code{"duckdb"} o \code{"tibble"} establece el formato
+de lectura de la base de datos. En la mayoria de los casos \code{"tibble"} va a
+resultar en un error de memoria.}
 
 \item{...}{Parametros adicionales para \code{pins::pin_download}}
 
-\item{datos_abiertos_zip_path}{Camino a los datos abiertos si ya los descargaste en \code{zip}}
+\item{datos_abiertos_zip_paths}{Camino a los datos abiertos si ya los descargaste en \code{zip}}
 
 \item{diccionario_zip_path}{Camino al diccionario si ya losdescargaste en \code{zip}}
 
@@ -233,53 +186,43 @@ si se elige este metodo para descargar.}
 \item{descarga_db_diccionario_ssa_args}{Lista con argumentos adicionales para el
 \code{pins::pin_download} de datos abiertos}
 
-\item{prestatement}{Opciones adicionales para \code{MariaDB} yo pongo las que me han funcionado
-en que sea mas veloz la carta.}
-
-\item{additional_mysqlimport_flags}{La instalacion se hace con el siguiente comando para \code{MariaDB}:
-\preformatted{
-mysqlimport --default-character-set=UTF8 --fields-terminated-by=',' --ignore-lines=1
---fields-enclosed-by='\"' --lines-terminated-by='\\n' --user={user}" --password={password}
---use-threads={nthreads} {silent_flag} {additional_mysqlimport_flags} {dbname} ./{tblname}.csv
-}}
-
-\item{load_data_infile_options}{Lista de opciones por si la importacion con \code{mysqlimport} no
-funciona se use un \verb{LOAD DATA INFILE} como aquí \url{https://dev.mysql.com/doc/refman/8.0/en/load-data.html}
-Las variables se pasan como lista asi por ejemplo si queremos agregar la variable local se
-pone \code{list("LOCAL" = "LOCAL")} y si no la queremos \code{list("LOCAL" = "")}.}
-
 \item{datos_abiertos_unzipped_path}{Camino a los datos abiertos \code{csv} si ya los descargaste y
 descomprimiste el archivo \code{zip} en un \code{csv}}
 }
 \value{
-List of values:
+Lista de valores:
 \itemize{
-\item dats - Database table (if MARIADB) or database in tibble (if tibble)
-\item con - Database connection (if MARIADB) or \code{NULL} (if tibble)
-\item dict - List of tibbles containing the whole dictionary
+\item dats        - Tabla conectada mediante \code{DBI::dbConnect} (si \code{duckdb}) o
+tibble (si \code{tibble})
+\item disconnect  - Funcion para cerrar la conexion a la base de datos.
+\item dict        - Lista de \code{tibble}s con el diccionario de datos para cada variable
 }
 }
 \description{
-\code{read_datos_abiertos} Lee los datos abiertos almacenados en tu base de \code{MariaDB} que
+\code{read_datos_abiertos} Lee los datos abiertos almacenados en tu base de \code{duckdb} que
 bajaste con \code{descarga_datos_abiertos}. Intenta de manera automática determinar
-si los lee de \code{MariaDB}, \code{csv} ó \code{zip}
+si los lee de \code{duckdb}, \code{csv} ó \code{zip}
 
-La funcion principal es \code{\link[=read_datos_abiertos]{read_datos_abiertos()}} la cual decide si los lee de zip, MARIADB o csv
+La funcion principal es \code{\link[=read_datos_abiertos]{read_datos_abiertos()}} la cual decide si los lee de \verb{zipp , }duckdb\code{o}csv`
 Tambien puedes usar las auxiliares respectivas
 \itemize{
 \item \code{\link[=read_datos_abiertos_zip]{read_datos_abiertos_zip()}}     Si sólo descargaste los datos de la DGE en \code{.zip}
 \item \code{\link[=read_datos_abiertos_csv]{read_datos_abiertos_csv()}}     Si descargaste los datos de la DGE en \code{.zip} y los descomprimiste.
-\item \code{\link[=read_datos_abiertos_MariaDB]{read_datos_abiertos_MariaDB()}} Si ya creaste tu table en \code{MariaDB}
+\item \code{\link[=read_datos_abiertos_duckdb]{read_datos_abiertos_duckdb()}}  Si ya creaste tu table en \code{duckdb}
 }
+}
+\note{
+Para guardar tu base con \code{duckdb} cambia el \code{dbdir} a un archivo \code{.duckdb}. Como ejemplo
+\code{dbdir = "ejemplo.duckdb"}.
 }
 \examples{
 \dontrun{
-# Lee los datos de MariaDB una vez descargados
+# Lee los datos de duckdb una vez descargados
 descarga_datos_abiertos()
 datos_covid <- read_datos_abiertos()
 
 # Es lo mismo que:
-datos_covid <- read_datos_abiertos_MariaDB()
+datos_covid <- read_datos_abiertos_duckdb()
 
 # Descarga los datos y lee de un zip
 direccion_zip <- descarga_db_datos_abiertos_tbl()
@@ -291,7 +234,7 @@ datos_covid <- read_datos_abiertos_zip(direccion_zip)
 # Descarga los datos y lee de un csv
 direccion_zip <- descarga_db_datos_abiertos_tbl()
 direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
-datos_covid <- read_datos_abiertos(direccion_csv)
+datos_covid   <- read_datos_abiertos(direccion_csv)
 
 datos_covid <- read_datos_abiertos_csv(direccion_csv)
 }

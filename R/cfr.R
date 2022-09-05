@@ -87,21 +87,21 @@
 #'
 #' @examples
 #' \dontrun{
-#' datos_covid <- descarga_datos_abiertos(language = "Espanol")
+#' datos_covid <- descarga_datos_abiertos()
 #'
 #' # Casos a nivel nacional
-#' datos_covid <- datos_covid %>% cfr()
+#' datos_covid <- datos_covid |> cfr()
 #' head(datos_covid$`case fatality rate`)
 #'
 #' # Nacional
-#' datos_covid <- datos_covid %>% cfr(list_name = "cfr_nacional", group_by_entidad = F)
+#' datos_covid <- datos_covid |> cfr(list_name = "cfr_nacional", group_by_entidad = F)
 #'
 #' # CFR en Jalisco y Colima
-#' datos_covid <- datos_covid %>%
+#' datos_covid <- datos_covid |>
 #'   cfr(entidades = c("JALISCO", "COLIMA"), list_name = "cfr_Jaliscolima")
 #'
 #' # Calcula el CFR suponiendo toda la base son confirmados
-#' datos_covid <- datos_covid %>%
+#' datos_covid <- datos_covid |>
 #'   cfr(
 #'     entidades = c("JALISCO", "COLIMA"),
 #'     tipo_clasificacion = c(
@@ -112,7 +112,7 @@
 #'   )
 #'
 #' # Distinguiendo entre ambulatorio y hospitalizado
-#' datos_covid <- datos_covid %>%
+#' datos_covid <- datos_covid |>
 #'   casos(
 #'     entidades = c("JALISCO", "COLIMA"),
 #'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
@@ -121,17 +121,17 @@
 #'   )
 #'
 #' # CFR en ambulatorios y hospitalizados
-#' datos_covid %>%
+#' datos_covid |>
 #'   cfr(
 #'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
 #'     group_by_tipo_paciente = TRUE,
 #'     group_by_entidad = FALSE,
 #'     list_name = "CFR_hosp_amb"
-#'   ) %>%
+#'   ) |>
 #'   plot_covid(df_name = "CFR_hosp_amb", type = "line", facet_ncol = 3)
 #'
 #' # Si deseas agrupar por una variable que no este en las opciones
-#' datos_covid <- datos_covid %>%
+#' datos_covid <- datos_covid |>
 #'   cfr(.grouping_vars = c("DIABETES"), list_name = "cfr_diab")
 #' }
 #'
@@ -182,14 +182,14 @@ cfr <- function(datos_covid,
 
   # Finally bind to previous object
   if (any(stringr::str_detect(names(datos_covid), list_name))) {
-    stop(glue::glue(
-      "Impossible to create variable {list_name} ",
-      "in datos_covid as it already exists"
-    ))
+    cli::cli_abort(
+      "Imposible crear elemento {list_name} pues ya existe en la lista.
+       Utiliza {.code list_name = 'nuevo_nombre'} para generar otro elemento"
+    )
   }
 
   if (!quiet) {
-    message("Calculando los casos totales")
+    cli::cli_alert("Calculando los casos totales")
   }
 
   # Trick to get new name
@@ -218,7 +218,7 @@ cfr <- function(datos_covid,
   )[[name_1]]
 
   if (!quiet) {
-    message("Calculando las defunciones")
+    cli::cli_alert("Calculando las defunciones")
   }
   .casos_defunciones <- casos(
     datos_covid = datos_covid,
@@ -242,19 +242,19 @@ cfr <- function(datos_covid,
   )[[name_2]]
 
   if (!quiet) {
-    message("Calculando el cfr")
+    cli::cli_alert("Calculando el cfr")
   }
 
-  .casos_totales <- .casos_totales %>%
-    dplyr::left_join(.casos_defunciones %>%
+  .casos_totales <- .casos_totales |>
+    dplyr::left_join(.casos_defunciones |>
       dplyr::rename(!!as.symbol("d") := !!as.symbol("n")),
     by = colnames(.casos_totales)[which(colnames(.casos_totales) != "n")]
-    ) %>%
+    ) |>
     dplyr::mutate(!!as.symbol("CASE FATALITY RATE") :=
       dplyr::if_else(!is.na(!!as.symbol("n")),
         as.numeric(!!as.symbol("d")) / as.numeric(!!as.symbol("n")),
         NA_real_
-      )) %>%
+      )) |>
     dplyr::select(-!!as.symbol("n"), -!!as.symbol("d"))
 
 

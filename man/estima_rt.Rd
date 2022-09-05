@@ -22,7 +22,12 @@ estima_rt(
   min_date = as.Date("2021/11/21", format = "\%Y/\%m/\%d"),
   max_date = as.Date(Sys.time()),
   method = "parametric_si",
-  config = EpiEstim::make_config(list(mean_si = 3.5, std_si = 1.5)),
+  config = if (requireNamespace("EpiEstim", quietly = TRUE)) {
+    
+    EpiEstim::make_config(list(mean_si = 3.5, std_si = 1.5))
+ } else {
+     NULL
+ },
   ...
 )
 }
@@ -88,21 +93,25 @@ This is not an official product / este no es un producto oficial
 }
 \examples{
 \dontrun{
-datos_covid <- descarga_datos_abiertos(language = "Espanol")
+datos_covid <- descarga_datos_abiertos()
 
 # Casos a nivel nacional en los confirmados
-datos_covid <- datos_covid \%>\%
-  estima_rt(tipo_clasificacion == "Confirmados COVID",
-    group_by_entidad = FALSE
+datos_covid <- datos_covid |>
+  estima_rt(
+    tipo_clasificacion = "Confirmados COVID",
+    group_by_entidad   = FALSE
   )
 
 # Casos en AGS, CHI en los confirmados
-datos_covid <- datos_covid \%>\%
+datos_covid |>
   estima_rt(
     entidades = c("CHIHUAHUA", "AGUASCALIENTES"),
-    tipo_clasificacion == "Confirmados COVID",
-    group_by_entidad = TRUE
-  )
+    tipo_clasificacion = "Confirmados COVID",
+    group_by_entidad = TRUE, 
+    list_name = "rt_ch_ags"
+  ) |> 
+  plot_covid(df_name = "rt_ch_ags", df_date_index = "FECHA_SINTOMAS", 
+             df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA")
 }
 
 }
