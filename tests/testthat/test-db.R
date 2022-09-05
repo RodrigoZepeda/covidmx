@@ -22,11 +22,12 @@ test_that("duckdb", {
   datos_covid$disconnect()
   
   #Lectura con duckdb
-  # datos_covid <- read_datos_abiertos(datos_abiertos_path = tempduck, use_dict = FALSE,
-  #                                    read_format = "duckdb", tblname = "test", quiet = TRUE,
-  #                                    drv = duckdb::duckdb(dbdir = tempduck, read_only = TRUE),
-  #                                    show_warnings = F, force_download = T)
-  # expect_gt(as.numeric(dplyr::collect(dplyr::tally(datos_covid$dats))[[1]]), 0)
-  # datos_covid$disconnect()
-  # 
+  skip_on_os("windows") #In windows throws reading error I don't have windows to check
+  datos_covid <- read_datos_abiertos(datos_abiertos_path = tempduck, use_dict = FALSE,
+                                     read_format = "duckdb", tblname = "test", quiet = TRUE,
+                                     drv = duckdb::duckdb(dbdir = tempduck, read_only = TRUE),
+                                     show_warnings = F, force_download = T)
+  expect_gt(as.numeric(dplyr::collect(dplyr::tally(datos_covid$dats))[[1]]), 0)
+  datos_covid$disconnect()
+
 })

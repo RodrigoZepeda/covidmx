@@ -16,7 +16,7 @@ Imports:
     cli,
     DBI,
     dplyr,
-    duckdb,
+    duckdb (>= 0.4.0),
     fs,
     pins (>= 1.0.1),
     RCurl,

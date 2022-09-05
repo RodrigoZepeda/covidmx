@@ -37,7 +37,6 @@ descarga_datos_abiertos(dbdir = "ejemplo.duckdb")
 read_datos_abiertos(dbdir = "ejemplo.duckdb")
 ```
 
-
 ## Deseo aplicar una función directamente a `datos_covid$dats` y se vuelve muy lento / se acaba la memoria
 
 Probablemente la función no tenga un equivalente en `duckdb`. La recomendación es aplicar la mayor
