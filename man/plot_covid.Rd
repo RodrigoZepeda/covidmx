@@ -73,6 +73,5 @@ datos_covid |>
 datos_covid |>
   casos(group_by_entidad = F, list_name = "spline_nacional") |>
   plot_covid(df_name = "spline_nacional", type = "spline", spar = 0.5)
-
 }
 }

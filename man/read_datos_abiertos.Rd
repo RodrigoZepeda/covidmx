@@ -234,7 +234,7 @@ datos_covid <- read_datos_abiertos_zip(direccion_zip)
 # Descarga los datos y lee de un csv
 direccion_zip <- descarga_db_datos_abiertos_tbl()
 direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
-datos_covid   <- read_datos_abiertos(direccion_csv)
+datos_covid <- read_datos_abiertos(direccion_csv)
 
 datos_covid <- read_datos_abiertos_csv(direccion_csv)
 }

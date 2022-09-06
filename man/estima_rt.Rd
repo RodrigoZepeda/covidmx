@@ -107,11 +107,13 @@ datos_covid |>
   estima_rt(
     entidades = c("CHIHUAHUA", "AGUASCALIENTES"),
     tipo_clasificacion = "Confirmados COVID",
-    group_by_entidad = TRUE, 
+    group_by_entidad = TRUE,
     list_name = "rt_ch_ags"
-  ) |> 
-  plot_covid(df_name = "rt_ch_ags", df_date_index = "FECHA_SINTOMAS", 
-             df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA")
+  ) |>
+  plot_covid(
+    df_name = "rt_ch_ags", df_date_index = "FECHA_SINTOMAS",
+    df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA"
+  )
 }
 
 }

@@ -92,7 +92,7 @@ se generan tantos observaciones como grupos de tipo de sector)}
 \code{edad_cut = c(15, 20)} deja sólo los registros entre 15 y 20 años. Por default es NULL}
 
 \item{as_tibble}{Regresar como \code{tibble} el resultado. En caso de que \code{as_tibble}
-sea \code{FALSE} se devuelve como conexion en \code{MARIADB}.}
+sea \code{FALSE} se devuelve como conexion en \code{duckdb}.}
 
 \item{fill_zeros}{En caso de que el resultado sea un \code{tibble} regresa observaciones
 para todas las combinaciones de variables incluyendo como 0 donde no se observaron casos. En

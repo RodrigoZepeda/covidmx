@@ -9,7 +9,7 @@ Una lista con tres objetos
 \describe{
 \item{dats}{Base de datos de la DGE actualizada el 14 julio 2022}
 \item{dict}{Diccionario de datos}
-\item{disconnect}{Funcion que simula desconexion de MariaDB}
+\item{disconnect}{Funcion que simula desconexion de duckdb}
 }
 }
 \source{

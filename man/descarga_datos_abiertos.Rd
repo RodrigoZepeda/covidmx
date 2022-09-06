@@ -299,7 +299,7 @@ A su vez \code{descarga_diccionario} ejecuta las siguientes para obtener el dicc
 \item \code{\link[=parse_db_diccionario_ssa]{parse_db_diccionario_ssa()}}
 }
 
-A su vez \code{descarga_db} ejecuta las siguientes para obtener los datos abiertos:
+Por otro lado,\code{descarga_db} ejecuta las siguientes para obtener los datos abiertos:
 \itemize{
 \item \code{\link[=descarga_db_datos_abiertos_tbl]{descarga_db_datos_abiertos_tbl()}}
 \item \code{\link[=unzip_db_datos_abiertos_tbl]{unzip_db_datos_abiertos_tbl()}}
@@ -351,13 +351,13 @@ datos_covid <- descarga_datos_abiertos()
 datos_covid$disconnect()
 
 # Descarga solo el diccionario
-diccionario    <- descarga_diccionario()
+diccionario <- descarga_diccionario()
 
 # O bien descarga solo los datos abiertos
 datos_abiertos <- descarga_db()
 
 # Pegalos en el formato que se necesita para el resto de funciones
-datos_covid    <- pega_db_datos_abiertos(datos_abiertos, diccionario)
+datos_covid <- pega_db_datos_abiertos(datos_abiertos, diccionario)
 
 # Tambien puedes descargar paso por paso
 datos_abiertos <- descarga_db_datos_abiertos_tbl() |> # Descarga
