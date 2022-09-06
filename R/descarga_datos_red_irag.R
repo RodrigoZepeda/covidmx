@@ -49,7 +49,7 @@ descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
   cuenta <- "RodrigoZepeda/CapacidadHospitalariaMX/master/processed/"
 
   nivel <- ifelse(tolower(nivel[1]) == "estatal", "estatal", "unidad_medica")
-  fname <- paste0(github, cuenta, "HospitalizacionesMX_",nivel[1],".csv")
+  fname <- paste0(github, cuenta, "HospitalizacionesMX_", nivel[1], ".csv")
 
   if (!quiet) {
     cli::cli_alert("Descargando/downloading: {fname}")
@@ -74,10 +74,12 @@ descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
   if (!force_download & tdif < 0.9) {
     if (show_warnings) {
       cli::cli_warn(
-        paste("La descarga mas reciente de fue",
-              "hace {round(tdif,5)} dias. Como tiene menos de un dia usare esa.",
-              "Escribe {.code force_download = TRUE} si quieres descargar de",
-              "todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}")
+        paste(
+          "La descarga mas reciente de fue",
+          "hace {round(tdif,5)} dias. Como tiene menos de un dia usare esa.",
+          "Escribe {.code force_download = TRUE} si quieres descargar de",
+          "todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}"
+        )
       )
     }
 
@@ -96,7 +98,7 @@ descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
         Fecha         = readr::col_date(format = "%Y-%m-%d"),
         Actualizacion = readr::col_datetime(format = "%Y-%m-%dT%H:%M:%SZ")
       )
-    ) 
+    )
 
   # Escribimos en el pin que ya descargamos
   pin_write_download_time(board, nivel[1])

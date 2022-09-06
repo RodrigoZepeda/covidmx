@@ -48,7 +48,6 @@
 #' datos_covid |>
 #'   casos(group_by_entidad = F, list_name = "spline_nacional") |>
 #'   plot_covid(df_name = "spline_nacional", type = "spline", spar = 0.5)
-#'
 #' }
 #' @export
 
@@ -72,17 +71,16 @@ plot_covid <- function(datos_covid,
                          axis.line.x = ggplot2::element_line(color = "black"),
                          legend.position = "none"
                        ), ...) {
-  
-  if (!requireNamespace("ggplot2", quietly = TRUE)){
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
     cli::cli_abort(
       "Para graficar, por favor instala {.code ggplot2} y {.code scales} haciendo
       {.code install.packages(c('ggplot2','scales'))}"
     )
   }
-  
+
   if (tibble::is_tibble(datos_covid)) {
     datos_covid <- list("datos_covid" = datos_covid)
-    df_name     <- "datos_covid"
+    df_name <- "datos_covid"
   }
 
   # Checamos la variable 1

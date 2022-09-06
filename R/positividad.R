@@ -103,8 +103,8 @@
 #' defunciones <- datos_covid |> positividad(group_by_entidad = FALSE, list_name = "posnac")
 #'
 #' # Positivos en Jalisco y Colima
-#' casos_col_jal <- datos_covid |> 
-#'      positividad(entidades = c("JALISCO", "COLIMA"), list_name = "jalcol_positivida")
+#' casos_col_jal <- datos_covid |>
+#'   positividad(entidades = c("JALISCO", "COLIMA"), list_name = "jalcol_positivida")
 #'
 #' # Agrupando ambas pruebas en una sola
 #' confirmados <- datos_covid |>

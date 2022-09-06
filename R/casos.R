@@ -501,7 +501,7 @@ casos <- function(datos_covid,
       dplyr::left_join(sector_df, by = name_join)
   }
 
-  .casos        <- list(.casos)
+  .casos <- list(.casos)
   names(.casos) <- list_name
 
   return(append(datos_covid, .casos))

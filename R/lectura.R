@@ -10,10 +10,10 @@
 #' * [read_datos_abiertos_zip()]     Si sólo descargaste los datos de la DGE en `.zip`
 #' * [read_datos_abiertos_csv()]     Si descargaste los datos de la DGE en `.zip` y los descomprimiste.
 #' * [read_datos_abiertos_duckdb()]  Si ya creaste tu table en `duckdb`
-#' 
+#'
 #' @note Para guardar tu base con `duckdb` cambia el `dbdir` a un archivo `.duckdb`. Como ejemplo
 #' `dbdir = "ejemplo.duckdb"`.
-#' 
+#'
 #' @return Lista de valores:
 #' \itemize{
 #'   \item dats        - Tabla conectada mediante `DBI::dbConnect` (si `duckdb`) o
@@ -42,7 +42,7 @@
 #' # Descarga los datos y lee de un csv
 #' direccion_zip <- descarga_db_datos_abiertos_tbl()
 #' direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
-#' datos_covid   <- read_datos_abiertos(direccion_csv)
+#' datos_covid <- read_datos_abiertos(direccion_csv)
 #'
 # #Es lo mismo que:
 #' datos_covid <- read_datos_abiertos_csv(direccion_csv)
@@ -50,11 +50,11 @@
 #' @encoding UTF-8
 #' @export
 read_datos_abiertos <- function(datos_abiertos_path,
-                                tblname     = "covidmx",
+                                tblname = "covidmx",
                                 pragma_memory_limit = "1GB",
-                                drv         = duckdb::duckdb(),
-                                dbdir       = tempfile(fileext = ".duckdb"),
-                                colClasses  = get_col_class(),
+                                drv = duckdb::duckdb(),
+                                dbdir = tempfile(fileext = ".duckdb"),
+                                colClasses = get_col_class(),
                                 read_format = c("duckdb", "tibble"),
                                 ...) {
   if (tools::file_ext(datos_abiertos_path) == "duckdb") {
@@ -100,10 +100,10 @@ read_datos_abiertos_zip <- function(datos_abiertos_zip_paths,
                                     diccionario_unzipped_path = NULL,
                                     diccionario = NULL,
                                     read_format = c("duckdb", "tibble"),
-                                    tblname     = "covidmx",
-                                    drv         = duckdb::duckdb(),
-                                    dbdir       = tempfile(fileext = ".duckdb"),
-                                    colClasses  = get_col_class(),
+                                    tblname = "covidmx",
+                                    drv = duckdb::duckdb(),
+                                    dbdir = tempfile(fileext = ".duckdb"),
+                                    colClasses = get_col_class(),
                                     download_process = c("pins", "download.file"),
                                     site.covid.dic = paste0(
                                       "http://datosabiertos.salud.",
@@ -111,14 +111,14 @@ read_datos_abiertos_zip <- function(datos_abiertos_zip_paths,
                                       "biertos/diccionario_datos_",
                                       "covid19.zip"
                                     ),
-                                    unzip_command   = Sys.getenv("unzip_command"),
-                                    unzip_args      = Sys.getenv("unzip_args"),
+                                    unzip_command = Sys.getenv("unzip_command"),
+                                    unzip_args = Sys.getenv("unzip_args"),
                                     unzip_args_dict = list("exdir" = ".", "overwrite" = TRUE),
                                     check_unzip_install = TRUE,
                                     clear_zip = (download_process[1] != "pins"),
                                     clear_csv = TRUE,
-                                    use_dict  = TRUE,
-                                    quiet     = FALSE,
+                                    use_dict = TRUE,
+                                    quiet = FALSE,
                                     cache_datos = NULL,
                                     use_cache_on_failure = TRUE,
                                     cache_diccionario = NULL,
@@ -145,10 +145,10 @@ read_datos_abiertos_csv <- function(datos_abiertos_unzipped_path,
                                     diccionario_unzipped_path = NULL,
                                     diccionario = NULL,
                                     read_format = c("duckdb", "tibble"),
-                                    tblname     = "covidmx",
-                                    drv         = duckdb::duckdb(),
-                                    dbdir       = tempfile(fileext = ".duckdb"),
-                                    colClasses  = get_col_class(),
+                                    tblname = "covidmx",
+                                    drv = duckdb::duckdb(),
+                                    dbdir = tempfile(fileext = ".duckdb"),
+                                    colClasses = get_col_class(),
                                     download_process = c("pins", "download.file"),
                                     site.covid.dic = paste0(
                                       "http://datosabiertos.salud.",
@@ -178,7 +178,7 @@ read_datos_abiertos_csv <- function(datos_abiertos_unzipped_path,
 #' @rdname read_datos_abiertos
 #' @inheritParams descarga_datos_abiertos
 read_datos_abiertos_duckdb <- function(dbdir,
-                                       drv         = duckdb::duckdb(),
+                                       drv = duckdb::duckdb(),
                                        tblname = "covidmx",
                                        pragma_memory_limit = "1GB",
                                        diccionario_zip_path = NULL,
@@ -207,9 +207,9 @@ read_datos_abiertos_duckdb <- function(dbdir,
                                          quiet    = quiet
                                        ),
                                        descarga_db_diccionario_ssa_args = list(),
-                                        ...) {
+                                       ...) {
 
-  
+
 
   # Get file connection
   con <- duckdb::dbConnect(
@@ -217,22 +217,25 @@ read_datos_abiertos_duckdb <- function(dbdir,
     dbdir = dbdir,
     ...
   )
-  
-  #Memory limit
-  DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit,"'"))
+
+  # Memory limit
+  DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit, "'"))
 
   dats <- dplyr::tbl(con, tblname)
-  
-  #Formateo
-  dats <- dats |> 
+
+  # Formateo
+  dats <- dats |>
     dplyr::mutate(dplyr::across(
-      dplyr::all_of(c("ORIGEN", "SECTOR", "SEXO", 
-                      "TIPO_PACIENTE", "INTUBADO", "NEUMONIA", "EDAD", "NACIONALIDAD", "EMBARAZO",
-                      "HABLA_LENGUA_INDIG", "INDIGENA", "DIABETES", "EPOC", "ASMA", "INMUSUPR", "HIPERTENSION", "OTRA_COM",
-                      "CARDIOVASCULAR", "OBESIDAD", "RENAL_CRONICA", "TABAQUISMO", "OTRO_CASO",  "TOMA_MUESTRA_LAB",
-                      "RESULTADO_LAB", "TOMA_MUESTRA_ANTIGENO", "RESULTADO_ANTIGENO", "CLASIFICACION_FINAL", "MIGRANTE",
-                      "UCI"))
-      , ~ as.integer(.))) |>
+      dplyr::all_of(c(
+        "ORIGEN", "SECTOR", "SEXO",
+        "TIPO_PACIENTE", "INTUBADO", "NEUMONIA", "EDAD", "NACIONALIDAD", "EMBARAZO",
+        "HABLA_LENGUA_INDIG", "INDIGENA", "DIABETES", "EPOC", "ASMA", "INMUSUPR", "HIPERTENSION", "OTRA_COM",
+        "CARDIOVASCULAR", "OBESIDAD", "RENAL_CRONICA", "TABAQUISMO", "OTRO_CASO", "TOMA_MUESTRA_LAB",
+        "RESULTADO_LAB", "TOMA_MUESTRA_ANTIGENO", "RESULTADO_ANTIGENO", "CLASIFICACION_FINAL", "MIGRANTE",
+        "UCI"
+      )),
+      ~ as.integer(.)
+    )) |>
     dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ dplyr::if_else(. == "9999-99-99", NA_character_, .))) |>
     dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ dplyr::if_else(. == "-001-11-30", NA_character_, .))) |>
     dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ strptime(., "%Y-%m-%d")))
@@ -242,7 +245,7 @@ read_datos_abiertos_duckdb <- function(dbdir,
     duckdb::dbDisconnect(con, shutdown = TRUE)
     cli::cli_alert_success("Desconectado")
   }
-  
+
   # Mensaje de desconexión
   if (!quiet) {
     cli::cli_alert_info(
