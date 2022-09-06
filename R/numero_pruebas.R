@@ -68,7 +68,7 @@
 #' @param .grouping_vars Vector de variables adicionales de agrupacion de los conteos
 #'
 #' @param as_tibble Regresar como `tibble` el resultado. En caso de que `as_tibble`
-#' sea `FALSE` se devuelve como conexion en `MARIADB`.
+#' sea `FALSE` se devuelve como conexion en `duckdb`.
 #'
 #' @param fill_zeros En caso de que el resultado sea un `tibble` regresa observaciones
 #' para todas las combinaciones de variables incluyendo como 0 donde no se observaron casos. En

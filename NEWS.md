@@ -1,3 +1,8 @@
+# covidmx 0.6.1.1000
+
+* Se agregan preguntas al FAQ. 
+
+
 # covidmx 0.6.1.0000
 
 * Se agregó IMSS a la licencia.

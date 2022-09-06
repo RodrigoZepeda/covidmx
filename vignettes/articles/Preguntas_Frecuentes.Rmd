@@ -5,26 +5,101 @@ date: "`r Sys.Date()`"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(covidmx)
+library(tidyverse)
+library(kableExtra)
 ```
 
-## ¿Por qué me conviene usar `covidmx`?
+## Preguntas
 
-Centraliza la información y la lectura de la base es más rápida que lo que ocurriría normalmente. Gracias a `covidmx` pierdes menos tiempo descargando y le dedicas más tiempo a analizar. 
+### ¿Por qué me conviene usar `covidmx`?
 
-## ¿Para qué me sirve la descarga con `pins`?
+Centraliza la información y la lectura de la base es más rápida que lo que ocurriría normalmente. Gracias a `covidmx` pierdes menos tiempo descargando y le dedicas más tiempo a analizar. El hecho de usar `duckdb`
+permite generar preguntas a la base de manera rápida. Por ejemplo con el siguiente benchmark:
+
+```{r, message = FALSE, warning = FALSE}
+#URL del 2021
+url_2021 <- paste0("https://datosabiertos.salud.gob.mx/gobmx/salud",
+                   "/datos_abiertos/historicos/2021/", "COVID19MEXICO2021.zip")
+
+#Datos del 2021 en tibble (clásico)
+datos_tibble <- descarga_datos_abiertos(read_format = "tibble", 
+                                        sites.covid = c("2021" = url_2021))
+
+#Datos del 2021 en duckdb (paquete covidmx)
+datos_duckdb <- descarga_datos_abiertos(sites.covid = c("2021" = url_2021))
+```
+
+```{r, eval = FALSE}
+#Calculamos el total de casos por fecha y sexo para ver que 
+#el duckdb es mucho más rápido
+microbenchmark::microbenchmark(
+  datos_tibble$dats |> 
+    group_by(FECHA_SINTOMAS, SEXO) |>
+    tally(),
+  datos_duckdb$dats |> 
+    group_by(FECHA_SINTOMAS, SEXO) |>
+    tally()
+) 
+```
+
+Lo cual resulta en los siguientes tiempos (milisegundos):
+
+```{r, echo = FALSE}
+#Calculamos el total de casos por fecha y sexo para ver que 
+#el duckdb es mucho más rápido
+benchmark <- microbenchmark::microbenchmark(
+  datos_tibble$dats |> 
+    group_by(FECHA_SINTOMAS, SEXO) |>
+    tally(),
+  datos_duckdb$dats |> 
+    group_by(FECHA_SINTOMAS, SEXO) |>
+    tally()
+) 
+
+benchmark |>
+  as_tibble() |>
+  mutate(expr = if_else(str_detect(expr, "datos_duckdb"), "duckdb", "tibble")) |>
+  mutate(time = time/1.e6) |>
+  group_by(expr) |>
+  summarise("Media" = mean(time),
+            "Minimo" = min(time),
+            "Maximo" = max(time),
+            "Mediana" = median(time),
+            "Q25"     = quantile(time, 0.25),
+            "Q75"     = quantile(time, 0.75),
+            "DesvEst" = sd(time)) |>
+  kableExtra::kable() |>
+  kableExtra::kable_styling()
+```
+
+No olvides desconectar
+
+```{r}
+datos_duckdb$disconnect()
+```
+
+### ¿Para qué me sirve la descarga con `pins`?
 
 El paquete de [`pins`](https://pins.rstudio.com/) registra una dirección web y verifica que no haya
 cambiado el archivo presente en la dirección antes de descargar de nuevo. Esto te permite 
-no perder tanto tiempo en la descarga.
+no perder tanto tiempo en la descarga. Ve cómo si descargo una vez y luego una subsecuente el mismo
+paquete me advierte que no hace falta pues nada ha cambiado:
 
-## ¿Para qué me sirve `duckdb`?
+```{r}
+cache_dir <- tempdir()
+descarga_datos_red_irag(cache = cache_dir) #Primer intento no dice nada
+descarga_datos_red_irag(cache = cache_dir) #Segundo intento nos dice que ya descargó
+```
+
+### ¿Para qué me sirve `duckdb`?
 
 [`duckdb`](https://duckdb.org/docs/guides/index) es un sistema de bases de datos caracterizado por su velocidad y por leer de memoria
 (disco duro) las bases. Usando `duckdb` tu computadora no sufre por poca `RAM` y opera más rápido que con un `tibble`. 
 
-## Cómo guardar la base descargada
+### ¿Cómo guardo la base descargada de datos abiertos?
 
 Utiliza la opción `dbdir` para crear un archivo `.duckdb` y guardar tus datos en formato `duckdb`. Como
 ejemplo:
@@ -37,7 +112,7 @@ descarga_datos_abiertos(dbdir = "ejemplo.duckdb")
 read_datos_abiertos(dbdir = "ejemplo.duckdb")
 ```
 
-## Deseo aplicar una función directamente a `datos_covid$dats` y se vuelve muy lento / se acaba la memoria
+### Deseo aplicar una función directamente a `datos_covid$dats` y se vuelve muy lento / se acaba la memoria
 
 Probablemente la función no tenga un equivalente en `duckdb`. La recomendación es aplicar la mayor
 cantidad de filtros y selecciones que puedas en `duckdb` y después aplicarle la función que quieras. Ejemplo:
@@ -59,17 +134,67 @@ datos_covid$dats %>%
   mutate(dia_semana = lubridate::wday(FECHA_SINTOMAS)) 
 ```
 
-## Al leer con `tibble` se me acaba la memoria
+### Al leer con `tibble` se me acaba la memoria
 
 Esto es normal pues los `tibble` viven en tu memoria `RAM`. Cambia `read_format` a `"duckdb"`. 
 
-## Al leer con `duckdb` se me acaba la memoria
+### Al leer con `duckdb` se me acaba la memoria
 
 Esto es normal si tu memoria `RAM` es pequeña. Cambia `pragma_memory_limit = "1GB"` a algo más pequeño
 tomando en cuenta que el límite de [PRAGMA](https://duckdb.org/docs/sql/pragmas) siempre debe ser menor al de tu `RAM` (recomiendo la mitad o menos). 
 
-## Error: rapi_startup: Failed to open database: IO Error: Cannot open file. The process cannot access the file because it is being used by another process.
+### ¿Cómo leer una base de datos abiertos que ya tenía en mi computadora?
+
+Puedes usar las funciones del tipo `read_datos_abiertos_*` según vengan en `zip`, `csv` o `duckdb`. La
+función `read_datos_abiertos` intenta adivinar el formato automáticamente. 
+
+### ¿Cómo descargar una base de datos abiertos desde otro link?
+
+En las funciones de `descarga_` puedes cambiar la variable `sites.covid` poniendo el nombre
+de la base como identificador y el sitio en forma de vector. Por ejemplo descargando la siguiente
+de Github:
+
+```{r, eval = FALSE}
+dlink       <- c("gtest" = "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip")
+datos_covid <- descarga_datos_abiertos(read_format = "duckdb", sites.covid = dlink, 
+                                       tblname = "test", quiet = TRUE, show_warnings = F, 
+                                       force_download = T, cache_datos  = tempfile(), 
+                                       cache_diccionario = tempfile())
+```
+
+### Quiero obtener una sola columna de la base pero me da `NULL` (ej `datos_duckdb$dats$ORIGEN`)
+
+La base de datos que leíste como `duckdb` no es un `tibble` ni un `data.frame` por lo cual no todas
+las funciones que aplican para `tibble` están disponibles. Para obtener una sola columna usa `pull`:
+
+```{r, eval = FALSE}
+datos_duckdb$dats %>% pull(ORIGEN)
+```
+
+### ¿Cómo convertir mi base en `tibble`?
+
+Para convertir tu base en `tibble` utiliza [`collect`](https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html). Por ejemplo:
+
+```{r, eval = FALSE}
+datos_duckdb$dats %>% collapse()
+```
+
+## Errores frecuentes 
+
+### `fun` is not supported on database backends
+
+La función que quieres aplicar no es una función de `dbplyr` necesitas colapsar tu base primero
+en un `tibble` para poder aplicarla. Ver [sección correspondiente](#cómo-convertir-mi-base-en-tibble)
+
+### Error in dirname(fname) : object 'fname' not found In addition: Warning message: In system2(unzip_command, args = c(unzip_args, datos_abiertos_zip_path),  : running command ''unzip' -o ...' had status 9
+
+El vínculo de `sites.covid` es incorrecto (quizá la SSA lo cambió). Para actualizar el correcto sigue las mismas instrucciones descritas en [la sección previa.](#cómo-descargar-una-base-de-datos-abiertos-desde-otro-link)
+
+### Error: rapi_startup: Failed to open database: IO Error: Cannot open file. The process cannot access the file because it is being used by another process.
 
 El problema es que estás usando el `driver` de `duckdb` en otro lado. Prueba la opción con `read_only`:
 `drv = duckdb::duckdb(dbdir = 'tu/archivo.duckdb', read_only = TRUE)`.
 
+### Warning message: Downloading '...' failed; falling back to cached version 
+
+Hubo un problema con la conexión a Internet ya sea porque los datos cambiaron de sitio web o porque te quedaste sin señal. 

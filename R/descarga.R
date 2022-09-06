@@ -15,7 +15,7 @@
 #' * [unzip_db_diccionario_ssa()]
 #' * [parse_db_diccionario_ssa()]
 #'
-#' A su vez `descarga_db` ejecuta las siguientes para obtener los datos abiertos:
+#' Por otro lado,`descarga_db` ejecuta las siguientes para obtener los datos abiertos:
 #' * [descarga_db_datos_abiertos_tbl()]
 #' * [unzip_db_datos_abiertos_tbl()]
 #' * [parse_db_datos_abiertos_tbl()]
@@ -145,6 +145,7 @@
 #' @param dbdir Parametro de [duckdb::dbConnect__duckdb_driver()]
 #' 
 #' @param colClasses Clases de la columna para leer en `read.csv`
+#' 
 #' @return Lista de valores:
 #' \itemize{
 #'   \item dats        - Tabla conectada mediante `duckdb::dbConnect__duckdb_driver()` (si `duckdb`) o
