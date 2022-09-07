@@ -3,7 +3,7 @@
 \encoding{UTF-8}
 \name{descarga_datos_red_irag}
 \alias{descarga_datos_red_irag}
-\title{LEE LA BASE DE DATOS DE OCUPACION HOSPITALARIA DE RED IRAG}
+\title{Descarga la base de datos de ocupacion hospitalaria de la red IRAG}
 \usage{
 descarga_datos_red_irag(
   nivel = c("Estatal", "Unidad Médica"),
@@ -16,7 +16,7 @@ descarga_datos_red_irag(
 )
 }
 \arguments{
-\item{nivel}{"Estatal" o "Unidad Medica"}
+\item{nivel}{\code{"Estatal"}(default) o \code{"Unidad Medica"}}
 
 \item{cache}{cache para \code{pins::board_url}.}
 
@@ -26,21 +26,35 @@ descarga_datos_red_irag(
 
 \item{force_download}{analiza si cambio el pin y descarga datos nuevos en caso afirmativo}
 
-\item{show_warnings}{si arrojar \code{warnings}}
+\item{show_warnings}{si arrojar \code{warnings} o callar}
 
 \item{...}{parametros adicionales para \code{pins::pin_download}.}
 }
 \value{
-\code{data.frame} con los datos de ocupacion hospitalaria
+\code{tibble} con los datos de ocupacion hospitalaria
+\itemize{
+\item \verb{Unidad médica} - En caso \code{nivel = "Unidad Medica"} la unidad a la que pertenecen los datos
+\item \code{Institución}   - Institucion a la que pertenece la unidad medica
+\item \code{Estado}        - Entidad federativa de la informacion o de la unidad
+\item \code{CLUES}         - La Clave Unica de Establecimientos de Salud para la unidad (si \code{nivel = "Unidad Medica"})
+\item \code{Fecha}         - La fecha a la cual corresponde dicha ocupacion
+\item \code{Actualizacion} - La fecha de actualizacion ultima de los datos.
+\item \verb{Hospitalizados (\%)}    - Porcentaje de ocupacion en camas de hospitalizacion.
+\item \verb{Ventilación (\%)}       - Porcentaje de ocupacion en ventiladores.
+\item \verb{UCI y Ventilación (\%)} - Porcentaje de ocupacion en unidades de cuidado intensivo con ventilacion.
+}
 }
 \description{
 \code{descarga_datos_red_irag} Lee los datos de ocupacion hospitalaria de la \verb{RED IRAG}
 disponibles en \url{https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#}
+y analizados a traves de \href{https://github.com/RodrigoZepeda/CapacidadHospitalariaMX}{RodrigoZepeda/CapacidadHospitalariaMX}
 }
 \details{
 Los datos de Red IRAG son descargados diariamente de manera automatica en Github:
 \href{https://github.com/RodrigoZepeda/CapacidadHospitalariaMX}{RodrigoZepeda/CapacidadHospitalariaMX}
-y esta funcion los lee de ahi
+y esta funcion los lee de ahi. Puede que esten un poco rezagados respecto a la pagina de la
+\verb{RED IRAG} (\url{https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#})
+pero el rezago nunca es mayor a un dia.
 }
 \examples{
 \dontrun{
@@ -52,11 +66,22 @@ ocupacion_hospitalaria <- descarga_datos_red_irag("Unidad Medica")
 
 # Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
 # sin verificar que el contenido en Internet haya cambiado
-ocupacion_hospitalaria <- descarga_datos_red_irag("Unidad Medica")
+ocupacion_unidad       <- descarga_datos_red_irag("Unidad Medica")
 
 # Puedes forzarlo a checar el contenido en Internet usando
-variantes_covid <- descarga_datos_red_irag("Unidad Medica", force_download = TRUE)
+ocupacion_unidad       <- descarga_datos_red_irag("Unidad Medica", force_download = TRUE)
+
+#Así se ven los datos
+ocupacion_hospitalaria |> 
+    plot_covid(df_variable = "Hospitalizados (\%)", df_covariates = "Estado", type = "area")
 }
+}
+\references{
+Secretaría de Salud (2022). Sistema de Información de la Red IRAG
+URL: \url{https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome}
+
+Zepeda-Tello, R. (2022). Descarga Automática de Datos de la Red IRAG
+URL: \url{https://github.com/RodrigoZepeda/CapacidadHospitalaria}
 }
 \seealso{
 \link{descarga_datos_variantes_GISAID} \link{descarga_datos_abiertos} \link{read_datos_abiertos}

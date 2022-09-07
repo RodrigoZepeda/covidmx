@@ -2,7 +2,7 @@
 % Please edit documentation in R/casos.R
 \name{casos}
 \alias{casos}
-\title{CASOS}
+\title{Casos de COVID-19 en Mexico}
 \usage{
 casos(
   datos_covid,
@@ -118,7 +118,7 @@ se usa \code{list_name}).
 }
 \description{
 \code{casos} Calcula el numero de casos registrados por fecha agrupando (o sin hacerlo)
-por covariables.
+por diferentes covariables.
 }
 \details{
 Por default calcula el total de casos.

@@ -1,11 +1,11 @@
-#' CASOS
+#' Casos de COVID-19 en Mexico 
 #'
 #' @description
 #' `casos` Calcula el numero de casos registrados por fecha agrupando (o sin hacerlo)
-#' por covariables.
+#' por diferentes covariables.
 #'
 #' @details
-#' Por default calcula el total de casos.
+#' Por default calcula el total de casos. 
 #'
 #' @param datos_covid If no data is available it automatically downloads COVID-19
 #' information.

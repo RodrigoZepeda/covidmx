@@ -6,12 +6,16 @@
 .git/.*
 ^\.RData$
 ^\.csv$
+^\.duckdb$
 ^\.Rhistory$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^vignettes/articles$
 ^[^/]+\.csv$
+^[^/]+\.duckdb$
+^[^/]+\.tmp$
+^[^/]+\.wal$
 ^[^/]+\.zip$
 ^[^/]+\.xls$
 ^[^/]+\.xlsx$

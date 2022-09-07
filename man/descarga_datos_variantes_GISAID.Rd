@@ -3,7 +3,7 @@
 \encoding{UTF-8}
 \name{descarga_datos_variantes_GISAID}
 \alias{descarga_datos_variantes_GISAID}
-\title{LEE LA BASE DE DATOS DE VARIANTES DE COVID-19 DE GISAID}
+\title{Lee la base de datos de variantes de COVID-19 en Mexico generada por GISAID}
 \usage{
 descarga_datos_variantes_GISAID(
   nivel = c("nacional", "cdmx"),
@@ -35,12 +35,13 @@ descarga_datos_variantes_GISAID(
 }
 \description{
 \code{descarga_datos_variantes_GISAID} Lee los datos de variantes del reporte nacional diario en
-https://github.com/RodrigoZepeda/VariantesCovid  creado a partir de la informacion de la
-Global Initiative on Sharing Avian Influenza Data (GISAID)
+\href{https://github.com/RodrigoZepeda/VariantesCovid}{RodrigoZepeda/VariantesCovid}
+creado a partir de la informacion de la
+\href{https://gisaid.org/}{Global Initiative on Sharing Avian Influenza Data (GISAID)}
 }
 \details{
 Cada vez que uses estos datos necesitas citar a \strong{GISAID} (ver referencias) asi como
-el reporte en https://github.com/RodrigoZepeda/VariantesCovid.
+el reporte en \href{https://github.com/RodrigoZepeda/VariantesCovid}{RodrigoZepeda/VariantesCovid}
 
 Los datos son descargados de manera automatica en mi Github:
 \href{https://github.com/RodrigoZepeda/VariantesCovid}{RodrigoZepeda/VariantesCovid} el programa

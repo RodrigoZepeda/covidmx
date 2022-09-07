@@ -90,3 +90,30 @@ get_col_class <- function() {
     UCI = "character"
   )
 }
+
+get_sites_covid <- function(){
+  c("2022" = paste0(
+      "http://datosabiertos.salud.gob.mx/gobmx/salud",
+      "/datos_abiertos/datos_abiertos_covid19.zip"
+    ),
+    "2021" = paste0(
+      "https://datosabiertos.salud.gob.mx/gobmx/salud",
+      "/datos_abiertos/historicos/2021/",
+      "COVID19MEXICO2021.zip"
+    ),
+    "2020" = paste0(
+      "https://datosabiertos.salud.gob.mx/gobmx/salud",
+      "/datos_abiertos/historicos/2020/",
+      "COVID19MEXICO2020.zip"
+    )
+  )
+}
+
+get_site_dic <- function(){
+  paste0(
+    "http://datosabiertos.salud.",
+    "gob.mx/gobmx/salud/datos_a",
+    "biertos/diccionario_datos_",
+    "covid19.zip"
+  )
+}

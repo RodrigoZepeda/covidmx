@@ -128,7 +128,7 @@ datos_covid$dats |>
 
 #Recomendado: quedarte solo las variables q necesitas y primero aplicar
 #las funciones de dbplyr
-datos_covid$dats %>%
+datos_covid$dats |>
   select(SEXO, FECHA_SINTOMAS) |>
   filter(SEXO == 1) |>
   mutate(dia_semana = lubridate::wday(FECHA_SINTOMAS)) 
@@ -176,7 +176,7 @@ datos_duckdb$dats %>% pull(ORIGEN)
 Para convertir tu base en `tibble` utiliza [`collect`](https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html). Por ejemplo:
 
 ```{r, eval = FALSE}
-datos_duckdb$dats %>% collapse()
+datos_duckdb$dats %>% collect()
 ```
 
 ## Errores frecuentes 

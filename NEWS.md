@@ -1,3 +1,7 @@
+# covidmx 0.6.1.2000
+
+* Se corrigieron los menús de ayuda para ser más informativos.
+
 # covidmx 0.6.1.1000
 
 * Se agregan preguntas al FAQ. 

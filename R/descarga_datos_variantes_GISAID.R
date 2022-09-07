@@ -1,13 +1,14 @@
-#' LEE LA BASE DE DATOS DE VARIANTES DE COVID-19 DE GISAID
+#' Lee la base de datos de variantes de COVID-19 en Mexico generada por GISAID
 #'
 #' @description
 #' `descarga_datos_variantes_GISAID` Lee los datos de variantes del reporte nacional diario en
-#'  https://github.com/RodrigoZepeda/VariantesCovid  creado a partir de la informacion de la
-#'  Global Initiative on Sharing Avian Influenza Data (GISAID)
+#'  [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid)  
+#'  creado a partir de la informacion de la 
+#'  [Global Initiative on Sharing Avian Influenza Data (GISAID)](https://gisaid.org/)
 #'
 #' @details
 #' Cada vez que uses estos datos necesitas citar a **GISAID** (ver referencias) asi como
-#' el reporte en https://github.com/RodrigoZepeda/VariantesCovid.
+#' el reporte en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid)  
 #'
 #' Los datos son descargados de manera automatica en mi Github:
 #' [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) el programa
@@ -23,6 +24,7 @@
 #' @param force_download analiza si cambio el pin y descarga datos nuevos en caso afirmativo
 #' @param show_warnings si arrojar `warnings`
 #' @param ...  parametros adicionales para `pins::pin_download`.
+#' 
 #' @return `data.frame` con los datos porcentuales y de conteo de variantes
 #'
 #' @examples
@@ -72,7 +74,7 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
   fname <- paste0(github, cuenta, "Proporcion_variantes_", nivel[1], ".csv")
 
   if (!quiet) {
-    cli::cli_alert("Descargando/downloading: {fname}")
+    cli::cli_alert("Descargando {nivel[1]} desde {.url {fname}}")
   }
 
   # Creamos el board
@@ -94,12 +96,9 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
   if (!force_download & tdif < 0.9) {
     if (show_warnings) {
       cli::cli_warn(
-        paste(
-          "La descarga mas reciente fue",
-          "hace {round(tdif,5)} dias. Como tiene menos de un dia usare esa.",
-          "Escribe {.code force_download = TRUE} si quieres descargar de",
-          "todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}"
-        )
+          "La descarga mas reciente fue  hace {round(tdif,5)} dias. Como tiene menos de un 
+          dia usare esa. Escribe {.code force_download = TRUE} si quieres descargar de
+          todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}"
       )
     }
 

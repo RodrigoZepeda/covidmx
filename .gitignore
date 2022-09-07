@@ -4,6 +4,10 @@
 .Ruserdata
 .Rproj
 .DS_Store
+*.duckdb
+*.wal
+*.tmp
+*.pdf
 *.csv
 *.xlsx
 diccionario_covid.RData

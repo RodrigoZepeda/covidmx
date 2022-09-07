@@ -3,7 +3,7 @@ library(tidyverse)
 library(lubridate)
 
 #Leemos los datos
-covid      <- descarga_datos_abiertos(force_download = TRUE)
+covid      <- descarga_datos_abiertos()
 
 #Filtramos BC y BCS para el ejemplo
 covid$dats <- covid$dats %>%
@@ -20,7 +20,9 @@ covid$dats   <- covid$dats %>%
 covid$disconnect()
 
 datosabiertos <- covid
-datosabiertos$disconnect <- function(){TRUE}
+datosabiertos$disconnect <- function(quiet = FALSE) {
+  if (!quiet){cli::cli_alert_success("Desconectado")}
+}
 
 #Creamos los datos del paquete
 usethis::use_data(datosabiertos, overwrite = TRUE, version = 3)

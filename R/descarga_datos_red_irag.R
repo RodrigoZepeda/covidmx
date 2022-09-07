@@ -1,25 +1,39 @@
-#' LEE LA BASE DE DATOS DE OCUPACION HOSPITALARIA DE RED IRAG
+#' Descarga la base de datos de ocupacion hospitalaria de la red IRAG
 #'
 #' @description
 #' `descarga_datos_red_irag` Lee los datos de ocupacion hospitalaria de la `RED IRAG`
 #' disponibles en [https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#)
-#'
+#' y analizados a traves de [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX)
 #'
 #' @details
 #'
 #' Los datos de Red IRAG son descargados diariamente de manera automatica en Github:
 #' [RodrigoZepeda/CapacidadHospitalariaMX](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX)
-#' y esta funcion los lee de ahi
+#' y esta funcion los lee de ahi. Puede que esten un poco rezagados respecto a la pagina de la 
+#' `RED IRAG` ([https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome#))
+#' pero el rezago nunca es mayor a un dia. 
 #'
-#' @param nivel "Estatal" o "Unidad Medica"
+#' @param nivel `"Estatal"`(default) o `"Unidad Medica"`
 #' @param quiet booleana para no imprimir mensajes en la consola.
 #' @param cache cache para `pins::board_url`.
 #' @param use_cache_on_failure parametro para `pins::board_url`.
 #' @param force_download analiza si cambio el pin y descarga datos nuevos en caso afirmativo
-#' @param show_warnings si arrojar `warnings`
+#' @param show_warnings si arrojar `warnings` o callar
 #' @param ...  parametros adicionales para `pins::pin_download`.
-#' @return `data.frame` con los datos de ocupacion hospitalaria
-#'
+#' 
+#' @return `tibble` con los datos de ocupacion hospitalaria
+#' \itemize{
+#'   \item `Unidad médica` - En caso `nivel = "Unidad Medica"` la unidad a la que pertenecen los datos
+#'   \item `Institución`   - Institucion a la que pertenece la unidad medica
+#'   \item `Estado`        - Entidad federativa de la informacion o de la unidad
+#'   \item `CLUES`         - La Clave Unica de Establecimientos de Salud para la unidad (si `nivel = "Unidad Medica"`)
+#'   \item `Fecha`         - La fecha a la cual corresponde dicha ocupacion
+#'   \item `Actualizacion` - La fecha de actualizacion ultima de los datos.
+#'   \item `Hospitalizados (%)`    - Porcentaje de ocupacion en camas de hospitalizacion. 
+#'   \item `Ventilación (%)`       - Porcentaje de ocupacion en ventiladores.
+#'   \item `UCI y Ventilación (%)` - Porcentaje de ocupacion en unidades de cuidado intensivo con ventilacion.
+#' }
+#' 
 #' @examples
 #' \dontrun{
 #' # Descarga de datos estatales
@@ -30,13 +44,26 @@
 #'
 #' # Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
 #' # sin verificar que el contenido en Internet haya cambiado
-#' ocupacion_hospitalaria <- descarga_datos_red_irag("Unidad Medica")
+#' ocupacion_unidad       <- descarga_datos_red_irag("Unidad Medica")
 #'
 #' # Puedes forzarlo a checar el contenido en Internet usando
-#' variantes_covid <- descarga_datos_red_irag("Unidad Medica", force_download = TRUE)
+#' ocupacion_unidad       <- descarga_datos_red_irag("Unidad Medica", force_download = TRUE)
+#' 
+#' #Así se ven los datos
+#' ocupacion_hospitalaria |> 
+#'     plot_covid(df_variable = "Hospitalizados (%)", df_covariates = "Estado", type = "area")
 #' }
 #' @encoding UTF-8
 #' @seealso [descarga_datos_variantes_GISAID] [descarga_datos_abiertos] [read_datos_abiertos]
+#' 
+#' @references
+#' 
+#' Secretaría de Salud (2022). Sistema de Información de la Red IRAG
+#' URL: \url{https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome}
+#' 
+#' Zepeda-Tello, R. (2022). Descarga Automática de Datos de la Red IRAG
+#' URL: \url{https://github.com/RodrigoZepeda/CapacidadHospitalaria}
+#' 
 #' @export
 descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
                                     cache = NULL,
@@ -45,14 +72,15 @@ descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
                                     force_download = FALSE,
                                     show_warnings = TRUE,
                                     ...) {
+  
   github <- "https://media.githubusercontent.com/media/"
   cuenta <- "RodrigoZepeda/CapacidadHospitalariaMX/master/processed/"
 
-  nivel <- ifelse(tolower(nivel[1]) == "estatal", "estatal", "unidad_medica")
-  fname <- paste0(github, cuenta, "HospitalizacionesMX_", nivel[1], ".csv")
+  nivel  <- ifelse(tolower(nivel[1]) == "estatal", "estatal", "unidad_medica")
+  fname  <- paste0(github, cuenta, "HospitalizacionesMX_", nivel[1], ".csv")
 
   if (!quiet) {
-    cli::cli_alert("Descargando/downloading: {fname}")
+    cli::cli_alert("Descargando {nivel[1]} desde {.url {fname}}")
   }
 
   # Creamos el board
@@ -74,12 +102,9 @@ descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
   if (!force_download & tdif < 0.9) {
     if (show_warnings) {
       cli::cli_warn(
-        paste(
-          "La descarga mas reciente de fue",
-          "hace {round(tdif,5)} dias. Como tiene menos de un dia usare esa.",
-          "Escribe {.code force_download = TRUE} si quieres descargar de",
-          "todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}"
-        )
+          "La descarga mas reciente de fue  hace {round(tdif,5)} dias. Como tiene menos de un 
+          dia usare esa. Escribe {.code force_download = TRUE} si quieres descargar de
+          todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}"
       )
     }
 
