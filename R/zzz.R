@@ -9,12 +9,14 @@
   version_actual <- utils::packageVersion("covidmx")
   version_github <- get_latest_version()
   
-  if (!is.null(version_github) & version_actual != version_github){
+  if (length(version_github) == 1 && length(version_actual) == 1 &&  
+      version_actual != version_github){
     msg_version <- list(
       message = "El paquete covidmx esta desactualizado. Actualizalo con: `update_covidmx()`",
       color   = "warn"
     )
-  } else if (!is.null(version_github) & version_actual == version_github){
+  } else if (length(version_github) == 1 && length(version_actual) == 1 && 
+             version_actual == version_github){
     msg_version <- list(
       message = "Felicidades: estas usando la version mas actualizada de `covidmx`",
       color   = "cool"
