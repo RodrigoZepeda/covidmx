@@ -16,7 +16,7 @@
     )
   } else if (!is.null(version_github) & version_actual == version_github){
     msg_version <- list(
-      message = "Felicidades: estas usando la version máa actualizada de `covidmx`",
+      message = "Felicidades: estas usando la version mas actualizada de `covidmx`",
       color   = "cool"
     )
   } else {

@@ -40,9 +40,11 @@ get_latest_version <- function() {
   if (download_rc != 0) {
     NULL #Aqui se cambio
   } else {
-    release <- base::readLines(dest_file)
-    release <- stringr::str_subset(release,"tag_name")
-    release <- stringr::str_remove_all(release,"tag_name|v|\\\\|:|\"|,|[:space:]")
-    release
+    tryCatch({
+      release <- strsplit(readLines(dest_file, encoding = "UTF-8", warn = FALSE),",")
+      release <- stringr::str_subset(release[[1]],"tag_name")
+      release <- stringr::str_remove_all(release,"tag_name|v|\\\\|:|\"|,|[:space:]")
+      release
+    })
   }
 }
