@@ -15,48 +15,48 @@
 #'   \item disconnect  - Funcion para cerrar la conexion a la base de datos.
 #'   \item dict        - Lista de `tibble`s con el diccionario de datos para cada variable
 #' }
-#' @param datos_abiertos_path (**obligatorio**) Camino a los datos abiertos si son un `zip`, 
+#' @param datos_abiertos_path (**obligatorio**) Camino a los datos abiertos si son un `zip`,
 #' un `csv` o un `.duckdb`
 #' @param ... (**opcional**) parametros adicionales para [descarga_datos_abiertos()]
 #' @inheritParams descarga_datos_abiertos
-#' @seealso [descarga_datos_abiertos()]  [descarga_datos_red_irag()] 
-#' [descarga_datos_variantes_GISAID()] 
+#' @seealso [descarga_datos_abiertos()]  [descarga_datos_red_irag()]
+#' [descarga_datos_variantes_GISAID()]
 #' @examples
-#' 
 #' \dontrun{
 #' # EJEMPLO 1: Lee los datos de duckdb una vez descargados
-#' datos_covid <- descarga_datos_abiertos(dbdir = "ejemplo.duckdb") #Descarga y genera duckdb
+#' datos_covid <- descarga_datos_abiertos(dbdir = "ejemplo.duckdb") # Descarga y genera duckdb
 #' datos_covid$disconnect()
-#' 
-#' datos_covid <- read_datos_abiertos("ejemplo.duckdb") #Lee duckdb
+#'
+#' datos_covid <- read_datos_abiertos("ejemplo.duckdb") # Lee duckdb
 #' datos_covid$disconnect()
-#' 
+#'
 #' # EJEMPLO 2: Lee los datos desde un zip descargado
-#' direccion_zip <- descarga_db_datos_abiertos_tbl()  #Descarga archivos de la DGE y guarda el zip
-#' datos_covid   <- read_datos_abiertos(direccion_zip, dbdir = "ejemplo.duckdb") #Lee zip
+#' direccion_zip <- descarga_db_datos_abiertos_tbl() # Descarga archivos de la DGE y guarda el zip
+#' datos_covid <- read_datos_abiertos(direccion_zip, dbdir = "ejemplo.duckdb") # Lee zip
 #' datos_covid$disconnect()
-#' 
+#'
 #' # EJEMPLO 3: Lee los datos desde un zip descargado
-#' direccion_zip <- descarga_db_datos_abiertos_tbl()            #Descarga archivos zip de la DGE
-#' direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)  #Descomprime el zip para tener csv
-#' datos_covid   <- read_datos_abiertos(direccion_csv, dbdir = "ejemplo.duckdb") #Lee los csv
+#' direccion_zip <- descarga_db_datos_abiertos_tbl() # Descarga archivos zip de la DGE
+#' direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip) # Descomprime el zip para tener csv
+#' datos_covid <- read_datos_abiertos(direccion_csv, dbdir = "ejemplo.duckdb") # Lee los csv
 #' datos_covid$disconnect()
-#' 
+#'
 #' # EJEMPLO 4: Si ya tenias el diccionario lo puedes agregar
-#' diccionario <- descarga_diccionario() #Simula la idea de ya tener el diccionario
+#' diccionario <- descarga_diccionario() # Simula la idea de ya tener el diccionario
 #' datos_covid <- read_datos_abiertos("ejemplo.duckdb", diccionario = diccionario)
 #' datos_covid$disconnect()
-#' 
+#'
 #' # EJEMPLO 5: Si ya tenias el diccionario como archivo zip
-#' diccionario_zip <- descarga_db_diccionario_ssa() #Descarga el diccionario para tenerlo como zip
-#' datos_covid     <- read_datos_abiertos("ejemplo.duckdb", diccionario_zip_path = diccionario_zip)
+#' diccionario_zip <- descarga_db_diccionario_ssa() # Descarga el diccionario para tenerlo como zip
+#' datos_covid <- read_datos_abiertos("ejemplo.duckdb", diccionario_zip_path = diccionario_zip)
 #' datos_covid$disconnect()
-#' 
+#'
 #' # EJEMPLO 6: Si ya tenias el diccionario como archivo xlsx
-#' diccionario_zip <- descarga_db_diccionario_ssa() #Descarga el diccionario para tenerlo como zip
-#' diccionario_csv <- unzip_db_diccionario_ssa(diccionario_zip) #Abre el csv del diccionario
-#' datos_covid     <- read_datos_abiertos("ejemplo.duckdb", 
-#'                                        diccionario_unzipped_path = diccionario_csv)
+#' diccionario_zip <- descarga_db_diccionario_ssa() # Descarga el diccionario para tenerlo como zip
+#' diccionario_csv <- unzip_db_diccionario_ssa(diccionario_zip) # Abre el csv del diccionario
+#' datos_covid <- read_datos_abiertos("ejemplo.duckdb",
+#'   diccionario_unzipped_path = diccionario_csv
+#' )
 #' datos_covid$disconnect()
 #' }
 #' @encoding UTF-8
@@ -69,15 +69,15 @@ read_datos_abiertos <- function(datos_abiertos_path = NULL,
                                 colClasses = get_col_class(),
                                 read_format = c("duckdb", "tibble"),
                                 ...) {
-  
-  #Fix if first entry is a duckdb set dbdir also
-  if (!is.null(datos_abiertos_path) & all(tools::file_ext(datos_abiertos_path) == "duckdb")){
-    dbdir               <- datos_abiertos_path
+
+  # Fix if first entry is a duckdb set dbdir also
+  if (!is.null(datos_abiertos_path) & all(tools::file_ext(datos_abiertos_path) == "duckdb")) {
+    dbdir <- datos_abiertos_path
     datos_abiertos_path <- NULL
   }
-  
-  #Case duckdb
-  if (is.null(datos_abiertos_path) & all(tools::file_ext(dbdir) == "duckdb")){
+
+  # Case duckdb
+  if (is.null(datos_abiertos_path) & all(tools::file_ext(dbdir) == "duckdb")) {
     datos_covid <- read_datos_abiertos_duckdb(
       datos_abiertos_tbl = dbdir,
       pragma_memory_limit = pragma_memory_limit,
@@ -85,9 +85,9 @@ read_datos_abiertos <- function(datos_abiertos_path = NULL,
       tblname  = tblname,
       ...
     )
-  
-  #Case csv
-  } else if (!is.null(datos_abiertos_path) & all(tools::file_ext(datos_abiertos_path) == "csv")){
+
+    # Case csv
+  } else if (!is.null(datos_abiertos_path) & all(tools::file_ext(datos_abiertos_path) == "csv")) {
     datos_covid <- read_datos_abiertos_csv(
       datos_abiertos_unzipped_path = datos_abiertos_path,
       drv      = drv,
@@ -97,9 +97,9 @@ read_datos_abiertos <- function(datos_abiertos_path = NULL,
       colClasses = colClasses,
       ...
     )
-    
-  #Case zip  
-  } else if (!is.null(datos_abiertos_path) & all(tools::file_ext(datos_abiertos_path) == "zip")){
+
+    # Case zip
+  } else if (!is.null(datos_abiertos_path) & all(tools::file_ext(datos_abiertos_path) == "zip")) {
     datos_covid <- read_datos_abiertos_zip(
       datos_abiertos_zip_paths = datos_abiertos_path,
       drv         = drv,

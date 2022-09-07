@@ -4,7 +4,7 @@
 #' la Direccion General de Epidemiologia (DGE)
 #'
 #'
-#' @details 
+#' @details
 #' La funcion de descarga principal es [descarga_datos_abiertos()] llama las siguientes funciones
 #' en orden:
 #'
@@ -24,7 +24,7 @@
 #'
 #' Si en algun momento se interrumpio la descarga o hubo problemas de conexion o detuviste
 #' el proceso de generacion de la base de datos abiertos puedes llamar a las funciones
-#' de [read_datos_abiertos()]. 
+#' de [read_datos_abiertos()].
 #'
 #' @section Memoria `RAM`:
 #'
@@ -49,30 +49,30 @@
 #'
 #' Para ver donde estan descargados tus datos usa `pins::board_cache_path()`. Para borrarlos usa
 #' `pins::cache_prune()`.
-#' 
+#'
 #' @section Metodos de `unzip`:
-#' 
+#'
 #' Por default el programa intenta abrir la base de datos con `utils::unzip()`. Sin embargo
 #' historicamente la base de datos ha estado codificada de tal forma que `utils::unzip()` no
 #' pueda abrirla. Para ello se utilizaban diferentes comandos en particular el default que
-#' hemos visto funcionaba son los comandos de terminal `unzip` (en Linux/OSX) y `7zip` (en Windows). 
+#' hemos visto funcionaba son los comandos de terminal `unzip` (en Linux/OSX) y `7zip` (en Windows).
 #' En caso de ser requeridos el sistema te lo hara saber junto con las instrucciones de instalacion
-#' 
+#'
 #' @note No te recomiendo borrar el cache con `clear_zip` o editarlo por cualquier otro medio si
 #' estas usando `pins` pues puede romperse la dependencia. Si accidentalmente lo borraste
 #' usa `pins::board_cache_path()` para ir al `path` y borrar manualmente toda la carpeta.
 #'
-#' @param dbdir (**opcional**) Direccion donde guardar la base de datos con terminacion `.duckdb`. 
+#' @param dbdir (**opcional**) Direccion donde guardar la base de datos con terminacion `.duckdb`.
 #' Corresponde al argumento de [duckdb::dbConnect__duckdb_driver()]
-#' 
+#'
 #' @param sites.covid (**opcional**)  Sitios web con el vinculo a los archivos `.zip` de los datos abiertos. Puedes
-#' cambiarlo por uno de los historicos, por ejemplo. La estructura es 
-#' `c("nombre" = "url", "nombre2" = "url2")`. La ultima verificacion del sitio web default fue 
-#' el 6 de septiembre del 2022. 
-#' 
+#' cambiarlo por uno de los historicos, por ejemplo. La estructura es
+#' `c("nombre" = "url", "nombre2" = "url2")`. La ultima verificacion del sitio web default fue
+#' el 6 de septiembre del 2022.
+#'
 #' @param site.covid.dic (**opcional**)  Sitio desde el cual descarga del diccionario de datos. La ultima
-#' verificacion del sitio fue el 6 de septiembre 2022. 
-#' 
+#' verificacion del sitio fue el 6 de septiembre 2022.
+#'
 #' @param read_format (**opcional**) \code{"duckdb"} o \code{"tibble"} establece el formato
 #' de lectura de la base de datos. En la mayoria de los casos \code{"tibble"} va a
 #' resultar en un error de memoria. La opcion de \code{"duckdb"} siempre es mas rapida por lo cual
@@ -85,26 +85,26 @@
 #'
 #' @param quiet (**opcional**) Variable para no mostrar mensajes
 #'
-#' @param pragma_memory_limit (**opcional**) Limite de memoria para el programa 
-#' (ver [PRAGMAS](https://duckdb.org/docs/sql/pragmas)). Cambialo a que sea mas o menos la mitad 
-#' de tu RAM. La forma mas sencilla es como una variable ambiental con 
+#' @param pragma_memory_limit (**opcional**) Limite de memoria para el programa
+#' (ver [PRAGMAS](https://duckdb.org/docs/sql/pragmas)). Cambialo a que sea mas o menos la mitad
+#' de tu RAM. La forma mas sencilla es como una variable ambiental con
 #' \code{Sys.setenv('pragma_memory_limit' = '1GB')} por ejemplo para un limite de 1 gigabyte.
 #'
-#' @param tblname (**opcional**)  Nombre de la tabla de `duckdb` donde guardar los datos por 
+#' @param tblname (**opcional**)  Nombre de la tabla de `duckdb` donde guardar los datos por
 #' default se llama `covidmx`. Solo es relevante si estas usando el mismo `dbdir` para otro
-#' proyecto distinto. 
+#' proyecto distinto.
 #'
-#' @param cache_datos (**opcional**) Direccion donde guardar los datos en memoria usando `pins` 
+#' @param cache_datos (**opcional**) Direccion donde guardar los datos en memoria usando `pins`
 #' para no tener que volver a descargarlos si nada ha cambiado
 #'
-#' @param cache_diccionario (**opcional**) Direccion donde guardar el diccionario en memoria 
+#' @param cache_diccionario (**opcional**) Direccion donde guardar el diccionario en memoria
 #' usando `pins` para no tener que volver a descargarlo si nada ha cambiado
 #'
 #' @param use_cache_on_failure  (**opcional**) Booleana. Establece que si no se pueden descargar datos nuevos
-#' utilice los que tenga en memoria. Por default es `TRUE`. 
+#' utilice los que tenga en memoria. Por default es `TRUE`.
 #'
-#' @param board_url_name (**opcional**) Establece el nombre del `pins::board_url` para 
-#' los datos abiertos (si ya usas pins para que no se empalme).  
+#' @param board_url_name (**opcional**) Establece el nombre del `pins::board_url` para
+#' los datos abiertos (si ya usas pins para que no se empalme).
 #' Por default se llama `datos_abiertos`
 #'
 #' @param board_url_name_dict (**opcional**) Establece el nombre del `pins::board_url` para los datos abiertos. Por
@@ -114,14 +114,14 @@
 #' abiertos. No se recomienda si estas usando `pins`. Ve la nota para mas informacion.
 #'
 #' @param clear_csv (**opcional**) Si borrar los archivos `.csv` que se generan despues de abrir el zip. El
-#' default es que si pues en general solo requieres el `duckdb`. 
+#' default es que si pues en general solo requieres el `duckdb`.
 #'
 #' @param use_dict (**opcional**) Si descargar el diccionario de `site.covid.dic`.
 #'
-#' @param unzip_command (**opcional**) Forma de extraer la base de datos de datos abiertos si `unzip` falla. 
+#' @param unzip_command (**opcional**) Forma de extraer la base de datos de datos abiertos si `unzip` falla.
 #' La forma de llamarla es con `system2(unzip_command, args = c(unzip_args, file_download_data))`.
 #'
-#' @param unzip_args (**opcional**) Argumentos de extraccion de la base de datos de datos abiertos si `unzip` falla. 
+#' @param unzip_args (**opcional**) Argumentos de extraccion de la base de datos de datos abiertos si `unzip` falla.
 #' La forma de llamarla es con `system2(unzip_command, args = c(unzip_args, file_download_data))`.
 #'
 #' @param unzip_args_dict (**opcional**) Lista de argumentos para usar `utils::unzip` en el diccionario de datos.
@@ -142,7 +142,7 @@
 #' si se elige este metodo de descarga.
 #'
 #' @param force_download (**opcional**) Analiza si cambio el pin y descarga datos nuevos en caso afirmativo aunque
-#' haya pasado menos de un dia. 
+#' haya pasado menos de un dia.
 #'
 #' @param show_warnings (**opcional**) si arrojar `warnings`
 #'
@@ -162,11 +162,11 @@
 #' usando `descarga_diccionario`
 #'
 #' @param drv   (**opcional**) Un  driver para `dbConnect` (default `duckdb::duckdb()`)
-#' 
+#'
 #' @param ...  (**opcional**) Parametros adicionales para `DBI::dbConnect`.
 #'
 #' @param colClasses  (**opcional**) Clases de la columna para leer en `duckdb::read_csv_duckdb()`.
-#' 
+#'
 #' @return Lista de valores:
 #' \itemize{
 #'   \item dats        - Tabla conectada mediante `duckdb::dbConnect__duckdb_driver()` (si `duckdb`) o
@@ -175,121 +175,119 @@
 #'   \item dict        - Lista de `tibble`s con el diccionario de datos para cada variable
 #' }
 #' @examples
-#' 
 #' \dontrun{
-#' # Descarga de la base de datos junto con diccionario en duckdb y la guarda en 
+#' # Descarga de la base de datos junto con diccionario en duckdb y la guarda en
 #' # un archivo llamado covidmx.duckdb
-#' file_duck   <- "covidmx.duckdb" #descomenta esta linea 
+#' file_duck <- "covidmx.duckdb" # descomenta esta linea
 #' datos_covid <- descarga_datos_abiertos(dbdir = file_duck, show_warnings = FALSE)
 #'
 #' # Luego haces algo con esos datos...
 #'
 #' # Cuando terminas cierras la sesion:
 #' datos_covid$disconnect()
-#' 
+#'
 #' # Despues podras leerlos con read_datos_abiertos cuando quieras:
 #' datos_covid <- read_datos_abiertos(dbdir = file_duck)
 #' datos_covid$disconnect()
-#' 
+#'
 #' # Si no pones `dbdir` nota que los datos se guardan en un archivo temporal que se elimina
 #' # al cerrar tu sesion
-#' datos_covid <- descarga_datos_abiertos()   
-#' 
+#' datos_covid <- descarga_datos_abiertos()
+#'
 #' # Desconectamos
 #' datos_covid$disconnect()
 #'
 #' # Tambien puedes descargar de otra direccion con sites.covid
-#' url         <- c("link_de_ejemplo" = 
-#'                  "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip")
-#' datos_covid <- descarga_datos_abiertos(sites.covid = url)   
-#' 
+#' url <- c(
+#'   "link_de_ejemplo" =
+#'     "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
+#' )
+#' datos_covid <- descarga_datos_abiertos(sites.covid = url)
+#'
 #' # Desconectamos
 #' datos_covid$disconnect()
-#' 
 #' }
 #' @encoding UTF-8
-#' @seealso [read_datos_abiertos()]  [descarga_datos_red_irag()] 
-#' [descarga_datos_variantes_GISAID()] 
-#' 
+#' @seealso [read_datos_abiertos()]  [descarga_datos_red_irag()]
+#' [descarga_datos_variantes_GISAID()]
+#'
 #' @references
-#' 
+#'
 #' Secretaría de Salud (2022). Datos Abiertos de COVID-19
 #' URL: \url{https://www.gob.mx/salud/documentos/datos-abiertos-152127}
-#' 
+#'
 #' @export
-descarga_datos_abiertos <- function(dbdir               = tempfile(fileext = ".duckdb"),
-                                    sites.covid         = get_sites_covid(),
-                                    site.covid.dic      = get_site_dic(),
-                                    read_format         = c("duckdb", "tibble"),
-                                    drv                 = duckdb::duckdb(),
+descarga_datos_abiertos <- function(dbdir = tempfile(fileext = ".duckdb"),
+                                    sites.covid = get_sites_covid(),
+                                    site.covid.dic = get_site_dic(),
+                                    read_format = c("duckdb", "tibble"),
+                                    drv = duckdb::duckdb(),
                                     pragma_memory_limit = Sys.getenv("pragma_memory_limit"),
-                                    tblname             = "covidmx",
-                                    colClasses          = get_col_class(),
-                                    download_process    = c("pins", "download.file"),
-                                    unzip_command       = Sys.getenv("unzip_command"),
-                                    unzip_args          = Sys.getenv("unzip_args"),
-                                    unzip_args_dict     = list("exdir" = ".", "overwrite" = TRUE),
+                                    tblname = "covidmx",
+                                    colClasses = get_col_class(),
+                                    download_process = c("pins", "download.file"),
+                                    unzip_command = Sys.getenv("unzip_command"),
+                                    unzip_args = Sys.getenv("unzip_args"),
+                                    unzip_args_dict = list("exdir" = ".", "overwrite" = TRUE),
                                     check_unzip_install = TRUE,
-                                    clear_zip           = (download_process[1] != "pins"),
-                                    clear_csv           = TRUE,
-                                    use_dict            = TRUE,
-                                    datos_abiertos_zip_paths     = NULL,
+                                    clear_zip = (download_process[1] != "pins"),
+                                    clear_csv = TRUE,
+                                    use_dict = TRUE,
+                                    datos_abiertos_zip_paths = NULL,
                                     datos_abiertos_unzipped_path = NULL,
-                                    datos_abiertos_tbl           = NULL, #FIXME
-                                    diccionario_zip_path         = NULL,
-                                    diccionario_unzipped_path    = NULL,
-                                    diccionario                  = NULL,
-                                    quiet                        = FALSE,
-                                    cache_datos                  = NULL,
-                                    use_cache_on_failure         = TRUE,
-                                    cache_diccionario            = NULL,
-                                    force_download               = FALSE,
-                                    show_warnings                = TRUE,
-                                    board_url_name               = "datos_abiertos",
-                                    board_url_name_dict          = "diccionario_covid",
+                                    datos_abiertos_tbl = NULL, # FIXME
+                                    diccionario_zip_path = NULL,
+                                    diccionario_unzipped_path = NULL,
+                                    diccionario = NULL,
+                                    quiet = FALSE,
+                                    cache_datos = NULL,
+                                    use_cache_on_failure = TRUE,
+                                    cache_diccionario = NULL,
+                                    force_download = FALSE,
+                                    show_warnings = TRUE,
+                                    board_url_name = "datos_abiertos",
+                                    board_url_name_dict = "diccionario_covid",
                                     download_file_args = list(
                                       method   = "curl",
                                       destfile = tempfile(),
                                       quiet    = quiet
                                     ),
-                                    download_file_args_dict      = download_file_args,
+                                    download_file_args_dict = download_file_args,
                                     descarga_db_datos_abiertos_tbl_args = list(),
-                                    descarga_db_diccionario_ssa_args    = list(),
+                                    descarga_db_diccionario_ssa_args = list(),
                                     ...) {
-  
-  
-  if (!quiet){
+  if (!quiet) {
     cli::cli_h1("Hola esto es lo que hare hoy para ti:")
     cli::cli_ol()
     cli::cli_li("Base de datos de covid-19 de la Direccion General de Epidemiologia:")
     ulid <- cli::cli_ul()
-    if (is.null(datos_abiertos_zip_paths) & is.null(datos_abiertos_unzipped_path) & 
-        is.null(datos_abiertos_tbl)){
+    if (is.null(datos_abiertos_zip_paths) & is.null(datos_abiertos_unzipped_path) &
+      is.null(datos_abiertos_tbl)) {
       cli::cli_li("{.strong Descargar} las bases de datos abiertos")
     }
-    if (is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)){
+    if (is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)) {
       cli::cli_li("{.strong Descomprimir} las bases de datos abiertos")
     }
-    if (is.null(datos_abiertos_tbl)){
+    if (is.null(datos_abiertos_tbl)) {
       cli::cli_li("{.strong Consolidar} en una sola base de datos")
     }
-    if (!is.null(datos_abiertos_tbl)){
+    if (!is.null(datos_abiertos_tbl)) {
       cli::cli_alert_success("Ya lo tienes.")
     }
     cli::cli_end(ulid)
-    if (use_dict){
+    if (use_dict) {
       cli::cli_li("Diccionario de datos de covid-19 de la Direccion General de Epidemiologia:")
       ulid <- cli::cli_ul()
-      if (is.null(diccionario_zip_path) & is.null(diccionario_unzipped_path) & is.null(diccionario)){
+      if (is.null(diccionario_zip_path) & is.null(diccionario_unzipped_path) & is.null(diccionario)) {
         cli::cli_li("{.strong Descargar} el diccionario")
       }
-      if (is.null(diccionario_unzipped_path) & is.null(diccionario)){
+      if (is.null(diccionario_unzipped_path) & is.null(diccionario)) {
         cli::cli_li("{.strong Descomprimir} el diccionario")
       }
-      if (is.null(diccionario)){
+      if (is.null(diccionario)) {
         cli::cli_li("{.strong Consolidar} todos los diccionarios en una lista")
       }
-      if (!is.null(diccionario)){
+      if (!is.null(diccionario)) {
         cli::cli_alert_success("Ya lo tienes.")
       }
       cli::cli_end(ulid)
@@ -298,8 +296,8 @@ descarga_datos_abiertos <- function(dbdir               = tempfile(fileext = ".d
     cli::cli_end()
     cli::cli_h1("Comenzamos (por favor ten paciencia):")
   }
-  
-  #Descarga los datos abiertos con descarga_db
+
+  # Descarga los datos abiertos con descarga_db
   datos_abiertos_tbl <- descarga_db(
     read_format = read_format,
     tblname     = tblname,
@@ -327,10 +325,10 @@ descarga_datos_abiertos <- function(dbdir               = tempfile(fileext = ".d
     descarga_db_datos_abiertos_tbl_args = descarga_db_datos_abiertos_tbl_args,
     ...
   )
-  
-  
+
+
   if (use_dict) {
-    #Descarga el diccionario
+    # Descarga el diccionario
     diccionario <- descarga_diccionario(
       download_process = download_process,
       site.covid.dic = site.covid.dic,
@@ -352,9 +350,9 @@ descarga_datos_abiertos <- function(dbdir               = tempfile(fileext = ".d
   } else {
     diccionario <- NULL
   }
-  
+
   # Pegamos todo
   datos_covid <- pega_db_datos_abiertos_tbl_y_diccionario(datos_abiertos_tbl = datos_abiertos_tbl, diccionario = diccionario)
-  
+
   return(datos_covid)
 }

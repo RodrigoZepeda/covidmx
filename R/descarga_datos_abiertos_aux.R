@@ -22,10 +22,10 @@
 #'
 #' Si en algun momento se interrumpio la descarga o hubo problemas de conexion o detuviste
 #' el proceso de generacion de la base de datos abiertos puedes llamar a las funciones
-#' de [read_datos_abiertos()]. 
+#' de [read_datos_abiertos()].
 #'
 #' @inheritParams descarga_datos_abiertos
-#' 
+#'
 #' @return Lista de valores:
 #' \itemize{
 #'   \item dats        - Tabla conectada mediante `duckdb::dbConnect__duckdb_driver()` (si `duckdb`) o
@@ -34,20 +34,19 @@
 #'   \item dict        - Lista de `tibble`s con el diccionario de datos para cada variable
 #' }
 #' @examples
-#' 
 #' \dontrun{
 #' # Descarga solo el diccionario
-#' #diccionario    <- descarga_diccionario()
-#' 
+#' # diccionario    <- descarga_diccionario()
+#'
 #' # O bien descarga solo los datos abiertos
 #' datos_abiertos <- descarga_db()
-#' 
+#'
 #' # Pegalos en el formato que se necesita para el resto de funciones
-#' datos_covid    <- pega_db_datos_abiertos(datos_abiertos, diccionario)
+#' datos_covid <- pega_db_datos_abiertos(datos_abiertos, diccionario)
 #'
 #' # Desconectamos
 #' datos_covid$disconnect()
-#' 
+#'
 #' # Tambien puedes descargar paso por paso
 #' datos_abiertos <- descarga_db_datos_abiertos_tbl() |> # Descarga
 #'   unzip_db_datos_abiertos_tbl() |> # Unzippea
@@ -57,15 +56,14 @@
 #' diccionario <- descarga_db_diccionario_ssa() |> # Descarga
 #'   unzip_db_diccionario_ssa() |> # Unzippea
 #'   parse_db_diccionario_ssa() # Tibble
-#'   
+#'
 #' # Si descargaste cada uno por separado necesitas la funcion pega para
 #' # juntarlos en un unico objeto
 #' datos_covid <- pega_db_datos_abiertos_tbl_y_diccionario(datos_abiertos, diccionario)
-#' 
 #' }
 #' @encoding UTF-8
-#' @seealso [descarga_datos_abiertos()] [read_datos_abiertos()]  [descarga_datos_red_irag()] 
-#' [descarga_datos_variantes_GISAID()] 
+#' @seealso [descarga_datos_abiertos()] [read_datos_abiertos()]  [descarga_datos_red_irag()]
+#' [descarga_datos_variantes_GISAID()]
 #' @export
 #' @param cache  (**opcional**) parametro para el cache de `pins::board_url`
 #' @param ...  (**opcional**) Parametros adicionales para `duckdb::dbConnect()` con  conexion de `duckdb::duckdb()`
@@ -99,19 +97,16 @@ descarga_db <- function(read_format = c("duckdb", "tibble"),
                         ),
                         descarga_db_datos_abiertos_tbl_args = list(),
                         ...) {
-
-  
-  if (!(download_process[1] %in% c("pins", "download.file"))){
+  if (!(download_process[1] %in% c("pins", "download.file"))) {
     cli::cli_abort("Proceso de descarga invalido. Selecciona {.code pins} o {.code download.file}")
   }
-  
+
   # Descargamos los datos de la ssa
   if (is.null(datos_abiertos_zip_paths) & is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)) {
-    
-    if (!quiet){
+    if (!quiet) {
       cli::cli_alert_info("{.strong Descargando} la informacion...")
     }
-    
+
     descarga_db_datos_abiertos_tbl_args <- list(
       "download_process"     = download_process,
       "sites.covid"          = sites.covid,
@@ -133,11 +128,10 @@ descarga_db <- function(read_format = c("duckdb", "tibble"),
 
   # Liberamos el zip
   if (!is.null(datos_abiertos_zip_paths) & is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)) {
-    
-    if (!quiet){
+    if (!quiet) {
       cli::cli_alert_info("{.strong Descomprimiendo} los archivos {.file .zip}...")
     }
-    
+
     datos_abiertos_unzipped_path <- unzip_db_datos_abiertos_tbl(
       datos_abiertos_zip_paths = datos_abiertos_zip_paths,
       unzip_command = unzip_command,
@@ -150,13 +144,12 @@ descarga_db <- function(read_format = c("duckdb", "tibble"),
 
   # Parseamos el file en tibble o duckdb
   if (!is.null(datos_abiertos_unzipped_path) & is.null(datos_abiertos_tbl)) {
-    
-    if (!quiet){
+    if (!quiet) {
       cli::cli_alert_info(
         "{.strong Consolidando} los archivos {.file .csv} en {.file {read_format[1]}}..."
       )
     }
-    
+
     datos_abiertos_tbl <- parse_db_datos_abiertos_tbl(
       datos_abiertos_unzipped_path = datos_abiertos_unzipped_path,
       read_format = read_format,
@@ -169,31 +162,31 @@ descarga_db <- function(read_format = c("duckdb", "tibble"),
       quiet       = quiet,
       ...
     )
-  } else if (!is.null(datos_abiertos_tbl)){
-    
+  } else if (!is.null(datos_abiertos_tbl)) {
+
     # Get file connection
     con <- duckdb::dbConnect(
       drv   = drv,
       dbdir = datos_abiertos_tbl,
       ...
     )
-    
+
     # Memory limit
-    if (pragma_memory_limit == ""){
+    if (pragma_memory_limit == "") {
       pragma_memory_limit <- "1GB"
     }
-    
-    
+
+
     DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit, "'"))
-    
-    if (!quiet){
+
+    if (!quiet) {
       cli::cli_alert_info(
         "{.strong Conectando} a la tabla {.code {tblname}} creada en {.file duckdb}..."
       )
     }
-    
+
     dats <- dplyr::tbl(con, tblname)
-    
+
     # Formateo
     dats <- dats |>
       dplyr::mutate(dplyr::across(
@@ -210,25 +203,24 @@ descarga_db <- function(read_format = c("duckdb", "tibble"),
       dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ dplyr::if_else(. == "9999-99-99", NA_character_, .))) |>
       dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ dplyr::if_else(. == "-001-11-30", NA_character_, .))) |>
       dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ strptime(., "%Y-%m-%d")))
-    
+
     # Creamos función de desconexión
     disconnect <- function(quiet = FALSE) {
       duckdb::dbDisconnect(con, shutdown = TRUE)
-      if (!quiet){
+      if (!quiet) {
         cli::cli_alert_success("Desconectado")
       }
     }
-    
+
     # Mensaje de desconexion
     if (!quiet) {
       cli::cli_alert_success(
-        "{.strong Terminado}. No olvides desconectar la base con {.code datos_covid$disconnect()} 
+        "{.strong Terminado}. No olvides desconectar la base con {.code datos_covid$disconnect()}
       al terminar de trabajar."
       )
     }
-    
+
     datos_abiertos_tbl <- list("dats" = dats, "disconnect" = disconnect)
-    
   }
 
   return(datos_abiertos_tbl)
@@ -256,8 +248,7 @@ descarga_diccionario <- function(download_process = c("pins", "download.file"),
                                  ),
                                  unzip_args_dict = list("exdir" = ".", "overwrite" = TRUE),
                                  descarga_db_diccionario_ssa_args = list()) {
-
-  if (!(download_process[1] %in% c("pins", "download.file"))){
+  if (!(download_process[1] %in% c("pins", "download.file"))) {
     cli::cli_abort("Proceso de descarga invalido. Selecciona {.code pins} o {.code download.file}")
   }
 
@@ -320,15 +311,14 @@ descarga_db_datos_abiertos_tbl <- function(download_process = c("pins", "downloa
 
   # Method for download
   download_process <- ifelse(download_process[1] == "download.file", "download.file", "pins")
-  download_paths   <- vector(mode = "list", length = length(sites.covid))
+  download_paths <- vector(mode = "list", length = length(sites.covid))
 
-  if (!quiet){
+  if (!quiet) {
     cli::cli_progress_bar("Descargando", total = length(sites.covid), clear = TRUE)
   }
 
   for (sitenum in 1:length(sites.covid)) {
-    
-    if (!quiet){
+    if (!quiet) {
       cli::cli_progress_update()
     }
 
@@ -391,7 +381,7 @@ descarga_db_datos_abiertos_tbl <- function(download_process = c("pins", "downloa
     }
   }
 
-  if (!quiet){
+  if (!quiet) {
     cli::cli_progress_done()
   }
 
@@ -442,17 +432,17 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_paths,
                                         check_unzip_install = TRUE,
                                         quiet = FALSE,
                                         clear_zip = FALSE) {
-  
-  if (!quiet){
-    cli::cli_progress_bar("Leyendo archivos zip", total = length(datos_abiertos_zip_paths), 
-                        clear = TRUE)
+  if (!quiet) {
+    cli::cli_progress_bar("Leyendo archivos zip",
+      total = length(datos_abiertos_zip_paths),
+      clear = TRUE
+    )
   }
-  
+
   csv_files <- vector(mode = "list", length = length(datos_abiertos_zip_paths))
 
   for (zipnum in 1:length(datos_abiertos_zip_paths)) {
-    
-    if (!quiet){
+    if (!quiet) {
       cli::cli_progress_update()
     }
 
@@ -529,7 +519,7 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_paths,
     }
   }
 
-  if (!quiet){
+  if (!quiet) {
     cli::cli_progress_done()
   }
 
@@ -543,7 +533,6 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_paths,
 unzip_db_diccionario_ssa <- function(diccionario_zip_path,
                                      unzip_args_dict = list("exdir" = ".", "overwrite" = TRUE),
                                      clear_zip = FALSE) {
-  
   filenames <- unzip(zipfile = diccionario_zip_path[[1]], list = TRUE)
   fname <- filenames[which(stringr::str_detect(filenames$Name, "Cat.*logo.*")), "Name"]
 
@@ -695,10 +684,10 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
     old_warning <- getOption("warn")
     options(warn = -1)
 
-    if (!quiet){
+    if (!quiet) {
       cli::cli_alert_info("{.strong Cargando} los datos en {.file tibble}...")
     }
-    
+
     # Leemos el archivo
     dats <- readr::read_csv(datos_abiertos_unzipped_path,
       locale = readr::locale(encoding = "UTF-8"),
@@ -740,20 +729,22 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
         UCI                   = readr::col_double()
       )
     )
-    
-    
+
+
     # Set readr progress
     options(readr.show_progress = readr_progress_old)
     options(warn = old_warning)
-    
-    if (!quiet){
+
+    if (!quiet) {
       cli::cli_alert_info(
         "{.strong Conectando} a la tabla {.code {tblname}} creada en {.file tibble}..."
       )
     }
 
     disconnect <- function(quiet = FALSE) {
-      if (!quiet){cli::cli_alert_success("Desconectado")}
+      if (!quiet) {
+        cli::cli_alert_success("Desconectado")
+      }
     }
   } else {
 
@@ -765,27 +756,27 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
       ...
     )
 
-    if (pragma_memory_limit == ""){
+    if (pragma_memory_limit == "") {
       pragma_memory_limit <- "1GB"
     }
-    
+
     # Pragma memory limit
     DBI::dbExecute(con, paste0("PRAGMA memory_limit='", pragma_memory_limit, "'"))
 
-    if (!quiet){
+    if (!quiet) {
       cli::cli_alert_info("{.strong Cargando} los datos en {.file duckdb}...")
     }
-    
+
     duckdb::duckdb_read_csv(con, tblname, unlist(datos_abiertos_unzipped_path),
       colClasses = colClasses
     )
 
-    if (!quiet){
+    if (!quiet) {
       cli::cli_alert_info(
         "{.strong Conectando} a la tabla {.code {tblname}} creada en {.file duckdb}..."
       )
     }
-    
+
     dats <- dplyr::tbl(con, tblname)
 
     # Formateo
@@ -808,17 +799,17 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
     # Creamos funcion de desconexion
     disconnect <- function(quiet = FALSE) {
       duckdb::dbDisconnect(con, shutdown = TRUE)
-      if (!quiet){
+      if (!quiet) {
         cli::cli_alert_success("Desconectado")
       }
     }
   }
 
   if (clear_csv) {
-    if (!quiet){
+    if (!quiet) {
       cli::cli_alert_info("{.strong Eliminando} los archivos {.file .csv}")
     }
-    
+
     for (fname in datos_abiertos_unzipped_path) {
       if (file.exists(fname)) {
         file.remove(fname)
@@ -829,11 +820,11 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
   # Mensaje de desconexion
   if (!quiet) {
     cli::cli_alert_success(
-      "{.strong Terminado}. No olvides desconectar la base con {.code datos_covid$disconnect()} 
+      "{.strong Terminado}. No olvides desconectar la base con {.code datos_covid$disconnect()}
       al terminar de trabajar."
     )
   }
-  
+
   return(list(dats = dats, disconnect = disconnect))
 }
 
