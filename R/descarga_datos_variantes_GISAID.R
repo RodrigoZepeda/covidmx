@@ -2,13 +2,13 @@
 #'
 #' @description
 #' `descarga_datos_variantes_GISAID` Lee los datos de variantes del reporte nacional diario en
-#'  [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid)  
-#'  creado a partir de la informacion de la 
+#'  [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid)
+#'  creado a partir de la informacion de la
 #'  [Global Initiative on Sharing Avian Influenza Data (GISAID)](https://gisaid.org/)
 #'
 #' @details
 #' Cada vez que uses estos datos necesitas citar a **GISAID** (ver referencias) asi como
-#' el reporte en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid)  
+#' el reporte en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid)
 #'
 #' Los datos son descargados de manera automatica en mi Github:
 #' [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) el programa
@@ -24,7 +24,7 @@
 #' @param force_download analiza si cambio el pin y descarga datos nuevos en caso afirmativo
 #' @param show_warnings si arrojar `warnings`
 #' @param ...  parametros adicionales para `pins::pin_download`.
-#' 
+#'
 #' @return `data.frame` con los datos porcentuales y de conteo de variantes
 #'
 #' @examples
@@ -96,7 +96,7 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
   if (!force_download & tdif < 0.9) {
     if (show_warnings) {
       cli::cli_warn(
-          "La descarga mas reciente fue  hace {round(tdif,5)} dias. Como tiene menos de un 
+        "La descarga mas reciente fue  hace {round(tdif,5)} dias. Como tiene menos de un
           dia usare esa. Escribe {.code force_download = TRUE} si quieres descargar de
           todas formas. Para desactivar este mensaje {.code show_warnings = FALSE.}"
       )

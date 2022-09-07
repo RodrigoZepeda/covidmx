@@ -91,8 +91,9 @@ get_col_class <- function() {
   )
 }
 
-get_sites_covid <- function(){
-  c("2022" = paste0(
+get_sites_covid <- function() {
+  c(
+    "2022" = paste0(
       "http://datosabiertos.salud.gob.mx/gobmx/salud",
       "/datos_abiertos/datos_abiertos_covid19.zip"
     ),
@@ -109,7 +110,7 @@ get_sites_covid <- function(){
   )
 }
 
-get_site_dic <- function(){
+get_site_dic <- function() {
   paste0(
     "http://datosabiertos.salud.",
     "gob.mx/gobmx/salud/datos_a",
