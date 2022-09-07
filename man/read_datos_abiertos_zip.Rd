@@ -212,8 +212,8 @@ Para guardar tu base con \code{duckdb} cambia el \code{dbdir} a un archivo \code
 \examples{
 \dontrun{
 # Lee los datos de duckdb una vez descargados
-file_ejemplo <- "datos.duckdb" 
-datos_covid  <- descarga_datos_abiertos(dbdir = file_ejemplo)
+file_ejemplo <- "datos.duckdb"
+datos_covid <- descarga_datos_abiertos(dbdir = file_ejemplo)
 datos_covid$disconnect()
 
 datos_covid <- read_datos_abiertos(file_ejemplo, show_warnings = FALSE)
@@ -223,27 +223,30 @@ datos_covid$disconnect()
 datos_covid <- read_datos_abiertos_duckdb(file_ejemplo, show_warnings = FALSE)
 datos_covid$disconnect()
 
-# Descarga los datos y lee de un zip guardandolos a la vez en 
+# Descarga los datos y lee de un zip guardandolos a la vez en
 # base de nombre datos_desde_zip.duckdb
 direccion_zip <- descarga_db_datos_abiertos_tbl()
-datos_covid   <- read_datos_abiertos(direccion_zip, dbdir = "datos_desde_zip.duckdb", 
-                                     show_warnings = FALSE)
+datos_covid <- read_datos_abiertos(direccion_zip,
+  dbdir = "datos_desde_zip.duckdb",
+  show_warnings = FALSE
+)
 datos_covid$disconnect()
 
 # Es lo mismo que:
-datos_covid <- read_datos_abiertos_zip(direccion_zip, dbdir = "datos_desde_zip.duckdb",
-                                       show_warnings = FALSE)
+datos_covid <- read_datos_abiertos_zip(direccion_zip,
+  dbdir = "datos_desde_zip.duckdb",
+  show_warnings = FALSE
+)
 datos_covid$disconnect()
 
 # Descarga los datos y lee de un csv
 direccion_zip <- descarga_db_datos_abiertos_tbl(show_warnings = FALSE)
 direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip, show_warnings = FALSE)
-datos_covid   <- read_datos_abiertos(direccion_csv, show_warnings = FALSE)
+datos_covid <- read_datos_abiertos(direccion_csv, show_warnings = FALSE)
 datos_covid$disconnect()
 
-#Es lo mismo que:
+# Es lo mismo que:
 datos_covid <- read_datos_abiertos_csv(direccion_csv, show_warnings = FALSE)
 datos_covid$disconnect()
-
 }
 }

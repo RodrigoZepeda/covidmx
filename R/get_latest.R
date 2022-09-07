@@ -33,11 +33,17 @@
 #https://github.com/stan-dev/cmdstanr/blob/9f4e8a6b68593863b33a4a75430c2b77c853916a/R/install.R#L345
 get_latest_version <- function() {
   dest_file    <- base::tempfile(pattern = "releases-", fileext = ".json")
+  
   #Aqui se cambio
   download_url <- "https://api.github.com/repos/RodrigoZepeda/covidmx/releases/latest"
+  
   #Aqui se cambio
-  download_rc  <- utils::download.file(url = download_url, destfile = dest_file, quiet = TRUE)
-  if (download_rc != 0) {
+  download_rc <- tryCatch(
+    utils::download.file(url = download_url, destfile = dest_file, quiet = TRUE),
+    error = function(e){NULL}
+  )
+  
+  if (is.null(download_rc) || download_rc != 0) {
     NULL #Aqui se cambio
   } else {
     tryCatch({
@@ -45,6 +51,6 @@ get_latest_version <- function() {
       release <- stringr::str_subset(release[[1]],"tag_name")
       release <- stringr::str_remove_all(release,"tag_name|v|\\\\|:|\"|,|[:space:]")
       release
-    })
+    }, error = function(e){NULL})
   }
 }

@@ -66,14 +66,14 @@ ocupacion_hospitalaria <- descarga_datos_red_irag("Unidad Medica")
 
 # Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
 # sin verificar que el contenido en Internet haya cambiado
-ocupacion_unidad       <- descarga_datos_red_irag("Unidad Medica")
+ocupacion_unidad <- descarga_datos_red_irag("Unidad Medica")
 
 # Puedes forzarlo a checar el contenido en Internet usando
-ocupacion_unidad       <- descarga_datos_red_irag("Unidad Medica", force_download = TRUE)
+ocupacion_unidad <- descarga_datos_red_irag("Unidad Medica", force_download = TRUE)
 
-#Así se ven los datos
-ocupacion_hospitalaria |> 
-    plot_covid(df_variable = "Hospitalizados (\%)", df_covariates = "Estado", type = "area")
+# Así se ven los datos
+ocupacion_hospitalaria |>
+  plot_covid(df_variable = "Hospitalizados (\%)", df_covariates = "Estado", type = "area")
 }
 }
 \references{

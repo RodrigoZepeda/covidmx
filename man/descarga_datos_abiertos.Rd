@@ -233,11 +233,10 @@ En caso de ser requeridos el sistema te lo hara saber junto con las instruccione
 }
 
 \examples{
-
 \dontrun{
-# Descarga de la base de datos junto con diccionario en duckdb y la guarda en 
+# Descarga de la base de datos junto con diccionario en duckdb y la guarda en
 # un archivo llamado covidmx.duckdb
-file_duck   <- "covidmx.duckdb" #descomenta esta linea 
+file_duck <- "covidmx.duckdb" # descomenta esta linea
 datos_covid <- descarga_datos_abiertos(dbdir = file_duck, show_warnings = FALSE)
 
 # Luego haces algo con esos datos...
@@ -251,19 +250,20 @@ datos_covid$disconnect()
 
 # Si no pones `dbdir` nota que los datos se guardan en un archivo temporal que se elimina
 # al cerrar tu sesion
-datos_covid <- descarga_datos_abiertos()   
+datos_covid <- descarga_datos_abiertos()
 
 # Desconectamos
 datos_covid$disconnect()
 
 # Tambien puedes descargar de otra direccion con sites.covid
-url         <- c("link_de_ejemplo" = 
-                 "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip")
-datos_covid <- descarga_datos_abiertos(sites.covid = url)   
+url <- c(
+  "link_de_ejemplo" =
+    "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
+)
+datos_covid <- descarga_datos_abiertos(sites.covid = url)
 
 # Desconectamos
 datos_covid$disconnect()
-
 }
 }
 \references{

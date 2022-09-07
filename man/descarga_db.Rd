@@ -261,16 +261,15 @@ el proceso de generacion de la base de datos abiertos puedes llamar a las funcio
 de \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}.
 }
 \examples{
-
 \dontrun{
 # Descarga solo el diccionario
-#diccionario    <- descarga_diccionario()
+# diccionario    <- descarga_diccionario()
 
 # O bien descarga solo los datos abiertos
 datos_abiertos <- descarga_db()
 
 # Pegalos en el formato que se necesita para el resto de funciones
-datos_covid    <- pega_db_datos_abiertos(datos_abiertos, diccionario)
+datos_covid <- pega_db_datos_abiertos(datos_abiertos, diccionario)
 
 # Desconectamos
 datos_covid$disconnect()
@@ -284,11 +283,10 @@ datos_abiertos <- descarga_db_datos_abiertos_tbl() |> # Descarga
 diccionario <- descarga_db_diccionario_ssa() |> # Descarga
   unzip_db_diccionario_ssa() |> # Unzippea
   parse_db_diccionario_ssa() # Tibble
-  
+
 # Si descargaste cada uno por separado necesitas la funcion pega para
 # juntarlos en un unico objeto
 datos_covid <- pega_db_datos_abiertos_tbl_y_diccionario(datos_abiertos, diccionario)
-
 }
 }
 \seealso{
