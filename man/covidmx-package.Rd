@@ -6,7 +6,7 @@
 \alias{covidmx-package}
 \title{covidmx: Herramientas para el analisis de datos de COVID-19 en Mexico}
 \description{
-Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico, la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) y la Global Initiative on Sharing All Influenza Data (GISAID). EN: Downloads and analyzes data for COVID-19 from the Mexican General Directorate of Epidemiology, the IRAG network and GISAID.
+Conjunto de herramientas para analisis de datos de COVID-19 en Mexico. Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico, la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) y la Global Initiative on Sharing All Influenza Data (GISAID). EN: Downloads and analyzes data for COVID-19 from the Mexican General Directorate of Epidemiology, the IRAG network and GISAID.
 }
 \seealso{
 Useful links:
@@ -27,6 +27,16 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item Alberto Almuiña (Author of included zzz fragment) [contributor]
+  \item Jonah Gabry (Author of included cmdstanr fragment) [contributor]
+  \item Rok Češnovar (Author of included cmdstanr fragment) [contributor]
+  \item Ben Bales (Author of included cmdstanr fragment) [contributor]
+  \item Mitzi Morris (Author of included cmdstanr fragment) [contributor]
+  \item Mikhail Popov (Author of included cmdstanr fragment) [contributor]
+  \item Mike Lawrence (Author of included cmdstanr fragment) [contributor]
+  \item William Michael Landau (Author of included cmdstanr fragment) [contributor]
+  \item Jacob Socolar (Author of included cmdstanr fragment) [contributor]
+  \item Andrew Johnson (Author of included cmdstanr fragment) [contributor]
   \item Instituto Mexicano del Seguro Social [copyright holder, funder]
 }
 

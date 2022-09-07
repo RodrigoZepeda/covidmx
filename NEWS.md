@@ -1,3 +1,9 @@
+# covidmx 0.6.2.0000
+
+* Se corrigieron los menús de ayuda para ser más informativos.
+* Se agrego la funcion `update_covidmx` para actualizar desde github. 
+* Se cambio el mensaje de inicio. 
+
 # covidmx 0.6.1.2000
 
 * Se corrigieron los menús de ayuda para ser más informativos.

@@ -1,12 +1,36 @@
 Package: covidmx
 Title: Herramientas para el analisis de datos de COVID-19 en Mexico
-Version: 0.6.1.2000
+Version: 0.6.1.3000
 Authors@R: 
     c(person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4471-5270")),
-           person("Mauricio", "Hernandez-Avila", role = c("aut")),
-           person(given = "Instituto Mexicano del Seguro Social", role = c("cph", "fnd")))
-Description: Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia  de Mexico, la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) y la Global Initiative on  Sharing All Influenza Data (GISAID). EN: Downloads and analyzes data for COVID-19 from the  Mexican General Directorate of Epidemiology, the IRAG network and GISAID. 
+          person("Mauricio", "Hernandez-Avila", role = c("aut")),
+          person("Alberto", "Almuiña", role = c("ctb"),
+          comment = "Author of included zzz fragment"),
+          person(given = "Jonah", family = "Gabry", role = c("ctb"), 
+          comment = "Author of included cmdstanr fragment"),
+          person(given = "Rok", family = "Češnovar", role = "ctb", 
+          comment = "Author of included cmdstanr fragment"),
+          person(given = "Ben", family = "Bales", role = "ctb", 
+          comment = "Author of included cmdstanr fragment"),
+          person(given = "Mitzi", family = "Morris", role = "ctb", 
+          comment = "Author of included cmdstanr fragment"),
+          person(given = "Mikhail", family = "Popov", role = "ctb", 
+          comment = "Author of included cmdstanr fragment"),
+          person(given = "Mike", family = "Lawrence", role = "ctb", 
+          comment = "Author of included cmdstanr fragment"),
+          person(given = c("William", "Michael"), family = "Landau", role = "ctb",
+                comment = "Author of included cmdstanr fragment"),
+          person(given = "Jacob", family = "Socolar", role = "ctb", 
+          comment = "Author of included cmdstanr fragment"),
+          person(given = "Andrew", family = "Johnson", role = "ctb", 
+          comment = "Author of included cmdstanr fragment"),
+          person(given = "Instituto Mexicano del Seguro Social", role = c("cph", "fnd")))
+Description: Conjunto de herramientas para analisis de datos de COVID-19 en Mexico. 
+  Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico, 
+  la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) y la Global Initiative on 
+  Sharing All Influenza Data (GISAID). EN: Downloads and analyzes data for COVID-19 from the 
+  Mexican General Directorate of Epidemiology, the IRAG network and GISAID. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Language: es
@@ -40,6 +64,7 @@ Suggests:
     ggtext (>= 0.1.0),
     lubridate,
     MetBrewer,
+    remotes,
     rmarkdown,
     rstudioapi,
     scales,
