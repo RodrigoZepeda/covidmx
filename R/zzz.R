@@ -4,31 +4,33 @@
   bsu_color_1 <- "#2c3e50"
   bsu_color_2 <- "#1f78b4"
   bsu_color_3 <- "#DC582A"
-  
-  #Obtenemos la nueva versión y la version actual
+
+  # Obtenemos la nueva versión y la version actual
   version_actual <- utils::packageVersion("covidmx")
   version_github <- get_latest_version()
-  
-  if (length(version_github) == 1 && length(version_actual) == 1 &&  
-      version_actual != version_github){
+
+  if (length(version_github) == 1 && length(version_actual) == 1 &&
+    version_actual != version_github) {
     msg_version <- list(
       message = "El paquete covidmx esta desactualizado. Actualizalo con: `update_covidmx()`",
       color   = "warn"
     )
-  } else if (length(version_github) == 1 && length(version_actual) == 1 && 
-             version_actual == version_github){
+  } else if (length(version_github) == 1 && length(version_actual) == 1 &&
+    version_actual == version_github) {
     msg_version <- list(
       message = "Felicidades: estas usando la version mas actualizada de `covidmx`",
       color   = "cool"
     )
   } else {
     msg_version <- list(
-      message = paste("Verifica que estes usando la version mas actual del paquete disponible", 
-         "https://github.com/RodrigoZepeda/covidmx"),
+      message = paste(
+        "Verifica que estes usando la version mas actual del paquete disponible",
+        "https://github.com/RodrigoZepeda/covidmx"
+      ),
       color = "cool"
     )
   }
-  
+
   # Check Theme: If Dark, Update Colors
   if (requireNamespace("rstudioapi", quietly = TRUE) & requireNamespace("crayon", quietly = TRUE)) {
     tryCatch(
@@ -57,15 +59,15 @@
       },
       finally = {
         bsu_title <- crayon::make_style(bsu_color_1)
-        bsu_main  <- crayon::make_style(bsu_color_2)
-        bsu_warn  <- crayon::make_style(bsu_color_3)
-        
-        if (msg_version$color == "warn"){
+        bsu_main <- crayon::make_style(bsu_color_2)
+        bsu_warn <- crayon::make_style(bsu_color_3)
+
+        if (msg_version$color == "warn") {
           msg_version <- bsu_warn(msg_version$message)
         } else {
           msg_version <- bsu_main(msg_version$message)
         }
-        
+
         msg <- paste0(
           bsu_main("Hola! si me usas no te olvides de citarme:\n\n"),
           bsu_title("Paquete covidmx:\n"),
