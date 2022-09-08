@@ -40,6 +40,9 @@ get_latest_version <- function() {
   # Aqui se cambio
   download_rc <- tryCatch(
     utils::download.file(url = download_url, destfile = dest_file, quiet = TRUE),
+    warning = function(e){
+      NULL
+    },
     error = function(e) {
       NULL
     }

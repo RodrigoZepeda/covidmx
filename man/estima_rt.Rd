@@ -107,47 +107,50 @@ a los de la variante delta.
 
 datos_covid <- datosabiertos
 
-# Casos a nivel nacional por estado en todos 
+# Casos a nivel nacional por estado en todos
 suppressWarnings(
-   datos_covid <- datos_covid |> estima_rt() 
+  datos_covid <- datos_covid |> estima_rt()
 )
 head(datos_covid$estima_rt)
 
-\dontrun{
-#' # Cambios en la fecha de estimacion siguiendo la recomendacion
+# Cambios en la fecha de estimacion siguiendo la recomendacion
 # y obtenemos todo a nivel nacional
- datos_covid <- datos_covid |> estima_rt(min_date = as.POSIXct("2021-07-01"), 
-                                         max_date = as.POSIXct("2021-09-01"),
-                                         list_name = "rt_min_max",
-                                         group_by_entidad = FALSE)
+datos_covid <- datos_covid |> estima_rt(
+  min_date = as.POSIXct("2021-07-01"),
+  max_date = as.POSIXct("2021-09-01"),
+  list_name = "rt_min_max",
+  group_by_entidad = FALSE
+)
 head(datos_covid$rt_min_max)
 
 # Casos a nivel nacional en los confirmados
- datos_covid <- datos_covid |>
-      estima_rt(
-        tipo_clasificacion = "Confirmados COVID",
-        group_by_entidad   = FALSE,
-        list_name = "rt_confirmados"
-      )
+datos_covid <- datos_covid |>
+  estima_rt(
+    tipo_clasificacion = "Confirmados COVID",
+    group_by_entidad = FALSE,
+    list_name = "rt_confirmados"
+  )
 head(datos_covid$rt_confirmados)
 
-# Cambios en los parametros de epiestim
+#' # Cambios en los parametros de epiestim
 # estos parametros no tienen razon de ser mas alla de mostrar como se cambian
-   datos_covid <- datos_covid |> 
-        estima_rt(group_by_entidad   = FALSE,
-                  list_name = "config_rt",
-                  method = "uncertain_si", #Metodo de estimacion
-                  config = EpiEstim::make_config(
-                       mean_si = 2.4,
-                       std_si  = 0.3,
-                       std_mean_si = 0.2,
-                       min_mean_si = 2,
-                       max_mean_si = 4,
-                       std_std_si  = 0.1,
-                       min_std_si  = 0.1,
-                       max_std_si  = 1.0
-                  )
-        ) 
+\dontrun{
+datos_covid <- datos_covid |>
+  estima_rt(
+    group_by_entidad = FALSE,
+    list_name = "config_rt",
+    method = "uncertain_si", # Metodo de estimacion
+    config = EpiEstim::make_config(
+      mean_si = 2.4,
+      std_si = 0.3,
+      std_mean_si = 0.2,
+      min_mean_si = 2,
+      max_mean_si = 4,
+      std_std_si = 0.1,
+      min_std_si = 0.1,
+      max_std_si = 1.0
+    )
+  )
 
 head(datos_covid$config_rt)
 

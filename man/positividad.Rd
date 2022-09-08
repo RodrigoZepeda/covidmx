@@ -201,8 +201,8 @@ datos_covid <- datos_covid |>
   )
 head(datos_covid$positividad_imss_pais)
 
-#Una vez hayas concluido tu trabajo no olvides desconectar
-datos_covid$disconnect() 
+# Una vez hayas concluido tu trabajo no olvides desconectar
+datos_covid$disconnect()
 }
 \references{
 Furuse, Y., Ko, Y. K., Ninomiya, K., Suzuki, M., & Oshitani, H. (2021). Relationship of test

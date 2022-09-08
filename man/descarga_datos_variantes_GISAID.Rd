@@ -86,7 +86,7 @@ if (requireNamespace("ggstream") & requireNamespace("lubridate")) {
   ggplot(variantes_covid) +
     ggstream::geom_stream(aes(
       x = ymd("2019/12/27") + years(ano - 2020) + weeks(semana),
-      y = n, fill = variant, 
+      y = n, fill = variant,
     )) +
     theme_minimal()
 }

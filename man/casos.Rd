@@ -266,7 +266,7 @@ head(datos_covid$sexo)
 # que otras variables puedes clasificar
 datos_covid$dats |> dplyr::glimpse()
 
-#Una vez hayas concluido tu trabajo no olvides desconectar
+# Una vez hayas concluido tu trabajo no olvides desconectar
 datos_covid$disconnect()
 
 }

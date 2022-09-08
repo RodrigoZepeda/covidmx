@@ -68,8 +68,8 @@ This is not an official product / este no es un producto oficial
 # Grafica de casos por entidad
 datos_covid <- datosabiertos
 
-#Aqui muchos aparecen en cero si usas el default de datosabiertos
-#porque la base de datosabiertos tiene muy pocos casos
+# Aqui muchos aparecen en cero si usas el default de datosabiertos
+# porque la base de datosabiertos tiene muy pocos casos
 datos_covid |>
   casos(list_name = "casos_for_plot") |>
   plot_covid(df_name = "casos_for_plot")
@@ -84,36 +84,44 @@ datos_covid |>
 datos_covid |>
   casos(group_by_entidad = FALSE, list_name = "spline_nacional") |>
   plot_covid(df_name = "spline_nacional", type = "spline", spar = 0.5)
-  
+
 # Graficacion por covariables
 # el objeto devuelto es un objeto de ggplot2 al que se le puede dar formato
 datos_covid |>
-  chr(group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
-      entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR")) |>
-  plot_covid(df_name = "plot_nal", 
-             date_break_format = "1 week",
-             date_labels_format = "\%d/\%B/\%Y",
-             df_covariates = c("SEXO","ENTIDAD_FEDERATIVA"),
-             type = "area") +
-  ggtitle("Plot nacional")   
-  
+  chr(
+    group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
+    entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR")
+  ) |>
+  plot_covid(
+    df_name = "plot_nal",
+    date_break_format = "1 week",
+    date_labels_format = "\%d/\%B/\%Y",
+    df_covariates = c("SEXO", "ENTIDAD_FEDERATIVA"),
+    type = "area"
+  ) +
+  ggtitle("Plot nacional")
+
 # Puedes tambien primero editar el tibble que usaras por ejemplo poniendo
 # los nombres de los sexos
 datos_covid <- datos_covid |>
-  chr(group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
-      entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR")) 
+  chr(
+    group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
+    entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR")
+  )
 
 datos_covid$plot_nal |>
-   left_join(datos_covid$dict$SEXO, by = c("SEXO" = "CLAVE")) |>
-   plot_covid(date_break_format = "1 week",
-             date_labels_format = "\%d/\%B/\%Y",
-             df_variable   = "CASE HOSPITALIZATION RATE",
-             df_covariates = c("DESCRIPCIÓN","ENTIDAD_FEDERATIVA"),
-             type = "area") +
-   ggtitle("Plot nacional")          
+  left_join(datos_covid$dict$SEXO, by = c("SEXO" = "CLAVE")) |>
+  plot_covid(
+    date_break_format = "1 week",
+    date_labels_format = "\%d/\%B/\%Y",
+    df_variable = "CASE HOSPITALIZATION RATE",
+    df_covariates = c("DESCRIPCIÓN", "ENTIDAD_FEDERATIVA"),
+    type = "area"
+  ) +
+  ggtitle("Plot nacional")
 }
-              
-#Finalmente desconectamos              
+
+# Finalmente desconectamos
 datos_covid$disconnect()
-  
+
 }

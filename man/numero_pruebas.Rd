@@ -180,6 +180,6 @@ datos_covid <- datos_covid |>
   )
 head(datos_covid$pruebas_diabetes)
 
-#Una vez hayas concluido tu trabajo no olvides desconectar
+# Una vez hayas concluido tu trabajo no olvides desconectar
 datos_covid$disconnect()
 }
