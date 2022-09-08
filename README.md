@@ -11,13 +11,13 @@
   
 Descarga, etiqueta y analiza los datos abiertos de COVID-19 en México. El propósito de este paquete es hacer la descarga, análisis y graficación de manera rápida para que tú no tengas que preocuparte por bajar el archivo a tiempo, agrupar funciones o realizar visualizaciones sino en lo importante: analizar la información. 
 
-# Instalación
+## Instalación
 
 ```{r}
 remotes::install_github("RodrigoZepeda/covidmx")
 ```
 
-# Uso 
+## Uso 
 
 Puedes descargar la información de variantes de [GISAID](www.gisaid.org) de la [publicación de Github](https://github.com/RodrigoZepeda/VariantesCovid), ocupación hospitalaria de [RED IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome) a partir del [Github](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) y datos abiertos de la [SSA](https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico) todo con los siguientes comandos.
 
@@ -75,7 +75,7 @@ datos_covid %>% plot_covid()
 
 > **Nota** No olvides citar a GISAID, RED IRAG o SSA y las publicaciones asociadas además del paquete.
 
-## Casos (opciones de lectura de datos abiertos)
+### Casos (opciones de lectura de datos abiertos)
 
 Todas las opciones de **casos**:
 

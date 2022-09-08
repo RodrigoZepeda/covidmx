@@ -92,15 +92,14 @@
 <p><span class="emoji" data-emoji="computer">💻</span> Sitio web: <a href="https://rodrigozepeda.github.io/covidmx/">https://rodrigozepeda.github.io/covidmx/</a></p>
 </blockquote>
 <p>Descarga, etiqueta y analiza los datos abiertos de COVID-19 en México. El propósito de este paquete es hacer la descarga, análisis y graficación de manera rápida para que tú no tengas que preocuparte por bajar el archivo a tiempo, agrupar funciones o realizar visualizaciones sino en lo importante: analizar la información.</p>
-</div>
-<div class="section level1">
-<h1 id="instalación">Instalación<a class="anchor" aria-label="anchor" href="#instalaci%C3%B3n"></a>
-</h1>
+<div class="section level2">
+<h2 id="instalación">Instalación<a class="anchor" aria-label="anchor" href="#instalaci%C3%B3n"></a>
+</h2>
 <pre class="{r}"><code><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"RodrigoZepeda/covidmx"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="section level1">
-<h1 id="uso">Uso<a class="anchor" aria-label="anchor" href="#uso"></a>
-</h1>
+<div class="section level2">
+<h2 id="uso">Uso<a class="anchor" aria-label="anchor" href="#uso"></a>
+</h2>
 <p>Puedes descargar la información de variantes de <a href="www.gisaid.org">GISAID</a> de la <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-link">publicación de Github</a>, ocupación hospitalaria de <a href="https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome" class="external-link">RED IRAG</a> a partir del <a href="https://github.com/RodrigoZepeda/CapacidadHospitalariaMX" class="external-link">Github</a> y datos abiertos de la <a href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico" class="external-link">SSA</a> todo con los siguientes comandos.</p>
 <blockquote>
 <p>El proceso está optimizado mediante <code>duckdb</code> para que puedas realizar <code>queries</code> sobre la base de &gt; 15 millones de personas en segundos.</p>
@@ -120,8 +119,7 @@
 <p>Puedes volver a leer tu base descargada haciendo:</p>
 <pre class="{r}"><code><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span>dbdir <span class="op">=</span> <span class="st">"mi_archivo/de_datos.duckdb"</span><span class="op">)</span> </span></code></pre>
 <p>Las funciones principales del paquete son:</p>
-<pre class="{r}"><code><span></span>
-<span><span class="co">#Calcula los casos (totales) por entidad y devuelve un tibble</span></span>
+<pre class="{r}"><code><span><span class="co">#Calcula los casos (totales) por entidad y devuelve un tibble</span></span>
 <span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Calcula la cantidad de pruebas realizadas</span></span>
@@ -147,9 +145,9 @@
 <blockquote>
 <p><strong>Nota</strong> No olvides citar a GISAID, RED IRAG o SSA y las publicaciones asociadas además del paquete.</p>
 </blockquote>
-<div class="section level2">
-<h2 id="casos-opciones-de-lectura-de-datos-abiertos">Casos (opciones de lectura de datos abiertos)<a class="anchor" aria-label="anchor" href="#casos-opciones-de-lectura-de-datos-abiertos"></a>
-</h2>
+<div class="section level3">
+<h3 id="casos-opciones-de-lectura-de-datos-abiertos">Casos (opciones de lectura de datos abiertos)<a class="anchor" aria-label="anchor" href="#casos-opciones-de-lectura-de-datos-abiertos"></a>
+</h3>
 <p>Todas las opciones de <strong>casos</strong>:</p>
 <pre class="{r}"><code><span><span class="va">datos_covid</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="reference/casos.html">casos</a></span><span class="op">(</span></span>
@@ -256,6 +254,7 @@
 <span><span class="co">#&gt; #   ENTIDAD_FEDERATIVA &lt;chr&gt;, ABREVIATURA &lt;chr&gt;, CLASIFICACIÓN &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   DESCRIPCION_TIPO_PACIENTE &lt;chr&gt;, DESCRIPCION_TIPO_UCI &lt;chr&gt; </span></span></code></pre>
 </div>
+</div>
 <div class="section level2">
 <h2 id="más-información">Más información<a class="anchor" aria-label="anchor" href="#m%C3%A1s-informaci%C3%B3n"></a>
 </h2>
@@ -266,7 +265,6 @@
 </ul>
 </div>
 </div>
-
   </main><aside class="col-md-3"><div class="enlaces">
 <h2 data-toc-skip>Enlaces</h2>
 <ul class="list-unstyled">

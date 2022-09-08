@@ -15,6 +15,7 @@
 #'
 #' @note
 #' Actualiza el paquete instalando todas las dependencias necesarias.
+#' @export
 
 update_covidmx <- function(quiet = FALSE, force = FALSE, ...) {
   if (requireNamespace("remotes", quietly = TRUE)) {

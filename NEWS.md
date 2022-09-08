@@ -1,3 +1,8 @@
+# covidmx 0.7.0.1000
+
+* Se arreglaron los headings del `README.md`
+* Se arregló que la función `update_covidmx` no se exportaba. 
+
 # covidmx 0.7.0.0000
 
 * Se arregló un `bug` que ocasionaba que `cfr` y `chr` regresaran `NaN` en lugar de `NA` cuando
