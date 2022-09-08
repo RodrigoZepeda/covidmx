@@ -81,6 +81,9 @@
 #'   cfr(.grouping_vars = c("DIABETES"), list_name = "cfr_diab")
 #' head(datos_covid$cfr_diab)
 #'
+#' # Finalmente desconectamos
+#' datos_covid$disconnect()
+#' 
 #' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [chr()] [estima_rt()]
 #' [positividad()] [casos()]
 #'
@@ -169,11 +172,13 @@ cfr <- function(datos_covid,
     group_by_tipo_sector = group_by_tipo_sector,
     defunciones = FALSE,
     edad_cut = edad_cut,
-    as_tibble = TRUE,
+    as_tibble  = TRUE,
     fill_zeros = fill_NA,
     list_name = name_1,
-    .grouping_vars = c()
-  )[[name_1]]
+    .grouping_vars = .grouping_vars
+  )[[name_1]] |>
+    dplyr::mutate(!!as.symbol("n") := 
+                    ifelse(!!as.symbol("n") == 0, NA, !!as.symbol("n"))) #change to NA the ones with 0
 
   .casos_defunciones <- casos(
     datos_covid = datos_covid,
@@ -193,7 +198,7 @@ cfr <- function(datos_covid,
     edad_cut = edad_cut,
     fill_zeros = TRUE,
     list_name = name_2,
-    .grouping_vars = c()
+    .grouping_vars = .grouping_vars
   )[[name_2]]
 
 

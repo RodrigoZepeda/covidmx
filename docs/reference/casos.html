@@ -12,7 +12,7 @@ por diferentes covariables. Por default calcula el total de casos (con y sin pru
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -104,8 +104,8 @@ por diferentes covariables. Por default calcula el total de casos (con y sin pru
     <div class="section level2">
     <h2 id="argumentos">Argumentos<a class="anchor" aria-label="anchor" href="#argumentos"></a></h2>
     <dl><dt>datos_covid</dt>
-<dd><p>(<strong>obligatorio</strong>) Lista de <code>tibble</code>s resultante de <code><a href="descarga_datos_abiertos.html">descarga_datos_abiertos()</a></code>
-o <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p></dd>
+<dd><p>(<strong>obligatorio</strong>) Lista de <code>tibble</code>s o <code>duckdb</code>s resultante de
+<code><a href="descarga_datos_abiertos.html">descarga_datos_abiertos()</a></code> o <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p></dd>
 
 
 <dt>entidades</dt>
@@ -247,7 +247,7 @@ los casos por entidad se hace lo siguiente</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>datos_covid <span class="sc">|&gt;</span> <span class="fu">casos</span>()</span></code></pre><p></p></div>
 <p>es lo mismo que:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>datos_covid<span class="sc">$</span>casos <span class="ot">&lt;-</span> datos_covid<span class="sc">$</span>dats <span class="sc">|&gt;</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>datos_covid<span class="sc">$</span>casos <span class="ot">&lt;-</span> datos_covid<span class="sc">$</span>dats <span class="sc">|&gt;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(ENTIDAD_UM, FECHA_SINTOMAS) <span class="sc">|&gt;</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tally</span>() <span class="sc">|&gt;</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(datos_covid<span class="sc">$</span>dict<span class="sc">$</span>ENTIDAD_UM, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"ENTIDAD_UM"</span> <span class="ot">=</span> <span class="st">"CLAVE_ENTIDAD"</span>))</span></code></pre><p></p></div>
@@ -268,7 +268,7 @@ los casos por entidad se hace lo siguiente</p>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(FECHA_SINTOMAS, ENTIDAD_RES, TIPO_PACIENTE) <span class="sc">|&gt;</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tally</span>() <span class="sc">|&gt;</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">left_join</span>(datos_covid<span class="sc">$</span>dict<span class="sc">$</span>ENTIDAD_RES, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"ENTIDAD_RES"</span> <span class="ot">=</span> <span class="st">"CLAVE_ENTIDAD"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">left_join</span>(datos_covid<span class="sc">$</span>dict<span class="sc">$</span>PACIENTE, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"TIPO_PACIENTE"</span> <span class="ot">=</span> <span class="st">"CLAVE"</span>)) </span></code></pre><p></p></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">left_join</span>(datos_covid<span class="sc">$</span>dict<span class="sc">$</span>PACIENTE, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"TIPO_PACIENTE"</span> <span class="ot">=</span> <span class="st">"CLAVE"</span>))</span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="ver-tambi-n">Ver también<a class="anchor" aria-label="anchor" href="#ver-tambi-n"></a></h2>
@@ -278,11 +278,11 @@ los casos por entidad se hace lo siguiente</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#Para el ejemplo usaremos los datos precargados pero tu puedes</span></span></span>
-<span class="r-in"><span><span class="co">#correr el ejemplo descargando informacion mas reciente:</span></span></span>
-<span class="r-in"><span><span class="co">#datos_covid &lt;- descarga_datos_abiertos() #Sugerido</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Para el ejemplo usaremos los datos precargados pero tu puedes</span></span></span>
+<span class="r-in"><span><span class="co"># correr el ejemplo descargando informacion mas reciente:</span></span></span>
+<span class="r-in"><span><span class="co"># datos_covid &lt;- descarga_datos_abiertos() #Sugerido</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datosabiertos</span> <span class="co">#Datos precargados para el ejemplo</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datosabiertos</span> <span class="co"># Datos precargados para el ejemplo</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Casos por entidad</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">casos</span><span class="op">(</span><span class="op">)</span></span></span>
@@ -311,8 +311,8 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03            22 BAJA CALIFORNIA SUR BS         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Hospitalizados por entidad</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span></span>
-<span class="r-in"><span>                  <span class="fu">casos</span><span class="op">(</span>tipo_paciente <span class="op">=</span> <span class="st">"HOSPITALIZADO"</span>, list_name <span class="op">=</span> <span class="st">"hospitalizados"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">casos</span><span class="op">(</span>tipo_paciente <span class="op">=</span> <span class="st">"HOSPITALIZADO"</span>, list_name <span class="op">=</span> <span class="st">"hospitalizados"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">hospitalizados</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span>
@@ -351,7 +351,7 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           408 BAJA CALIFORNIA SUR BS         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Pacientes IMSS y PEMEX separados</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">casos</span><span class="op">(</span>tipo_sector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IMSS"</span>,<span class="st">"PEMEX"</span><span class="op">)</span>, list_name <span class="op">=</span> <span class="st">"imss_y_pemex"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">casos</span><span class="op">(</span>tipo_sector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IMSS"</span>, <span class="st">"PEMEX"</span><span class="op">)</span>, list_name <span class="op">=</span> <span class="st">"imss_y_pemex"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">imss_y_pemex</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span>
@@ -364,9 +364,11 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           408 BAJA CALIFORNIA SUR BS         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Pacientes IMSS y PEMEX sumados</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span></span>
-<span class="r-in"><span>      <span class="fu">casos</span><span class="op">(</span>tipo_sector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IMSS"</span>,<span class="st">"PEMEX"</span><span class="op">)</span>, list_name <span class="op">=</span> <span class="st">"imss_+_pemex"</span>, </span></span>
-<span class="r-in"><span>            group_by_tipo_sector <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">casos</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    tipo_sector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IMSS"</span>, <span class="st">"PEMEX"</span><span class="op">)</span>, list_name <span class="op">=</span> <span class="st">"imss_+_pemex"</span>,</span></span>
+<span class="r-in"><span>    group_by_tipo_sector <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`imss_+_pemex`</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM SECTOR     n ENTIDAD_FEDERATIVA ABREV…¹ DESCR…²</span>
@@ -411,7 +413,7 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">casos</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>, <span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    group_by_tipo_clasificacion <span class="op">=</span> <span class="cn">TRUE</span>, </span></span>
+<span class="r-in"><span>    group_by_tipo_clasificacion <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"BC_BCS"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">BC_BCS</span><span class="op">)</span></span></span>
@@ -458,7 +460,7 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"sexo"</span>,</span></span>
 <span class="r-in"><span>    .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEXO"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">sexo</span><span class="op">)</span>  </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">sexo</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS       SEXO TIPO_PACIENTE     n DESCRIPCION_TIPO_PACIENTE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    </span>
@@ -469,10 +471,10 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             1   378 AMBULATORIO              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             2    27 HOSPITALIZADO            </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Si no recuerdas la codificacion de los sexos puedes usar el diccionario:</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">sexo</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">sexo</span> <span class="op">|&gt;</span> </span></span>
-<span class="r-in"><span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dict</span><span class="op">$</span><span class="va">SEXO</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SEXO'</span> <span class="op">=</span> <span class="st">'CLAVE'</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">sexo</span><span class="op">)</span>  </span></span>
+<span class="r-in"><span><span class="co"># Si no recuerdas la codificacion de los sexos puedes usar el diccionario:</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">sexo</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">sexo</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dict</span><span class="op">$</span><span class="va">SEXO</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEXO"</span> <span class="op">=</span> <span class="st">"CLAVE"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">sexo</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS       SEXO TIPO_PACIENTE     n DESCRIPCION_TIPO_PACIE…¹ DESCR…²</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
@@ -484,8 +486,8 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             2    27 HOSPITALIZADO            MUJER  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​DESCRIPCION_TIPO_PACIENTE, ²​DESCRIPCIÓN</span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#Si no recuerdas todas las variables de la base puedes usar glimpse para ver por</span></span></span>
-<span class="r-in"><span><span class="co">#que otras variables puedes clasificar</span></span></span>
+<span class="r-in"><span><span class="co"># Si no recuerdas todas las variables de la base puedes usar glimpse para ver por</span></span></span>
+<span class="r-in"><span><span class="co"># que otras variables puedes clasificar</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dats</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 58,965</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 40</span>
@@ -529,6 +531,10 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ PAIS_NACIONALIDAD     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "México", "México", "México", "México", "México"…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ PAIS_ORIGEN           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "97", "97", "97", "97", "97", "97", "97", "97", …</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ UCI                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, …</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Una vez hayas concluido tu trabajo no olvides desconectar</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Desconectado</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -16,17 +16,22 @@
 #' actualizada y si si la descarga, si no, utiliza informacion almacenada en el `cache` local.
 #'
 #' La descarga usa el paquete `pins`
-#'
-#' @param nivel si se desea descargar `"nacional"` o `"cdmx"`.
-#' @param quiet booleana para no imprimir mensajes en la consola.
-#' @param cache cache para `pins::board_url`.
-#' @param use_cache_on_failure parametro para `pins::board_url`.
-#' @param force_download analiza si cambio el pin y descarga datos nuevos en caso afirmativo
-#' @param show_warnings si arrojar `warnings`
-#' @param ...  parametros adicionales para `pins::pin_download`.
-#'
-#' @return `data.frame` con los datos porcentuales y de conteo de variantes
-#'
+#' 
+#' @param nivel (**opcional**) si se desea descargar informacion `"nacional"` (default) o de 
+#' la Ciudad de Mexico: `"cdmx"`.
+#' @inheritParams descarga_datos_red_irag
+#' 
+#' @return `tibble` con los datos de porcentuales de variantes
+#' \itemize{
+#'   \item `variant`       - La variante clasificada mediante [Pangolin](https://cov-lineages.org/resources/pangolin.html)
+#'   \item `semana`        - Semana epidemiologica [lubridate::epiweek()] a la que corresponde la variante
+#'   \item `ano`           - Anio al que corresponde la toma de muestra
+#'   \item `n`             - El total de muestras de dicha semana registradas para esa variante
+#'   \item `freq`          - La proporcion de las variantes de dicha semana ocupada por dicha variante. Se obtiene dividiendo `n/sum(n)` para cada semana.
+#'   \item `Actualizacion` - La fecha de actualizacion ultima de los datos.
+#'   \item `Fuente`        - La fuente desde la cual se obtuvo la informacion de dicha variante.
+#' }
+#' 
 #' @examples
 #' \dontrun{
 #' # Descarga de variantes a nivel nacional
@@ -49,7 +54,7 @@
 #'   ggplot(variantes_covid) +
 #'     ggstream::geom_stream(aes(
 #'       x = ymd("2019/12/27") + years(ano - 2020) + weeks(semana),
-#'       y = n, fill = variant
+#'       y = n, fill = variant, 
 #'     )) +
 #'     theme_minimal()
 #' }
@@ -80,10 +85,13 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
                                             show_warnings = TRUE,
                                             ...) {
 
+  #Pasamos a minusculas el nivel por si las dudas
+  nivel <- tolower(nivel)
+  
   # Ponemos el diccionario
   github <- "https://raw.githubusercontent.com/"
   cuenta <- "RodrigoZepeda/VariantesCovid/main/tablas/"
-  fname <- paste0(github, cuenta, "Proporcion_variantes_", nivel[1], ".csv")
+  fname  <- paste0(github, cuenta, "Proporcion_variantes_", nivel[1], ".csv")
 
   if (!quiet) {
     cli::cli_alert("Descargando {nivel[1]} desde {.url {fname}}")
@@ -103,7 +111,7 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
   # This is a workaround as the pins package doesn't have metadata for downloads
   # Checamos si está descargado y cuándo lo descargaste si fue hace menos de un dia te
   # dejo con el mismo
-  tdif <- pin_get_download_time(board, nivel[1])
+  tdif <- pin_get_download_time(board, tolower(nivel[1]))
 
   if (!force_download & tdif < 0.9) {
     if (show_warnings) {

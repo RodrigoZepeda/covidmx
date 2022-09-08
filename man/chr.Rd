@@ -30,8 +30,8 @@ chr(
 )
 }
 \arguments{
-\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}
-o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
+\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s o \code{duckdb}s resultante de
+\code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}} o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
 
 \item{entidades}{(\strong{opcional})  Vector con las entidades de las unidades medicas a analizar.
 Opciones: \code{AGUASCALIENTES}, \verb{BAJA CALIFORNIA}, \verb{BAJA CALIFORNIA SUR},
@@ -62,9 +62,9 @@ se generan tantos observaciones como grupos de tipo de clasificación) en caso \
 \code{FALSE} suma todos los casos del tipo de clasificacion por fecha dando un solo numero por fecha.
 El defalt es \code{FALSE}.}
 
-\item{incluir_paciente_no_especificado}{Si en el denominador se incluyen los pacientes
-cuyo tipo es  \verb{NO ESPECIFICADO}. Por default es \code{FALSE} por lo que sólo se incluyen
-\code{AMBULATORIO}, \code{HOSPITALIZADO}.}
+\item{incluir_paciente_no_especificado}{(\strong{opcional})  Si en el denominador se incluyen
+los pacientescuyo tipo es  \verb{NO ESPECIFICADO}. Por default es \code{FALSE} por lo que sólo
+se incluyen \code{AMBULATORIO}, \code{HOSPITALIZADO}.}
 
 \item{tipo_sector}{(\strong{opcional}) Vector con los sectores del sistema de salud a incluir:
 \verb{CRUZ ROJA},\code{DIF},\code{ESTATAL},\code{IMSS},\code{IMSS-BIENESTAR},\code{ISSSTE}, \code{MUNICIPAL},\code{PEMEX},
@@ -85,9 +85,9 @@ El default es \code{FALSE}.}
 \code{edad_cut = c(15, 20)} deja sólo los registros entre 15 y 20 años. Por default es \code{NULL}
 y no arma grupos etarios.}
 
-\item{fill_NA}{Regresa observaciones para todas las combinaciones de variables incluyendo
-como \code{NA} donde no se observaron casos en el denominador.  En caso contrario no se incluyen
-las filas donde no se observaron casos.}
+\item{fill_NA}{(\strong{opcional})  Regresa observaciones para todas las combinaciones de variables
+incluyendo como \code{NA} donde no se observaron casos en el denominador.  En caso contrario no se
+incluyen las filas donde no se observaron casos.}
 
 \item{list_name}{(\strong{opcional}) Asigna un nombre en la lista de datos a la base generada}
 
@@ -123,9 +123,9 @@ de \strong{Total de enfermos} para incluir a los pacientes que dicen \verb{NO ES
 por default se excluyen justo por su naturaleza desconocida.
 }
 \examples{
-#Para el ejemplo usaremos los datos precargados pero tu puedes
-#correr el ejemplo descargando informacion mas reciente:
-#datos_covid <- descarga_datos_abiertos() #Sugerido
+# Para el ejemplo usaremos los datos precargados pero tu puedes
+# correr el ejemplo descargando informacion mas reciente:
+# datos_covid <- descarga_datos_abiertos() #Sugerido
 
 datos_covid <- datosabiertos
 
@@ -161,7 +161,10 @@ head(datos_covid$`chr_defun`)
 # Si deseas agrupar por una variable que no este en las opciones
 datos_covid <- datos_covid |>
   chr(.grouping_vars = c("DIABETES"), list_name = "chr_diab")
-head(datos_covid$chr_diab)   
+head(datos_covid$chr_diab)
+
+# Finalmente desconectamos
+datos_covid$disconnect()
 
 }
 \seealso{

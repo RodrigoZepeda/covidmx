@@ -35,8 +35,8 @@ casos(
 )
 }
 \arguments{
-\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}
-o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
+\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s o \code{duckdb}s resultante de
+\code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}} o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
 
 \item{entidades}{(\strong{opcional})  Vector con las entidades de las unidades medicas a analizar.
 Opciones: \code{AGUASCALIENTES}, \verb{BAJA CALIFORNIA}, \verb{BAJA CALIFORNIA SUR},
@@ -146,7 +146,7 @@ los casos por entidad se hace lo siguiente
 es lo mismo que:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{library(dplyr)
-datos_covid$casos <- datos_covid$dats |> 
+datos_covid$casos <- datos_covid$dats |>
     group_by(ENTIDAD_UM, FECHA_SINTOMAS) |>
     tally() |>
     left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD"))
@@ -173,15 +173,15 @@ es equivalente a
    group_by(FECHA_SINTOMAS, ENTIDAD_RES, TIPO_PACIENTE) |>
    tally() |>
    left_join(datos_covid$dict$ENTIDAD_RES, by = c("ENTIDAD_RES" = "CLAVE_ENTIDAD")) |>
-   left_join(datos_covid$dict$PACIENTE, by = c("TIPO_PACIENTE" = "CLAVE")) 
+   left_join(datos_covid$dict$PACIENTE, by = c("TIPO_PACIENTE" = "CLAVE"))
 }\if{html}{\out{</div>}}
 }
 \examples{
-#Para el ejemplo usaremos los datos precargados pero tu puedes
-#correr el ejemplo descargando informacion mas reciente:
-#datos_covid <- descarga_datos_abiertos() #Sugerido
+# Para el ejemplo usaremos los datos precargados pero tu puedes
+# correr el ejemplo descargando informacion mas reciente:
+# datos_covid <- descarga_datos_abiertos() #Sugerido
 
-datos_covid <- datosabiertos #Datos precargados para el ejemplo
+datos_covid <- datosabiertos # Datos precargados para el ejemplo
 
 # Casos por entidad
 datos_covid <- datos_covid |> casos()
@@ -192,8 +192,8 @@ datos_covid <- datos_covid |> casos(defunciones = TRUE, list_name = "defunciones
 head(datos_covid$defunciones)
 
 # Hospitalizados por entidad
-datos_covid <- datos_covid |> 
-                  casos(tipo_paciente = "HOSPITALIZADO", list_name = "hospitalizados")
+datos_covid <- datos_covid |>
+  casos(tipo_paciente = "HOSPITALIZADO", list_name = "hospitalizados")
 head(datos_covid$hospitalizados)
 
 # UCI por entidad
@@ -205,13 +205,15 @@ datos_covid <- datos_covid |> casos(tipo_sector = "IMSS", list_name = "imss")
 head(datos_covid$imss)
 
 # Pacientes IMSS y PEMEX separados
-datos_covid <- datos_covid |> casos(tipo_sector = c("IMSS","PEMEX"), list_name = "imss_y_pemex")
+datos_covid <- datos_covid |> casos(tipo_sector = c("IMSS", "PEMEX"), list_name = "imss_y_pemex")
 head(datos_covid$imss_y_pemex)
 
 # Pacientes IMSS y PEMEX sumados
-datos_covid <- datos_covid |> 
-      casos(tipo_sector = c("IMSS","PEMEX"), list_name = "imss_+_pemex", 
-            group_by_tipo_sector = TRUE)
+datos_covid <- datos_covid |>
+  casos(
+    tipo_sector = c("IMSS", "PEMEX"), list_name = "imss_+_pemex",
+    group_by_tipo_sector = TRUE
+  )
 head(datos_covid$`imss_+_pemex`)
 
 # Solo los de BAJA CALIFORNIA
@@ -228,7 +230,7 @@ head(datos_covid$residencia)
 datos_covid <- datos_covid |>
   casos(
     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
-    group_by_tipo_clasificacion = TRUE, 
+    group_by_tipo_clasificacion = TRUE,
     list_name = "BC_BCS"
   )
 head(datos_covid$BC_BCS)
@@ -253,16 +255,19 @@ datos_covid <- datos_covid |>
     list_name = "sexo",
     .grouping_vars = c("SEXO")
   )
-head(datos_covid$sexo)  
+head(datos_covid$sexo)
 
-#Si no recuerdas la codificacion de los sexos puedes usar el diccionario:
-datos_covid$sexo <- datos_covid$sexo |> 
-     dplyr::left_join(datos_covid$dict$SEXO, by = c('SEXO' = 'CLAVE'))
-head(datos_covid$sexo)  
+# Si no recuerdas la codificacion de los sexos puedes usar el diccionario:
+datos_covid$sexo <- datos_covid$sexo |>
+  dplyr::left_join(datos_covid$dict$SEXO, by = c("SEXO" = "CLAVE"))
+head(datos_covid$sexo)
 
-#Si no recuerdas todas las variables de la base puedes usar glimpse para ver por
-#que otras variables puedes clasificar
+# Si no recuerdas todas las variables de la base puedes usar glimpse para ver por
+# que otras variables puedes clasificar
 datos_covid$dats |> dplyr::glimpse()
+
+#Una vez hayas concluido tu trabajo no olvides desconectar
+datos_covid$disconnect()
 
 }
 \seealso{

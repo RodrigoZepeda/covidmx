@@ -16,19 +16,23 @@ descarga_datos_red_irag(
 )
 }
 \arguments{
-\item{nivel}{\code{"Estatal"}(default) o \code{"Unidad Medica"}}
+\item{nivel}{(\strong{opcional}) Regresa la ocupacion \code{"Estatal"}(default) o por \code{"Unidad Medica"}}
 
-\item{cache}{cache para \code{pins::board_url}.}
+\item{cache}{(\strong{opcional}) cache para \code{\link[pins:board_url]{pins::board_url()}}. Representa el directorio donde
+se almacenaran los datos descargados en formato de \code{pins}.}
 
-\item{use_cache_on_failure}{parametro para \code{pins::board_url}.}
+\item{use_cache_on_failure}{(\strong{opcional})  parametro para \code{\link[pins:board_url]{pins::board_url()}}. En caso de
+\code{TRUE} (default) si no puede descargar nueva informacion utiliza la que ya tiene en memoria
+aunque sea vieja.}
 
-\item{quiet}{booleana para no imprimir mensajes en la consola.}
+\item{quiet}{(\strong{opcional}) booleana para no imprimir mensajes en la consola.}
 
-\item{force_download}{analiza si cambio el pin y descarga datos nuevos en caso afirmativo}
+\item{force_download}{(\strong{opcional})  analiza si cambio el pin y descarga datos nuevos en
+caso afirmativo.}
 
-\item{show_warnings}{si arrojar \code{warnings} o callar}
+\item{show_warnings}{(\strong{opcional}) si arrojar \code{warnings} o callar}
 
-\item{...}{parametros adicionales para \code{pins::pin_download}.}
+\item{...}{parametros adicionales para \code{\link[pins:pin_download]{pins::pin_download()}}.}
 }
 \value{
 \code{tibble} con los datos de ocupacion hospitalaria

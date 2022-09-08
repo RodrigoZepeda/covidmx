@@ -34,8 +34,8 @@ positividad(
 )
 }
 \arguments{
-\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}
-o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
+\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s o \code{duckdb}s resultante de
+\code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}} o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
 
 \item{entidades}{(\strong{opcional})  Vector con las entidades de las unidades medicas a analizar.
 Opciones: \code{AGUASCALIENTES}, \verb{BAJA CALIFORNIA}, \verb{BAJA CALIFORNIA SUR},
@@ -57,9 +57,10 @@ una de las opciones: \verb{Unidad Medica} (entidad de la unidad medica), \code{N
 \item{fecha_tipo}{(\strong{opcional}) Selecciona si la fecha que se utiliza es la fecha de \code{Ingreso}
 (si aplica), la fecha de \code{Sintomas} o la de \code{Defuncion} (si aplica). El default es fecha de \code{Sintomas}.}
 
-\item{tipo_prueba}{Vector con el tipo de pruebas a incluir \code{Antigeno}, \code{PCR}}
+\item{tipo_prueba}{(\strong{opcional}) Vector con el tipo de pruebas a incluir \code{Antigeno}, \code{PCR}. Por
+default se incluyen ambas.}
 
-\item{group_by_tipo_prueba}{Booleana determinando si regresa la base
+\item{group_by_tipo_prueba}{(\strong{opcional}) Booleana determinando si regresa la base
 con cada entrada agrupada por \code{tipo_prueba}. En caso \code{TRUE} (cada fecha
 y entidad reporta separado el los casos de PCR y Antigeno). En caso \code{FALSE} se juntan
 los casos de PCR y Antigeno para devolver un unico numero por fecha.}
@@ -102,15 +103,15 @@ El default es \code{FALSE}.}
 \code{edad_cut = c(15, 20)} deja sólo los registros entre 15 y 20 años. Por default es \code{NULL}
 y no arma grupos etarios.}
 
-\item{fill_NA}{Regresa observaciones para todas las combinaciones de variables incluyendo
-como \code{NA} donde no se observaron casos en el denominador.  En caso contrario no se incluyen
-las filas donde no se observaron casos.}
+\item{fill_NA}{(\strong{opcional})  Regresa observaciones para todas las combinaciones de variables
+incluyendo como \code{NA} donde no se observaron casos en el denominador.  En caso contrario no se
+incluyen las filas donde no se observaron casos.}
 
 \item{list_name}{(\strong{opcional}) Asigna un nombre en la lista de datos a la base generada}
 
-\item{remove_inconclusive}{Si \code{TRUE} no considera en el denominador de la positividad
-las pruebas cuyo resultado es inconcluso o aún no ha sido otorgado. Si \code{FALSE} considera
-a todos. Por default es \code{TRUE}.}
+\item{remove_inconclusive}{(\strong{opcional})  Si \code{TRUE} no considera en el denominador de la
+positividad las pruebas cuyo resultado es inconcluso o aún no ha sido otorgado. Si \code{FALSE}
+considera a todos. Por default es \code{TRUE}.}
 
 \item{.grouping_vars}{(\strong{opcional}) Vector de variables adicionales de agrupacion de los
 conteos. Por ejemplo si se agrega \code{.grouping_vars = 'DIABETES'} entonces para cada fecha habra
@@ -148,9 +149,9 @@ es cero. En ese caso si \code{fill_NA = TRUE} se devuelven las entradas de esos 
 con valor \code{NA}.
 }
 \examples{
-#Para el ejemplo usaremos los datos precargados pero tu puedes
-#correr el ejemplo descargando informacion mas reciente:
-#datos_covid <- descarga_datos_abiertos() #Sugerido
+# Para el ejemplo usaremos los datos precargados pero tu puedes
+# correr el ejemplo descargando informacion mas reciente:
+# datos_covid <- descarga_datos_abiertos() #Sugerido
 
 datos_covid <- datosabiertos
 
@@ -159,14 +160,16 @@ datos_covid <- datos_covid |> positividad()
 head(datos_covid$positividad)
 
 # Total nacional sumando todas las pruebas del pais
-datos_covid <- datos_covid |> 
-     positividad(group_by_entidad = FALSE, list_name = "positividad_nacional")
+datos_covid <- datos_covid |>
+  positividad(group_by_entidad = FALSE, list_name = "positividad_nacional")
 head(datos_covid$positividad_nacional)
 
 # Positivos en Baja California y Baja California Sur
 datos_covid <- datos_covid |>
-  positividad(entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"), 
-  list_name = "positividad_californiana")
+  positividad(
+    entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
+    list_name = "positividad_californiana"
+  )
 head(datos_covid$positividad_californiana)
 
 # Agrupando ambas pruebas en una sola positividad global
@@ -176,7 +179,7 @@ datos_covid <- datos_covid |>
     group_by_tipo_prueba = FALSE,
     list_name = "positividad_californiana_2"
   )
-head(datos_covid$positividad_californiana_2)   
+head(datos_covid$positividad_californiana_2)
 
 # Regresa la suma de ambos estados pero dividiendo por tipo de paciente
 datos_covid <- datos_covid |>
@@ -187,7 +190,7 @@ datos_covid <- datos_covid |>
     group_by_tipo_paciente = TRUE,
     list_name = "positividad_paciente"
   )
-head(datos_covid$positividad_paciente)   
+head(datos_covid$positividad_paciente)
 
 # Si deseas agrupar por una variable que no este en las opciones va en .grouping_vars
 datos_covid <- datos_covid |>
@@ -196,8 +199,10 @@ datos_covid <- datos_covid |>
     .grouping_vars = c("PAIS_ORIGEN"),
     list_name = "positividad_imss_pais"
   )
-head(datos_covid$positividad_imss_pais)   
+head(datos_covid$positividad_imss_pais)
 
+#Una vez hayas concluido tu trabajo no olvides desconectar
+datos_covid$disconnect() 
 }
 \references{
 Furuse, Y., Ko, Y. K., Ninomiya, K., Suzuki, M., & Oshitani, H. (2021). Relationship of test

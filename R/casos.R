@@ -47,8 +47,8 @@
 #'    left_join(datos_covid$dict$PACIENTE, by = c("TIPO_PACIENTE" = "CLAVE"))
 #' ```
 #'
-#' @param datos_covid (**obligatorio**) Lista de `tibble`s resultante de [descarga_datos_abiertos()]
-#' o [read_datos_abiertos()]
+#' @param datos_covid (**obligatorio**) Lista de `tibble`s o `duckdb`s resultante de 
+#' [descarga_datos_abiertos()] o [read_datos_abiertos()]
 #'
 #' @param entidades (**opcional**)  Vector con las entidades de las unidades medicas a analizar.
 #' Opciones: `AGUASCALIENTES`, `BAJA CALIFORNIA`, `BAJA CALIFORNIA SUR`,
@@ -235,6 +235,9 @@
 #' # que otras variables puedes clasificar
 #' datos_covid$dats |> dplyr::glimpse()
 #'
+#' #Una vez hayas concluido tu trabajo no olvides desconectar
+#' datos_covid$disconnect()
+#' 
 #' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [chr()] [estima_rt()]
 #' [positividad()]
 #' @export
@@ -254,14 +257,8 @@ casos <- function(datos_covid,
                     "YUCAT\u00c1N", "ZACATECAS"
                   ),
                   group_by_entidad = TRUE,
-                  entidad_tipo = c(
-                    "Unidad Medica", "Residencia",
-                    "Nacimiento"
-                  ),
-                  fecha_tipo = c(
-                    "Sintomas", "Ingreso",
-                    "Defuncion"
-                  ),
+                  entidad_tipo = c("Unidad Medica", "Residencia","Nacimiento"),
+                  fecha_tipo = c("Sintomas", "Ingreso","Defuncion"),
                   tipo_clasificacion = c(
                     "Sospechosos", "Confirmados COVID",
                     "Negativo a COVID", "Inv\u00e1lido",
@@ -394,12 +391,58 @@ casos <- function(datos_covid,
   if (nrow(entidades) < 1) {
     cli::cli_abort("No logramos encontrar las entidades especificadas")
   }
+  
+  #Si esta la opcion de fill zeros se agrega
+  if (fill_zeros) {
+    
+    # Check the dates to expand
+    .fechasminmax <- datos_covid$dats |>
+      dplyr::select_at(fecha_tipo) |>
+      dplyr::summarise(
+        fechamin = min(!!as.symbol(fecha_tipo), na.rm = TRUE),
+        fechamax = max(!!as.symbol(fecha_tipo), na.rm = TRUE)
+      ) |>
+      dplyr::collect()
+    
+    .datesq <- seq(.fechasminmax$fechamin[1], .fechasminmax$fechamax[1], by = "1 day")
+    
+    #Get unique values of grouping vars
+    if (length(.grouping_vars) > 0){
+      .group_values <- datos_covid$dats |> 
+        dplyr::distinct_at(.grouping_vars) |>
+        dplyr::collect() 
+      
+      #Expand to possible combinations
+      .group_values <- .group_values |>
+        tidyr::expand(!!!.group_values)
+      
+    } else {
+      .group_values <- NULL
+    }
+    
+  }
 
   lista_entidades <- paste0(entidades$CLAVE_ENTIDAD, collapse = "|")
   .casos <- datos_covid$dats |>
     dplyr::filter(
       stringr::str_detect(paste0("\\^", !!as.symbol(entidad_tipo), "\\$"), lista_entidades)
     )
+  
+  #Agregamos la entidad a la combinacion si fill zeros
+  if (fill_zeros & group_by_entidad){
+    
+    .grouping_entidad <- datos_covid$dict[[entidad_tipo]] |> 
+      dplyr::filter(stringr::str_detect(!!as.symbol("CLAVE_ENTIDAD"), lista_entidades)) |>
+      dplyr::distinct(!!as.symbol("CLAVE_ENTIDAD"), .keep_all = FALSE) |>
+      dplyr::rename(!!as.symbol(entidad_tipo) := !!as.symbol("CLAVE_ENTIDAD")) 
+    
+    if (nrow(.grouping_entidad) == 0){
+      .grouping_entidad <- NULL
+    }
+    
+  } else if (fill_zeros & !group_by_entidad){
+    .grouping_entidad <- NULL
+  }
 
   #> CLASIFICACION FINAL----
   # Filtramos por tipo de caso
@@ -433,6 +476,26 @@ casos <- function(datos_covid,
     .casos <- .casos |>
       dplyr::filter(!!as.symbol("CLASIFICACION_FINAL") %in% clasificaciones_finales)
   }
+  
+  #Agregamos la entidad a la combinacion si fill zeros
+  if (fill_zeros & group_by_tipo_clasificacion){
+    
+    .grouping_clasificacion <- datos_covid$dict[["CLASIFICACION_FINAL"]] |>
+      dplyr::filter(!!as.symbol("CLAVE") %in% clasificaciones_finales) |>
+      dplyr::distinct(!!as.symbol("CLAVE"), .keep_all = FALSE) |>
+      dplyr::rename(!!as.symbol("CLASIFICACION_FINAL") := !!as.symbol("CLAVE")) |>
+      dplyr::mutate(!!as.symbol("CLASIFICACION_FINAL") := 
+                      as.integer(!!as.symbol("CLASIFICACION_FINAL")))
+    
+    if (nrow(.grouping_clasificacion) == 0){
+      .grouping_clasificacion <- NULL
+    }
+    
+  } else if (fill_zeros & !group_by_tipo_clasificacion){
+    
+    .grouping_clasificacion <- NULL
+    
+  }
 
   #> TIPO DE PACIENTE----
   # Filtramos por tipo de paciente
@@ -452,6 +515,24 @@ casos <- function(datos_covid,
   .casos <- .casos |>
     dplyr::filter(!!as.symbol("TIPO_PACIENTE") %in% lista_claves)
 
+  #Agregamos la entidad a la combinacion si fill zeros
+  if (fill_zeros & group_by_tipo_paciente){
+    
+    .grouping_paciente <- datos_covid$dict[["PACIENTE"]] |>
+      dplyr::filter(!!as.symbol("CLAVE") %in% lista_claves) |>
+      dplyr::distinct(!!as.symbol("CLAVE"), .keep_all = FALSE) |>
+      dplyr::rename(!!as.symbol("TIPO_PACIENTE") := !!as.symbol("CLAVE")) |>
+      dplyr::mutate(!!as.symbol("TIPO_PACIENTE") := 
+                      as.integer(!!as.symbol("TIPO_PACIENTE")))
+    
+    if (nrow(.grouping_paciente) == 0){
+      .grouping_paciente <- NULL
+    }
+    
+  } else if (fill_zeros & !group_by_tipo_paciente){
+    .grouping_paciente <- NULL
+  }
+  
   #> TIPO DE UCI----
   # Filtramos por tipo de uci
   ucis <-
@@ -466,9 +547,26 @@ casos <- function(datos_covid,
   lista_claves <- as.numeric(ucis$CLAVE)
   .casos <- .casos |>
     dplyr::filter(!!as.symbol("UCI") %in% lista_claves)
+  
+  #Agregamos la entidad a la combinacion si fill zeros
+  if (fill_zeros & group_by_tipo_uci){
+    
+    .grouping_uci <- datos_covid$dict[["UCI"]] |>
+      dplyr::filter(!!as.symbol("CLAVE") %in% lista_claves) |>
+      dplyr::distinct(!!as.symbol("CLAVE"), .keep_all = FALSE) |>
+      dplyr::rename(!!as.symbol("UCI") := !!as.symbol("CLAVE")) |>
+      dplyr::mutate(!!as.symbol("UCI") := as.integer(!!as.symbol("UCI")))
+    
+    if (nrow(.grouping_uci) == 0){
+      .grouping_uci <- NULL
+    }
+    
+  } else if (fill_zeros & !group_by_tipo_uci){
+    .grouping_uci <- NULL
+  }
 
   #> TIPO DE SECTOR----
-  # Filtramos por tipo de uci
+  # Filtramos por tipo de sector
   sectores <-
     datos_covid$dict["SECTOR"][[1]] |>
     dplyr::filter(
@@ -481,23 +579,53 @@ casos <- function(datos_covid,
   lista_claves <- as.numeric(sectores$CLAVE)
   .casos <- .casos |>
     dplyr::filter(!!as.symbol("SECTOR") %in% lista_claves)
+  
+  #Agregamos la entidad a la combinacion si fill zeros
+  if (fill_zeros & group_by_tipo_sector){
+    
+    .grouping_sector <- datos_covid$dict[["SECTOR"]] |>
+      dplyr::filter(!!as.symbol("CLAVE") %in% lista_claves) |>
+      dplyr::distinct(!!as.symbol("CLAVE"), .keep_all = FALSE) |>
+      dplyr::rename(!!as.symbol("SECTOR") := !!as.symbol("CLAVE")) |>
+      dplyr::mutate(!!as.symbol("SECTOR") := as.integer(!!as.symbol("SECTOR")))
+    
+    if (nrow(.grouping_sector) == 0){
+      .grouping_sector <- NULL
+    }
+    
+  } else if (fill_zeros & !group_by_tipo_sector){
+    .grouping_sector <- NULL
+  }
 
-  #> DEFUNCIONES
+  #> DEFUNCIONES----
   if (defunciones) {
     .casos <- .casos |>
-      dplyr::filter(!!as.symbol("FECHA_DEF") >= as.POSIXct("2000/01/01"))
+      dplyr::filter(!is.na(!!as.symbol("FECHA_DEF")) & 
+                      !!as.symbol("FECHA_DEF") >= as.POSIXct("2000/01/01"))
   }
 
-  #> EDADES
+  #> EDADES----
   if (!is.null(edad_cut)) {
+    #Obtenemos los grupos de edad
     .casos <- .casos |>
-      dplyr::mutate(!!as.symbol("EDAD_CAT") := cut(!!as.symbol("EDAD"),
-        breaks = edad_cut
-      )) |>
+      dplyr::mutate(!!as.symbol("EDAD_CAT") := cut(!!as.symbol("EDAD"), breaks = edad_cut)) |>
       dplyr::filter(!is.na(!!as.symbol("EDAD_CAT")))
   }
+  
+  #Agregamos la entidad a la combinacion si fill zeros
+  if (fill_zeros & !is.null(edad_cut)){
+    
+    .grouping_edad <- dplyr::tibble(EDAD_CAT = cut(edad_cut, breaks = edad_cut)) |>
+      dplyr::filter(!is.na(!!as.symbol("EDAD_CAT"))) 
+      
+      if (nrow(.grouping_edad) == 0){
+        .grouping_edad <- NULL
+      }
+  } else if (fill_zeros & is.null(edad_cut)){
+    .grouping_edad <- NULL
+  }
 
-  #> AGRUPACI\u00d3N
+  #> AGRUPACI\u00d3N----
   .casos <- .casos |>
     dplyr::group_by_at(fecha_tipo)
 
@@ -547,30 +675,19 @@ casos <- function(datos_covid,
     dplyr::ungroup()
 
   if (as_tibble) {
+    
     .casos <- .casos |>
       dplyr::collect()
 
     if (fill_zeros) {
 
-      # Select the other variables to expand grid
-      .grouping_vars <- .casos |>
-        dplyr::select(-dplyr::matches("\\bn\\b")) |>
-        dplyr::select(-dplyr::starts_with("FECHA")) |>
-        dplyr::distinct()
-
-      # Check the dates to expand
-      .fechasminmax <- datos_covid$dats |>
-        dplyr::select_at(fecha_tipo) |>
-        dplyr::summarise(
-          fechamin = min(!!as.symbol(fecha_tipo), na.rm = TRUE),
-          fechamax = max(!!as.symbol(fecha_tipo), na.rm = TRUE)
-        ) |>
-        dplyr::collect()
-
-      .datesq <- seq(.fechasminmax$fechamin[1], .fechasminmax$fechamax[1], by = "1 day")
-
+      .groups <- tidyr::expand_grid(.group_values, .grouping_entidad, 
+                                    .grouping_clasificacion, .grouping_paciente, 
+                                    .grouping_uci, .grouping_sector, .grouping_edad)
+      
       # Create grid of all possible dates
-      .grid_casos <- tidyr::expand_grid(!!as.symbol(fecha_tipo) := .datesq, .grouping_vars)
+      .grid_casos <- tidyr::expand_grid(!!as.symbol(fecha_tipo) := .datesq, .groups)
+      
 
       # Full join
       .casos <- .casos |>
@@ -581,7 +698,7 @@ casos <- function(datos_covid,
   }
 
   if (nrow(entidades) > 0 & group_by_entidad) {
-    name_join <- c("CLAVE_ENTIDAD")
+    name_join        <- c("CLAVE_ENTIDAD")
     names(name_join) <- entidad_tipo
     .casos <- .casos |> dplyr::left_join(datos_covid$dict[entidad_tipo][[1]], by = name_join)
   }
@@ -612,9 +729,9 @@ casos <- function(datos_covid,
   }
 
   if (nrow(sectores) > 0 & group_by_tipo_sector) {
-    name_join <- c("CLAVE")
-    names(name_join) <- "SECTOR"
-    sector_df <- datos_covid$dict["SECTOR"][[1]]
+    name_join           <- c("CLAVE")
+    names(name_join)    <- "SECTOR"
+    sector_df           <- datos_covid$dict["SECTOR"][[1]]
     colnames(sector_df) <- c("CLAVE", "DESCRIPCION_TIPO_SECTOR")
     .casos <- .casos |>
       dplyr::left_join(sector_df, by = name_join)

@@ -19,12 +19,12 @@ estima_rt(
     "Inválido", "No realizado"),
   tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
   list_name = "estima_rt",
-  min_date = as.POSIXct("2021/11/21", format = "\%Y/\%m/\%d"),
+  min_date = as.POSIXct("2020-01-01", tz = Sys.timezone(), format = "\%Y-\%m-\%d"),
   max_date = as.POSIXct(Sys.time()),
   method = "parametric_si",
   config = if (requireNamespace("EpiEstim", quietly = TRUE)) {
     
-    EpiEstim::make_config(list(mean_si = 3.5, std_si = 1.5))
+    EpiEstim::make_config(list(mean_si = 2.5, std_si = 1.6))
  } else {
      NULL
  },
@@ -32,8 +32,8 @@ estima_rt(
 )
 }
 \arguments{
-\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}
-o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
+\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s o \code{duckdb}s resultante de
+\code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}} o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
 
 \item{entidades}{(\strong{opcional})  Vector con las entidades de las unidades medicas a analizar.
 Opciones: \code{AGUASCALIENTES}, \verb{BAJA CALIFORNIA}, \verb{BAJA CALIFORNIA SUR},
@@ -63,26 +63,31 @@ a incluir:\code{Sospechosos},\verb{Confirmados COVID}, \verb{Negativo a COVID}, 
 
 \item{list_name}{(\strong{opcional}) Asigna un nombre en la lista de datos a la base generada}
 
-\item{min_date}{Mínima fecha a partir de la cual estimar el RT.}
+\item{min_date}{(\strong{opcional}) Mínima fecha a partir de la cual estimar el RT.}
 
-\item{max_date}{Máxima fecha a partir de la cual estimar el RT.}
+\item{max_date}{(\strong{opcional}) Máxima fecha a partir de la cual estimar el RT.}
 
-\item{method}{Metodo para estimar el RT con \code{\link[EpiEstim:estimate_R]{EpiEstim::estimate_R()}}.}
+\item{method}{(\strong{opcional}) Metodo para estimar el RT con \code{\link[EpiEstim:estimate_R]{EpiEstim::estimate_R()}}. Por
+default se recomienda el método paramétrico de intervalo serial \code{parametric_si}.}
 
-\item{config}{Configuracion para la estimacion del RT usando \code{\link[EpiEstim:make_config]{EpiEstim::make_config()}}.}
+\item{config}{(\strong{opcional}) Configuracion para la estimacion del RT usando
+\code{\link[EpiEstim:make_config]{EpiEstim::make_config()}}. Por default se utiliza una media del intervalo serial
+de \code{mean_si = 2.5} y una desviación estandar de \code{std_si = 1.6}. Sin embargo, como el intervalo
+serial depende mucho de la variante se recomienda cambiarlo.}
 
-\item{...}{Parámetros adicionales para \code{\link[EpiEstim:estimate_R]{EpiEstim::estimate_R()}}.}
+\item{...}{(\strong{opcional}) Parámetros adicionales para \code{\link[EpiEstim:estimate_R]{EpiEstim::estimate_R()}}.}
 }
 \value{
 Appends a la lista de \code{datos_covid} una nueva entrada de nombre \code{list_name}
-(default: \code{casos}) con una base de datos (\code{tibble}) con los
+(default: \code{estima_rt}) con una base de datos (\code{tibble}) con los
 resultados agregados.
 \itemize{
-\item positividad - Base de datos generara con los datos agregados (el nombre cambia si
+\item \code{estima_rt} - Base de datos generara con los datos agregados (el nombre cambia si
 se usa \code{list_name}).
 \item dict - Diccionario de datos
-\item dats - Datos originales (conexion a DB)
-\item disconnect  - Funcion para desconectarte de DB
+\item dats - Datos originales (conexion a \code{duckdb} o \code{tibble})
+\item disconnect  - Función para desconectarte de \code{duckdb}
+\item ... - Cualquier otro elemento que ya existiera en \code{datos_covid}
 }
 }
 \description{
@@ -90,30 +95,79 @@ se usa \code{list_name}).
 los metodos de \code{\link[EpiEstim:estimate_R]{EpiEstim::estimate_R()}}. Por default calcula el número efectivo de
 reproducción para cada estado.
 }
+\details{
+Se sugiere establecer una mínima fecha y una máxima fecha con \code{min_date} y
+\code{max_date} para la estimación pues los intervalos seriales de omicron son distintos
+a los de la variante delta.
+}
 \examples{
-\dontrun{
+# Para el ejemplo usaremos los datos precargados pero tu puedes
+# correr el ejemplo descargando informacion mas reciente:
+# datos_covid <- descarga_datos_abiertos() #Sugerido
+
 datos_covid <- datosabiertos
 
-# Casos a nivel nacional en los confirmados
-datos_covid <- datos_covid |>
-  estima_rt(
-    tipo_clasificacion = "Confirmados COVID",
-    group_by_entidad   = FALSE
-  )
+# Casos a nivel nacional por estado en todos 
+suppressWarnings(
+   datos_covid <- datos_covid |> estima_rt() 
+)
+head(datos_covid$estima_rt)
 
-# Casos en AGS, CHI en los confirmados
+# Cambios en la fecha de estimacion siguiendo la recomendacion
+# y obtenemos todo a nivel nacional
+ datos_covid <- datos_covid |> estima_rt(min_date = as.POSIXct("2021-07-01"), 
+                                         max_date = as.POSIXct("2021-09-01"),
+                                         list_name = "rt_min_max",
+                                         group_by_entidad = FALSE)
+head(datos_covid$rt_min_max)
+
+# Casos a nivel nacional en los confirmados
+ datos_covid <- datos_covid |>
+      estima_rt(
+        tipo_clasificacion = "Confirmados COVID",
+        group_by_entidad   = FALSE,
+        list_name = "rt_confirmados"
+      )
+head(datos_covid$rt_confirmados)
+
+#' # Cambios en los parametros de epiestim
+# estos parametros no tienen razon de ser mas alla de mostrar como se cambian
+\dontrun{
+   datos_covid <- datos_covid |> 
+        estima_rt(group_by_entidad   = FALSE,
+                  list_name = "config_rt",
+                  method = "uncertain_si", #Metodo de estimacion
+                  config = EpiEstim::make_config(
+                       mean_si = 2.4,
+                       std_si  = 0.3,
+                       std_mean_si = 0.2,
+                       min_mean_si = 2,
+                       max_mean_si = 4,
+                       std_std_si  = 0.1,
+                       min_std_si  = 0.1,
+                       max_std_si  = 1.0
+                  )
+        ) 
+
+head(datos_covid$config_rt)
+
+# Casos en BC, BCS en los confirmados
 datos_covid |>
   estima_rt(
-    entidades = c("CHIHUAHUA", "AGUASCALIENTES"),
+    entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
     tipo_clasificacion = "Confirmados COVID",
     group_by_entidad = TRUE,
-    list_name = "rt_ch_ags"
+    list_name = "rt_bc_bcs"
   ) |>
   plot_covid(
-    df_name = "rt_ch_ags", df_date_index = "FECHA_SINTOMAS",
+    df_name = "rt_bc_bcs", df_date_index = "FECHA_SINTOMAS",
     df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA"
   )
 }
+
+# Finalmente desconectamos
+datos_covid$disconnect()
+
 }
 \seealso{
 \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}} \code{\link[=numero_pruebas]{numero_pruebas()}} \code{\link[=cfr]{cfr()}} \code{\link[=chr]{chr()}}

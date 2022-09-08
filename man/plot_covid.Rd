@@ -10,7 +10,7 @@ plot_covid(
   df_date_index = stringr::str_subset(colnames(datos_covid[df_name][[1]]),
     "FECHA|fecha|Fecha"),
   df_variable = NULL,
-  df_covariates = NULL,
+  df_covariates = c(),
   facet_scale = "free_y",
   facet_ncol = 4,
   date_break_format = "2 months",
@@ -24,10 +24,10 @@ plot_covid(
 )
 }
 \arguments{
-\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}
-o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
+\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=casos]{casos()}}, \code{\link[=cfr]{cfr()}},
+\code{\link[=chr]{chr()}}, \code{\link[=positividad]{positividad()}} o \code{\link[=rt]{rt()}}}
 
-\item{df_name}{(\strong{opcional}) Nombre de la base de datos dentro de la lista datos_covid}
+\item{df_name}{(\strong{opcional}) Nombre de la base de datos dentro de la lista \code{datos_covid}}
 
 \item{df_date_index}{(\strong{opcional}) Nombre de la variable que contiene la fecha}
 
@@ -47,8 +47,11 @@ o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
 
 \item{plot_theme}{(\strong{opcional}) Tema para el \code{ggplot2} (ejemplo \code{\link[ggplot2:ggtheme]{ggplot2::theme_classic()}}).}
 
-\item{...}{Parametros adicionales para \code{\link[ggformula:geom_spline]{ggformula::geom_spline()}} en caso de elegir
+\item{...}{(\strong{opcional}) Parametros adicionales para \code{\link[ggformula:geom_spline]{ggformula::geom_spline()}} en caso de elegir
 \code{type="spline"}}
+}
+\value{
+Un \code{ggplot2} con la imagen graficada.
 }
 \description{
 \code{plot_covid} Grafica automaticamente la base de datos de covid
@@ -58,8 +61,15 @@ Por default calcula el total de casos.
 This is not an official product / este no es un producto oficial
 }
 \examples{
-\dontrun{
+# Para el ejemplo usaremos los datos precargados pero tu puedes
+# correr el ejemplo descargando informacion mas reciente:
+# datos_covid <- descarga_datos_abiertos() #Sugerido
+
 # Grafica de casos por entidad
+datos_covid <- datosabiertos
+
+#Aqui muchos aparecen en cero si usas el default de datosabiertos
+#porque la base de datosabiertos tiene muy pocos casos
 datos_covid |>
   casos(list_name = "casos_for_plot") |>
   plot_covid(df_name = "casos_for_plot")
@@ -69,9 +79,41 @@ datos_covid |>
   casos(group_by_entidad = FALSE, list_name = "plot_nal") |>
   plot_covid(df_name = "plot_nal")
 
+\dontrun{
 # Ajuste mediante splines
 datos_covid |>
-  casos(group_by_entidad = F, list_name = "spline_nacional") |>
+  casos(group_by_entidad = FALSE, list_name = "spline_nacional") |>
   plot_covid(df_name = "spline_nacional", type = "spline", spar = 0.5)
+  
+# Graficacion por covariables
+# el objeto devuelto es un objeto de ggplot2 al que se le puede dar formato
+datos_covid |>
+  chr(group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
+      entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR")) |>
+  plot_covid(df_name = "plot_nal", 
+             date_break_format = "1 week",
+             date_labels_format = "\%d/\%B/\%Y",
+             df_covariates = c("SEXO","ENTIDAD_FEDERATIVA"),
+             type = "area") +
+  ggtitle("Plot nacional")   
+  
+# Puedes tambien primero editar el tibble que usaras por ejemplo poniendo
+# los nombres de los sexos
+datos_covid <- datos_covid |>
+  chr(group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
+      entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR")) 
+
+datos_covid$plot_nal |>
+   left_join(datos_covid$dict$SEXO, by = c("SEXO" = "CLAVE")) |>
+   plot_covid(date_break_format = "1 week",
+             date_labels_format = "\%d/\%B/\%Y",
+             df_variable   = "CASE HOSPITALIZATION RATE",
+             df_covariates = c("DESCRIPCIÓN","ENTIDAD_FEDERATIVA"),
+             type = "area") +
+   ggtitle("Plot nacional")          
 }
+              
+#Finalmente desconectamos              
+datos_covid$disconnect()
+  
 }

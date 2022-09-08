@@ -34,8 +34,8 @@ numero_pruebas(
 )
 }
 \arguments{
-\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}
-o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
+\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s o \code{duckdb}s resultante de
+\code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}} o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
 
 \item{entidades}{(\strong{opcional})  Vector con las entidades de las unidades medicas a analizar.
 Opciones: \code{AGUASCALIENTES}, \verb{BAJA CALIFORNIA}, \verb{BAJA CALIFORNIA SUR},
@@ -57,9 +57,10 @@ una de las opciones: \verb{Unidad Medica} (entidad de la unidad medica), \code{N
 \item{fecha_tipo}{(\strong{opcional}) Selecciona si la fecha que se utiliza es la fecha de \code{Ingreso}
 (si aplica), la fecha de \code{Sintomas} o la de \code{Defuncion} (si aplica). El default es fecha de \code{Sintomas}.}
 
-\item{tipo_prueba}{Vector con el tipo de pruebas a incluir \code{Antigeno}, \code{PCR}}
+\item{tipo_prueba}{(\strong{opcional}) Vector con el tipo de pruebas a incluir \code{Antigeno}, \code{PCR}. Por
+default se incluyen ambas.}
 
-\item{group_by_tipo_prueba}{Booleana determinando si regresa la base
+\item{group_by_tipo_prueba}{(\strong{opcional}) Booleana determinando si regresa la base
 con cada entrada agrupada por \code{tipo_prueba}. En caso \code{TRUE} (cada fecha
 y entidad reporta separado el los casos de PCR y Antigeno). En caso \code{FALSE} se juntan
 los casos de PCR y Antigeno para devolver un unico numero por fecha.}
@@ -143,9 +144,9 @@ Para mas informacion sobre las pruebas y su interpretacion puedes consultar
 \href{https://espanol.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html}{las guias del CDC}
 }
 \examples{
-#Para el ejemplo usaremos los datos precargados pero tu puedes
-#correr el ejemplo descargando informacion mas reciente:
-#datos_covid <- descarga_datos_abiertos() #Sugerido
+# Para el ejemplo usaremos los datos precargados pero tu puedes
+# correr el ejemplo descargando informacion mas reciente:
+# datos_covid <- descarga_datos_abiertos() #Sugerido
 
 datos_covid <- datosabiertos
 
@@ -178,4 +179,7 @@ datos_covid <- datos_covid |>
     list_name = "pruebas_diabetes"
   )
 head(datos_covid$pruebas_diabetes)
+
+#Una vez hayas concluido tu trabajo no olvides desconectar
+datos_covid$disconnect()
 }

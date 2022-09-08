@@ -16,22 +16,36 @@ descarga_datos_variantes_GISAID(
 )
 }
 \arguments{
-\item{nivel}{si se desea descargar \code{"nacional"} o \code{"cdmx"}.}
+\item{nivel}{(\strong{opcional}) si se desea descargar informacion \code{"nacional"} (default) o de
+la Ciudad de Mexico: \code{"cdmx"}.}
 
-\item{cache}{cache para \code{pins::board_url}.}
+\item{cache}{(\strong{opcional}) cache para \code{\link[pins:board_url]{pins::board_url()}}. Representa el directorio donde
+se almacenaran los datos descargados en formato de \code{pins}.}
 
-\item{use_cache_on_failure}{parametro para \code{pins::board_url}.}
+\item{use_cache_on_failure}{(\strong{opcional})  parametro para \code{\link[pins:board_url]{pins::board_url()}}. En caso de
+\code{TRUE} (default) si no puede descargar nueva informacion utiliza la que ya tiene en memoria
+aunque sea vieja.}
 
-\item{quiet}{booleana para no imprimir mensajes en la consola.}
+\item{quiet}{(\strong{opcional}) booleana para no imprimir mensajes en la consola.}
 
-\item{force_download}{analiza si cambio el pin y descarga datos nuevos en caso afirmativo}
+\item{force_download}{(\strong{opcional})  analiza si cambio el pin y descarga datos nuevos en
+caso afirmativo.}
 
-\item{show_warnings}{si arrojar \code{warnings}}
+\item{show_warnings}{(\strong{opcional}) si arrojar \code{warnings} o callar}
 
-\item{...}{parametros adicionales para \code{pins::pin_download}.}
+\item{...}{parametros adicionales para \code{\link[pins:pin_download]{pins::pin_download()}}.}
 }
 \value{
-\code{data.frame} con los datos porcentuales y de conteo de variantes
+\code{tibble} con los datos de porcentuales de variantes
+\itemize{
+\item \code{variant}       - La variante clasificada mediante \href{https://cov-lineages.org/resources/pangolin.html}{Pangolin}
+\item \code{semana}        - Semana epidemiologica \code{\link[lubridate:week]{lubridate::epiweek()}} a la que corresponde la variante
+\item \code{ano}           - Anio al que corresponde la toma de muestra
+\item \code{n}             - El total de muestras de dicha semana registradas para esa variante
+\item \code{freq}          - La proporcion de las variantes de dicha semana ocupada por dicha variante. Se obtiene dividiendo \code{n/sum(n)} para cada semana.
+\item \code{Actualizacion} - La fecha de actualizacion ultima de los datos.
+\item \code{Fuente}        - La fuente desde la cual se obtuvo la informacion de dicha variante.
+}
 }
 \description{
 \code{descarga_datos_variantes_GISAID} Lee los datos de variantes del reporte nacional diario en
@@ -65,16 +79,17 @@ variantes_covid <- descarga_datos_variantes_GISAID("nacional")
 # Puedes forzarlo a checar el contenido en Internet usando
 variantes_covid <- descarga_datos_variantes_GISAID("nacional", force_download = TRUE)
 
-#Para visualizar
-if (requireNamespace("ggstream") & requireNamespace("lubridate")){
-library(ggplot2)
-library(lubridate)
-ggplot(variantes_covid) + 
- ggstream::geom_stream(aes(x = ymd("2019/12/27") + years(ano - 2020) + weeks(semana), 
-   y = n, fill = variant)) +
- theme_minimal() 
+# Para visualizar
+if (requireNamespace("ggstream") & requireNamespace("lubridate")) {
+  library(ggplot2)
+  library(lubridate)
+  ggplot(variantes_covid) +
+    ggstream::geom_stream(aes(
+      x = ymd("2019/12/27") + years(ano - 2020) + weeks(semana),
+      y = n, fill = variant, 
+    )) +
+    theme_minimal()
 }
-
 }
 }
 \references{

@@ -14,7 +14,7 @@ haciendo Antigeno y PCR por separado, cada una por fecha y entidad."><meta prope
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -106,8 +106,8 @@ haciendo Antigeno y PCR por separado, cada una por fecha y entidad.</p>
     <div class="section level2">
     <h2 id="argumentos">Argumentos<a class="anchor" aria-label="anchor" href="#argumentos"></a></h2>
     <dl><dt>datos_covid</dt>
-<dd><p>(<strong>obligatorio</strong>) Lista de <code>tibble</code>s resultante de <code><a href="descarga_datos_abiertos.html">descarga_datos_abiertos()</a></code>
-o <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p></dd>
+<dd><p>(<strong>obligatorio</strong>) Lista de <code>tibble</code>s o <code>duckdb</code>s resultante de
+<code><a href="descarga_datos_abiertos.html">descarga_datos_abiertos()</a></code> o <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p></dd>
 
 
 <dt>entidades</dt>
@@ -139,11 +139,12 @@ una de las opciones: <code>Unidad Medica</code> (entidad de la unidad medica), <
 
 
 <dt>tipo_prueba</dt>
-<dd><p>Vector con el tipo de pruebas a incluir <code>Antigeno</code>, <code>PCR</code></p></dd>
+<dd><p>(<strong>opcional</strong>) Vector con el tipo de pruebas a incluir <code>Antigeno</code>, <code>PCR</code>. Por
+default se incluyen ambas.</p></dd>
 
 
 <dt>group_by_tipo_prueba</dt>
-<dd><p>Booleana determinando si regresa la base
+<dd><p>(<strong>opcional</strong>) Booleana determinando si regresa la base
 con cada entrada agrupada por <code>tipo_prueba</code>. En caso <code>TRUE</code> (cada fecha
 y entidad reporta separado el los casos de PCR y Antigeno). En caso <code>FALSE</code> se juntan
 los casos de PCR y Antigeno para devolver un unico numero por fecha.</p></dd>
@@ -204,9 +205,9 @@ y no arma grupos etarios.</p></dd>
 
 
 <dt>fill_NA</dt>
-<dd><p>Regresa observaciones para todas las combinaciones de variables incluyendo
-como <code>NA</code> donde no se observaron casos en el denominador.  En caso contrario no se incluyen
-las filas donde no se observaron casos.</p></dd>
+<dd><p>(<strong>opcional</strong>)  Regresa observaciones para todas las combinaciones de variables
+incluyendo como <code>NA</code> donde no se observaron casos en el denominador.  En caso contrario no se
+incluyen las filas donde no se observaron casos.</p></dd>
 
 
 <dt>list_name</dt>
@@ -214,9 +215,9 @@ las filas donde no se observaron casos.</p></dd>
 
 
 <dt>remove_inconclusive</dt>
-<dd><p>Si <code>TRUE</code> no considera en el denominador de la positividad
-las pruebas cuyo resultado es inconcluso o aún no ha sido otorgado. Si <code>FALSE</code> considera
-a todos. Por default es <code>TRUE</code>.</p></dd>
+<dd><p>(<strong>opcional</strong>)  Si <code>TRUE</code> no considera en el denominador de la
+positividad las pruebas cuyo resultado es inconcluso o aún no ha sido otorgado. Si <code>FALSE</code>
+considera a todos. Por default es <code>TRUE</code>.</p></dd>
 
 
 <dt>.grouping_vars</dt>
@@ -267,9 +268,9 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#Para el ejemplo usaremos los datos precargados pero tu puedes</span></span></span>
-<span class="r-in"><span><span class="co">#correr el ejemplo descargando informacion mas reciente:</span></span></span>
-<span class="r-in"><span><span class="co">#datos_covid &lt;- descarga_datos_abiertos() #Sugerido</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Para el ejemplo usaremos los datos precargados pero tu puedes</span></span></span>
+<span class="r-in"><span><span class="co"># correr el ejemplo descargando informacion mas reciente:</span></span></span>
+<span class="r-in"><span><span class="co"># datos_covid &lt;- descarga_datos_abiertos() #Sugerido</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datosabiertos</span></span></span>
 <span class="r-in"><span></span></span>
@@ -291,8 +292,8 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁴​ENTIDAD_FEDERATIVA, ⁵​ABREVIATURA, ⁶​n_pruebas, ⁷​n_positivos</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Total nacional sumando todas las pruebas del pais</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span></span>
-<span class="r-in"><span>     <span class="fu">positividad</span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span>, list_name <span class="op">=</span> <span class="st">"positividad_nacional"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">positividad</span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span>, list_name <span class="op">=</span> <span class="st">"positividad_nacional"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad_nacional</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   FECHA_SINTOMAS, TIPO_PRUEBA [6]</span></span>
@@ -307,8 +308,10 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Positivos en Baja California y Baja California Sur</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">positividad</span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>, <span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>  list_name <span class="op">=</span> <span class="st">"positividad_californiana"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">positividad</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>, <span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"positividad_californiana"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad_californiana</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   FECHA_SINTOMAS, ENTIDAD_UM, TIPO_PRUEBA, ENTIDAD_FEDERATIVA,</span></span>
@@ -331,7 +334,7 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-in"><span>    group_by_tipo_prueba <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"positividad_californiana_2"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad_californiana_2</span><span class="op">)</span>   </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad_californiana_2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   FECHA_SINTOMAS, ENTIDAD_UM, ENTIDAD_FEDERATIVA, ABREVIATURA [6]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Positividad FECHA_SINTOMAS      ENTIDAD_UM ENTIDAD_F…¹ ABREV…² n_pru…³ n_pos…⁴</span>
@@ -354,7 +357,7 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-in"><span>    group_by_tipo_paciente <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"positividad_paciente"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad_paciente</span><span class="op">)</span>   </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad_paciente</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   FECHA_SINTOMAS, TIPO_PRUEBA, TIPO_PACIENTE,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   DESCRIPCION_TIPO_PACIENTE [6]</span></span>
@@ -376,7 +379,7 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-in"><span>    .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PAIS_ORIGEN"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"positividad_imss_pais"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad_imss_pais</span><span class="op">)</span>   </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad_imss_pais</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   FECHA_SINTOMAS, PAIS_ORIGEN, ENTIDAD_UM, TIPO_PRUEBA,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ENTIDAD_FEDERATIVA, ABREVIATURA [6]</span></span>
@@ -392,6 +395,9 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​Positividad, ²​PAIS_ORIGEN, ³​ENTIDAD_UM, ⁴​TIPO_PRUEBA, ⁵​ENTIDAD_FEDERATIVA,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​ABREVIATURA, ⁷​n_pruebas</span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Una vez hayas concluido tu trabajo no olvides desconectar</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span> </span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Desconectado</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>

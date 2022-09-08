@@ -269,9 +269,13 @@ test_that("Casos", {
     dplyr::tally() |>
     dplyr::full_join(
       tidyr::expand_grid(FECHA_SINTOMAS = unique(datos_covid$dats$FECHA_SINTOMAS),
-                         ENTIDAD_UM     = unique(datos_covid$dats$ENTIDAD_UM))
+                         ENTIDAD_UM     = datos_covid$dict$ENTIDAD_UM$CLAVE_ENTIDAD), 
+      by = c("FECHA_SINTOMAS", "ENTIDAD_UM")
     ) |>
-    dplyr::left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD"))
+    dplyr::distinct() |>
+    dplyr::left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD")) |>
+    dplyr::filter(as.numeric(ENTIDAD_UM) < 36) |>
+    dplyr::arrange(FECHA_SINTOMAS, ENTIDAD_UM)
 
   casos_edad_cut <- casos_edad_cut |>
     dplyr::mutate(n = dplyr::if_else(is.na(as.numeric(n)), as.integer(0), as.integer(n))) |>

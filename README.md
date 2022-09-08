@@ -49,7 +49,6 @@ datos_covid <- read_datos_abiertos(dbdir = "mi_archivo/de_datos.duckdb")
 Las funciones principales del paquete son:
 
 ```{r}
-
 #Calcula los casos (totales) por entidad y devuelve un tibble
 datos_covid <- datos_covid %>% casos()
 

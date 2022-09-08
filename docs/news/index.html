@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -60,6 +60,32 @@
       <small>Código: <a href="https://github.com/RodrigoZepeda/covidmx/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.7.0.0000" id="covidmx-0700000">covidmx 0.7.0.0000<a class="anchor" aria-label="anchor" href="#covidmx-0700000"></a></h2>
+<ul><li><p>Se arregló un <code>bug</code> que ocasionaba que <code>cfr</code> y <code>chr</code> regresaran <code>NaN</code> en lugar de <code>NA</code> cuando usabas la opción <code>fill_NA</code>.</p></li>
+<li><p>Se arregló que los casos eran un <code>tibble</code> vacío si no se reportaban casos con esas condiciones a pesar del <code>fill_zeros = TRUE</code>. Por ejemplo esto antes devolvía:</p></li>
+</ul><pre class="{r}"><code><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datosabiertos</span></span>
+<span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>tipo_sector <span class="op">=</span> <span class="st">"DIF"</span>, fill_zeros <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">datos_covid</span><span class="op">$</span><span class="va">casos</span></span>
+<span></span>
+<span><span class="co">#ANTES (ERROR)</span></span>
+<span><span class="co"># A tibble: 0 × 5</span></span>
+<span><span class="co"># … with 5 variables: FECHA_SINTOMAS &lt;dttm&gt;, ENTIDAD_UM &lt;chr&gt;, n &lt;int&gt;, ENTIDAD_FEDERATIVA &lt;chr&gt;,</span></span>
+<span><span class="co">#   ABREVIATURA &lt;chr&gt;</span></span>
+<span><span class="co"># ℹ Use `colnames()` to see all variable names</span></span>
+<span></span>
+<span><span class="co">#AHORA</span></span>
+<span><span class="co"># A tibble: 126 × 5</span></span>
+<span><span class="co">#   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
+<span><span class="co">#   &lt;dttm&gt;              &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;               &lt;chr&gt;      </span></span>
+<span><span class="co"># 1 2021-07-01 00:00:00 02             0 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co"># 2 2021-07-01 00:00:00 03             0 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co"># 3 2021-07-02 00:00:00 02             0 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co"># 4 2021-07-02 00:00:00 03             0 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co"># 5 2021-07-03 00:00:00 02             0 BAJA CALIFORNIA     BC    </span></span></code></pre>
+<ul><li><p>Se mejoró la selección de variables automática en <code>plot_covid</code> para evitar que una <code>df_covariate</code> sea tambien una <code>df_variable</code>.</p></li>
+<li><p>Se arregló un <code>bug</code> que impedía la agrupación por otras covariables de <code>cfr</code> y <code>chr</code>.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.2.1000" id="covidmx-0621000">covidmx 0.6.2.1000<a class="anchor" aria-label="anchor" href="#covidmx-0621000"></a></h2>
 <ul><li>Se mejoraron los ejemplos y la ayuda de <code>casos</code>.</li>

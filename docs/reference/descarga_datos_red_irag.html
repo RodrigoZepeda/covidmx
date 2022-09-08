@@ -14,7 +14,7 @@ y analizados a traves de RodrigoZepeda/CapacidadHospitalariaMX"><meta property="
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -87,31 +87,35 @@ y analizados a traves de <a href="https://github.com/RodrigoZepeda/CapacidadHosp
     <div class="section level2">
     <h2 id="argumentos">Argumentos<a class="anchor" aria-label="anchor" href="#argumentos"></a></h2>
     <dl><dt>nivel</dt>
-<dd><p><code>"Estatal"</code>(default) o <code>"Unidad Medica"</code></p></dd>
+<dd><p>(<strong>opcional</strong>) Regresa la ocupacion <code>"Estatal"</code>(default) o por <code>"Unidad Medica"</code></p></dd>
 
 
 <dt>cache</dt>
-<dd><p>cache para <code><a href="https://pins.rstudio.com/reference/board_url.html" class="external-link">pins::board_url</a></code>.</p></dd>
+<dd><p>(<strong>opcional</strong>) cache para <code><a href="https://pins.rstudio.com/reference/board_url.html" class="external-link">pins::board_url()</a></code>. Representa el directorio donde
+se almacenaran los datos descargados en formato de <code>pins</code>.</p></dd>
 
 
 <dt>use_cache_on_failure</dt>
-<dd><p>parametro para <code><a href="https://pins.rstudio.com/reference/board_url.html" class="external-link">pins::board_url</a></code>.</p></dd>
+<dd><p>(<strong>opcional</strong>)  parametro para <code><a href="https://pins.rstudio.com/reference/board_url.html" class="external-link">pins::board_url()</a></code>. En caso de
+<code>TRUE</code> (default) si no puede descargar nueva informacion utiliza la que ya tiene en memoria
+aunque sea vieja.</p></dd>
 
 
 <dt>quiet</dt>
-<dd><p>booleana para no imprimir mensajes en la consola.</p></dd>
+<dd><p>(<strong>opcional</strong>) booleana para no imprimir mensajes en la consola.</p></dd>
 
 
 <dt>force_download</dt>
-<dd><p>analiza si cambio el pin y descarga datos nuevos en caso afirmativo</p></dd>
+<dd><p>(<strong>opcional</strong>)  analiza si cambio el pin y descarga datos nuevos en
+caso afirmativo.</p></dd>
 
 
 <dt>show_warnings</dt>
-<dd><p>si arrojar <code>warnings</code> o callar</p></dd>
+<dd><p>(<strong>opcional</strong>) si arrojar <code>warnings</code> o callar</p></dd>
 
 
 <dt>...</dt>
-<dd><p>parametros adicionales para <code><a href="https://pins.rstudio.com/reference/pin_download.html" class="external-link">pins::pin_download</a></code>.</p></dd>
+<dd><p>parametros adicionales para <code><a href="https://pins.rstudio.com/reference/pin_download.html" class="external-link">pins::pin_download()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

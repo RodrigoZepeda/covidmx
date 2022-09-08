@@ -4,57 +4,109 @@
 #' `estima_rt` Calcula el número efectivo de reproducción por fecha y entidad usando
 #' los metodos de [EpiEstim::estimate_R()]. Por default calcula el número efectivo de
 #' reproducción para cada estado.
-#'
+#' 
+#' @details Se sugiere establecer una mínima fecha y una máxima fecha con `min_date` y 
+#' `max_date` para la estimación pues los intervalos seriales de omicron son distintos 
+#' a los de la variante delta. 
 #'
 #' @inheritParams casos
 #'
-#' @param method Metodo para estimar el RT con [EpiEstim::estimate_R()].
+#' @param method (**opcional**) Metodo para estimar el RT con [EpiEstim::estimate_R()]. Por
+#' default se recomienda el método paramétrico de intervalo serial `parametric_si`.
 #'
-#' @param config Configuracion para la estimacion del RT usando [EpiEstim::make_config()].
+#' @param config (**opcional**) Configuracion para la estimacion del RT usando 
+#' [EpiEstim::make_config()]. Por default se utiliza una media del intervalo serial 
+#' de `mean_si = 2.5` y una desviación estandar de `std_si = 1.6`. Sin embargo, como el intervalo
+#' serial depende mucho de la variante se recomienda cambiarlo. 
 #'
-#' @param min_date Mínima fecha a partir de la cual estimar el RT.
+#' @param min_date (**opcional**) Mínima fecha a partir de la cual estimar el RT. 
 #'
-#' @param max_date Máxima fecha a partir de la cual estimar el RT.
+#' @param max_date (**opcional**) Máxima fecha a partir de la cual estimar el RT.
 #'
-#' @param ... Parámetros adicionales para [EpiEstim::estimate_R()].
+#' @param ... (**opcional**) Parámetros adicionales para [EpiEstim::estimate_R()].
 #'
 #' @importFrom rlang :=
 #'
 #' @return Appends a la lista de `datos_covid` una nueva entrada de nombre `list_name`
-#' (default: `casos`) con una base de datos (`tibble`) con los
+#' (default: `estima_rt`) con una base de datos (`tibble`) con los
 #' resultados agregados.
 #' \itemize{
-#'   \item positividad - Base de datos generara con los datos agregados (el nombre cambia si
+#'   \item `estima_rt` - Base de datos generara con los datos agregados (el nombre cambia si
 #'   se usa `list_name`).
 #'   \item dict - Diccionario de datos
-#'   \item dats - Datos originales (conexion a DB)
-#'   \item disconnect  - Funcion para desconectarte de DB
+#'   \item dats - Datos originales (conexion a `duckdb` o `tibble`)
+#'   \item disconnect  - Función para desconectarte de `duckdb`
+#'   \item ... - Cualquier otro elemento que ya existiera en `datos_covid`
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' # Para el ejemplo usaremos los datos precargados pero tu puedes
+#' # correr el ejemplo descargando informacion mas reciente:
+#' # datos_covid <- descarga_datos_abiertos() #Sugerido
+#' 
 #' datos_covid <- datosabiertos
 #'
+#' # Casos a nivel nacional por estado en todos 
+#' suppressWarnings(
+#'    datos_covid <- datos_covid |> estima_rt() 
+#' )
+#' head(datos_covid$estima_rt)
+#' 
+#' # Cambios en la fecha de estimacion siguiendo la recomendacion
+#' # y obtenemos todo a nivel nacional
+#'  datos_covid <- datos_covid |> estima_rt(min_date = as.POSIXct("2021-07-01"), 
+#'                                          max_date = as.POSIXct("2021-09-01"),
+#'                                          list_name = "rt_min_max",
+#'                                          group_by_entidad = FALSE)
+#' head(datos_covid$rt_min_max)
+#' 
 #' # Casos a nivel nacional en los confirmados
-#' datos_covid <- datos_covid |>
-#'   estima_rt(
-#'     tipo_clasificacion = "Confirmados COVID",
-#'     group_by_entidad   = FALSE
-#'   )
-#'
-#' # Casos en AGS, CHI en los confirmados
+#'  datos_covid <- datos_covid |>
+#'       estima_rt(
+#'         tipo_clasificacion = "Confirmados COVID",
+#'         group_by_entidad   = FALSE,
+#'         list_name = "rt_confirmados"
+#'       )
+#' head(datos_covid$rt_confirmados)
+#' 
+#' #' # Cambios en los parametros de epiestim
+#' # estos parametros no tienen razon de ser mas alla de mostrar como se cambian
+#' \dontrun{
+#'    datos_covid <- datos_covid |> 
+#'         estima_rt(group_by_entidad   = FALSE,
+#'                   list_name = "config_rt",
+#'                   method = "uncertain_si", #Metodo de estimacion
+#'                   config = EpiEstim::make_config(
+#'                        mean_si = 2.4,
+#'                        std_si  = 0.3,
+#'                        std_mean_si = 0.2,
+#'                        min_mean_si = 2,
+#'                        max_mean_si = 4,
+#'                        std_std_si  = 0.1,
+#'                        min_std_si  = 0.1,
+#'                        max_std_si  = 1.0
+#'                   )
+#'         ) 
+#' 
+#' head(datos_covid$config_rt)
+#' 
+#' # Casos en BC, BCS en los confirmados
 #' datos_covid |>
 #'   estima_rt(
-#'     entidades = c("CHIHUAHUA", "AGUASCALIENTES"),
+#'     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
 #'     tipo_clasificacion = "Confirmados COVID",
 #'     group_by_entidad = TRUE,
-#'     list_name = "rt_ch_ags"
+#'     list_name = "rt_bc_bcs"
 #'   ) |>
 #'   plot_covid(
-#'     df_name = "rt_ch_ags", df_date_index = "FECHA_SINTOMAS",
+#'     df_name = "rt_bc_bcs", df_date_index = "FECHA_SINTOMAS",
 #'     df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA"
 #'   )
 #' }
+#' 
+#' # Finalmente desconectamos
+#' datos_covid$disconnect()
+#' 
 #' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [chr()]
 #' [positividad()] [casos()]
 #'
@@ -89,14 +141,15 @@ estima_rt <- function(datos_covid,
                       ),
                       tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
                       list_name = "estima_rt",
-                      min_date = as.POSIXct("2021/11/21", format = "%Y/%m/%d"),
+                      min_date = as.POSIXct("2020-01-01", tz = Sys.timezone(),
+                                            format = "%Y-%m-%d"),
                       max_date = as.POSIXct(Sys.time()),
-                      method = "parametric_si",
+                      method   = "parametric_si",
                       config = if (requireNamespace("EpiEstim", quietly = TRUE)) {
                         EpiEstim::make_config(
                           list(
-                            mean_si = 3.5,
-                            std_si = 1.5
+                            mean_si = 2.5,
+                            std_si = 1.6
                           )
                         )
                       } else {
@@ -142,7 +195,7 @@ estima_rt <- function(datos_covid,
     }
   }
 
-  cli::cli_alert_info("Estimando casos")
+
   .casos <- casos(
     datos_covid = datos_covid,
     entidades = entidades,
@@ -166,13 +219,20 @@ estima_rt <- function(datos_covid,
     fill_zeros = TRUE,
     list_name = list_name,
     .grouping_vars = c()
-  )[[list_name]]
-
-  cli::cli_alert_info("Estimando RT")
-
+  )[[list_name]] 
+  
   # Detectamos cuál es la fecha
   fecha_name <- stringr::str_subset(colnames(.casos), "FECHA")
-  col_gp <- stringr::str_subset(colnames(.casos), "FECHA|\\bn\\b", negate = TRUE)
+  col_gp     <- stringr::str_subset(colnames(.casos), "FECHA|\\bn\\b", negate = TRUE)
+  
+  .casos <-  .casos |>
+    dplyr::filter(!!as.symbol(fecha_name) >= !!min_date) |>
+    dplyr::filter(!!as.symbol(fecha_name) <= !!max_date)
+  
+  if (nrow(.casos) == 0){
+    cli::cli_abort("No hay observaciones entre {min_date} y {max_date}")
+  }
+  
 
   if (length(col_gp) > 0) {
     for (col in col_gp) {
@@ -181,25 +241,19 @@ estima_rt <- function(datos_covid,
     }
   }
 
-  .casos <- .casos |>
-    dplyr::filter(!!as.symbol(fecha_name) >= !!min_date) |>
-    dplyr::filter(!!as.symbol(fecha_name) <= !!max_date)
-
   mfec <- .casos[fecha_name] |>
     dplyr::summarise(!!as.symbol("min") := min(!!as.symbol(fecha_name))) |>
     as.vector()
 
   df_rt <- .casos |>
     dplyr::arrange(!!as.symbol(fecha_name)) |>
-    dplyr::summarise(EpiEstim::estimate_R(as.numeric(!!as.symbol("n")),
-      method = method, config = config, ...
-    )$R) |>
+    dplyr::summarise(
+      EpiEstim::estimate_R(as.numeric(!!as.symbol("n")), method = method, config = config, ...)$R) |>
     dplyr::ungroup() |>
     dplyr::mutate(!!as.symbol(paste0(fecha_name, "_start")) := mfec$min[1] + lubridate::days(!!as.symbol("t_start"))) |>
-    dplyr::mutate(!!as.symbol(paste0(fecha_name, "_end")) := mfec$min[1] + lubridate::days(!!as.symbol("t_end"))) |>
+    dplyr::mutate(!!as.symbol(paste0(fecha_name, "_end"))   := mfec$min[1] + lubridate::days(!!as.symbol("t_end"))) |>
     dplyr::mutate(!!as.symbol(fecha_name) := mfec$min[1] + lubridate::days((!!as.symbol("t_start") + !!as.symbol("t_end")) / 2))
 
-  cli::cli_alert("Terminado")
   df_rt <- list(df_rt)
   names(df_rt) <- list_name
 

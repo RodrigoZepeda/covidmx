@@ -22,7 +22,7 @@ Actualiza el paquete instalando todas las dependencias necesarias.
 }
 \examples{
 \dontrun{
-#Actualiza el paquete de coivdmx
+# Actualiza el paquete de coivdmx
 update_covidmx()
 }
 

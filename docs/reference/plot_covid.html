@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -73,7 +73,7 @@
 <span>  df_date_index <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_subset.html" class="external-link">str_subset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">[</span><span class="va">df_name</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>    <span class="st">"FECHA|fecha|Fecha"</span><span class="op">)</span>,</span>
 <span>  df_variable <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  df_covariates <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  df_covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  facet_scale <span class="op">=</span> <span class="st">"free_y"</span>,</span>
 <span>  facet_ncol <span class="op">=</span> <span class="fl">4</span>,</span>
 <span>  date_break_format <span class="op">=</span> <span class="st">"2 months"</span>,</span>
@@ -90,12 +90,12 @@
     <div class="section level2">
     <h2 id="argumentos">Argumentos<a class="anchor" aria-label="anchor" href="#argumentos"></a></h2>
     <dl><dt>datos_covid</dt>
-<dd><p>(<strong>obligatorio</strong>) Lista de <code>tibble</code>s resultante de <code><a href="descarga_datos_abiertos.html">descarga_datos_abiertos()</a></code>
-o <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p></dd>
+<dd><p>(<strong>obligatorio</strong>) Lista de <code>tibble</code>s resultante de <code><a href="casos.html">casos()</a></code>, <code><a href="cfr.html">cfr()</a></code>,
+<code><a href="chr.html">chr()</a></code>, <code><a href="positividad.html">positividad()</a></code> o <code><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">rt()</a></code></p></dd>
 
 
 <dt>df_name</dt>
-<dd><p>(<strong>opcional</strong>) Nombre de la base de datos dentro de la lista datos_covid</p></dd>
+<dd><p>(<strong>opcional</strong>) Nombre de la base de datos dentro de la lista <code>datos_covid</code></p></dd>
 
 
 <dt>df_date_index</dt>
@@ -135,10 +135,16 @@ o <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p><
 
 
 <dt>...</dt>
-<dd><p>Parametros adicionales para <code><a href="https://rdrr.io/pkg/ggformula/man/geom_spline.html" class="external-link">ggformula::geom_spline()</a></code> en caso de elegir
+<dd><p>(<strong>opcional</strong>) Parametros adicionales para <code><a href="https://rdrr.io/pkg/ggformula/man/geom_spline.html" class="external-link">ggformula::geom_spline()</a></code> en caso de elegir
 <code>type="spline"</code></p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="valor">Valor<a class="anchor" aria-label="anchor" href="#valor"></a></h2>
+    
+
+<p>Un <code>ggplot2</code> con la imagen graficada.</p>
+    </div>
     <div class="section level2">
     <h2 id="detalles">Detalles<a class="anchor" aria-label="anchor" href="#detalles"></a></h2>
     <p>Por default calcula el total de casos.
@@ -147,22 +153,68 @@ This is not an official product / este no es un producto oficial</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Para el ejemplo usaremos los datos precargados pero tu puedes</span></span></span>
+<span class="r-in"><span><span class="co"># correr el ejemplo descargando informacion mas reciente:</span></span></span>
+<span class="r-in"><span><span class="co"># datos_covid &lt;- descarga_datos_abiertos() #Sugerido</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Grafica de casos por entidad</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datosabiertos</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Aqui muchos aparecen en cero si usas el default de datosabiertos</span></span></span>
+<span class="r-in"><span><span class="co">#porque la base de datosabiertos tiene muy pocos casos</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"casos_for_plot"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_covid</span><span class="op">(</span>df_name <span class="op">=</span> <span class="st">"casos_for_plot"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> `df_variable` no fue especificada. Usaremos la columna n</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> `df_covariates` no fue especificada. Usaremos `ENTIDAD_FEDERATIVA`</span>
+<span class="r-plt img"><img src="plot_covid-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Grafica de casos nacional</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="casos.html">casos</a></span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span>, list_name <span class="op">=</span> <span class="st">"plot_nal"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_covid</span><span class="op">(</span>df_name <span class="op">=</span> <span class="st">"plot_nal"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> `df_variable` no fue especificada. Usaremos la columna n</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> `df_covariates` no fue especificada. Usaremos ``</span>
+<span class="r-plt img"><img src="plot_covid-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># Ajuste mediante splines</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="casos.html">casos</a></span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">F</span>, list_name <span class="op">=</span> <span class="st">"spline_nacional"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="casos.html">casos</a></span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span>, list_name <span class="op">=</span> <span class="st">"spline_nacional"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">plot_covid</span><span class="op">(</span>df_name <span class="op">=</span> <span class="st">"spline_nacional"</span>, type <span class="op">=</span> <span class="st">"spline"</span>, spar <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span><span class="co"># Graficacion por covariables</span></span></span>
+<span class="r-in"><span><span class="co"># el objeto devuelto es un objeto de ggplot2 al que se le puede dar formato</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="chr.html">chr</a></span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">TRUE</span>, list_name <span class="op">=</span> <span class="st">"plot_nal"</span>, .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEXO"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>,<span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">plot_covid</span><span class="op">(</span>df_name <span class="op">=</span> <span class="st">"plot_nal"</span>, </span></span>
+<span class="r-in"><span>             date_break_format <span class="op">=</span> <span class="st">"1 week"</span>,</span></span>
+<span class="r-in"><span>             date_labels_format <span class="op">=</span> <span class="st">"%d/%B/%Y"</span>,</span></span>
+<span class="r-in"><span>             df_covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEXO"</span>,<span class="st">"ENTIDAD_FEDERATIVA"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             type <span class="op">=</span> <span class="st">"area"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Plot nacional"</span><span class="op">)</span>   </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span><span class="co"># Puedes tambien primero editar el tibble que usaras por ejemplo poniendo</span></span></span>
+<span class="r-in"><span><span class="co"># los nombres de los sexos</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="chr.html">chr</a></span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">TRUE</span>, list_name <span class="op">=</span> <span class="st">"plot_nal"</span>, .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEXO"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>,<span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span><span class="op">)</span> </span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">plot_nal</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>   <span class="fu">left_join</span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dict</span><span class="op">$</span><span class="va">SEXO</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEXO"</span> <span class="op">=</span> <span class="st">"CLAVE"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>   <span class="fu">plot_covid</span><span class="op">(</span>date_break_format <span class="op">=</span> <span class="st">"1 week"</span>,</span></span>
+<span class="r-in"><span>             date_labels_format <span class="op">=</span> <span class="st">"%d/%B/%Y"</span>,</span></span>
+<span class="r-in"><span>             df_variable   <span class="op">=</span> <span class="st">"CASE HOSPITALIZATION RATE"</span>,</span></span>
+<span class="r-in"><span>             df_covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DESCRIPCIÓN"</span>,<span class="st">"ENTIDAD_FEDERATIVA"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>             type <span class="op">=</span> <span class="st">"area"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Plot nacional"</span><span class="op">)</span>          </span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span>              </span></span>
+<span class="r-in"><span><span class="co">#Finalmente desconectamos              </span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Desconectado</span>
+<span class="r-in"><span>  </span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>

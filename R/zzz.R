@@ -24,7 +24,7 @@
   } else {
     msg_version <- list(
       message = paste(
-        "Verifica que estes usando la version mas actual del paquete disponible",
+        "Verifica que estes usando la version mas actual del paquete disponible en:\n",
         "https://github.com/RodrigoZepeda/covidmx"
       ),
       color = "cool"

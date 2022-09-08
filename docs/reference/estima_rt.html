@@ -14,7 +14,7 @@ reproducción para cada estado."><meta property="og:image" content="https://rodr
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -88,12 +88,12 @@ reproducción para cada estado.</p>
 <span>    <span class="st">"Inválido"</span>, <span class="st">"No realizado"</span><span class="op">)</span>,</span>
 <span>  tipo_paciente <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AMBULATORIO"</span>, <span class="st">"HOSPITALIZADO"</span>, <span class="st">"NO ESPECIFICADO"</span><span class="op">)</span>,</span>
 <span>  list_name <span class="op">=</span> <span class="st">"estima_rt"</span>,</span>
-<span>  min_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="st">"2021/11/21"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span>,</span>
+<span>  min_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="st">"2020-01-01"</span>, tz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/timezones.html" class="external-link">Sys.timezone</a></span><span class="op">(</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span><span class="op">)</span>,</span>
 <span>  max_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"parametric_si"</span>,</span>
 <span>  config <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"EpiEstim"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    </span>
-<span>    <span class="fu">EpiEstim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EpiEstim/man/make_config.html" class="external-link">make_config</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mean_si <span class="op">=</span> <span class="fl">3.5</span>, std_si <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu">EpiEstim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EpiEstim/man/make_config.html" class="external-link">make_config</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mean_si <span class="op">=</span> <span class="fl">2.5</span>, std_si <span class="op">=</span> <span class="fl">1.6</span><span class="op">)</span><span class="op">)</span></span>
 <span> <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span>     <span class="cn">NULL</span></span>
 <span> <span class="op">}</span>,</span>
@@ -104,8 +104,8 @@ reproducción para cada estado.</p>
     <div class="section level2">
     <h2 id="argumentos">Argumentos<a class="anchor" aria-label="anchor" href="#argumentos"></a></h2>
     <dl><dt>datos_covid</dt>
-<dd><p>(<strong>obligatorio</strong>) Lista de <code>tibble</code>s resultante de <code><a href="descarga_datos_abiertos.html">descarga_datos_abiertos()</a></code>
-o <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p></dd>
+<dd><p>(<strong>obligatorio</strong>) Lista de <code>tibble</code>s o <code>duckdb</code>s resultante de
+<code><a href="descarga_datos_abiertos.html">descarga_datos_abiertos()</a></code> o <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p></dd>
 
 
 <dt>entidades</dt>
@@ -151,23 +151,27 @@ a incluir:<code>Sospechosos</code>,<code>Confirmados COVID</code>, <code>Negativ
 
 
 <dt>min_date</dt>
-<dd><p>Mínima fecha a partir de la cual estimar el RT.</p></dd>
+<dd><p>(<strong>opcional</strong>) Mínima fecha a partir de la cual estimar el RT.</p></dd>
 
 
 <dt>max_date</dt>
-<dd><p>Máxima fecha a partir de la cual estimar el RT.</p></dd>
+<dd><p>(<strong>opcional</strong>) Máxima fecha a partir de la cual estimar el RT.</p></dd>
 
 
 <dt>method</dt>
-<dd><p>Metodo para estimar el RT con <code><a href="https://rdrr.io/pkg/EpiEstim/man/estimate_R.html" class="external-link">EpiEstim::estimate_R()</a></code>.</p></dd>
+<dd><p>(<strong>opcional</strong>) Metodo para estimar el RT con <code><a href="https://rdrr.io/pkg/EpiEstim/man/estimate_R.html" class="external-link">EpiEstim::estimate_R()</a></code>. Por
+default se recomienda el método paramétrico de intervalo serial <code>parametric_si</code>.</p></dd>
 
 
 <dt>config</dt>
-<dd><p>Configuracion para la estimacion del RT usando <code><a href="https://rdrr.io/pkg/EpiEstim/man/make_config.html" class="external-link">EpiEstim::make_config()</a></code>.</p></dd>
+<dd><p>(<strong>opcional</strong>) Configuracion para la estimacion del RT usando
+<code><a href="https://rdrr.io/pkg/EpiEstim/man/make_config.html" class="external-link">EpiEstim::make_config()</a></code>. Por default se utiliza una media del intervalo serial
+de <code>mean_si = 2.5</code> y una desviación estandar de <code>std_si = 1.6</code>. Sin embargo, como el intervalo
+serial depende mucho de la variante se recomienda cambiarlo.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Parámetros adicionales para <code><a href="https://rdrr.io/pkg/EpiEstim/man/estimate_R.html" class="external-link">EpiEstim::estimate_R()</a></code>.</p></dd>
+<dd><p>(<strong>opcional</strong>) Parámetros adicionales para <code><a href="https://rdrr.io/pkg/EpiEstim/man/estimate_R.html" class="external-link">EpiEstim::estimate_R()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -177,13 +181,20 @@ a incluir:<code>Sospechosos</code>,<code>Confirmados COVID</code>, <code>Negativ
 <p>Appends a la lista de <code>datos_covid</code> una nueva entrada de nombre <code>list_name</code></p>
 
 
-<p>(default: <code>casos</code>) con una base de datos (<code>tibble</code>) con los
-resultados agregados.</p><ul><li><p>positividad - Base de datos generara con los datos agregados (el nombre cambia si
+<p>(default: <code>estima_rt</code>) con una base de datos (<code>tibble</code>) con los
+resultados agregados.</p><ul><li><p><code>estima_rt</code> - Base de datos generara con los datos agregados (el nombre cambia si
 se usa <code>list_name</code>).</p></li>
 <li><p>dict - Diccionario de datos</p></li>
-<li><p>dats - Datos originales (conexion a DB)</p></li>
-<li><p>disconnect  - Funcion para desconectarte de DB</p></li>
+<li><p>dats - Datos originales (conexion a <code>duckdb</code> o <code>tibble</code>)</p></li>
+<li><p>disconnect  - Función para desconectarte de <code>duckdb</code></p></li>
+<li><p>... - Cualquier otro elemento que ya existiera en <code>datos_covid</code></p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="detalles">Detalles<a class="anchor" aria-label="anchor" href="#detalles"></a></h2>
+    <p>Se sugiere establecer una mínima fecha y una máxima fecha con <code>min_date</code> y
+<code>max_date</code> para la estimación pues los intervalos seriales de omicron son distintos
+a los de la variante delta.</p>
+    </div>
     <div class="section level2">
     <h2 id="ver-tambi-n">Ver también<a class="anchor" aria-label="anchor" href="#ver-tambi-n"></a></h2>
     <div class="dont-index"><p><code><a href="descarga_datos_abiertos.html">descarga_datos_abiertos()</a></code> <code><a href="numero_pruebas.html">numero_pruebas()</a></code> <code><a href="cfr.html">cfr()</a></code> <code><a href="chr.html">chr()</a></code>
@@ -192,29 +203,185 @@ se usa <code>list_name</code>).</p></li>
 
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Para el ejemplo usaremos los datos precargados pero tu puedes</span></span></span>
+<span class="r-in"><span><span class="co"># correr el ejemplo descargando informacion mas reciente:</span></span></span>
+<span class="r-in"><span><span class="co"># datos_covid &lt;- descarga_datos_abiertos() #Sugerido</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datosabiertos</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Casos a nivel nacional en los confirmados</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">estima_rt</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span>,</span></span>
-<span class="r-in"><span>    group_by_entidad   <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Casos a nivel nacional por estado en todos </span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   <span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">estima_rt</span><span class="op">(</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">estima_rt</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ENTIDA…¹ ENTID…² ABREV…³ t_start t_end Mean(…⁴ Std(R…⁵ Quant…⁶ Quant…⁷ Quant…⁸</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 01       AGUASC… AS            2     8       5       5   0.127   0.256    1.44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 01       AGUASC… AS            3     9       5       5   0.127   0.256    1.44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 01       AGUASC… AS            4    10       5       5   0.127   0.256    1.44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 01       AGUASC… AS            5    11       5       5   0.127   0.256    1.44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 01       AGUASC… AS            6    12       5       5   0.127   0.256    1.44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 01       AGUASC… AS            7    13       5       5   0.127   0.256    1.44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 7 more variables: `Median(R)` &lt;dbl&gt;, `Quantile.0.75(R)` &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `Quantile.0.95(R)` &lt;dbl&gt;, `Quantile.0.975(R)` &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   FECHA_SINTOMAS_start &lt;dttm&gt;, FECHA_SINTOMAS_end &lt;dttm&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   FECHA_SINTOMAS &lt;dttm&gt;, and abbreviated variable names ¹​ENTIDAD_UM,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​ENTIDAD_FEDERATIVA, ³​ABREVIATURA, ⁴​`Mean(R)`, ⁵​`Std(R)`,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​`Quantile.0.025(R)`, ⁷​`Quantile.0.05(R)`, ⁸​`Quantile.0.25(R)`</span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Casos en AGS, CHI en los confirmados</span></span></span>
+<span class="r-in"><span><span class="co"># Cambios en la fecha de estimacion siguiendo la recomendacion</span></span></span>
+<span class="r-in"><span><span class="co"># y obtenemos todo a nivel nacional</span></span></span>
+<span class="r-in"><span> <span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">estima_rt</span><span class="op">(</span>min_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="st">"2021-07-01"</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>                                         max_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="st">"2021-09-01"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                         list_name <span class="op">=</span> <span class="st">"rt_min_max"</span>,</span></span>
+<span class="r-in"><span>                                         group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">rt_min_max</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 14</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   t_start t_end Mean(R…¹ Std(R…² Quant…³ Quant…⁴ Quant…⁵ Media…⁶ Quant…⁷ Quant…⁸</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       2     8     1.27  0.015<span style="text-decoration: underline;">6</span>   1.24    1.25    1.26     1.27    1.29    1.30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>       3     9     1.15  0.013<span style="text-decoration: underline;">9</span>   1.12    1.12    1.14     1.15    1.16    1.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       4    10     1.07  0.013<span style="text-decoration: underline;">0</span>   1.04    1.04    1.06     1.07    1.07    1.09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>       5    11     1.02  0.012<span style="text-decoration: underline;">6</span>   0.999   1.00    1.01     1.02    1.03    1.04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       6    12     1.00  0.012<span style="text-decoration: underline;">3</span>   0.976   0.980   0.992    1.00    1.01    1.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       7    13     1.00  0.012<span style="text-decoration: underline;">3</span>   0.977   0.981   0.993    1.00    1.01    1.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 4 more variables: `Quantile.0.975(R)` &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   FECHA_SINTOMAS_start &lt;dttm&gt;, FECHA_SINTOMAS_end &lt;dttm&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   FECHA_SINTOMAS &lt;dttm&gt;, and abbreviated variable names ¹​`Mean(R)`,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​`Std(R)`, ³​`Quantile.0.025(R)`, ⁴​`Quantile.0.05(R)`, ⁵​`Quantile.0.25(R)`,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​`Median(R)`, ⁷​`Quantile.0.75(R)`, ⁸​`Quantile.0.95(R)`</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Casos a nivel nacional en los confirmados</span></span></span>
+<span class="r-in"><span> <span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>      <span class="fu">estima_rt</span><span class="op">(</span></span></span>
+<span class="r-in"><span>        tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span>,</span></span>
+<span class="r-in"><span>        group_by_entidad   <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>        list_name <span class="op">=</span> <span class="st">"rt_confirmados"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Default config will estimate R on weekly sliding windows.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     To change this change the t_start and t_end arguments. </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">rt_confirmados</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 14</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   t_start t_end Mean(R…¹ Std(R…² Quant…³ Quant…⁴ Quant…⁵ Media…⁶ Quant…⁷ Quant…⁸</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       2     8    1.22   0.024<span style="text-decoration: underline;">2</span>   1.17    1.18    1.20    1.22    1.23     1.26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>       3     9    1.11   0.021<span style="text-decoration: underline;">9</span>   1.07    1.07    1.10    1.11    1.13     1.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       4    10    1.05   0.020<span style="text-decoration: underline;">8</span>   1.01    1.02    1.04    1.05    1.06     1.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>       5    11    1.01   0.020<span style="text-decoration: underline;">2</span>   0.970   0.976   0.995   1.01    1.02     1.04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       6    12    0.982  0.019<span style="text-decoration: underline;">8</span>   0.944   0.950   0.969   0.982   0.996    1.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       7    13    0.978  0.019<span style="text-decoration: underline;">9</span>   0.939   0.946   0.964   0.978   0.991    1.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 4 more variables: `Quantile.0.975(R)` &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   FECHA_SINTOMAS_start &lt;dttm&gt;, FECHA_SINTOMAS_end &lt;dttm&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   FECHA_SINTOMAS &lt;dttm&gt;, and abbreviated variable names ¹​`Mean(R)`,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​`Std(R)`, ³​`Quantile.0.025(R)`, ⁴​`Quantile.0.05(R)`, ⁵​`Quantile.0.25(R)`,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​`Median(R)`, ⁷​`Quantile.0.75(R)`, ⁸​`Quantile.0.95(R)`</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#' # Cambios en los parametros de epiestim</span></span></span>
+<span class="r-in"><span><span class="co"># estos parametros no tienen razon de ser mas alla de mostrar como se cambian</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>   <span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span></span>
+<span class="r-in"><span>        <span class="fu">estima_rt</span><span class="op">(</span>group_by_entidad   <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                  list_name <span class="op">=</span> <span class="st">"config_rt"</span>,</span></span>
+<span class="r-in"><span>                  method <span class="op">=</span> <span class="st">"uncertain_si"</span>, <span class="co">#Metodo de estimacion</span></span></span>
+<span class="r-in"><span>                  config <span class="op">=</span> <span class="fu">EpiEstim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EpiEstim/man/make_config.html" class="external-link">make_config</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>                       mean_si <span class="op">=</span> <span class="fl">2.4</span>,</span></span>
+<span class="r-in"><span>                       std_si  <span class="op">=</span> <span class="fl">0.3</span>,</span></span>
+<span class="r-in"><span>                       std_mean_si <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
+<span class="r-in"><span>                       min_mean_si <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                       max_mean_si <span class="op">=</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>                       std_std_si  <span class="op">=</span> <span class="fl">0.1</span>,</span></span>
+<span class="r-in"><span>                       min_std_si  <span class="op">=</span> <span class="fl">0.1</span>,</span></span>
+<span class="r-in"><span>                       max_std_si  <span class="op">=</span> <span class="fl">1.0</span></span></span>
+<span class="r-in"><span>                  <span class="op">)</span></span></span>
+<span class="r-in"><span>        <span class="op">)</span> </span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">config_rt</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Casos en BC, BCS en los confirmados</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">estima_rt</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CHIHUAHUA"</span>, <span class="st">"AGUASCALIENTES"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>, <span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span>,</span></span>
 <span class="r-in"><span>    group_by_entidad <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"rt_ch_ags"</span></span></span>
+<span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"rt_bc_bcs"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="plot_covid.html">plot_covid</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    df_name <span class="op">=</span> <span class="st">"rt_ch_ags"</span>, df_date_index <span class="op">=</span> <span class="st">"FECHA_SINTOMAS"</span>,</span></span>
+<span class="r-in"><span>    df_name <span class="op">=</span> <span class="st">"rt_bc_bcs"</span>, df_date_index <span class="op">=</span> <span class="st">"FECHA_SINTOMAS"</span>,</span></span>
 <span class="r-in"><span>    df_variable <span class="op">=</span> <span class="st">"Mean(R)"</span>, df_covariates <span class="op">=</span> <span class="st">"ENTIDAD_FEDERATIVA"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Finalmente desconectamos</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Desconectado</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>

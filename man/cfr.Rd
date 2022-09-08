@@ -32,8 +32,8 @@ cfr(
 )
 }
 \arguments{
-\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}
-o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
+\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s o \code{duckdb}s resultante de
+\code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}} o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
 
 \item{entidades}{(\strong{opcional})  Vector con las entidades de las unidades medicas a analizar.
 Opciones: \code{AGUASCALIENTES}, \verb{BAJA CALIFORNIA}, \verb{BAJA CALIFORNIA SUR},
@@ -99,9 +99,9 @@ segun los  sectores seleccionados. El default es \code{FALSE}.}
 \code{edad_cut = c(15, 20)} deja sólo los registros entre 15 y 20 años. Por default es \code{NULL}
 y no arma grupos etarios.}
 
-\item{fill_NA}{Regresa observaciones para todas las combinaciones de variables incluyendo
-como \code{NA} donde no se observaron casos en el denominador.  En caso contrario no se incluyen
-las filas donde no se observaron casos.}
+\item{fill_NA}{(\strong{opcional})  Regresa observaciones para todas las combinaciones de variables
+incluyendo como \code{NA} donde no se observaron casos en el denominador.  En caso contrario no se
+incluyen las filas donde no se observaron casos.}
 
 \item{list_name}{(\strong{opcional}) Asigna un nombre en la lista de datos a la base generada}
 
@@ -137,9 +137,9 @@ Si se utiliza la opción \code{tipo_clasificacion} se puede cambiar la definicio
 (por default se incluyen solamente \code{"Confirmados COVID"}).
 }
 \examples{
-#Para el ejemplo usaremos los datos precargados pero tu puedes
-#correr el ejemplo descargando informacion mas reciente:
-#datos_covid <- descarga_datos_abiertos() #Sugerido
+# Para el ejemplo usaremos los datos precargados pero tu puedes
+# correr el ejemplo descargando informacion mas reciente:
+# datos_covid <- descarga_datos_abiertos() #Sugerido
 
 datos_covid <- datosabiertos
 
@@ -148,8 +148,8 @@ datos_covid <- datos_covid |> cfr()
 head(datos_covid$`case fatality rate`)
 
 # Agregando todos los estados
-datos_covid <- datos_covid |> 
-     cfr(list_name = "cfr_nacional", group_by_entidad = FALSE)
+datos_covid <- datos_covid |>
+  cfr(list_name = "cfr_nacional", group_by_entidad = FALSE)
 head(datos_covid$`cfr_nacional`)
 
 # CFR en Baja California
@@ -167,7 +167,7 @@ datos_covid <- datos_covid |>
     ),
     group_by_tipo_clasificacion = TRUE, list_name = "bc_bcs_cfr"
   )
-head(datos_covid$`bc_bcs_cfr`) #Los NA es porque no habia observaciones en el denominador
+head(datos_covid$`bc_bcs_cfr`) # Los NA es porque no habia observaciones en el denominador
 
 # Distinguiendo entre ambulatorio y hospitalizado
 datos_covid <- datos_covid |>
@@ -178,15 +178,18 @@ datos_covid <- datos_covid |>
   )
 head(datos_covid$cfr_paciente)
 
-#CFR en distintos grupos de edad (0 a 20, 20 a 60 y 60+)
+# CFR en distintos grupos de edad (0 a 20, 20 a 60 y 60+)
 datos_covid <- datos_covid |>
-   cfr(edad_cut = c(0, 20, 60, Inf), list_name = "cfr_edad")
+  cfr(edad_cut = c(0, 20, 60, Inf), list_name = "cfr_edad")
 head(datos_covid$cfr_edad)
 
 # Si deseas agrupar por una variable que no este en las opciones
 datos_covid <- datos_covid |>
   cfr(.grouping_vars = c("DIABETES"), list_name = "cfr_diab")
 head(datos_covid$cfr_diab)
+
+# Finalmente desconectamos
+datos_covid$disconnect()
 
 }
 \seealso{

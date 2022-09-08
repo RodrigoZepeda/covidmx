@@ -15,9 +15,10 @@
 #'
 #' @inheritParams casos
 #'
-#' @param tipo_prueba Vector con el tipo de pruebas a incluir `Antigeno`, `PCR`
+#' @param tipo_prueba (**opcional**) Vector con el tipo de pruebas a incluir `Antigeno`, `PCR`. Por
+#' default se incluyen ambas. 
 #'
-#' @param group_by_tipo_prueba Booleana determinando si regresa la base
+#' @param group_by_tipo_prueba (**opcional**) Booleana determinando si regresa la base
 #' con cada entrada agrupada por `tipo_prueba`. En caso `TRUE` (cada fecha
 #' y entidad reporta separado el los casos de PCR y Antigeno). En caso `FALSE` se juntan
 #' los casos de PCR y Antigeno para devolver un unico numero por fecha.
@@ -72,6 +73,9 @@
 #'     list_name = "pruebas_diabetes"
 #'   )
 #' head(datos_covid$pruebas_diabetes)
+#' 
+#' #Una vez hayas concluido tu trabajo no olvides desconectar
+#' datos_covid$disconnect()
 #' @export
 
 numero_pruebas <- function(datos_covid,

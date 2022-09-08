@@ -1,3 +1,38 @@
+# covidmx 0.7.0.0000
+
+* Se arregló un `bug` que ocasionaba que `cfr` y `chr` regresaran `NaN` en lugar de `NA` cuando
+usabas la opción `fill_NA`. 
+
+* Se arregló que los casos eran un `tibble` vacío si no se reportaban casos con esas 
+condiciones a pesar del `fill_zeros = TRUE`. Por ejemplo esto antes devolvía:
+
+```{r}
+datos_covid <- datosabiertos
+datos_covid <- datos_covid |> casos(tipo_sector = "DIF", fill_zeros = TRUE)
+datos_covid$casos
+
+#ANTES (ERROR)
+# A tibble: 0 × 5
+# … with 5 variables: FECHA_SINTOMAS <dttm>, ENTIDAD_UM <chr>, n <int>, ENTIDAD_FEDERATIVA <chr>,
+#   ABREVIATURA <chr>
+# ℹ Use `colnames()` to see all variable names
+
+#AHORA
+# A tibble: 126 × 5
+#   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA
+#   <dttm>              <chr>      <int> <chr>               <chr>      
+# 1 2021-07-01 00:00:00 02             0 BAJA CALIFORNIA     BC         
+# 2 2021-07-01 00:00:00 03             0 BAJA CALIFORNIA SUR BS         
+# 3 2021-07-02 00:00:00 02             0 BAJA CALIFORNIA     BC         
+# 4 2021-07-02 00:00:00 03             0 BAJA CALIFORNIA SUR BS         
+# 5 2021-07-03 00:00:00 02             0 BAJA CALIFORNIA     BC    
+```
+
+* Se mejoró la selección de variables automática en `plot_covid` para evitar que una `df_covariate`
+sea tambien una `df_variable`.
+
+* Se arregló un `bug` que impedía la agrupación por otras covariables de `cfr` y `chr`. 
+
 # covidmx 0.6.2.1000
 
 * Se mejoraron los ejemplos y la ayuda de `casos`.
