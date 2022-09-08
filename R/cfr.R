@@ -5,23 +5,23 @@
 #'
 #' @inheritParams casos
 #' @inheritParams positividad
-#' 
+#'
 #' @importFrom rlang :=
-#' 
+#'
 #' @details El case fatality rate se define como
-#' 
+#'
 #' \deqn{\frac{\# \text{Defunciones}}{\text{Total de enfermos}}}{%
 #' \# Defunciones / Total de enfermos}
-#' 
+#'
 #' Si se utiliza la opción `tipo_clasificacion` se puede cambiar la definicion de enfermo
-#' (por default se incluyen solamente `"Confirmados COVID"`). 
+#' (por default se incluyen solamente `"Confirmados COVID"`).
 #'
 #' @return Une a la lista de `datos_covid` una nueva entrada de nombre `list_name`
 #' (default: `case fatality rate`) con una base de datos (`tibble` o `duckdb`) con los
 #' resultados agregados.
-#' 
+#'
 #' \itemize{
-#'   \item `case fatality rate` - Base de datos generara con los datos agregados (el nombre cambia 
+#'   \item `case fatality rate` - Base de datos generara con los datos agregados (el nombre cambia
 #'   si se usa `list_name`).
 #'   \item dict - Diccionario de datos
 #'   \item dats - Datos originales (conexion a `duckdb` o `tibble`)
@@ -30,10 +30,10 @@
 #' }
 #'
 #' @examples
-#' #Para el ejemplo usaremos los datos precargados pero tu puedes
-#' #correr el ejemplo descargando informacion mas reciente:
-#' #datos_covid <- descarga_datos_abiertos() #Sugerido
-#' 
+#' # Para el ejemplo usaremos los datos precargados pero tu puedes
+#' # correr el ejemplo descargando informacion mas reciente:
+#' # datos_covid <- descarga_datos_abiertos() #Sugerido
+#'
 #' datos_covid <- datosabiertos
 #'
 #' # Casos a nivel nacional por entidad
@@ -41,15 +41,15 @@
 #' head(datos_covid$`case fatality rate`)
 #'
 #' # Agregando todos los estados
-#' datos_covid <- datos_covid |> 
-#'      cfr(list_name = "cfr_nacional", group_by_entidad = FALSE)
+#' datos_covid <- datos_covid |>
+#'   cfr(list_name = "cfr_nacional", group_by_entidad = FALSE)
 #' head(datos_covid$`cfr_nacional`)
-#' 
+#'
 #' # CFR en Baja California
 #' datos_covid <- datos_covid |>
 #'   cfr(entidades = c("BAJA CALIFORNIA"), list_name = "cfr_bc")
 #' head(datos_covid$`cfr_bc`)
-#' 
+#'
 #' # Calcula el CFR suponiendo toda la base son confirmados
 #' datos_covid <- datos_covid |>
 #'   cfr(
@@ -60,8 +60,8 @@
 #'     ),
 #'     group_by_tipo_clasificacion = TRUE, list_name = "bc_bcs_cfr"
 #'   )
-#' head(datos_covid$`bc_bcs_cfr`) #Los NA es porque no habia observaciones en el denominador
-#' 
+#' head(datos_covid$`bc_bcs_cfr`) # Los NA es porque no habia observaciones en el denominador
+#'
 #' # Distinguiendo entre ambulatorio y hospitalizado
 #' datos_covid <- datos_covid |>
 #'   cfr(
@@ -70,20 +70,20 @@
 #'     list_name = "cfr_paciente"
 #'   )
 #' head(datos_covid$cfr_paciente)
-#' 
-#' #CFR en distintos grupos de edad (0 a 20, 20 a 60 y 60+)
+#'
+#' # CFR en distintos grupos de edad (0 a 20, 20 a 60 y 60+)
 #' datos_covid <- datos_covid |>
-#'    cfr(edad_cut = c(0, 20, 60, Inf), list_name = "cfr_edad")
+#'   cfr(edad_cut = c(0, 20, 60, Inf), list_name = "cfr_edad")
 #' head(datos_covid$cfr_edad)
-#' 
+#'
 #' # Si deseas agrupar por una variable que no este en las opciones
 #' datos_covid <- datos_covid |>
 #'   cfr(.grouping_vars = c("DIABETES"), list_name = "cfr_diab")
 #' head(datos_covid$cfr_diab)
-#' 
-#' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [chr()] [estima_rt()] 
+#'
+#' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [chr()] [estima_rt()]
 #' [positividad()] [casos()]
-#' 
+#'
 #' @export
 
 cfr <- function(datos_covid,
@@ -129,18 +129,22 @@ cfr <- function(datos_covid,
 
 
   # Chequeo de si existe elemento en la lista y duplicacion
-  k <- 0; in_list <- TRUE; baselistname <- list_name
-  while(in_list){
+  k <- 0
+  in_list <- TRUE
+  baselistname <- list_name
+  while (in_list) {
     if (any(stringr::str_detect(names(datos_covid), list_name))) {
       k <- k + 1
       list_name <- paste0(baselistname, "_", as.character(k))
     } else {
       in_list <- FALSE
-      if (k > 0){
+      if (k > 0) {
         cli::cli_alert_warning(
-          c("Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
+          c(
+            "Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
             " Utiliza {.code list_name = 'nuevo_nombre'} para nombrar a los elementos y evitar",
-            " este problema.")
+            " este problema."
+          )
         )
       }
     }

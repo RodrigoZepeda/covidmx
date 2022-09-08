@@ -7,7 +7,7 @@
 #' Por default calcula el total de casos.
 #' This is not an official product / este no es un producto oficial
 #'
-#' @param datos_covid (**obligatorio**) Lista de `tibble`s resultante de [descarga_datos_abiertos()] 
+#' @param datos_covid (**obligatorio**) Lista de `tibble`s resultante de [descarga_datos_abiertos()]
 #' o [read_datos_abiertos()]
 #'
 #' @param df_name (**opcional**) Nombre de la base de datos dentro de la lista datos_covid
@@ -32,7 +32,7 @@
 #'
 #' @param ... Parametros adicionales para [ggformula::geom_spline()] en caso de elegir
 #'  `type="spline"`
-#'  
+#'
 #' @examples
 #' \dontrun{
 #' # Grafica de casos por entidad

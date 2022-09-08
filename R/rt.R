@@ -2,12 +2,12 @@
 #'
 #' @description
 #' `estima_rt` Calcula el número efectivo de reproducción por fecha y entidad usando
-#' los metodos de [EpiEstim::estimate_R()]. Por default calcula el número efectivo de 
+#' los metodos de [EpiEstim::estimate_R()]. Por default calcula el número efectivo de
 #' reproducción para cada estado.
-#' 
+#'
 #'
 #' @inheritParams casos
-#' 
+#'
 #' @param method Metodo para estimar el RT con [EpiEstim::estimate_R()].
 #'
 #' @param config Configuracion para la estimacion del RT usando [EpiEstim::make_config()].
@@ -55,7 +55,7 @@
 #'     df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA"
 #'   )
 #' }
-#' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [chr()] 
+#' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [chr()]
 #' [positividad()] [casos()]
 #'
 #' @export
@@ -103,8 +103,8 @@ estima_rt <- function(datos_covid,
                         NULL
                       },
                       ...) {
-  
-  #Chequeo de verificacion de EPIESTIM
+
+  # Chequeo de verificacion de EPIESTIM
   if (!requireNamespace("EpiEstim", quietly = TRUE)) {
     cli::cli_abort(
       "Por favor instala {.code EpiEstim} para poder calcular el RT con
@@ -112,7 +112,7 @@ estima_rt <- function(datos_covid,
     )
   }
 
-  #Chequeo de verificacion de lubridate para las fechas
+  # Chequeo de verificacion de lubridate para las fechas
   if (!requireNamespace("lubridate", quietly = TRUE)) {
     cli::cli_abort(
       "Por favor instala {.code lubridate} para poder calcular el RT con
@@ -120,19 +120,23 @@ estima_rt <- function(datos_covid,
     )
   }
 
-  #Chequeo de si existe elemento en la lista y duplicacion
-  k <- 0; in_list <- TRUE; baselistname <- list_name
-  while(in_list){
+  # Chequeo de si existe elemento en la lista y duplicacion
+  k <- 0
+  in_list <- TRUE
+  baselistname <- list_name
+  while (in_list) {
     if (any(stringr::str_detect(names(datos_covid), list_name))) {
       k <- k + 1
       list_name <- paste0(baselistname, "_", as.character(k))
     } else {
       in_list <- FALSE
-      if (k > 0){
+      if (k > 0) {
         cli::cli_alert_warning(
-          c("Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
+          c(
+            "Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
             " Utiliza {.code list_name = 'nuevo_nombre'} para nombrar a los elementos y evitar",
-            " este problema.")
+            " este problema."
+          )
         )
       }
     }

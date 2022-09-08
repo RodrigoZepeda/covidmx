@@ -9,22 +9,22 @@
 #' \deqn{\frac{\# \text{Pruebas positivas}}{\text{Total de pruebas}}}{%
 #' \# Pruebas positivas / Total de pruebas}
 #' Si se utiliza la opción `remove_inconclusive = TRUE` el **Total de pruebas** se calcula
-#' utilizando solo `POSITIVOS + NEGATIVOS`. Si `remove_inconclusive = FALSE` se calcula 
-#' utilizando todas las personas que tuvieron prueba: 
-#' `POSITIVOS + NEGATIVOS + INCONCLUSOS + SIN RESULTADO`. 
-#' 
+#' utilizando solo `POSITIVOS + NEGATIVOS`. Si `remove_inconclusive = FALSE` se calcula
+#' utilizando todas las personas que tuvieron prueba:
+#' `POSITIVOS + NEGATIVOS + INCONCLUSOS + SIN RESULTADO`.
+#'
 #' Si no se realizaron pruebas un dia la positividad no esta definida pues el **Total de pruebas**
 #' es cero. En ese caso si `fill_NA = TRUE` se devuelven las entradas de esos dias pero
 #' con valor `NA`.
 #'
 #' @inheritParams numero_pruebas
 #'
-#' @param remove_inconclusive Si `TRUE` no considera en el denominador de la positividad 
+#' @param remove_inconclusive Si `TRUE` no considera en el denominador de la positividad
 #' las pruebas cuyo resultado es inconcluso o aún no ha sido otorgado. Si `FALSE` considera
-#' a todos. Por default es `TRUE`. 
+#' a todos. Por default es `TRUE`.
 #'
-#' @param fill_NA Regresa observaciones para todas las combinaciones de variables incluyendo 
-#' como `NA` donde no se observaron casos en el denominador.  En caso contrario no se incluyen 
+#' @param fill_NA Regresa observaciones para todas las combinaciones de variables incluyendo
+#' como `NA` donde no se observaron casos en el denominador.  En caso contrario no se incluyen
 #' las filas donde no se observaron casos.
 #'
 #' @importFrom rlang :=
@@ -42,10 +42,10 @@
 #' }
 #'
 #' @examples
-#' #Para el ejemplo usaremos los datos precargados pero tu puedes
-#' #correr el ejemplo descargando informacion mas reciente:
-#' #datos_covid <- descarga_datos_abiertos() #Sugerido
-#' 
+#' # Para el ejemplo usaremos los datos precargados pero tu puedes
+#' # correr el ejemplo descargando informacion mas reciente:
+#' # datos_covid <- descarga_datos_abiertos() #Sugerido
+#'
 #' datos_covid <- datosabiertos
 #'
 #' # Casos a nivel nacional por estado por tipo de prueba
@@ -53,16 +53,18 @@
 #' head(datos_covid$positividad)
 #'
 #' # Total nacional sumando todas las pruebas del pais
-#' datos_covid <- datos_covid |> 
-#'      positividad(group_by_entidad = FALSE, list_name = "positividad_nacional")
+#' datos_covid <- datos_covid |>
+#'   positividad(group_by_entidad = FALSE, list_name = "positividad_nacional")
 #' head(datos_covid$positividad_nacional)
 #'
 #' # Positivos en Baja California y Baja California Sur
 #' datos_covid <- datos_covid |>
-#'   positividad(entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"), 
-#'   list_name = "positividad_californiana")
+#'   positividad(
+#'     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
+#'     list_name = "positividad_californiana"
+#'   )
 #' head(datos_covid$positividad_californiana)
-#' 
+#'
 #' # Agrupando ambas pruebas en una sola positividad global
 #' datos_covid <- datos_covid |>
 #'   positividad(
@@ -70,7 +72,7 @@
 #'     group_by_tipo_prueba = FALSE,
 #'     list_name = "positividad_californiana_2"
 #'   )
-#' head(datos_covid$positividad_californiana_2)   
+#' head(datos_covid$positividad_californiana_2)
 #'
 #' # Regresa la suma de ambos estados pero dividiendo por tipo de paciente
 #' datos_covid <- datos_covid |>
@@ -81,8 +83,8 @@
 #'     group_by_tipo_paciente = TRUE,
 #'     list_name = "positividad_paciente"
 #'   )
-#' head(datos_covid$positividad_paciente)   
-#' 
+#' head(datos_covid$positividad_paciente)
+#'
 #' # Si deseas agrupar por una variable que no este en las opciones va en .grouping_vars
 #' datos_covid <- datos_covid |>
 #'   positividad(
@@ -90,17 +92,17 @@
 #'     .grouping_vars = c("PAIS_ORIGEN"),
 #'     list_name = "positividad_imss_pais"
 #'   )
-#' head(datos_covid$positividad_imss_pais)   
-#' 
-#' @references 
-#' 
-#' Furuse, Y., Ko, Y. K., Ninomiya, K., Suzuki, M., & Oshitani, H. (2021). Relationship of test 
-#' positivity rates with COVID-19 epidemic dynamics. International journal of environmental 
+#' head(datos_covid$positividad_imss_pais)
+#'
+#' @references
+#'
+#' Furuse, Y., Ko, Y. K., Ninomiya, K., Suzuki, M., & Oshitani, H. (2021). Relationship of test
+#' positivity rates with COVID-19 epidemic dynamics. International journal of environmental
 #' research and public health, 18(9), 4655.
-#' 
-#' Al Dallal, A., AlDallal, U., & Al Dallal, J. (2021). Positivity rate: an indicator for the 
+#'
+#' Al Dallal, A., AlDallal, U., & Al Dallal, J. (2021). Positivity rate: an indicator for the
 #' spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.
-#' 
+#'
 #' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [chr()] [estima_rt()] [casos()]
 #' @export
 
@@ -146,20 +148,24 @@ positividad <- function(datos_covid,
                         list_name = "positividad",
                         remove_inconclusive = TRUE,
                         .grouping_vars = c()) {
-  
+
   # Chequeo de si existe elemento en la lista y duplicacion
-  k <- 0; in_list <- TRUE; baselistname <- list_name
-  while(in_list){
+  k <- 0
+  in_list <- TRUE
+  baselistname <- list_name
+  while (in_list) {
     if (any(stringr::str_detect(names(datos_covid), list_name))) {
       k <- k + 1
       list_name <- paste0(baselistname, "_", as.character(k))
     } else {
       in_list <- FALSE
-      if (k > 0){
+      if (k > 0) {
         cli::cli_alert_warning(
-          c("Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
+          c(
+            "Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
             " Utiliza {.code list_name = 'nuevo_nombre'} para nombrar a los elementos y evitar",
-            " este problema.")
+            " este problema."
+          )
         )
       }
     }
@@ -176,7 +182,7 @@ positividad <- function(datos_covid,
     .grouping_vars <- c(.grouping_vars, "RESULTADO_ANTIGENO")
   }
 
-  
+
   .numero_pruebas <- numero_pruebas(
     datos_covid = datos_covid, entidades = entidades,
     group_by_entidad = group_by_entidad,
@@ -199,7 +205,7 @@ positividad <- function(datos_covid,
   )
 
   if (is_pcr & group_by_tipo_prueba) {
-   
+
 
     # Filtramos los totales
     .pcr_totales <- .numero_pruebas[list_name][[1]] |>
@@ -241,7 +247,7 @@ positividad <- function(datos_covid,
   }
 
   if (is_anti & group_by_tipo_prueba) {
-    
+
 
     # Filtramos los totales
     .anti_totales <- .numero_pruebas[list_name][[1]] |>
@@ -308,7 +314,7 @@ positividad <- function(datos_covid,
       ))
   }
 
-  
+
   if (is_pcr & is_anti & group_by_tipo_prueba) {
     .positividad <- .pcr |>
       dplyr::bind_rows(.anti)
@@ -325,7 +331,7 @@ positividad <- function(datos_covid,
   .positividad <- .positividad |>
     dplyr::relocate(!!as.symbol("Positividad"))
 
- 
+
   .positividad <- list(.positividad)
   names(.positividad) <- list_name
 

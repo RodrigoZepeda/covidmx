@@ -7,20 +7,20 @@
 #'
 #' @details
 #' Las pruebas de PCR (polymerase chain reaction) identifican material genetico de un organismo
-#' (por ejemplo un virus como el COVID-19 o la influenza). Las pruebas de antigeno 
-#' (o pruebas rapidas) detectan algunas proteinas que conforman el virus. 
-#' 
-#' Para mas informacion sobre las pruebas y su interpretacion puedes consultar 
+#' (por ejemplo un virus como el COVID-19 o la influenza). Las pruebas de antigeno
+#' (o pruebas rapidas) detectan algunas proteinas que conforman el virus.
+#'
+#' Para mas informacion sobre las pruebas y su interpretacion puedes consultar
 #' [las guias del CDC](https://espanol.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html)
 #'
 #' @inheritParams casos
-#' 
+#'
 #' @param tipo_prueba Vector con el tipo de pruebas a incluir `Antigeno`, `PCR`
 #'
 #' @param group_by_tipo_prueba Booleana determinando si regresa la base
 #' con cada entrada agrupada por `tipo_prueba`. En caso `TRUE` (cada fecha
 #' y entidad reporta separado el los casos de PCR y Antigeno). En caso `FALSE` se juntan
-#' los casos de PCR y Antigeno para devolver un unico numero por fecha. 
+#' los casos de PCR y Antigeno para devolver un unico numero por fecha.
 #'
 #' @importFrom rlang :=
 #'
@@ -37,10 +37,10 @@
 #' }
 #'
 #' @examples
-#' #Para el ejemplo usaremos los datos precargados pero tu puedes
-#' #correr el ejemplo descargando informacion mas reciente:
-#' #datos_covid <- descarga_datos_abiertos() #Sugerido
-#' 
+#' # Para el ejemplo usaremos los datos precargados pero tu puedes
+#' # correr el ejemplo descargando informacion mas reciente:
+#' # datos_covid <- descarga_datos_abiertos() #Sugerido
+#'
 #' datos_covid <- datosabiertos
 #'
 #' # Número de pruebas PCR/Antigeno a nivel nacional por estado
@@ -54,7 +54,7 @@
 #'     list_name = "Todas_las_pruebas"
 #'   )
 #' head(datos_covid$Todas_las_pruebas)
-#' 
+#'
 #' # Positivos en Baja California Sur
 #' datos_covid <- datos_covid |>
 #'   numero_pruebas(
@@ -62,7 +62,7 @@
 #'     list_name = "BCS"
 #'   )
 #' head(datos_covid$BCS)
-#' 
+#'
 #' # Si deseas agrupar por una variable que no este en las opciones asi como tipo paciente
 #' datos_covid <- datos_covid |>
 #'   numero_pruebas(
@@ -119,18 +119,22 @@ numero_pruebas <- function(datos_covid,
 
 
   # Chequeo de si existe elemento en la lista y duplicacion
-  k <- 0; in_list <- TRUE; baselistname <- list_name
-  while(in_list){
+  k <- 0
+  in_list <- TRUE
+  baselistname <- list_name
+  while (in_list) {
     if (any(stringr::str_detect(names(datos_covid), list_name))) {
       k <- k + 1
       list_name <- paste0(baselistname, "_", as.character(k))
     } else {
       in_list <- FALSE
-      if (k > 0){
+      if (k > 0) {
         cli::cli_alert_warning(
-          c("Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
+          c(
+            "Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
             " Utiliza {.code list_name = 'nuevo_nombre'} para nombrar a los elementos y evitar",
-            " este problema.")
+            " este problema."
+          )
         )
       }
     }

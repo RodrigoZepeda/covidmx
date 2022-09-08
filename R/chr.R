@@ -5,17 +5,17 @@
 #' confirmados en distintas categorías (residencia / edad / etc)
 #'
 #' @details El case hospitalization rate se define como
-#' 
+#'
 #' \deqn{\frac{\# \text{Hospitalizados}}{\text{Total de enfermos}}}{%
 #' \# Hospitalizados / Total de enfermos}
-#' 
-#' Si se utiliza la opción `incluir_paciente_no_especificado` se puede cambiar la definicion 
+#'
+#' Si se utiliza la opción `incluir_paciente_no_especificado` se puede cambiar la definicion
 #' de **Total de enfermos** para incluir a los pacientes que dicen `NO ESPECIFICADO`. Estos
-#' por default se excluyen justo por su naturaleza desconocida. 
-#' 
+#' por default se excluyen justo por su naturaleza desconocida.
+#'
 #' @inheritParams casos
 #' @inheritParams positividad
-#' 
+#'
 #' @param incluir_paciente_no_especificado Si en el denominador se incluyen los pacientes
 #' cuyo tipo es  `NO ESPECIFICADO`. Por default es `FALSE` por lo que sólo se incluyen
 #'  `AMBULATORIO`, `HOSPITALIZADO`.
@@ -26,7 +26,7 @@
 #' (default: `case hospitalization rate`) con una base de datos (`tibble` o `duckdb`) con los
 #' resultados agregados.
 #' \itemize{
-#'   \item `case hospitalization rate` - Base de datos generara con los datos agregados (el 
+#'   \item `case hospitalization rate` - Base de datos generara con los datos agregados (el
 #'   nombre cambia si se usa `list_name`).
 #'   \item dict - Diccionario de datos
 #'   \item dats - Datos originales (conexion a `duckdb` o `tibble`)
@@ -35,10 +35,10 @@
 #' }
 #'
 #' @examples
-#' #Para el ejemplo usaremos los datos precargados pero tu puedes
-#' #correr el ejemplo descargando informacion mas reciente:
-#' #datos_covid <- descarga_datos_abiertos() #Sugerido
-#' 
+#' # Para el ejemplo usaremos los datos precargados pero tu puedes
+#' # correr el ejemplo descargando informacion mas reciente:
+#' # datos_covid <- descarga_datos_abiertos() #Sugerido
+#'
 #' datos_covid <- datosabiertos
 #'
 #' # Casos a nivel nacional
@@ -48,12 +48,12 @@
 #' # Nacional
 #' datos_covid <- datos_covid |> chr(list_name = "chr_nacional", group_by_entidad = FALSE)
 #' head(datos_covid$`chr_nacional`)
-#' 
+#'
 #' # CHR en IMSS e ISSSTE
 #' datos_covid <- datos_covid |>
 #'   chr(tipo_sector = c("IMSS", "ISSSTE"), list_name = "chimss", group_by_tipo_sector = TRUE)
 #' head(datos_covid$`chimss`)
-#' 
+#'
 #' # Calcula el CHR sobre toda la base
 #' datos_covid <- datos_covid |>
 #'   chr(
@@ -64,18 +64,18 @@
 #'     group_by_tipo_clasificacion = TRUE, list_name = "chr_todos"
 #'   )
 #' head(datos_covid$`chr_todos`)
-#' 
+#'
 #' # Distinguiendo sólo entre defunciones
 #' datos_covid <- datos_covid |>
 #'   chr(defunciones = TRUE, list_name = "chr_defun")
 #' head(datos_covid$`chr_defun`)
-#' 
+#'
 #' # Si deseas agrupar por una variable que no este en las opciones
 #' datos_covid <- datos_covid |>
 #'   chr(.grouping_vars = c("DIABETES"), list_name = "chr_diab")
-#' head(datos_covid$chr_diab)   
-#' 
-#' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [estima_rt()] 
+#' head(datos_covid$chr_diab)
+#'
+#' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [estima_rt()]
 #' [positividad()] [casos()]
 #' @export
 
@@ -120,18 +120,22 @@ chr <- function(datos_covid,
 
 
   # Chequeo de si existe elemento en la lista y duplicacion
-  k <- 0; in_list <- TRUE; baselistname <- list_name
-  while(in_list){
+  k <- 0
+  in_list <- TRUE
+  baselistname <- list_name
+  while (in_list) {
     if (any(stringr::str_detect(names(datos_covid), list_name))) {
       k <- k + 1
       list_name <- paste0(baselistname, "_", as.character(k))
     } else {
       in_list <- FALSE
-      if (k > 0){
+      if (k > 0) {
         cli::cli_alert_warning(
-          c("Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
+          c(
+            "Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
             " Utiliza {.code list_name = 'nuevo_nombre'} para nombrar a los elementos y evitar",
-            " este problema.")
+            " este problema."
+          )
         )
       }
     }
