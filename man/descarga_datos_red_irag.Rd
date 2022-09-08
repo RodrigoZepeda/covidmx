@@ -85,7 +85,7 @@ Secretaría de Salud (2022). Sistema de Información de la Red IRAG
 URL: \url{https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome}
 
 Zepeda-Tello, R. (2022). Descarga Automática de Datos de la Red IRAG
-URL: \url{https://github.com/RodrigoZepeda/CapacidadHospitalaria}
+URL: \url{https://github.com/RodrigoZepeda/CapacidadHospitalariaMX}
 }
 \seealso{
 \code{\link[=descarga_datos_variantes_GISAID]{descarga_datos_variantes_GISAID()}} \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}} \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}

@@ -113,7 +113,8 @@ suppressWarnings(
 )
 head(datos_covid$estima_rt)
 
-# Cambios en la fecha de estimacion siguiendo la recomendacion
+\dontrun{
+#' # Cambios en la fecha de estimacion siguiendo la recomendacion
 # y obtenemos todo a nivel nacional
  datos_covid <- datos_covid |> estima_rt(min_date = as.POSIXct("2021-07-01"), 
                                          max_date = as.POSIXct("2021-09-01"),
@@ -130,9 +131,8 @@ head(datos_covid$rt_min_max)
       )
 head(datos_covid$rt_confirmados)
 
-#' # Cambios en los parametros de epiestim
+# Cambios en los parametros de epiestim
 # estos parametros no tienen razon de ser mas alla de mostrar como se cambian
-\dontrun{
    datos_covid <- datos_covid |> 
         estima_rt(group_by_entidad   = FALSE,
                   list_name = "config_rt",

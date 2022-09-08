@@ -215,7 +215,7 @@ plot_hospitalizados <- ggplot(datos_covid$hospitalizados) +
     title = glue("<span style='color:{colores[1]}'>PACIENTES HOSPITALIZADOS</span> Y ",
                  "<span style='color:{colores[8]}'>% DE OCUPACIÓN</span>"),
     caption = glue("**Fuente:** _Github ", 
-                   "@RodrigoZepeda/CapacidadHospitalaria_")
+                   "@RodrigoZepeda/CapacidadHospitalariaMX_")
   ) +
   theme(
     axis.text.x  = element_text(angle = 90, hjust = 1),

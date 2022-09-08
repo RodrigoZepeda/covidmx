@@ -66,7 +66,7 @@
 #' URL: \url{https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome}
 #'
 #' Zepeda-Tello, R. (2022). Descarga Automática de Datos de la Red IRAG
-#' URL: \url{https://github.com/RodrigoZepeda/CapacidadHospitalaria}
+#' URL: \url{https://github.com/RodrigoZepeda/CapacidadHospitalariaMX}
 #'
 #' @export
 descarga_datos_red_irag <- function(nivel = c("Estatal", "Unidad M\u00e9dica"),
