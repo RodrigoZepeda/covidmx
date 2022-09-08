@@ -16,11 +16,11 @@
 #' actualizada y si si la descarga, si no, utiliza informacion almacenada en el `cache` local.
 #'
 #' La descarga usa el paquete `pins`
-#' 
-#' @param nivel (**opcional**) si se desea descargar informacion `"nacional"` (default) o de 
+#'
+#' @param nivel (**opcional**) si se desea descargar informacion `"nacional"` (default) o de
 #' la Ciudad de Mexico: `"cdmx"`.
 #' @inheritParams descarga_datos_red_irag
-#' 
+#'
 #' @return `tibble` con los datos de porcentuales de variantes
 #' \itemize{
 #'   \item `variant`       - La variante clasificada mediante [Pangolin](https://cov-lineages.org/resources/pangolin.html)
@@ -31,7 +31,7 @@
 #'   \item `Actualizacion` - La fecha de actualizacion ultima de los datos.
 #'   \item `Fuente`        - La fuente desde la cual se obtuvo la informacion de dicha variante.
 #' }
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # Descarga de variantes a nivel nacional
@@ -54,7 +54,7 @@
 #'   ggplot(variantes_covid) +
 #'     ggstream::geom_stream(aes(
 #'       x = ymd("2019/12/27") + years(ano - 2020) + weeks(semana),
-#'       y = n, fill = variant, 
+#'       y = n, fill = variant,
 #'     )) +
 #'     theme_minimal()
 #' }
@@ -85,13 +85,13 @@ descarga_datos_variantes_GISAID <- function(nivel = c("nacional", "cdmx"),
                                             show_warnings = TRUE,
                                             ...) {
 
-  #Pasamos a minusculas el nivel por si las dudas
+  # Pasamos a minusculas el nivel por si las dudas
   nivel <- tolower(nivel)
-  
+
   # Ponemos el diccionario
   github <- "https://raw.githubusercontent.com/"
   cuenta <- "RodrigoZepeda/VariantesCovid/main/tablas/"
-  fname  <- paste0(github, cuenta, "Proporcion_variantes_", nivel[1], ".csv")
+  fname <- paste0(github, cuenta, "Proporcion_variantes_", nivel[1], ".csv")
 
   if (!quiet) {
     cli::cli_alert("Descargando {nivel[1]} desde {.url {fname}}")

@@ -15,13 +15,13 @@
 #'
 #' @param nivel (**opcional**) Regresa la ocupacion `"Estatal"`(default) o por `"Unidad Medica"`
 #' @param quiet (**opcional**) booleana para no imprimir mensajes en la consola.
-#' @param cache (**opcional**) cache para [pins::board_url()]. Representa el directorio donde 
-#' se almacenaran los datos descargados en formato de `pins`. 
-#' @param use_cache_on_failure (**opcional**)  parametro para [pins::board_url()]. En caso de 
-#' `TRUE` (default) si no puede descargar nueva informacion utiliza la que ya tiene en memoria 
-#' aunque sea vieja.  
-#' @param force_download (**opcional**)  analiza si cambio el pin y descarga datos nuevos en 
-#' caso afirmativo. 
+#' @param cache (**opcional**) cache para [pins::board_url()]. Representa el directorio donde
+#' se almacenaran los datos descargados en formato de `pins`.
+#' @param use_cache_on_failure (**opcional**)  parametro para [pins::board_url()]. En caso de
+#' `TRUE` (default) si no puede descargar nueva informacion utiliza la que ya tiene en memoria
+#' aunque sea vieja.
+#' @param force_download (**opcional**)  analiza si cambio el pin y descarga datos nuevos en
+#' caso afirmativo.
 #' @param show_warnings  (**opcional**) si arrojar `warnings` o callar
 #' @param ...  parametros adicionales para [pins::pin_download()].
 #'

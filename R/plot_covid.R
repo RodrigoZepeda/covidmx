@@ -33,18 +33,18 @@
 #' @param ... (**opcional**) Parametros adicionales para [ggformula::geom_spline()] en caso de elegir
 #'  `type="spline"`
 #'
-#' @return Un `ggplot2` con la imagen graficada. 
-#' 
+#' @return Un `ggplot2` con la imagen graficada.
+#'
 #' @examples
 #' # Para el ejemplo usaremos los datos precargados pero tu puedes
 #' # correr el ejemplo descargando informacion mas reciente:
 #' # datos_covid <- descarga_datos_abiertos() #Sugerido
-#' 
+#'
 #' # Grafica de casos por entidad
 #' datos_covid <- datosabiertos
-#' 
-#' #Aqui muchos aparecen en cero si usas el default de datosabiertos
-#' #porque la base de datosabiertos tiene muy pocos casos
+#'
+#' # Aqui muchos aparecen en cero si usas el default de datosabiertos
+#' # porque la base de datosabiertos tiene muy pocos casos
 #' datos_covid |>
 #'   casos(list_name = "casos_for_plot") |>
 #'   plot_covid(df_name = "casos_for_plot")
@@ -59,38 +59,46 @@
 #' datos_covid |>
 #'   casos(group_by_entidad = FALSE, list_name = "spline_nacional") |>
 #'   plot_covid(df_name = "spline_nacional", type = "spline", spar = 0.5)
-#'   
+#'
 #' # Graficacion por covariables
 #' # el objeto devuelto es un objeto de ggplot2 al que se le puede dar formato
 #' datos_covid |>
-#'   chr(group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
-#'       entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR")) |>
-#'   plot_covid(df_name = "plot_nal", 
-#'              date_break_format = "1 week",
-#'              date_labels_format = "%d/%B/%Y",
-#'              df_covariates = c("SEXO","ENTIDAD_FEDERATIVA"),
-#'              type = "area") +
-#'   ggtitle("Plot nacional")   
-#'   
+#'   chr(
+#'     group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
+#'     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR")
+#'   ) |>
+#'   plot_covid(
+#'     df_name = "plot_nal",
+#'     date_break_format = "1 week",
+#'     date_labels_format = "%d/%B/%Y",
+#'     df_covariates = c("SEXO", "ENTIDAD_FEDERATIVA"),
+#'     type = "area"
+#'   ) +
+#'   ggtitle("Plot nacional")
+#'
 #' # Puedes tambien primero editar el tibble que usaras por ejemplo poniendo
 #' # los nombres de los sexos
 #' datos_covid <- datos_covid |>
-#'   chr(group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
-#'       entidades = c("BAJA CALIFORNIA","BAJA CALIFORNIA SUR")) 
-#' 
+#'   chr(
+#'     group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
+#'     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR")
+#'   )
+#'
 #' datos_covid$plot_nal |>
-#'    left_join(datos_covid$dict$SEXO, by = c("SEXO" = "CLAVE")) |>
-#'    plot_covid(date_break_format = "1 week",
-#'              date_labels_format = "%d/%B/%Y",
-#'              df_variable   = "CASE HOSPITALIZATION RATE",
-#'              df_covariates = c("DESCRIPCIÓN","ENTIDAD_FEDERATIVA"),
-#'              type = "area") +
-#'    ggtitle("Plot nacional")          
+#'   left_join(datos_covid$dict$SEXO, by = c("SEXO" = "CLAVE")) |>
+#'   plot_covid(
+#'     date_break_format = "1 week",
+#'     date_labels_format = "%d/%B/%Y",
+#'     df_variable = "CASE HOSPITALIZATION RATE",
+#'     df_covariates = c("DESCRIPCIÓN", "ENTIDAD_FEDERATIVA"),
+#'     type = "area"
+#'   ) +
+#'   ggtitle("Plot nacional")
 #' }
-#'               
-#' #Finalmente desconectamos              
+#'
+#' # Finalmente desconectamos
 #' datos_covid$disconnect()
-#'   
+#'
 #' @export
 
 plot_covid <- function(datos_covid,
@@ -99,7 +107,7 @@ plot_covid <- function(datos_covid,
                          colnames(datos_covid[df_name][[1]]),
                          "FECHA|fecha|Fecha"
                        ),
-                       df_variable   = NULL,
+                       df_variable = NULL,
                        df_covariates = c(),
                        facet_scale = "free_y",
                        facet_ncol = 4,
@@ -113,7 +121,6 @@ plot_covid <- function(datos_covid,
                          axis.line.x = ggplot2::element_line(color = "black"),
                          legend.position = "none"
                        ), ...) {
-  
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     cli::cli_abort(
       "Para graficar, por favor instala {.code ggplot2} y {.code scales} haciendo
@@ -123,7 +130,7 @@ plot_covid <- function(datos_covid,
 
   if (tibble::is_tibble(datos_covid)) {
     datos_covid <- list("datos_covid" = datos_covid)
-    df_name     <- "datos_covid"
+    df_name <- "datos_covid"
   }
 
   # Checamos la variable 1
