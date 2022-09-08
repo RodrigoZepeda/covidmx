@@ -272,5 +272,5 @@ URL: \url{https://www.gob.mx/salud/documentos/datos-abiertos-152127}
 }
 \seealso{
 \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}  \code{\link[=descarga_datos_red_irag]{descarga_datos_red_irag()}}
-\code{\link[=descarga_datos_variantes_GISAID]{descarga_datos_variantes_GISAID()}}
+\code{\link[=descarga_datos_variantes_GISAID]{descarga_datos_variantes_GISAID()}} \code{\link[=casos]{casos()}}
 }

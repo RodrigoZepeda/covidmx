@@ -2,136 +2,239 @@
 #'
 #' @description
 #' `casos` Calcula el numero de casos registrados por fecha agrupando (o sin hacerlo)
-#' por diferentes covariables.
+#' por diferentes covariables. Por default calcula el total de casos (con y sin prueba positiva)
 #'
 #' @details
-#' Por default calcula el total de casos.
+#' La función es un grupo de funciones de `dplyr` optimizadas para velocidad. Por ejemplo calcular
+#' los casos por entidad se hace lo siguiente
+#' 
+#' ```
+#' datos_covid |> casos()
+#' ```
+#' 
+#' es lo mismo que:
+#' 
+#' ```
+#' library(dplyr)
+#' datos_covid$casos <- datos_covid$dats |> 
+#'     group_by(ENTIDAD_UM, FECHA_SINTOMAS) |>
+#'     tally() |>
+#'     left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD"))
+#' ```
+#' 
+#' Elaboraciones mas complicadas en casos tienen su equivalente en dplyr por ejemplo:
+#' 
+#' ```
+#' datos_covid <- datos_covid |>
+#'   casos(
+#'     entidad_tipo = "Residencia",
+#'     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
+#'     group_by_tipo_clasificacion = FALSE,
+#'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
+#'     group_by_tipo_paciente = TRUE,
+#'     list_name = "bajas"
+#'   )
+#' ```
+#' es equivalente a 
+#' 
+#' ```
+#' datos_covid$bajas <- datos_covid$dats |>
+#'    filter(ENTIDAD_RES == "02" | ENTIDAD_RES == "03") |> #BC/BCS
+#'    filter(TIPO_PACIENTE == 1 | TIPO_PACIENTE == 2) |> #Ambulatorio/Hospitalizado
+#'    group_by(FECHA_SINTOMAS, ENTIDAD_RES, TIPO_PACIENTE) |>
+#'    tally() |>
+#'    left_join(datos_covid$dict$ENTIDAD_RES, by = c("ENTIDAD_RES" = "CLAVE_ENTIDAD")) |>
+#'    left_join(datos_covid$dict$PACIENTE, by = c("TIPO_PACIENTE" = "CLAVE")) 
+#' ```
+#'    
+#' @param datos_covid (**obligatorio**) Lista de `tibble`s resultante de [descarga_datos_abiertos()] 
+#' o [read_datos_abiertos()]
 #'
-#' @param datos_covid If no data is available it automatically downloads COVID-19
-#' information.
-#'
-#' @param entidades Vector con las entidades de las unidades medicas a analizar.
+#' @param entidades (**opcional**)  Vector con las entidades de las unidades medicas a analizar.
 #' Opciones: `AGUASCALIENTES`, `BAJA CALIFORNIA`, `BAJA CALIFORNIA SUR`,
 #' `CAMPECHE`, `CHIAPAS`, `CHIHUAHUA`, `CIUDAD DE MEXICO`,
 #' `COAHUILA DE ZARAGOZA` , `COLIMA`, `DURANGO`, `GUANAJUATO`, `GUERRERO`,
 #' `HIDALGO`, `JALISCO`, `MEXICO`, `MICHOACAN DE OCAMPO`, `MORELOS`,`NAYARIT`
 #' `NUEVO LEON`, `OAXACA` ,`PUEBLA`, `QUERETARO`,`QUINTANA ROO`,
 #' `SAN LUIS POTOSI`, `SINALOA`, `SONORA`, `TABASCO`, `TAMAULIPAS`,`TLAXCALA`,
-#' `VERACRUZ DE IGNACIO DE LA LLAVE`, `YUCATAN`, `ZACATECAS`
+#' `VERACRUZ DE IGNACIO DE LA LLAVE`, `YUCATAN`, `ZACATECAS`.
 #'
-#' @param group_by_entidad Si junta las entidades en una sola
-#' o bien las muestra por separado sin agrupar.
+#' @param group_by_entidad (**opcional**) `TRUE` obtiene los casos para cada entidad reportando
+#' en cada fecha la entidad y los casos en dicha entidad. `FALSE`  junta las `entidades` sumando 
+#' sus casos en una sola observacion por cada fecha.
 #'
-#' @param entidad_tipo Selecciona `Unidad Medica`, `Nacimiento` o `Residencia`.
-#' por default incluye `Unidad Medica`
+#' @param entidad_tipo (**opcional**) Indica a que se refiere las `entidades` seleccionadas. Elige
+#' una de las opciones: `Unidad Medica` (entidad de la unidad medica), `Nacimiento` 
+#' (entidad de origen del individuo) o `Residencia` (entidad donde reside el individuo).
 #'
-#' @param fecha_tipo Selecciona `Ingreso`, `Sintomas` o `Defuncion` por default
-#' incluye fecha de `Sintomas`
+#' @param fecha_tipo (**opcional**) Selecciona si la fecha que se utiliza es la fecha de `Ingreso` 
+#' (si aplica), la fecha de `Sintomas` o la de `Defuncion` (si aplica). El default es fecha de `Sintomas`.
 #'
-#' @param tipo_clasificacion Vector con el tipo de clasificaciones a incluir:
-#' `Sospechosos`,`Confirmados COVID`, `Negativo a COVID`,
-#' `Inv\u00e1lido`, `No realizado`
+#' @param tipo_clasificacion (**opcional**)  Vector con el tipo de clasificaciones (por la prueba) 
+#' a incluir:`Sospechosos`,`Confirmados COVID`, `Negativo a COVID`, `Inv\u00e1lido`, `No realizado`
 #'
-#' @param group_by_tipo_clasificacion Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de clasificación (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de clasificación)
+#' @param group_by_tipo_clasificacion (**opcional**)  Booleana determinando si regresa la base
+#' con cada entrada agrupada por `tipo_clasificacion` (es decir cada fecha
+#' se generan tantos observaciones como grupos de tipo de clasificación) en caso `TRUE`. Si 
+#' `FALSE` suma todos los casos del tipo de clasificacion por fecha dando un solo numero por fecha. 
+#' El defalt es `FALSE`.
+#' 
+#' @param tipo_paciente (**opcional**) Vector con el tipo de pacientes a incluir. Opciones:
+#'  `AMBULATORIO`, `HOSPITALIZADO`, `NO ESPECIFICADO`. Por default se incluyen todos. 
 #'
-#' @param tipo_paciente Vector con el tipo de pacientes a incluir. Opciones:
-#'  `AMBULATORIO`, `HOSPITALIZADO`, `NO ESPECIFICADO`
+#' @param group_by_tipo_paciente (**opcional**) Booleana determinando (caso `TRUE`) si regresa 
+#' la base con cada entrada agrupada por `tipo_paciente` (es decir cada fecha
+#' se genera un renglon para `AMBULATORIO`, un renglon para `HOSPITALIZADO`, etc) o bien
+#' si se suman todos los grupos y cada fecha reporta solo la suma de estos 
+#' (estilo `AMBULATORIO + HOSPITALIZADO` segun las categorias de `tipo_paciente`)
+#' El default es `FALSE`.
 #'
-#' @param group_by_tipo_paciente Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de paciente (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de paciente)
+#' @param tipo_uci (**opcional**)  Vector con el tipo de valores para Unidad de 
+#' Cuidado Intensivo (UCI) a incluir:  `SI`,`NO`,`NO APLICA`,`SE IGNORA`,`NO ESPECIFICADO`. 
+#' Por default se incluyen todos. 
 #'
-#' @param tipo_uci Vector con el tipo de valores para Unidad de Cuidado Intensivo a incluir:
-#'  `SI`,`NO`,`NO APLICA`,`SE IGNORA`,`NO ESPECIFICADO`
+#' @param group_by_tipo_uci (**opcional**) Booleana. El caso `TRUE` determina si regresa la base
+#' con cada fecha teniendo diferentes renglones uno para cada `tipo_uci` (es decir cada fecha
+#' se generan tantos observaciones como grupos de tipo de UCI) o bien en una sola fecha
+#' se suman todos los tipos de UCI (`FALSE`). El default es `FALSE`.
 #'
-#' @param group_by_tipo_uci Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de uci (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de uci)
-#'
-#' @param tipo_sector Vector con los sectores del sistema de salud a incluir:
+#' @param tipo_sector (**opcional**) Vector con los sectores del sistema de salud a incluir:
 #' `CRUZ ROJA`,`DIF`,`ESTATAL`,`IMSS`,`IMSS-BIENESTAR`,`ISSSTE`, `MUNICIPAL`,`PEMEX`,
-#' `PRIVADA`,`SEDENA`,`SEMAR`,`SSA`, `UNIVERSITARIO`,`NO ESPECIFICADO`.
+#' `PRIVADA`,`SEDENA`,`SEMAR`,`SSA`, `UNIVERSITARIO`,`NO ESPECIFICADO`. 
+#' Por default se incluyen todos. 
 #'
-#' @param group_by_tipo_sector Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de sector (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de sector)
+#' @param group_by_tipo_sector (**opcional**) Booleana determina en el caso de `TRUE` si regresa 
+#' la base con cada entrada agrupada por `tipo_sector` (es decir cada fecha
+#' tiene una entrada con los del `IMSS`, una entrada distinta con los de `ISSSTE`, etc) o bien
+#' en caso de `FALSE` se devuelve una sola entrada por fecha con la suma `IMSS + ISSSTE + etc` 
+#' segun los  sectores seleccionados. El default es `FALSE`.
 #'
-#' @param defunciones Boolean si incluir sólo defunciones `TRUE` o a todos
-#' `FALSE`.
+#' @param defunciones (**opcional**)  Booleana si incluir sólo defunciones `TRUE` o a todos `FALSE`. 
+#' El default es `FALSE`.
 #'
-#' @param edad_cut Vector con secuencia de edades para hacer grupos. Por ejemplo
+#' @param edad_cut (**opcional**) Vector con secuencia de edades para hacer grupos. Por ejemplo
 #' `edad_cut = c(0, 10, Inf)` arma dos grupos de edad de 0 a 10 y de 10 a infinito o bien
-#' `edad_cut = c(15, 20)` deja sólo los registros entre 15 y 20 años. Por default es NULL
+#' `edad_cut = c(15, 20)` deja sólo los registros entre 15 y 20 años. Por default es `NULL`
+#' y no arma grupos etarios. 
 #'
-#' @param .grouping_vars Vector de variables adicionales de agrupacion de los conteos
+#' @param .grouping_vars (**opcional**) Vector de variables adicionales de agrupacion de los 
+#' conteos. Por ejemplo si se agrega `.grouping_vars = 'DIABETES'` entonces para cada fecha habra
+#' dos conteos de casos uno de los que tienen diabetes y uno de los que no. 
 #'
-#' @param as_tibble Regresar como `tibble` el resultado. En caso de que `as_tibble`
-#' sea `FALSE` se devuelve como conexion en `duckdb`.
+#' @param as_tibble (**opcional**) Regresar como `tibble` el resultado. En caso de que `as_tibble`
+#' sea `FALSE` se devuelve como conexion en `duckdb`. Se recomienda el default (`tibble`). 
 #'
-#' @param fill_zeros En caso de que el resultado sea un `tibble` regresa observaciones
-#' para todas las combinaciones de variables incluyendo como 0 donde no se observaron casos. En
-#' caso contrario no se incluyen las filas donde no se observaron casos.
+#' @param fill_zeros (**opcional**) En caso de que el resultado sea un `tibble` regresa 
+#' observaciones para todas las combinaciones de variables incluyendo como 0 aquellas fechas
+#' cuando no se observaron casos. En caso contrario no se incluyen las filas donde no se 
+#' observaron casos.
 #'
-#' @param list_name Asigna un nombre en la lista de datos a la base generada
+#' @param list_name (**opcional**) Asigna un nombre en la lista de datos a la base generada
 #'
 #' @importFrom rlang :=
 #'
-#' @return Appends a la lista de `datos_covid` una nueva entrada de nombre `list_name`
+#' @return Une a la lista de `datos_covid` una nueva entrada de nombre `list_name`
 #' (default: `casos`) con una base de datos (`tibble` o `dbConnection`) con los
 #' resultados agregados.
 #' \itemize{
 #'   \item casos - Base de datos generara con los datos agregados (el nombre cambia si
 #'   se usa `list_name`).
 #'   \item dict - Diccionario de datos
-#'   \item dats - Datos originales (conexion a DB)
-#'   \item disconnect  - Función para desconectarte de DB
+#'   \item dats - Datos originales (conexion a `duckdb` o `tibble`)
+#'   \item disconnect  - Función para desconectarte de `duckdb`
+#'   \item ... - Cualquier otro elemento que ya existiera en `datos_covid`
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' datos_covid <- descarga_datos_abiertos()
+#' #Para el ejemplo usaremos los datos precargados pero tu puedes
+#' #correr el ejemplo descargando informacion mas reciente:
+#' #datos_covid <- descarga_datos_abiertos() #Sugerido
+#' 
+#' datos_covid <- datosabiertos #Datos precargados para el ejemplo
 #'
-#' # Casos a nivel nacional
+#' # Casos por entidad
 #' datos_covid <- datos_covid |> casos()
 #' head(datos_covid$casos)
 #'
-#' # Defunciones nacional
-#' defunciones <- datos_covid |> casos(defunciones = TRUE, list_name = "Defunciones")
-#'
-#' # Positivos en Jalisco y Colima
-#' casos_col_jal <- datos_covid |>
-#'   casos(entidades = c("JALISCO", "COLIMA"), list_name = "Jaliscolima")
-#'
+#' # Defunciones por entidad
+#' datos_covid <- datos_covid |> casos(defunciones = TRUE, list_name = "defunciones")
+#' head(datos_covid$defunciones)
+#' 
+#' # Hospitalizados por entidad
+#' datos_covid <- datos_covid |> 
+#'                   casos(tipo_paciente = "HOSPITALIZADO", list_name = "hospitalizados")
+#' head(datos_covid$hospitalizados)
+#' 
+#' # UCI por entidad
+#' datos_covid <- datos_covid |> casos(tipo_uci = "SI", list_name = "uci")
+#' head(datos_covid$uci)
+#' 
+#' # Solo pacientes IMSS
+#' datos_covid <- datos_covid |> casos(tipo_sector = "IMSS", list_name = "imss")
+#' head(datos_covid$imss)
+#' 
+#' # Pacientes IMSS y PEMEX separados
+#' datos_covid <- datos_covid |> casos(tipo_sector = c("IMSS","PEMEX"), list_name = "imss_y_pemex")
+#' head(datos_covid$imss_y_pemex)
+#' 
+#' # Pacientes IMSS y PEMEX sumados
+#' datos_covid <- datos_covid |> 
+#'       casos(tipo_sector = c("IMSS","PEMEX"), list_name = "imss_+_pemex", 
+#'             group_by_tipo_sector = TRUE)
+#' head(datos_covid$`imss_+_pemex`)
+#' 
+#' # Solo los de BAJA CALIFORNIA
+#' datos_covid <- datos_covid |>
+#'   casos(entidades = c("BAJA CALIFORNIA"), list_name = "BC")
+#' head(datos_covid$BC)
+#' 
+#' # Solo los de BAJA CALIFORNIA por residencia
+#' datos_covid <- datos_covid |>
+#'   casos(entidades = c("BAJA CALIFORNIA"), entidad_tipo = "Residencia", list_name = "residencia")
+#' head(datos_covid$residencia)
+#' 
 #' # Agrupando casos por tipo de clasificacion
-#' confirmados <- datos_covid |>
+#' datos_covid <- datos_covid |>
 #'   casos(
-#'     entidades = c("JALISCO", "COLIMA"),
-#'     group_by_tipo_clasificacion = TRUE, list_name = "Jaliscolima2"
+#'     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
+#'     group_by_tipo_clasificacion = TRUE, 
+#'     list_name = "BC_BCS"
 #'   )
-#'
-#' # Regresa la suma de los de COLIMA + JALISCO
-#' casos_col_jal <- datos_covid |>
+#' head(datos_covid$BC_BCS)
+#' 
+#' # Regresa la suma de los de BC + BCS por tipo de paciente
+#' datos_covid <- datos_covid |>
 #'   casos(
-#'     entidades = c("JALISCO", "COLIMA"),
-#'     group_by_tipo_clasificacion = TRUE,
+#'     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
+#'     group_by_tipo_clasificacion = FALSE,
 #'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
 #'     group_by_tipo_paciente = TRUE,
-#'     list_name = "Jalisco + colima"
+#'     list_name = "BC_+_BCS"
 #'   )
-#'
+#' head(datos_covid$`BC_+_BCS`)
+#' 
 #' # Si deseas agrupar por una variable que no este en las opciones
-#' casos_col_jal <- datos_covid |>
+#' datos_covid <- datos_covid |>
 #'   casos(
-#'     entidades = c("JALISCO", "COLIMA"),
-#'     group_by_tipo_clasificacion = TRUE,
+#'     group_by_entidad = FALSE,
 #'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
 #'     group_by_tipo_paciente = TRUE,
-#'     list_name = "Jalisco + colima diabetes",
-#'     .grouping_vars = c("DIABETES")
+#'     list_name = "sexo",
+#'     .grouping_vars = c("SEXO")
 #'   )
-#' }
+#' head(datos_covid$sexo)  
+#' 
+#' #Si no recuerdas la codificacion de los sexos puedes usar el diccionario:
+#' datos_covid$sexo <- datos_covid$sexo |> 
+#'      dplyr::left_join(datos_covid$dict$SEXO, by = c('SEXO' = 'CLAVE'))
+#' head(datos_covid$sexo)  
+#' 
+#' #Si no recuerdas todas las variables de la base puedes usar glimpse para ver por
+#' #que otras variables puedes clasificar
+#' datos_covid$dats |> dplyr::glimpse()
+#' 
+#' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [chr()] [estima_rt()] 
+#' [positividad()]
 #' @export
 
 casos <- function(datos_covid,
@@ -182,12 +285,22 @@ casos <- function(datos_covid,
                   .grouping_vars = c()) {
 
 
-  # Finally bind to previous object
-  if (any(stringr::str_detect(names(datos_covid), list_name))) {
-    cli::cli_abort(
-      "Imposible crear elemento {list_name} pues ya existe en la lista.
-       Utiliza {.code list_name = 'nuevo_nombre'} para generar otro elemento"
-    )
+  # Chequeo de si existe elemento en la lista y duplicacion
+  k <- 0; in_list <- TRUE; baselistname <- list_name
+  while(in_list){
+    if (any(stringr::str_detect(names(datos_covid), list_name))) {
+      k <- k + 1
+      list_name <- paste0(baselistname, "_", as.character(k))
+    } else {
+      in_list <- FALSE
+      if (k > 0){
+        cli::cli_alert_warning(
+          c("Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
+            " Utiliza {.code list_name = 'nuevo_nombre'} para nombrar a los elementos y evitar",
+            " este problema.")
+        )
+      }
+    }
   }
 
   if (!as_tibble & fill_zeros) {
@@ -366,7 +479,7 @@ casos <- function(datos_covid,
   #> DEFUNCIONES
   if (defunciones) {
     .casos <- .casos |>
-      dplyr::filter(!!as.symbol("FECHA_DEF") >= as.Date("2000/01/01"))
+      dplyr::filter(!!as.symbol("FECHA_DEF") >= as.POSIXct("2000/01/01"))
   }
 
   #> EDADES

@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.2000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.1000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -154,7 +154,7 @@ tardado hacerlo:</p>
 <code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dats</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: ??</span></span>
 <span><span class="co">#&gt; Columns: 40</span></span>
-<span><span class="co">#&gt; Database: DuckDB 0.5.0 [root@Darwin 21.5.0:R 4.2.0//var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//Rtmp5aB7bQ/file61a42c4b1b0d.duckdb]</span></span>
+<span><span class="co">#&gt; Database: DuckDB 0.5.0 [root@Darwin 21.5.0:R 4.2.0//var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpDIfSla/file183a851131997.duckdb]</span></span>
 <span><span class="co">#&gt; $ FECHA_ACTUALIZACION   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2022-07-14, 2022-07-14, 2022-07-14, 2022-07-14,…</span></span>
 <span><span class="co">#&gt; $ ID_REGISTRO           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "78ce0b", "526821", "4ab051", "ba3171", "b970bb"…</span></span>
 <span><span class="co">#&gt; $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, …</span></span>
@@ -388,7 +388,7 @@ volver a descargar.</p>
 descargamos arriba con <code>descarga_datos_abiertos</code>)</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diccionario_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_db.html">descarga_diccionario</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: La descarga mas reciente de fue hace 0.01441 dias. Como tiene menos de un dia</span></span>
+<span><span class="co">#&gt; Warning: La descarga mas reciente de fue hace 0.16051 dias. Como tiene menos de un dia</span></span>
 <span><span class="co">#&gt; usare esa. Escribe `force_download = TRUE` si quieres descargar de todas</span></span>
 <span><span class="co">#&gt; formas. Para desactivar este mensaje `show_warnings = FALSE.`</span></span></code></pre></div>
 <p>Si de todas maneras quieres reintentar la descarga puedes usar
@@ -586,8 +586,6 @@ asignándoles nombres:</p>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"Todos por entidad"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"Todos (nacional)"</span>,    group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/casos.html">casos</a></span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"Defunciones (todos)"</span>, defunciones <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; Warning in mask$eval_all_filter(dots, env_filter): Métodos incompatibles</span></span>
-<span><span class="co">#&gt; ("Ops.POSIXt", "Ops.Date") para "&gt;="</span></span>
 <span></span>
 <span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Todos (nacional)`</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
@@ -691,9 +689,7 @@ como <code>tibble</code> o como conexión de <code>dbplyr</code> a
 <span>    list_name     <span class="op">=</span> <span class="st">"Ejemplo defunciones"</span>,</span>
 <span>    </span>
 <span>    <span class="co">#Agrupa los resultados además por estado de diabetes y sexo</span></span>
-<span>    .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DIABETES"</span>, <span class="st">"SEXO"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in mask$eval_all_filter(dots, env_filter): Métodos incompatibles</span></span>
-<span><span class="co">#&gt; ("Ops.POSIXt", "Ops.Date") para "&gt;="</span></span></code></pre></div>
+<span>    .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DIABETES"</span>, <span class="st">"SEXO"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Puedes ver la base generada así:</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Ejemplo defunciones`</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -766,11 +762,6 @@ calcular por ahora. Ten paciencia</p>
 <span>  <span class="fu"><a href="../reference/positividad.html">positividad</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BAJA CALIFORNIA"</span>,<span class="st">"BAJA CALIFORNIA SUR"</span><span class="op">)</span>,</span>
 <span>                 tipo_prueba <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Antigeno"</span>, <span class="st">"PCR"</span><span class="op">)</span>,</span>
 <span>                 group_by_tipo_prueba <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Leyendo la base...</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Calculando PCR...</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Calculando Antigeno...</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Terminando de construir la base</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Terminado</span></span>
 <span></span>
 <span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 8</span></span></span>
@@ -845,9 +836,7 @@ terminaron muertos: <span class="math display">\[
 confirmados}}
 \]</span> lo puedes calcular con <code>cfr</code>:</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/cfr.html">cfr</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in mask$eval_all_filter(dots, env_filter): Métodos incompatibles</span></span>
-<span><span class="co">#&gt; ("Ops.POSIXt", "Ops.Date") para "&gt;="</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/cfr.html">cfr</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS      ENTIDAD_UM ENTIDAD_FEDERATIVA  ABREVIATURA CASE FATALITY…¹</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -1118,7 +1107,7 @@ desconectarte:</p>
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       America/Mexico_City</span></span>
-<span><span class="co">#&gt;  date     2022-09-06</span></span>
+<span><span class="co">#&gt;  date     2022-09-07</span></span>
 <span><span class="co">#&gt;  pandoc   2.18 @ /Applications/RStudio.app/Contents/MacOS/quarto/bin/tools/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────</span></span></span>
@@ -1135,7 +1124,7 @@ desconectarte:</p>
 <span><span class="co">#&gt;  coarseDataTools   0.6-6      <span style="color: #555555;">2021-12-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  coda              0.19-4     <span style="color: #555555;">2020-09-30</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  colorspace        2.0-3      <span style="color: #555555;">2022-02-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  covidmx         * <span style="color: #BB00BB; font-weight: bold;">0.6.1.2000</span> <span style="color: #555555;">2022-09-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  covidmx         * 0.6.2.1000 <span style="color: #555555;">2022-09-08</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;  crayon            1.5.1      <span style="color: #555555;">2022-03-26</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  curl              4.3.2      <span style="color: #555555;">2021-06-23</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  DBI               1.1.3      <span style="color: #555555;">2022-06-18</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
@@ -1228,7 +1217,7 @@ desconectarte:</p>
 <span><span class="co">#&gt;  xfun              0.32       <span style="color: #555555;">2022-08-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  yaml              2.3.5      <span style="color: #555555;">2022-02-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #555555;"> [1] /private/var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T/Rtmpzlr0cK/temp_libpath3f2c547855c2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [1] /private/var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T/RtmpvWtBeS/temp_libpath1530f715e5741</span></span></span>
 <span><span class="co">#&gt; <span style="color: #555555;"> [2] /Library/Frameworks/R.framework/Versions/4.2/Resources/library</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">──────────────────────────────────────────────────────────────────────────────</span></span></span></code></pre></div>

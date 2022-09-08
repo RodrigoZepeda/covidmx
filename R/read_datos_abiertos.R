@@ -20,7 +20,7 @@
 #' @param ... (**opcional**) parametros adicionales para [descarga_datos_abiertos()]
 #' @inheritParams descarga_datos_abiertos
 #' @seealso [descarga_datos_abiertos()]  [descarga_datos_red_irag()]
-#' [descarga_datos_variantes_GISAID()]
+#' [descarga_datos_variantes_GISAID()] [casos()]
 #' @examples
 #' \dontrun{
 #' # EJEMPLO 1: Lee los datos de duckdb una vez descargados

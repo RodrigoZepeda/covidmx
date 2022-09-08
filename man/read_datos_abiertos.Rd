@@ -102,5 +102,5 @@ datos_covid$disconnect()
 }
 \seealso{
 \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}  \code{\link[=descarga_datos_red_irag]{descarga_datos_red_irag()}}
-\code{\link[=descarga_datos_variantes_GISAID]{descarga_datos_variantes_GISAID()}}
+\code{\link[=descarga_datos_variantes_GISAID]{descarga_datos_variantes_GISAID()}} \code{\link[=casos]{casos()}}
 }

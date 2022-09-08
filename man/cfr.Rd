@@ -27,144 +27,169 @@ cfr(
   group_by_tipo_sector = FALSE,
   edad_cut = NULL,
   fill_NA = TRUE,
-  quiet = FALSE,
   list_name = "case fatality rate",
   .grouping_vars = c()
 )
 }
 \arguments{
-\item{datos_covid}{If no data is available it automatically downloads COVID-19
-information.}
+\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}
+o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
 
-\item{entidades}{Vector con las entidades de las unidades medicas a analizar.
+\item{entidades}{(\strong{opcional})  Vector con las entidades de las unidades medicas a analizar.
 Opciones: \code{AGUASCALIENTES}, \verb{BAJA CALIFORNIA}, \verb{BAJA CALIFORNIA SUR},
 \code{CAMPECHE}, \code{CHIAPAS}, \code{CHIHUAHUA}, \verb{CIUDAD DE MEXICO},
 \verb{COAHUILA DE ZARAGOZA} , \code{COLIMA}, \code{DURANGO}, \code{GUANAJUATO}, \code{GUERRERO},
 \code{HIDALGO}, \code{JALISCO}, \code{MEXICO}, \verb{MICHOACAN DE OCAMPO}, \code{MORELOS},\code{NAYARIT}
 \verb{NUEVO LEON}, \code{OAXACA} ,\code{PUEBLA}, \code{QUERETARO},\verb{QUINTANA ROO},
 \verb{SAN LUIS POTOSI}, \code{SINALOA}, \code{SONORA}, \code{TABASCO}, \code{TAMAULIPAS},\code{TLAXCALA},
-\verb{VERACRUZ DE IGNACIO DE LA LLAVE}, \code{YUCATAN}, \code{ZACATECAS}}
+\verb{VERACRUZ DE IGNACIO DE LA LLAVE}, \code{YUCATAN}, \code{ZACATECAS}.}
 
-\item{group_by_entidad}{Si junta las entidades en una sola
-o bien las muestra por separado sin agrupar.}
+\item{group_by_entidad}{(\strong{opcional}) \code{TRUE} obtiene los casos para cada entidad reportando
+en cada fecha la entidad y los casos en dicha entidad. \code{FALSE}  junta las \code{entidades} sumando
+sus casos en una sola observacion por cada fecha.}
 
-\item{entidad_tipo}{Selecciona \verb{Unidad Medica}, \code{Nacimiento} o \code{Residencia}.
-por default incluye \verb{Unidad Medica}}
+\item{entidad_tipo}{(\strong{opcional}) Indica a que se refiere las \code{entidades} seleccionadas. Elige
+una de las opciones: \verb{Unidad Medica} (entidad de la unidad medica), \code{Nacimiento}
+(entidad de origen del individuo) o \code{Residencia} (entidad donde reside el individuo).}
 
-\item{fecha_tipo}{Selecciona \code{Ingreso}, \code{Sintomas} o \code{Defuncion} por default
-incluye fecha de \code{Sintomas}}
+\item{fecha_tipo}{(\strong{opcional}) Selecciona si la fecha que se utiliza es la fecha de \code{Ingreso}
+(si aplica), la fecha de \code{Sintomas} o la de \code{Defuncion} (si aplica). El default es fecha de \code{Sintomas}.}
 
-\item{tipo_uci}{Vector con el tipo de valores para Unidad de Cuidado Intensivo a incluir:
-\code{SI},\code{NO},\verb{NO APLICA},\verb{SE IGNORA},\verb{NO ESPECIFICADO}}
+\item{tipo_uci}{(\strong{opcional})  Vector con el tipo de valores para Unidad de
+Cuidado Intensivo (UCI) a incluir:  \code{SI},\code{NO},\verb{NO APLICA},\verb{SE IGNORA},\verb{NO ESPECIFICADO}.
+Por default se incluyen todos.}
 
-\item{group_by_tipo_uci}{Boolean determinando si regresa la base
-con cada entrada agrupada por tipo de uci (es decir cada fecha
-se generan tantos observaciones como grupos de tipo de uci)}
+\item{group_by_tipo_uci}{(\strong{opcional}) Booleana. El caso \code{TRUE} determina si regresa la base
+con cada fecha teniendo diferentes renglones uno para cada \code{tipo_uci} (es decir cada fecha
+se generan tantos observaciones como grupos de tipo de UCI) o bien en una sola fecha
+se suman todos los tipos de UCI (\code{FALSE}). El default es \code{FALSE}.}
 
-\item{tipo_clasificacion}{Vector con el tipo de clasificaciones a incluir:
-\code{Sospechosos},\verb{Confirmados COVID}, \verb{Negativo a COVID},
-\verb{Inv\\u00e1lido}, \verb{No realizado}}
+\item{tipo_clasificacion}{(\strong{opcional})  Vector con el tipo de clasificaciones (por la prueba)
+a incluir:\code{Sospechosos},\verb{Confirmados COVID}, \verb{Negativo a COVID}, \verb{Inv\\u00e1lido}, \verb{No realizado}}
 
-\item{group_by_tipo_clasificacion}{Boolean determinando si regresa la base
-con cada entrada agrupada por tipo de clasificación (es decir cada fecha
-se generan tantos observaciones como grupos de tipo de clasificación)}
+\item{group_by_tipo_clasificacion}{(\strong{opcional})  Booleana determinando si regresa la base
+con cada entrada agrupada por \code{tipo_clasificacion} (es decir cada fecha
+se generan tantos observaciones como grupos de tipo de clasificación) en caso \code{TRUE}. Si
+\code{FALSE} suma todos los casos del tipo de clasificacion por fecha dando un solo numero por fecha.
+El defalt es \code{FALSE}.}
 
-\item{tipo_paciente}{Vector con el tipo de pacientes a incluir. Opciones:
-\code{AMBULATORIO}, \code{HOSPITALIZADO}, \verb{NO ESPECIFICADO}}
+\item{tipo_paciente}{(\strong{opcional}) Vector con el tipo de pacientes a incluir. Opciones:
+\code{AMBULATORIO}, \code{HOSPITALIZADO}, \verb{NO ESPECIFICADO}. Por default se incluyen todos.}
 
-\item{group_by_tipo_paciente}{Boolean determinando si regresa la base
-con cada entrada agrupada por tipo de paciente (es decir cada fecha
-se generan tantos observaciones como grupos de tipo de paciente)}
+\item{group_by_tipo_paciente}{(\strong{opcional}) Booleana determinando (caso \code{TRUE}) si regresa
+la base con cada entrada agrupada por \code{tipo_paciente} (es decir cada fecha
+se genera un renglon para \code{AMBULATORIO}, un renglon para \code{HOSPITALIZADO}, etc) o bien
+si se suman todos los grupos y cada fecha reporta solo la suma de estos
+(estilo \code{AMBULATORIO + HOSPITALIZADO} segun las categorias de \code{tipo_paciente})
+El default es \code{FALSE}.}
 
-\item{tipo_sector}{Vector con los sectores del sistema de salud a incluir:
+\item{tipo_sector}{(\strong{opcional}) Vector con los sectores del sistema de salud a incluir:
 \verb{CRUZ ROJA},\code{DIF},\code{ESTATAL},\code{IMSS},\code{IMSS-BIENESTAR},\code{ISSSTE}, \code{MUNICIPAL},\code{PEMEX},
-\code{PRIVADA},\code{SEDENA},\code{SEMAR},\code{SSA}, \code{UNIVERSITARIO},\verb{NO ESPECIFICADO}.}
+\code{PRIVADA},\code{SEDENA},\code{SEMAR},\code{SSA}, \code{UNIVERSITARIO},\verb{NO ESPECIFICADO}.
+Por default se incluyen todos.}
 
-\item{group_by_tipo_sector}{Boolean determinando si regresa la base
-con cada entrada agrupada por tipo de sector (es decir cada fecha
-se generan tantos observaciones como grupos de tipo de sector)}
+\item{group_by_tipo_sector}{(\strong{opcional}) Booleana determina en el caso de \code{TRUE} si regresa
+la base con cada entrada agrupada por \code{tipo_sector} (es decir cada fecha
+tiene una entrada con los del \code{IMSS}, una entrada distinta con los de \code{ISSSTE}, etc) o bien
+en caso de \code{FALSE} se devuelve una sola entrada por fecha con la suma \code{IMSS + ISSSTE + etc}
+segun los  sectores seleccionados. El default es \code{FALSE}.}
 
-\item{edad_cut}{Vector con secuencia de edades para hacer grupos. Por ejemplo
+\item{edad_cut}{(\strong{opcional}) Vector con secuencia de edades para hacer grupos. Por ejemplo
 \code{edad_cut = c(0, 10, Inf)} arma dos grupos de edad de 0 a 10 y de 10 a infinito o bien
-\code{edad_cut = c(15, 20)} deja sólo los registros entre 15 y 20 años. Por default es NULL}
+\code{edad_cut = c(15, 20)} deja sólo los registros entre 15 y 20 años. Por default es \code{NULL}
+y no arma grupos etarios.}
 
-\item{fill_NA}{Regresa observaciones
-para todas las combinaciones de variables incluyendo como NA donde no se observaron casos
-y por tanto el denominador y el \code{chr} es indefinido.}
+\item{fill_NA}{Regresa observaciones para todas las combinaciones de variables incluyendo
+como \code{NA} donde no se observaron casos en el denominador.  En caso contrario no se incluyen
+las filas donde no se observaron casos.}
 
-\item{quiet}{No arroja ningun mensaje}
+\item{list_name}{(\strong{opcional}) Asigna un nombre en la lista de datos a la base generada}
 
-\item{list_name}{Asigna un nombre en la lista de datos a la base generada}
-
-\item{.grouping_vars}{Vector de variables adicionales de agrupacion de los conteos}
+\item{.grouping_vars}{(\strong{opcional}) Vector de variables adicionales de agrupacion de los
+conteos. Por ejemplo si se agrega \code{.grouping_vars = 'DIABETES'} entonces para cada fecha habra
+dos conteos de casos uno de los que tienen diabetes y uno de los que no.}
 }
 \value{
-Appends a la lista de \code{datos_covid} una nueva entrada de nombre \code{list_name}
-(default: \code{casos}) con una base de datos (\code{tibble} o \code{dbConnection}) con los
+Une a la lista de \code{datos_covid} una nueva entrada de nombre \code{list_name}
+(default: \verb{case fatality rate}) con una base de datos (\code{tibble} o \code{duckdb}) con los
 resultados agregados.
+
 \itemize{
-\item \verb{case hospitalization rate} - Base de datos generara con los datos agregados (el nombre cambia si
-se usa \code{list_name}).
+\item \verb{case fatality rate} - Base de datos generara con los datos agregados (el nombre cambia
+si se usa \code{list_name}).
 \item dict - Diccionario de datos
-\item dats - Datos originales (conexion a DB)
-\item disconnect  - Función para desconectarte de DB
+\item dats - Datos originales (conexion a \code{duckdb} o \code{tibble})
+\item disconnect  - Función para desconectarte de \code{duckdb}
+\item ... - Cualquier otro elemento que ya existiera en \code{datos_covid}
 }
 }
 \description{
-\code{chr} Calcula la proporción de enfermos que fallecen sobre todos los enfermos confirmados
-en distintas categorías (residencia / edad / etc)
+Calcula la proporcion de enfermos que fallecen sobre todos los enfermos confirmados
+en distintas categorias (residencia / edad / etc)
 }
 \details{
-This is not an official product / este no es un producto oficial
+El case fatality rate se define como
+
+\deqn{\frac{\# \text{Defunciones}}{\text{Total de enfermos}}}{%
+\# Defunciones / Total de enfermos}
+
+Si se utiliza la opción \code{tipo_clasificacion} se puede cambiar la definicion de enfermo
+(por default se incluyen solamente \code{"Confirmados COVID"}).
 }
 \examples{
-\dontrun{
-datos_covid <- descarga_datos_abiertos()
+#Para el ejemplo usaremos los datos precargados pero tu puedes
+#correr el ejemplo descargando informacion mas reciente:
+#datos_covid <- descarga_datos_abiertos() #Sugerido
 
-# Casos a nivel nacional
+datos_covid <- datosabiertos
+
+# Casos a nivel nacional por entidad
 datos_covid <- datos_covid |> cfr()
 head(datos_covid$`case fatality rate`)
 
-# Nacional
-datos_covid <- datos_covid |> cfr(list_name = "cfr_nacional", group_by_entidad = F)
+# Agregando todos los estados
+datos_covid <- datos_covid |> 
+     cfr(list_name = "cfr_nacional", group_by_entidad = FALSE)
+head(datos_covid$`cfr_nacional`)
 
-# CFR en Jalisco y Colima
+# CFR en Baja California
 datos_covid <- datos_covid |>
-  cfr(entidades = c("JALISCO", "COLIMA"), list_name = "cfr_Jaliscolima")
+  cfr(entidades = c("BAJA CALIFORNIA"), list_name = "cfr_bc")
+head(datos_covid$`cfr_bc`)
 
 # Calcula el CFR suponiendo toda la base son confirmados
 datos_covid <- datos_covid |>
   cfr(
-    entidades = c("JALISCO", "COLIMA"),
+    entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
     tipo_clasificacion = c(
       "Sospechosos", "Confirmados COVID",
       "Negativo a COVID", "Inv\u00e1lido", "No realizado"
     ),
-    group_by_tipo_clasificacion = TRUE, list_name = "Jaliscolima2_cfr"
+    group_by_tipo_clasificacion = TRUE, list_name = "bc_bcs_cfr"
   )
+head(datos_covid$`bc_bcs_cfr`) #Los NA es porque no habia observaciones en el denominador
 
 # Distinguiendo entre ambulatorio y hospitalizado
 datos_covid <- datos_covid |>
-  casos(
-    entidades = c("JALISCO", "COLIMA"),
-    tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-    group_by_tipo_paciente = TRUE,
-    list_name = "Jalisco + colima cfr"
-  )
-
-# CFR en ambulatorios y hospitalizados
-datos_covid |>
   cfr(
     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
     group_by_tipo_paciente = TRUE,
-    group_by_entidad = FALSE,
-    list_name = "CFR_hosp_amb"
-  ) |>
-  plot_covid(df_name = "CFR_hosp_amb", type = "line", facet_ncol = 3)
+    list_name = "cfr_paciente"
+  )
+head(datos_covid$cfr_paciente)
+
+#CFR en distintos grupos de edad (0 a 20, 20 a 60 y 60+)
+datos_covid <- datos_covid |>
+   cfr(edad_cut = c(0, 20, 60, Inf), list_name = "cfr_edad")
+head(datos_covid$cfr_edad)
 
 # Si deseas agrupar por una variable que no este en las opciones
 datos_covid <- datos_covid |>
   cfr(.grouping_vars = c("DIABETES"), list_name = "cfr_diab")
-}
+head(datos_covid$cfr_diab)
 
+}
+\seealso{
+\code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}} \code{\link[=numero_pruebas]{numero_pruebas()}} \code{\link[=chr]{chr()}} \code{\link[=estima_rt]{estima_rt()}}
+\code{\link[=positividad]{positividad()}} \code{\link[=casos]{casos()}}
 }

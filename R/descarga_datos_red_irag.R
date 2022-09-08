@@ -54,7 +54,7 @@
 #'   plot_covid(df_variable = "Hospitalizados (%)", df_covariates = "Estado", type = "area")
 #' }
 #' @encoding UTF-8
-#' @seealso [descarga_datos_variantes_GISAID] [descarga_datos_abiertos] [read_datos_abiertos]
+#' @seealso [descarga_datos_variantes_GISAID()] [descarga_datos_abiertos()] [read_datos_abiertos()]
 #'
 #' @references
 #'

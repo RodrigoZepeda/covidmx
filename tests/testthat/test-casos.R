@@ -60,7 +60,7 @@ test_that("Casos", {
 
   #Agrupamos usando dplyr clásico
   casos_agrupados_al_natural <- datos_covid$dats |>
-    dplyr::filter(!!as.symbol("FECHA_DEF") > as.Date("1999/01/01", format = "%Y/%m/%d")) |>
+    dplyr::filter(!!as.symbol("FECHA_DEF") > as.POSIXct("1999/01/01", format = "%Y/%m/%d")) |>
     dplyr::group_by_at("FECHA_INGRESO") |>
     dplyr::group_by_at("ENTIDAD_UM", .add = TRUE) |>
     dplyr::tally() |>
@@ -286,5 +286,8 @@ test_that("Casos", {
   
   #Chequeo de una entidad sin sentido-----
   expect_error(datos_covid |> casos(entidades = c("2y48rogf","gdivfk")))
+  
+  #Chequeo de repetidos----
+  expect_message(casos(casos_prueba, list_name = "Prueba"))
 
 })

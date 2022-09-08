@@ -1,140 +1,89 @@
 #' Case Fatality Rate (CFR)
 #'
-#' @description
-#' `chr` Calcula la proporción de enfermos que fallecen sobre todos los enfermos confirmados
-#' en distintas categorías (residencia / edad / etc)
+#' @description Calcula la proporcion de enfermos que fallecen sobre todos los enfermos confirmados
+#' en distintas categorias (residencia / edad / etc)
 #'
-#' @details
-#' This is not an official product / este no es un producto oficial
-#'
-#' @param datos_covid If no data is available it automatically downloads COVID-19
-#' information.
-#'
-#' @param entidades Vector con las entidades de las unidades medicas a analizar.
-#' Opciones: `AGUASCALIENTES`, `BAJA CALIFORNIA`, `BAJA CALIFORNIA SUR`,
-#' `CAMPECHE`, `CHIAPAS`, `CHIHUAHUA`, `CIUDAD DE MEXICO`,
-#' `COAHUILA DE ZARAGOZA` , `COLIMA`, `DURANGO`, `GUANAJUATO`, `GUERRERO`,
-#' `HIDALGO`, `JALISCO`, `MEXICO`, `MICHOACAN DE OCAMPO`, `MORELOS`,`NAYARIT`
-#' `NUEVO LEON`, `OAXACA` ,`PUEBLA`, `QUERETARO`,`QUINTANA ROO`,
-#' `SAN LUIS POTOSI`, `SINALOA`, `SONORA`, `TABASCO`, `TAMAULIPAS`,`TLAXCALA`,
-#' `VERACRUZ DE IGNACIO DE LA LLAVE`, `YUCATAN`, `ZACATECAS`
-#'
-#' @param group_by_entidad Si junta las entidades en una sola
-#' o bien las muestra por separado sin agrupar.
-#'
-#' @param entidad_tipo Selecciona `Unidad Medica`, `Nacimiento` o `Residencia`.
-#' por default incluye `Unidad Medica`
-#'
-#' @param fecha_tipo Selecciona `Ingreso`, `Sintomas` o `Defuncion` por default
-#' incluye fecha de `Sintomas`
-#'
-#' @param tipo_clasificacion Vector con el tipo de clasificaciones a incluir:
-#' `Sospechosos`,`Confirmados COVID`, `Negativo a COVID`,
-#' `Inv\u00e1lido`, `No realizado`
-#'
-#' @param group_by_tipo_clasificacion Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de clasificación (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de clasificación)
-#'
-#' @param tipo_paciente Vector con el tipo de pacientes a incluir. Opciones:
-#'  `AMBULATORIO`, `HOSPITALIZADO`, `NO ESPECIFICADO`
-#'
-#' @param group_by_tipo_paciente Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de paciente (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de paciente)
-#'
-#' @param tipo_uci Vector con el tipo de valores para Unidad de Cuidado Intensivo a incluir:
-#'  `SI`,`NO`,`NO APLICA`,`SE IGNORA`,`NO ESPECIFICADO`
-#'
-#' @param group_by_tipo_uci Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de uci (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de uci)
-#'
-#' @param tipo_sector Vector con los sectores del sistema de salud a incluir:
-#' `CRUZ ROJA`,`DIF`,`ESTATAL`,`IMSS`,`IMSS-BIENESTAR`,`ISSSTE`, `MUNICIPAL`,`PEMEX`,
-#' `PRIVADA`,`SEDENA`,`SEMAR`,`SSA`, `UNIVERSITARIO`,`NO ESPECIFICADO`.
-#'
-#' @param group_by_tipo_sector Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de sector (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de sector)
-#'
-#' @param fill_NA Regresa observaciones
-#' para todas las combinaciones de variables incluyendo como NA donde no se observaron casos
-#' y por tanto el denominador y el `chr` es indefinido.
-#'
-#' @param edad_cut Vector con secuencia de edades para hacer grupos. Por ejemplo
-#' `edad_cut = c(0, 10, Inf)` arma dos grupos de edad de 0 a 10 y de 10 a infinito o bien
-#' `edad_cut = c(15, 20)` deja sólo los registros entre 15 y 20 años. Por default es NULL
-#'
-#' @param .grouping_vars Vector de variables adicionales de agrupacion de los conteos
-#'
-#' @param list_name Asigna un nombre en la lista de datos a la base generada
-#'
-#' @param quiet No arroja ningun mensaje
-#'
+#' @inheritParams casos
+#' @inheritParams positividad
+#' 
 #' @importFrom rlang :=
+#' 
+#' @details El case fatality rate se define como
+#' 
+#' \deqn{\frac{\# \text{Defunciones}}{\text{Total de enfermos}}}{%
+#' \# Defunciones / Total de enfermos}
+#' 
+#' Si se utiliza la opción `tipo_clasificacion` se puede cambiar la definicion de enfermo
+#' (por default se incluyen solamente `"Confirmados COVID"`). 
 #'
-#' @return Appends a la lista de `datos_covid` una nueva entrada de nombre `list_name`
-#' (default: `casos`) con una base de datos (`tibble` o `dbConnection`) con los
+#' @return Une a la lista de `datos_covid` una nueva entrada de nombre `list_name`
+#' (default: `case fatality rate`) con una base de datos (`tibble` o `duckdb`) con los
 #' resultados agregados.
+#' 
 #' \itemize{
-#'   \item `case hospitalization rate` - Base de datos generara con los datos agregados (el nombre cambia si
-#'   se usa `list_name`).
+#'   \item `case fatality rate` - Base de datos generara con los datos agregados (el nombre cambia 
+#'   si se usa `list_name`).
 #'   \item dict - Diccionario de datos
-#'   \item dats - Datos originales (conexion a DB)
-#'   \item disconnect  - Función para desconectarte de DB
+#'   \item dats - Datos originales (conexion a `duckdb` o `tibble`)
+#'   \item disconnect  - Función para desconectarte de `duckdb`
+#'   \item ... - Cualquier otro elemento que ya existiera en `datos_covid`
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' datos_covid <- descarga_datos_abiertos()
+#' #Para el ejemplo usaremos los datos precargados pero tu puedes
+#' #correr el ejemplo descargando informacion mas reciente:
+#' #datos_covid <- descarga_datos_abiertos() #Sugerido
+#' 
+#' datos_covid <- datosabiertos
 #'
-#' # Casos a nivel nacional
+#' # Casos a nivel nacional por entidad
 #' datos_covid <- datos_covid |> cfr()
 #' head(datos_covid$`case fatality rate`)
 #'
-#' # Nacional
-#' datos_covid <- datos_covid |> cfr(list_name = "cfr_nacional", group_by_entidad = F)
-#'
-#' # CFR en Jalisco y Colima
+#' # Agregando todos los estados
+#' datos_covid <- datos_covid |> 
+#'      cfr(list_name = "cfr_nacional", group_by_entidad = FALSE)
+#' head(datos_covid$`cfr_nacional`)
+#' 
+#' # CFR en Baja California
 #' datos_covid <- datos_covid |>
-#'   cfr(entidades = c("JALISCO", "COLIMA"), list_name = "cfr_Jaliscolima")
-#'
+#'   cfr(entidades = c("BAJA CALIFORNIA"), list_name = "cfr_bc")
+#' head(datos_covid$`cfr_bc`)
+#' 
 #' # Calcula el CFR suponiendo toda la base son confirmados
 #' datos_covid <- datos_covid |>
 #'   cfr(
-#'     entidades = c("JALISCO", "COLIMA"),
+#'     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
 #'     tipo_clasificacion = c(
 #'       "Sospechosos", "Confirmados COVID",
 #'       "Negativo a COVID", "Inv\u00e1lido", "No realizado"
 #'     ),
-#'     group_by_tipo_clasificacion = TRUE, list_name = "Jaliscolima2_cfr"
+#'     group_by_tipo_clasificacion = TRUE, list_name = "bc_bcs_cfr"
 #'   )
-#'
+#' head(datos_covid$`bc_bcs_cfr`) #Los NA es porque no habia observaciones en el denominador
+#' 
 #' # Distinguiendo entre ambulatorio y hospitalizado
 #' datos_covid <- datos_covid |>
-#'   casos(
-#'     entidades = c("JALISCO", "COLIMA"),
-#'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-#'     group_by_tipo_paciente = TRUE,
-#'     list_name = "Jalisco + colima cfr"
-#'   )
-#'
-#' # CFR en ambulatorios y hospitalizados
-#' datos_covid |>
 #'   cfr(
 #'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
 #'     group_by_tipo_paciente = TRUE,
-#'     group_by_entidad = FALSE,
-#'     list_name = "CFR_hosp_amb"
-#'   ) |>
-#'   plot_covid(df_name = "CFR_hosp_amb", type = "line", facet_ncol = 3)
-#'
+#'     list_name = "cfr_paciente"
+#'   )
+#' head(datos_covid$cfr_paciente)
+#' 
+#' #CFR en distintos grupos de edad (0 a 20, 20 a 60 y 60+)
+#' datos_covid <- datos_covid |>
+#'    cfr(edad_cut = c(0, 20, 60, Inf), list_name = "cfr_edad")
+#' head(datos_covid$cfr_edad)
+#' 
 #' # Si deseas agrupar por una variable que no este en las opciones
 #' datos_covid <- datos_covid |>
 #'   cfr(.grouping_vars = c("DIABETES"), list_name = "cfr_diab")
-#' }
-#'
+#' head(datos_covid$cfr_diab)
+#' 
+#' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [chr()] [estima_rt()] 
+#' [positividad()] [casos()]
+#' 
 #' @export
 
 cfr <- function(datos_covid,
@@ -175,21 +124,26 @@ cfr <- function(datos_covid,
                 group_by_tipo_sector = FALSE,
                 edad_cut = NULL,
                 fill_NA = TRUE,
-                quiet = FALSE,
                 list_name = "case fatality rate",
                 .grouping_vars = c()) {
 
 
-  # Finally bind to previous object
-  if (any(stringr::str_detect(names(datos_covid), list_name))) {
-    cli::cli_abort(
-      "Imposible crear elemento {list_name} pues ya existe en la lista.
-       Utiliza {.code list_name = 'nuevo_nombre'} para generar otro elemento"
-    )
-  }
-
-  if (!quiet) {
-    cli::cli_alert("Calculando los casos totales")
+  # Chequeo de si existe elemento en la lista y duplicacion
+  k <- 0; in_list <- TRUE; baselistname <- list_name
+  while(in_list){
+    if (any(stringr::str_detect(names(datos_covid), list_name))) {
+      k <- k + 1
+      list_name <- paste0(baselistname, "_", as.character(k))
+    } else {
+      in_list <- FALSE
+      if (k > 0){
+        cli::cli_alert_warning(
+          c("Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
+            " Utiliza {.code list_name = 'nuevo_nombre'} para nombrar a los elementos y evitar",
+            " este problema.")
+        )
+      }
+    }
   }
 
   # Trick to get new name
@@ -217,9 +171,6 @@ cfr <- function(datos_covid,
     .grouping_vars = c()
   )[[name_1]]
 
-  if (!quiet) {
-    cli::cli_alert("Calculando las defunciones")
-  }
   .casos_defunciones <- casos(
     datos_covid = datos_covid,
     entidades = entidades,
@@ -241,9 +192,6 @@ cfr <- function(datos_covid,
     .grouping_vars = c()
   )[[name_2]]
 
-  if (!quiet) {
-    cli::cli_alert("Calculando el cfr")
-  }
 
   .casos_totales <- .casos_totales |>
     dplyr::left_join(.casos_defunciones |>

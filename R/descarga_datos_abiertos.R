@@ -209,7 +209,7 @@
 #' }
 #' @encoding UTF-8
 #' @seealso [read_datos_abiertos()]  [descarga_datos_red_irag()]
-#' [descarga_datos_variantes_GISAID()]
+#' [descarga_datos_variantes_GISAID()] [casos()]
 #'
 #' @references
 #'

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.2000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.1000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -90,52 +90,52 @@
     <div class="section level2">
     <h2 id="argumentos">Argumentos<a class="anchor" aria-label="anchor" href="#argumentos"></a></h2>
     <dl><dt>datos_covid</dt>
-<dd><p>If no data is available it automatically downloads COVID-19
-information y calcula los casos por entidad</p></dd>
+<dd><p>(<strong>obligatorio</strong>) Lista de <code>tibble</code>s resultante de <code><a href="descarga_datos_abiertos.html">descarga_datos_abiertos()</a></code>
+o <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code></p></dd>
 
 
 <dt>df_name</dt>
-<dd><p>Nombre de la base de datos dentro de la lista datos_covid</p></dd>
+<dd><p>(<strong>opcional</strong>) Nombre de la base de datos dentro de la lista datos_covid</p></dd>
 
 
 <dt>df_date_index</dt>
-<dd><p>Nombre de la variable que contiene la fecha</p></dd>
+<dd><p>(<strong>opcional</strong>) Nombre de la variable que contiene la fecha</p></dd>
 
 
 <dt>df_variable</dt>
-<dd><p>Nombre de la variable que se va a graficar en el eje y</p></dd>
+<dd><p>(<strong>opcional</strong>) Nombre de la variable que se va a graficar en el eje y</p></dd>
 
 
 <dt>df_covariates</dt>
-<dd><p>Covariables para el facet (maximo 2)</p></dd>
+<dd><p>(<strong>opcional</strong>) Covariables para el <code>facet_wrap</code> (maximo 2)</p></dd>
 
 
 <dt>facet_scale</dt>
-<dd><p>Escala para el facet_wrap</p></dd>
+<dd><p>(<strong>opcional</strong>) Escala para el <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">ggplot2::facet_wrap()</a></code></p></dd>
 
 
 <dt>facet_ncol</dt>
-<dd><p>Numero de columnas para el facet_wrap</p></dd>
+<dd><p>(<strong>opcional</strong>)  Numero de columnas para el <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">ggplot2::facet_wrap()</a></code></p></dd>
 
 
 <dt>date_break_format</dt>
-<dd><p>Breaks para el eje x</p></dd>
+<dd><p>(<strong>opcional</strong>) Breaks para el eje x <code><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">ggplot2::scale_x_date()</a></code></p></dd>
 
 
 <dt>date_labels_format</dt>
-<dd><p>Formato de fecha para el eje x</p></dd>
+<dd><p>(<strong>opcional</strong>) Formato de fecha para el eje x <code><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">ggplot2::scale_x_date()</a></code></p></dd>
 
 
 <dt>type</dt>
-<dd><p>Tipo de grafica (<code>line</code>, <code>area</code>, <code>spline</code> o <code>point</code>)</p></dd>
+<dd><p>(<strong>opcional</strong>) Tipo de grafica (<code>line</code>, <code>area</code>, <code>spline</code> o <code>point</code>)</p></dd>
 
 
 <dt>plot_theme</dt>
-<dd><p>Tema para el <code>ggplot2</code></p></dd>
+<dd><p>(<strong>opcional</strong>) Tema para el <code>ggplot2</code> (ejemplo <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">ggplot2::theme_classic()</a></code>).</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Parametros adicionales para <code><a href="https://rdrr.io/pkg/ggformula/man/geom_spline.html" class="external-link">ggformula::geom_spline</a></code> en caso de elegir
+<dd><p>Parametros adicionales para <code><a href="https://rdrr.io/pkg/ggformula/man/geom_spline.html" class="external-link">ggformula::geom_spline()</a></code> en caso de elegir
 <code>type="spline"</code></p></dd>
 
 </dl></div>

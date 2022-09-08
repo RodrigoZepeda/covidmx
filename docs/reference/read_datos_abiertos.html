@@ -14,7 +14,7 @@ si los lee de duckdb, csv ó zip"><meta property="og:image" content="https://rod
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.2000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.1000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -146,46 +146,46 @@ tibble (si <code>tibble</code>)</p></li>
     <div class="section level2">
     <h2 id="ver-tambi-n">Ver también<a class="anchor" aria-label="anchor" href="#ver-tambi-n"></a></h2>
     <div class="dont-index"><p><code><a href="descarga_datos_abiertos.html">descarga_datos_abiertos()</a></code>  <code><a href="descarga_datos_red_irag.html">descarga_datos_red_irag()</a></code>
-<code><a href="descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID()</a></code></p></div>
+<code><a href="descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID()</a></code> <code><a href="casos.html">casos()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># EJEMPLO 1: Lee los datos de duckdb una vez descargados</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>dbdir <span class="op">=</span> <span class="st">"ejemplo.duckdb"</span><span class="op">)</span> <span class="co">#Descarga y genera duckdb</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>dbdir <span class="op">=</span> <span class="st">"ejemplo.duckdb"</span><span class="op">)</span> <span class="co"># Descarga y genera duckdb</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="st">"ejemplo.duckdb"</span><span class="op">)</span> <span class="co">#Lee duckdb</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="st">"ejemplo.duckdb"</span><span class="op">)</span> <span class="co"># Lee duckdb</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># EJEMPLO 2: Lee los datos desde un zip descargado</span></span></span>
-<span class="r-in"><span><span class="va">direccion_zip</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">descarga_db_datos_abiertos_tbl</a></span><span class="op">(</span><span class="op">)</span>  <span class="co">#Descarga archivos de la DGE y guarda el zip</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span>   <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="va">direccion_zip</span>, dbdir <span class="op">=</span> <span class="st">"ejemplo.duckdb"</span><span class="op">)</span> <span class="co">#Lee zip</span></span></span>
+<span class="r-in"><span><span class="va">direccion_zip</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">descarga_db_datos_abiertos_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Descarga archivos de la DGE y guarda el zip</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="va">direccion_zip</span>, dbdir <span class="op">=</span> <span class="st">"ejemplo.duckdb"</span><span class="op">)</span> <span class="co"># Lee zip</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># EJEMPLO 3: Lee los datos desde un zip descargado</span></span></span>
-<span class="r-in"><span><span class="va">direccion_zip</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">descarga_db_datos_abiertos_tbl</a></span><span class="op">(</span><span class="op">)</span>            <span class="co">#Descarga archivos zip de la DGE</span></span></span>
-<span class="r-in"><span><span class="va">direccion_csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">unzip_db_datos_abiertos_tbl</a></span><span class="op">(</span><span class="va">direccion_zip</span><span class="op">)</span>  <span class="co">#Descomprime el zip para tener csv</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span>   <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="va">direccion_csv</span>, dbdir <span class="op">=</span> <span class="st">"ejemplo.duckdb"</span><span class="op">)</span> <span class="co">#Lee los csv</span></span></span>
+<span class="r-in"><span><span class="va">direccion_zip</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">descarga_db_datos_abiertos_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Descarga archivos zip de la DGE</span></span></span>
+<span class="r-in"><span><span class="va">direccion_csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">unzip_db_datos_abiertos_tbl</a></span><span class="op">(</span><span class="va">direccion_zip</span><span class="op">)</span> <span class="co"># Descomprime el zip para tener csv</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="va">direccion_csv</span>, dbdir <span class="op">=</span> <span class="st">"ejemplo.duckdb"</span><span class="op">)</span> <span class="co"># Lee los csv</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># EJEMPLO 4: Si ya tenias el diccionario lo puedes agregar</span></span></span>
-<span class="r-in"><span><span class="va">diccionario</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">descarga_diccionario</a></span><span class="op">(</span><span class="op">)</span> <span class="co">#Simula la idea de ya tener el diccionario</span></span></span>
+<span class="r-in"><span><span class="va">diccionario</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">descarga_diccionario</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Simula la idea de ya tener el diccionario</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="st">"ejemplo.duckdb"</span>, diccionario <span class="op">=</span> <span class="va">diccionario</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># EJEMPLO 5: Si ya tenias el diccionario como archivo zip</span></span></span>
-<span class="r-in"><span><span class="va">diccionario_zip</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">descarga_db_diccionario_ssa</a></span><span class="op">(</span><span class="op">)</span> <span class="co">#Descarga el diccionario para tenerlo como zip</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span>     <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="st">"ejemplo.duckdb"</span>, diccionario_zip_path <span class="op">=</span> <span class="va">diccionario_zip</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">diccionario_zip</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">descarga_db_diccionario_ssa</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Descarga el diccionario para tenerlo como zip</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="st">"ejemplo.duckdb"</span>, diccionario_zip_path <span class="op">=</span> <span class="va">diccionario_zip</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># EJEMPLO 6: Si ya tenias el diccionario como archivo xlsx</span></span></span>
-<span class="r-in"><span><span class="va">diccionario_zip</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">descarga_db_diccionario_ssa</a></span><span class="op">(</span><span class="op">)</span> <span class="co">#Descarga el diccionario para tenerlo como zip</span></span></span>
-<span class="r-in"><span><span class="va">diccionario_csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">unzip_db_diccionario_ssa</a></span><span class="op">(</span><span class="va">diccionario_zip</span><span class="op">)</span> <span class="co">#Abre el csv del diccionario</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span>     <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="st">"ejemplo.duckdb"</span>, </span></span>
-<span class="r-in"><span>                                       diccionario_unzipped_path <span class="op">=</span> <span class="va">diccionario_csv</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">diccionario_zip</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">descarga_db_diccionario_ssa</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Descarga el diccionario para tenerlo como zip</span></span></span>
+<span class="r-in"><span><span class="va">diccionario_csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="descarga_db.html">unzip_db_diccionario_ssa</a></span><span class="op">(</span><span class="va">diccionario_zip</span><span class="op">)</span> <span class="co"># Abre el csv del diccionario</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">read_datos_abiertos</span><span class="op">(</span><span class="st">"ejemplo.duckdb"</span>,</span></span>
+<span class="r-in"><span>  diccionario_unzipped_path <span class="op">=</span> <span class="va">diccionario_csv</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>

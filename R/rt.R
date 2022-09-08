@@ -1,51 +1,22 @@
 #' RT: Número efectivo de reproducción
 #'
 #' @description
-#' `estima_rt` Calcula el número efectivo de reproducción por fecha y entidad
+#' `estima_rt` Calcula el número efectivo de reproducción por fecha y entidad usando
+#' los metodos de [EpiEstim::estimate_R()]. Por default calcula el número efectivo de 
+#' reproducción para cada estado.
+#' 
 #'
-#' @details
-#' Por default calcula el número efectivo de reproducción por estado
-#' This is not an official product / este no es un producto oficial
+#' @inheritParams casos
+#' 
+#' @param method Metodo para estimar el RT con [EpiEstim::estimate_R()].
 #'
-#' @param datos_covid If no data is available it automatically downloads COVID-19
-#' information.
+#' @param config Configuracion para la estimacion del RT usando [EpiEstim::make_config()].
 #'
-#' @param entidades Vector con las entidades de las unidades medicas a analizar.
-#' Opciones: `AGUASCALIENTES`, `BAJA CALIFORNIA`, `BAJA CALIFORNIA SUR`,
-#' `CAMPECHE`, `CHIAPAS`, `CHIHUAHUA`, `CIUDAD DE MEXICO`,
-#' `COAHUILA DE ZARAGOZA` , `COLIMA`, `DURANGO`, `GUANAJUATO`, `GUERRERO`,
-#' `HIDALGO`, `JALISCO`, `MEXICO`, `MICHOACAN DE OCAMPO`, `MORELOS`,`NAYARIT`
-#' `NUEVO LEON`, `OAXACA` ,`PUEBLA`, `QUERETARO`,`QUINTANA ROO`,
-#' `SAN LUIS POTOSI`, `SINALOA`, `SONORA`, `TABASCO`, `TAMAULIPAS`,`TLAXCALA`,
-#' `VERACRUZ DE IGNACIO DE LA LLAVE`, `YUCATAN`, `ZACATECAS`
+#' @param min_date Mínima fecha a partir de la cual estimar el RT.
 #'
-#' @param group_by_entidad Si junta las entidades en una sola
-#' o bien las muestra por separado sin agrupar.
+#' @param max_date Máxima fecha a partir de la cual estimar el RT.
 #'
-#' @param entidad_tipo Selecciona `Unidad Medica`, `Nacimiento` o `Residencia`.
-#' por default incluye `Unidad Medica`
-#'
-#' @param fecha_tipo Selecciona `Ingreso`, `Sintomas` o `Defuncion` por default
-#' incluye fecha de `Sintomas`
-#'
-#' @param tipo_paciente Vector con el tipo de pacientes a incluir. Opciones:
-#'  `AMBULATORIO`, `HOSPITALIZADO`, `NO ESPECIFICADO`
-#'
-#' @param method Method for estimating RT with `EpiEstim::estimate_R`
-#'
-#' @param config Configuration for estimating RT with `EpiEstim::estimate_R`
-#'
-#' @param tipo_clasificacion Vector con el tipo de clasificaciones a incluir:
-#' `Sospechosos`,`Confirmados COVID`, `Negativo a COVID`,
-#' `Inv\u00e1lido`, `No realizado`
-#'
-#' @param min_date Mínima fecha a partir de la cual estimar el RT
-#'
-#' @param max_date Máxima fecha a partir de la cual estimar el RT
-#'
-#' @param list_name Asigna un nombre en la lista de datos a la base generada
-#'
-#' @param ... Parámetros adicionales para `EpiEstim::estimate_R`.
+#' @param ... Parámetros adicionales para [EpiEstim::estimate_R()].
 #'
 #' @importFrom rlang :=
 #'
@@ -62,7 +33,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' datos_covid <- descarga_datos_abiertos()
+#' datos_covid <- datosabiertos
 #'
 #' # Casos a nivel nacional en los confirmados
 #' datos_covid <- datos_covid |>
@@ -84,6 +55,8 @@
 #'     df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA"
 #'   )
 #' }
+#' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [chr()] 
+#' [positividad()] [casos()]
 #'
 #' @export
 estima_rt <- function(datos_covid,
@@ -116,8 +89,8 @@ estima_rt <- function(datos_covid,
                       ),
                       tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
                       list_name = "estima_rt",
-                      min_date = as.Date("2021/11/21", format = "%Y/%m/%d"),
-                      max_date = as.Date(Sys.time()),
+                      min_date = as.POSIXct("2021/11/21", format = "%Y/%m/%d"),
+                      max_date = as.POSIXct(Sys.time()),
                       method = "parametric_si",
                       config = if (requireNamespace("EpiEstim", quietly = TRUE)) {
                         EpiEstim::make_config(
@@ -130,6 +103,8 @@ estima_rt <- function(datos_covid,
                         NULL
                       },
                       ...) {
+  
+  #Chequeo de verificacion de EPIESTIM
   if (!requireNamespace("EpiEstim", quietly = TRUE)) {
     cli::cli_abort(
       "Por favor instala {.code EpiEstim} para poder calcular el RT con
@@ -137,6 +112,7 @@ estima_rt <- function(datos_covid,
     )
   }
 
+  #Chequeo de verificacion de lubridate para las fechas
   if (!requireNamespace("lubridate", quietly = TRUE)) {
     cli::cli_abort(
       "Por favor instala {.code lubridate} para poder calcular el RT con
@@ -144,11 +120,22 @@ estima_rt <- function(datos_covid,
     )
   }
 
-  if (any(stringr::str_detect(names(datos_covid), list_name))) {
-    cli::cli_abort(
-      "Imposible crear elemento {list_name} pues ya existe en la lista.
-       Utiliza {.code list_name = 'nuevo_nombre'} para generar otro elemento"
-    )
+  #Chequeo de si existe elemento en la lista y duplicacion
+  k <- 0; in_list <- TRUE; baselistname <- list_name
+  while(in_list){
+    if (any(stringr::str_detect(names(datos_covid), list_name))) {
+      k <- k + 1
+      list_name <- paste0(baselistname, "_", as.character(k))
+    } else {
+      in_list <- FALSE
+      if (k > 0){
+        cli::cli_alert_warning(
+          c("Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
+            " Utiliza {.code list_name = 'nuevo_nombre'} para nombrar a los elementos y evitar",
+            " este problema.")
+        )
+      }
+    }
   }
 
   cli::cli_alert_info("Estimando casos")

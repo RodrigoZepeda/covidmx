@@ -19,8 +19,8 @@ estima_rt(
     "Inválido", "No realizado"),
   tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO"),
   list_name = "estima_rt",
-  min_date = as.Date("2021/11/21", format = "\%Y/\%m/\%d"),
-  max_date = as.Date(Sys.time()),
+  min_date = as.POSIXct("2021/11/21", format = "\%Y/\%m/\%d"),
+  max_date = as.POSIXct(Sys.time()),
   method = "parametric_si",
   config = if (requireNamespace("EpiEstim", quietly = TRUE)) {
     
@@ -32,45 +32,46 @@ estima_rt(
 )
 }
 \arguments{
-\item{datos_covid}{If no data is available it automatically downloads COVID-19
-information.}
+\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}
+o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
 
-\item{entidades}{Vector con las entidades de las unidades medicas a analizar.
+\item{entidades}{(\strong{opcional})  Vector con las entidades de las unidades medicas a analizar.
 Opciones: \code{AGUASCALIENTES}, \verb{BAJA CALIFORNIA}, \verb{BAJA CALIFORNIA SUR},
 \code{CAMPECHE}, \code{CHIAPAS}, \code{CHIHUAHUA}, \verb{CIUDAD DE MEXICO},
 \verb{COAHUILA DE ZARAGOZA} , \code{COLIMA}, \code{DURANGO}, \code{GUANAJUATO}, \code{GUERRERO},
 \code{HIDALGO}, \code{JALISCO}, \code{MEXICO}, \verb{MICHOACAN DE OCAMPO}, \code{MORELOS},\code{NAYARIT}
 \verb{NUEVO LEON}, \code{OAXACA} ,\code{PUEBLA}, \code{QUERETARO},\verb{QUINTANA ROO},
 \verb{SAN LUIS POTOSI}, \code{SINALOA}, \code{SONORA}, \code{TABASCO}, \code{TAMAULIPAS},\code{TLAXCALA},
-\verb{VERACRUZ DE IGNACIO DE LA LLAVE}, \code{YUCATAN}, \code{ZACATECAS}}
+\verb{VERACRUZ DE IGNACIO DE LA LLAVE}, \code{YUCATAN}, \code{ZACATECAS}.}
 
-\item{group_by_entidad}{Si junta las entidades en una sola
-o bien las muestra por separado sin agrupar.}
+\item{group_by_entidad}{(\strong{opcional}) \code{TRUE} obtiene los casos para cada entidad reportando
+en cada fecha la entidad y los casos en dicha entidad. \code{FALSE}  junta las \code{entidades} sumando
+sus casos en una sola observacion por cada fecha.}
 
-\item{entidad_tipo}{Selecciona \verb{Unidad Medica}, \code{Nacimiento} o \code{Residencia}.
-por default incluye \verb{Unidad Medica}}
+\item{entidad_tipo}{(\strong{opcional}) Indica a que se refiere las \code{entidades} seleccionadas. Elige
+una de las opciones: \verb{Unidad Medica} (entidad de la unidad medica), \code{Nacimiento}
+(entidad de origen del individuo) o \code{Residencia} (entidad donde reside el individuo).}
 
-\item{fecha_tipo}{Selecciona \code{Ingreso}, \code{Sintomas} o \code{Defuncion} por default
-incluye fecha de \code{Sintomas}}
+\item{fecha_tipo}{(\strong{opcional}) Selecciona si la fecha que se utiliza es la fecha de \code{Ingreso}
+(si aplica), la fecha de \code{Sintomas} o la de \code{Defuncion} (si aplica). El default es fecha de \code{Sintomas}.}
 
-\item{tipo_clasificacion}{Vector con el tipo de clasificaciones a incluir:
-\code{Sospechosos},\verb{Confirmados COVID}, \verb{Negativo a COVID},
-\verb{Inv\\u00e1lido}, \verb{No realizado}}
+\item{tipo_clasificacion}{(\strong{opcional})  Vector con el tipo de clasificaciones (por la prueba)
+a incluir:\code{Sospechosos},\verb{Confirmados COVID}, \verb{Negativo a COVID}, \verb{Inv\\u00e1lido}, \verb{No realizado}}
 
-\item{tipo_paciente}{Vector con el tipo de pacientes a incluir. Opciones:
-\code{AMBULATORIO}, \code{HOSPITALIZADO}, \verb{NO ESPECIFICADO}}
+\item{tipo_paciente}{(\strong{opcional}) Vector con el tipo de pacientes a incluir. Opciones:
+\code{AMBULATORIO}, \code{HOSPITALIZADO}, \verb{NO ESPECIFICADO}. Por default se incluyen todos.}
 
-\item{list_name}{Asigna un nombre en la lista de datos a la base generada}
+\item{list_name}{(\strong{opcional}) Asigna un nombre en la lista de datos a la base generada}
 
-\item{min_date}{Mínima fecha a partir de la cual estimar el RT}
+\item{min_date}{Mínima fecha a partir de la cual estimar el RT.}
 
-\item{max_date}{Máxima fecha a partir de la cual estimar el RT}
+\item{max_date}{Máxima fecha a partir de la cual estimar el RT.}
 
-\item{method}{Method for estimating RT with \code{EpiEstim::estimate_R}}
+\item{method}{Metodo para estimar el RT con \code{\link[EpiEstim:estimate_R]{EpiEstim::estimate_R()}}.}
 
-\item{config}{Configuration for estimating RT with \code{EpiEstim::estimate_R}}
+\item{config}{Configuracion para la estimacion del RT usando \code{\link[EpiEstim:make_config]{EpiEstim::make_config()}}.}
 
-\item{...}{Parámetros adicionales para \code{EpiEstim::estimate_R}.}
+\item{...}{Parámetros adicionales para \code{\link[EpiEstim:estimate_R]{EpiEstim::estimate_R()}}.}
 }
 \value{
 Appends a la lista de \code{datos_covid} una nueva entrada de nombre \code{list_name}
@@ -85,15 +86,13 @@ se usa \code{list_name}).
 }
 }
 \description{
-\code{estima_rt} Calcula el número efectivo de reproducción por fecha y entidad
-}
-\details{
-Por default calcula el número efectivo de reproducción por estado
-This is not an official product / este no es un producto oficial
+\code{estima_rt} Calcula el número efectivo de reproducción por fecha y entidad usando
+los metodos de \code{\link[EpiEstim:estimate_R]{EpiEstim::estimate_R()}}. Por default calcula el número efectivo de
+reproducción para cada estado.
 }
 \examples{
 \dontrun{
-datos_covid <- descarga_datos_abiertos()
+datos_covid <- datosabiertos
 
 # Casos a nivel nacional en los confirmados
 datos_covid <- datos_covid |>
@@ -115,5 +114,8 @@ datos_covid |>
     df_variable = "Mean(R)", df_covariates = "ENTIDAD_FEDERATIVA"
   )
 }
-
+}
+\seealso{
+\code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}} \code{\link[=numero_pruebas]{numero_pruebas()}} \code{\link[=cfr]{cfr()}} \code{\link[=chr]{chr()}}
+\code{\link[=positividad]{positividad()}} \code{\link[=casos]{casos()}}
 }

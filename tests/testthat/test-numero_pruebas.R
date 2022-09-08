@@ -101,7 +101,7 @@ test_that("Num pruebas", {
 
   #Agrupamos usando dplyr clásico
   numero_pruebas_agrupados_al_natural <- datos_covid$dats |>
-    dplyr::filter(!!as.symbol("FECHA_DEF") > as.Date("1999/01/01", format = "%Y/%m/%d")) |>
+    dplyr::filter(!!as.symbol("FECHA_DEF") > as.POSIXct("1999/01/01", format = "%Y/%m/%d")) |>
     dplyr::filter(!!as.symbol("TOMA_MUESTRA_LAB") == 1) |>
     dplyr::mutate(TIPO_PRUEBA = "PCR") |>
     dplyr::group_by_at("FECHA_INGRESO") |>
@@ -285,7 +285,7 @@ test_that("Num pruebas", {
   
   #Chequeo de que no se repita el nombre-----
   numero_pruebas_prueba <- datos_covid |> numero_pruebas(list_name = "Prueba")
-  expect_error(numero_pruebas(numero_pruebas_prueba, list_name = "Prueba"))
+  expect_message(numero_pruebas(numero_pruebas_prueba, list_name = "Prueba"))
   
   #Chequeo de una entidad sin sentido-----
   expect_error(datos_covid |> numero_pruebas(entidades = c("2y48rogf","gdivfk")))

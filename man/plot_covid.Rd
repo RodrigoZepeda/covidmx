@@ -24,30 +24,30 @@ plot_covid(
 )
 }
 \arguments{
-\item{datos_covid}{If no data is available it automatically downloads COVID-19
-information y calcula los casos por entidad}
+\item{datos_covid}{(\strong{obligatorio}) Lista de \code{tibble}s resultante de \code{\link[=descarga_datos_abiertos]{descarga_datos_abiertos()}}
+o \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}}
 
-\item{df_name}{Nombre de la base de datos dentro de la lista datos_covid}
+\item{df_name}{(\strong{opcional}) Nombre de la base de datos dentro de la lista datos_covid}
 
-\item{df_date_index}{Nombre de la variable que contiene la fecha}
+\item{df_date_index}{(\strong{opcional}) Nombre de la variable que contiene la fecha}
 
-\item{df_variable}{Nombre de la variable que se va a graficar en el eje y}
+\item{df_variable}{(\strong{opcional}) Nombre de la variable que se va a graficar en el eje y}
 
-\item{df_covariates}{Covariables para el facet (maximo 2)}
+\item{df_covariates}{(\strong{opcional}) Covariables para el \code{facet_wrap} (maximo 2)}
 
-\item{facet_scale}{Escala para el facet_wrap}
+\item{facet_scale}{(\strong{opcional}) Escala para el \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}}}
 
-\item{facet_ncol}{Numero de columnas para el facet_wrap}
+\item{facet_ncol}{(\strong{opcional})  Numero de columnas para el \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}}}
 
-\item{date_break_format}{Breaks para el eje x}
+\item{date_break_format}{(\strong{opcional}) Breaks para el eje x \code{\link[ggplot2:scale_date]{ggplot2::scale_x_date()}}}
 
-\item{date_labels_format}{Formato de fecha para el eje x}
+\item{date_labels_format}{(\strong{opcional}) Formato de fecha para el eje x \code{\link[ggplot2:scale_date]{ggplot2::scale_x_date()}}}
 
-\item{type}{Tipo de grafica (\code{line}, \code{area}, \code{spline} o \code{point})}
+\item{type}{(\strong{opcional}) Tipo de grafica (\code{line}, \code{area}, \code{spline} o \code{point})}
 
-\item{plot_theme}{Tema para el \code{ggplot2}}
+\item{plot_theme}{(\strong{opcional}) Tema para el \code{ggplot2} (ejemplo \code{\link[ggplot2:ggtheme]{ggplot2::theme_classic()}}).}
 
-\item{...}{Parametros adicionales para \code{ggformula::geom_spline} en caso de elegir
+\item{...}{Parametros adicionales para \code{\link[ggformula:geom_spline]{ggformula::geom_spline()}} en caso de elegir
 \code{type="spline"}}
 }
 \description{

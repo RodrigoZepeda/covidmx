@@ -7,9 +7,10 @@
 \format{
 Una lista con tres objetos
 \describe{
-\item{dats}{Base de datos de la DGE actualizada el 14 julio 2022}
+\item{dats}{Base de datos de la DGE actualizada el 14 julio 2022 filtrada a BC,
+BCS en julio y agosto del 2021}
 \item{dict}{Diccionario de datos}
-\item{disconnect}{Funcion que simula desconexion de duckdb}
+\item{disconnect}{Funcion que simula desconexion de \code{duckdb}}
 }
 }
 \source{
@@ -24,6 +25,7 @@ abiertos que se obtiene mediante \code{descarga_datos_abiertos}.
 }
 \details{
 El proposito de esta base es poder probar las funciones que se aplican sobre
-\code{datos_covid}
+\code{datos_covid}. La base contiene solo las entidades de \verb{BAJA CALIFORNIA} y
+\verb{BAJA CALIFORNIA SUR} durante julio y agosto del 2021.
 }
 \keyword{datasets}

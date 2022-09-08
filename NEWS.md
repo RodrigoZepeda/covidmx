@@ -1,3 +1,7 @@
+# covidmx 0.6.2.1000
+
+* Se mejoraron los ejemplos y la ayuda de `casos`.
+
 # covidmx 0.6.2.0000
 
 * Se corrigieron los menús de ayuda para ser más informativos.

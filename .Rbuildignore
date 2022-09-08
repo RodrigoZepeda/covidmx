@@ -22,6 +22,7 @@
 ^diccionario_covid.RData
 ^create_sticker.R
 ^\.github$
-^scratch
+^scratch$
+^_snaps$
 ^data-raw$
 ^codecov\.yml$

@@ -7,31 +7,32 @@
 #' Por default calcula el total de casos.
 #' This is not an official product / este no es un producto oficial
 #'
-#' @param datos_covid If no data is available it automatically downloads COVID-19
-#' information y calcula los casos por entidad
+#' @param datos_covid (**obligatorio**) Lista de `tibble`s resultante de [descarga_datos_abiertos()] 
+#' o [read_datos_abiertos()]
 #'
-#' @param df_name Nombre de la base de datos dentro de la lista datos_covid
+#' @param df_name (**opcional**) Nombre de la base de datos dentro de la lista datos_covid
 #'
-#' @param df_date_index Nombre de la variable que contiene la fecha
+#' @param df_date_index (**opcional**) Nombre de la variable que contiene la fecha
 #'
-#' @param df_variable Nombre de la variable que se va a graficar en el eje y
+#' @param df_variable (**opcional**) Nombre de la variable que se va a graficar en el eje y
 #'
-#' @param df_covariates Covariables para el facet (maximo 2)
+#' @param df_covariates (**opcional**) Covariables para el `facet_wrap` (maximo 2)
 #'
-#' @param facet_scale Escala para el facet_wrap
+#' @param facet_scale (**opcional**) Escala para el [ggplot2::facet_wrap()]
 #'
-#' @param facet_ncol Numero de columnas para el facet_wrap
+#' @param facet_ncol  (**opcional**)  Numero de columnas para el [ggplot2::facet_wrap()]
 #'
-#' @param date_break_format Breaks para el eje x
+#' @param date_break_format (**opcional**) Breaks para el eje x [ggplot2::scale_x_date()]
 #'
-#' @param date_labels_format Formato de fecha para el eje x
+#' @param date_labels_format (**opcional**) Formato de fecha para el eje x [ggplot2::scale_x_date()]
 #'
-#' @param type Tipo de grafica (`line`, `area`, `spline` o `point`)
+#' @param type (**opcional**) Tipo de grafica (`line`, `area`, `spline` o `point`)
 #'
-#' @param plot_theme Tema para el `ggplot2`
+#' @param plot_theme (**opcional**) Tema para el `ggplot2` (ejemplo [ggplot2::theme_classic()]).
 #'
-#' @param ... Parametros adicionales para `ggformula::geom_spline` en caso de elegir
+#' @param ... Parametros adicionales para [ggformula::geom_spline()] en caso de elegir
 #'  `type="spline"`
+#'  
 #' @examples
 #' \dontrun{
 #' # Grafica de casos por entidad

@@ -1,139 +1,107 @@
 #' Positividad
 #'
 #' @description
-#' `positividad` Calcula la positividad por fecha agrupando (o sin hacerlo)
-#' por covariables.
+#' `positividad` Calcula la positividad  por fecha agrupando (o sin hacerlo)
+#' por covariables. Por default calcula la positividad de las pruebas
+#' haciendo Antigeno y PCR por separado, cada una por fecha y entidad.
 #'
-#' @details
-#' Por default calcula la positividad de Antigeno + PCR por estado
-#' This is not an official product / este no es un producto oficial
+#' @details La positividad se define como
+#' \deqn{\frac{\# \text{Pruebas positivas}}{\text{Total de pruebas}}}{%
+#' \# Pruebas positivas / Total de pruebas}
+#' Si se utiliza la opción `remove_inconclusive = TRUE` el **Total de pruebas** se calcula
+#' utilizando solo `POSITIVOS + NEGATIVOS`. Si `remove_inconclusive = FALSE` se calcula 
+#' utilizando todas las personas que tuvieron prueba: 
+#' `POSITIVOS + NEGATIVOS + INCONCLUSOS + SIN RESULTADO`. 
+#' 
+#' Si no se realizaron pruebas un dia la positividad no esta definida pues el **Total de pruebas**
+#' es cero. En ese caso si `fill_NA = TRUE` se devuelven las entradas de esos dias pero
+#' con valor `NA`.
 #'
-#' @param datos_covid If no data is available it automatically downloads COVID-19
-#' information.
+#' @inheritParams numero_pruebas
 #'
-#' @param entidades Vector con las entidades de las unidades medicas a analizar.
-#' Opciones: `AGUASCALIENTES`, `BAJA CALIFORNIA`, `BAJA CALIFORNIA SUR`,
-#' `CAMPECHE`, `CHIAPAS`, `CHIHUAHUA`, `CIUDAD DE MEXICO`,
-#' `COAHUILA DE ZARAGOZA` , `COLIMA`, `DURANGO`, `GUANAJUATO`, `GUERRERO`,
-#' `HIDALGO`, `JALISCO`, `MEXICO`, `MICHOACAN DE OCAMPO`, `MORELOS`,`NAYARIT`
-#' `NUEVO LEON`, `OAXACA` ,`PUEBLA`, `QUERETARO`,`QUINTANA ROO`,
-#' `SAN LUIS POTOSI`, `SINALOA`, `SONORA`, `TABASCO`, `TAMAULIPAS`,`TLAXCALA`,
-#' `VERACRUZ DE IGNACIO DE LA LLAVE`, `YUCATAN`, `ZACATECAS`
+#' @param remove_inconclusive Si `TRUE` no considera en el denominador de la positividad 
+#' las pruebas cuyo resultado es inconcluso o aún no ha sido otorgado. Si `FALSE` considera
+#' a todos. Por default es `TRUE`. 
 #'
-#' @param group_by_entidad Si junta las entidades en una sola
-#' o bien las muestra por separado sin agrupar.
-#'
-#' @param entidad_tipo Selecciona `Unidad Medica`, `Nacimiento` o `Residencia`.
-#' por default incluye `Unidad Medica`
-#'
-#' @param fecha_tipo Selecciona `Ingreso`, `Sintomas` o `Defuncion` por default
-#' incluye fecha de `Sintomas`
-#'
-#' @param tipo_prueba Vector con el tipo de pruebas a incluir
-#' `Antigeno`, `PCR`
-#'
-#' @param group_by_tipo_prueba Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de pureba (es decir cada fecha
-#' y entidad reporta separado positividad en PCR y Antigeno)
-#'
-#' @param tipo_paciente Vector con el tipo de pacientes a incluir. Opciones:
-#'  `AMBULATORIO`, `HOSPITALIZADO`, `NO ESPECIFICADO`
-#'
-#' @param group_by_tipo_paciente Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de paciente (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de paciente)
-#'
-#' @param tipo_uci Vector con el tipo de valores para Unidad de Cuidado Intensivo a incluir:
-#'  `SI`,`NO`,`NO APLICA`,`SE IGNORA`,`NO ESPECIFICADO`
-#'
-#' @param group_by_tipo_uci Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de uci (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de uci)
-#'
-#' @param tipo_sector Vector con los sectores del sistema de salud a incluir:
-#' `CRUZ ROJA`,`DIF`,`ESTATAL`,`IMSS`,`IMSS-BIENESTAR`,`ISSSTE`, `MUNICIPAL`,`PEMEX`,
-#' `PRIVADA`,`SEDENA`,`SEMAR`,`SSA`, `UNIVERSITARIO`,`NO ESPECIFICADO`.
-#'
-#' @param group_by_tipo_sector Boolean determinando si regresa la base
-#' con cada entrada agrupada por tipo de sector (es decir cada fecha
-#' se generan tantos observaciones como grupos de tipo de sector)
-#'
-#' @param defunciones Boolean si incluir solo defunciones `TRUE` o a todos
-#' `FALSE`.
-#'
-#' @param remove_inconclusive No considera las pruebas cuyo resultado es inconcluso o aún
-#' no ha sido otorgado
-#'
-#' @param edad_cut Vector con secuencia de edades para hacer grupos. Por ejemplo
-#' `edad_cut = c(0, 10, Inf)` arma dos grupos de edad de 0 a 10 y de 10 a infinito o bien
-#' `edad_cut = c(15, 20)` deja solo los registros entre 15 y 20 años. Por default es NULL
-#'
-#' @param .grouping_vars Vector de variables adicionales de agrupacion de los conteos
-#'
-#' @param fill_NA Regresa observaciones
-#' para todas las combinaciones de variables incluyendo como NA donde no se observaron casos en el
-#' denominador. En caso contrario no se incluyen las filas donde no se observaron casos.
-#'
-#' @param list_name Asigna un nombre en la lista de datos a la base generada
-#'
-#' @param quiet Booleana si `TRUE` no arroja mensaje alguno.
+#' @param fill_NA Regresa observaciones para todas las combinaciones de variables incluyendo 
+#' como `NA` donde no se observaron casos en el denominador.  En caso contrario no se incluyen 
+#' las filas donde no se observaron casos.
 #'
 #' @importFrom rlang :=
 #'
-#' @return Appends a la lista de `datos_covid` una nueva entrada de nombre `list_name`
-#' (default: `casos`) con una base de datos (`tibble`) con los
+#' @return Une a la lista de `datos_covid` una nueva entrada de nombre `list_name`
+#' (default: `positividad`) con una base de datos (`tibble`) con los
 #' resultados agregados.
 #' \itemize{
 #'   \item positividad - Base de datos generara con los datos agregados (el nombre cambia si
 #'   se usa `list_name`).
 #'   \item dict - Diccionario de datos
-#'   \item dats - Datos originales (conexion a DB)
-#'   \item disconnect  - Funcion para desconectarte de DB
+#'   \item dats - Datos originales (conexion a `duckdb` o `tibble`)
+#'   \item disconnect  - Función para desconectarte de `duckdb`
+#'   \item ... - Cualquier otro elemento que ya existiera en `datos_covid`
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' datos_covid <- descarga_datos_abiertos()
+#' #Para el ejemplo usaremos los datos precargados pero tu puedes
+#' #correr el ejemplo descargando informacion mas reciente:
+#' #datos_covid <- descarga_datos_abiertos() #Sugerido
+#' 
+#' datos_covid <- datosabiertos
 #'
 #' # Casos a nivel nacional por estado por tipo de prueba
 #' datos_covid <- datos_covid |> positividad()
-#' head(datos_covid$casos)
+#' head(datos_covid$positividad)
 #'
-#' # Total nacional
-#' defunciones <- datos_covid |> positividad(group_by_entidad = FALSE, list_name = "posnac")
+#' # Total nacional sumando todas las pruebas del pais
+#' datos_covid <- datos_covid |> 
+#'      positividad(group_by_entidad = FALSE, list_name = "positividad_nacional")
+#' head(datos_covid$positividad_nacional)
 #'
-#' # Positivos en Jalisco y Colima
-#' casos_col_jal <- datos_covid |>
-#'   positividad(entidades = c("JALISCO", "COLIMA"), list_name = "jalcol_positivida")
-#'
-#' # Agrupando ambas pruebas en una sola
-#' confirmados <- datos_covid |>
+#' # Positivos en Baja California y Baja California Sur
+#' datos_covid <- datos_covid |>
+#'   positividad(entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"), 
+#'   list_name = "positividad_californiana")
+#' head(datos_covid$positividad_californiana)
+#' 
+#' # Agrupando ambas pruebas en una sola positividad global
+#' datos_covid <- datos_covid |>
 #'   positividad(
-#'     entidades = c("JALISCO", "COLIMA"),
+#'     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
 #'     group_by_tipo_prueba = FALSE,
-#'     list_name = "jalcol_positivida_todos"
+#'     list_name = "positividad_californiana_2"
 #'   )
+#' head(datos_covid$positividad_californiana_2)   
 #'
-#' # Regresa la suma de los de COLIMA + JALISCO
-#' casos_col_jal <- datos_covid |>
+#' # Regresa la suma de ambos estados pero dividiendo por tipo de paciente
+#' datos_covid <- datos_covid |>
 #'   positividad(
-#'     entidades = c("JALISCO", "COLIMA"),
+#'     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR"),
+#'     group_by_entidad = FALSE,
 #'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
 #'     group_by_tipo_paciente = TRUE,
-#'     list_name = "jalcol_positivida_todos_2"
+#'     list_name = "positividad_paciente"
 #'   )
-#'
-#' # Si deseas agrupar por una variable que no este en las opciones
-#' casos_col_jal <- datos_covid |>
+#' head(datos_covid$positividad_paciente)   
+#' 
+#' # Si deseas agrupar por una variable que no este en las opciones va en .grouping_vars
+#' datos_covid <- datos_covid |>
 #'   positividad(
-#'     entidades = c("JALISCO", "COLIMA"),
-#'     tipo_paciente = c("AMBULATORIO", "HOSPITALIZADO"),
-#'     group_by_tipo_paciente = TRUE,
-#'     .grouping_vars = c("DIABETES"),
-#'     list_name = "jalcol_positivida_todos_ambhosp"
+#'     tipo_sector = "IMSS",
+#'     .grouping_vars = c("PAIS_ORIGEN"),
+#'     list_name = "positividad_imss_pais"
 #'   )
-#' }
-#'
+#' head(datos_covid$positividad_imss_pais)   
+#' 
+#' @references 
+#' 
+#' Furuse, Y., Ko, Y. K., Ninomiya, K., Suzuki, M., & Oshitani, H. (2021). Relationship of test 
+#' positivity rates with COVID-19 epidemic dynamics. International journal of environmental 
+#' research and public health, 18(9), 4655.
+#' 
+#' Al Dallal, A., AlDallal, U., & Al Dallal, J. (2021). Positivity rate: an indicator for the 
+#' spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.
+#' 
+#' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [chr()] [estima_rt()] [casos()]
 #' @export
 
 positividad <- function(datos_covid,
@@ -176,14 +144,25 @@ positividad <- function(datos_covid,
                         edad_cut = NULL,
                         fill_NA = TRUE,
                         list_name = "positividad",
-                        quiet = FALSE,
                         remove_inconclusive = TRUE,
                         .grouping_vars = c()) {
-  if (any(stringr::str_detect(names(datos_covid), list_name))) {
-    cli::cli_abort(
-      "Imposible crear elemento {list_name} pues ya existe en la lista.
-       Utiliza {.code list_name = 'nuevo_nombre'} para generar otro elemento"
-    )
+  
+  # Chequeo de si existe elemento en la lista y duplicacion
+  k <- 0; in_list <- TRUE; baselistname <- list_name
+  while(in_list){
+    if (any(stringr::str_detect(names(datos_covid), list_name))) {
+      k <- k + 1
+      list_name <- paste0(baselistname, "_", as.character(k))
+    } else {
+      in_list <- FALSE
+      if (k > 0){
+        cli::cli_alert_warning(
+          c("Se guardo el elemento bajo el nombre de {list_name} pues {baselistname} ya existe.",
+            " Utiliza {.code list_name = 'nuevo_nombre'} para nombrar a los elementos y evitar",
+            " este problema.")
+        )
+      }
+    }
   }
 
   # Calculamos el total de pruebas
@@ -197,10 +176,7 @@ positividad <- function(datos_covid,
     .grouping_vars <- c(.grouping_vars, "RESULTADO_ANTIGENO")
   }
 
-  if (!quiet) {
-    cli::cli_alert_info("Leyendo la base...")
-  }
-
+  
   .numero_pruebas <- numero_pruebas(
     datos_covid = datos_covid, entidades = entidades,
     group_by_entidad = group_by_entidad,
@@ -223,9 +199,7 @@ positividad <- function(datos_covid,
   )
 
   if (is_pcr & group_by_tipo_prueba) {
-    if (!quiet) {
-      cli::cli_alert_info("Calculando PCR...")
-    }
+   
 
     # Filtramos los totales
     .pcr_totales <- .numero_pruebas[list_name][[1]] |>
@@ -267,9 +241,7 @@ positividad <- function(datos_covid,
   }
 
   if (is_anti & group_by_tipo_prueba) {
-    if (!quiet) {
-      cli::cli_alert_info("Calculando Antigeno...")
-    }
+    
 
     # Filtramos los totales
     .anti_totales <- .numero_pruebas[list_name][[1]] |>
@@ -336,9 +308,7 @@ positividad <- function(datos_covid,
       ))
   }
 
-  if (!quiet) {
-    cli::cli_alert_info("Terminando de construir la base")
-  }
+  
   if (is_pcr & is_anti & group_by_tipo_prueba) {
     .positividad <- .pcr |>
       dplyr::bind_rows(.anti)
@@ -355,9 +325,7 @@ positividad <- function(datos_covid,
   .positividad <- .positividad |>
     dplyr::relocate(!!as.symbol("Positividad"))
 
-  if (!quiet) {
-    cli::cli_alert_info("Terminado")
-  }
+ 
   .positividad <- list(.positividad)
   names(.positividad) <- list_name
 
