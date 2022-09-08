@@ -19,12 +19,12 @@
 #'
 #' @inheritParams numero_pruebas
 #'
-#' @param remove_inconclusive (**opcional**)  Si `TRUE` no considera en el denominador de la 
-#' positividad las pruebas cuyo resultado es inconcluso o aún no ha sido otorgado. Si `FALSE` 
+#' @param remove_inconclusive (**opcional**)  Si `TRUE` no considera en el denominador de la
+#' positividad las pruebas cuyo resultado es inconcluso o aún no ha sido otorgado. Si `FALSE`
 #' considera a todos. Por default es `TRUE`.
 #'
-#' @param fill_NA (**opcional**)  Regresa observaciones para todas las combinaciones de variables 
-#' incluyendo como `NA` donde no se observaron casos en el denominador.  En caso contrario no se 
+#' @param fill_NA (**opcional**)  Regresa observaciones para todas las combinaciones de variables
+#' incluyendo como `NA` donde no se observaron casos en el denominador.  En caso contrario no se
 #' incluyen las filas donde no se observaron casos.
 #'
 #' @importFrom rlang :=
@@ -94,8 +94,8 @@
 #'   )
 #' head(datos_covid$positividad_imss_pais)
 #'
-#' #Una vez hayas concluido tu trabajo no olvides desconectar
-#' datos_covid$disconnect() 
+#' # Una vez hayas concluido tu trabajo no olvides desconectar
+#' datos_covid$disconnect()
 #' @references
 #'
 #' Furuse, Y., Ko, Y. K., Ninomiya, K., Suzuki, M., & Oshitani, H. (2021). Relationship of test

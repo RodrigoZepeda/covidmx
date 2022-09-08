@@ -16,8 +16,8 @@
 #' @inheritParams casos
 #' @inheritParams positividad
 #'
-#' @param incluir_paciente_no_especificado  (**opcional**)  Si en el denominador se incluyen 
-#' los pacientescuyo tipo es  `NO ESPECIFICADO`. Por default es `FALSE` por lo que sólo 
+#' @param incluir_paciente_no_especificado  (**opcional**)  Si en el denominador se incluyen
+#' los pacientescuyo tipo es  `NO ESPECIFICADO`. Por default es `FALSE` por lo que sólo
 #' se incluyen `AMBULATORIO`, `HOSPITALIZADO`.
 #'
 #' @importFrom rlang :=
@@ -77,7 +77,7 @@
 #'
 #' # Finalmente desconectamos
 #' datos_covid$disconnect()
-#' 
+#'
 #' @seealso [descarga_datos_abiertos()] [numero_pruebas()] [cfr()] [estima_rt()]
 #' [positividad()] [casos()]
 #' @export
@@ -144,7 +144,7 @@ chr <- function(datos_covid,
     }
   }
 
-  #Obtenemos los tipos de paciente a usar
+  # Obtenemos los tipos de paciente a usar
   if (incluir_paciente_no_especificado) {
     tp <- c("AMBULATORIO", "HOSPITALIZADO", "NO ESPECIFICADO")
   } else {
@@ -176,8 +176,8 @@ chr <- function(datos_covid,
     list_name = name_1,
     .grouping_vars = .grouping_vars
   )[[name_1]] |>
-    dplyr::mutate(!!as.symbol("n") := 
-                    ifelse(!!as.symbol("n") == 0, NA, !!as.symbol("n"))) #change to NA the ones with 0
+    dplyr::mutate(!!as.symbol("n") :=
+      ifelse(!!as.symbol("n") == 0, NA, !!as.symbol("n"))) # change to NA the ones with 0
 
 
   .casos_hospitalizados <- casos(
