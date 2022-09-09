@@ -1,11 +1,7 @@
-#' PLOT DATOS DE COVID
+#' Grafica los casos de COVID-19 
 #'
 #' @description
-#' `plot_covid` Grafica automaticamente la base de datos de covid
-#'
-#' @details
-#' Por default calcula el total de casos.
-#' This is not an official product / este no es un producto oficial
+#' `plot_covid` Intenta graficar automaticamente la base de datos de covid generados por [casos()]
 #'
 #' @param datos_covid (**obligatorio**) Lista de `tibble`s resultante de [casos()], [cfr()],
 #' [chr()], [positividad()] o [rt()]
@@ -99,6 +95,7 @@
 #' # Finalmente desconectamos
 #' datos_covid$disconnect()
 #'
+#' @seealso [casos()]
 #' @export
 
 plot_covid <- function(datos_covid,

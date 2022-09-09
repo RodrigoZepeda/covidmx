@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -154,7 +154,7 @@ tardado hacerlo:</p>
 <code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dats</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: ??</span></span>
 <span><span class="co">#&gt; Columns: 40</span></span>
-<span><span class="co">#&gt; Database: DuckDB 0.5.0 [root@Darwin 21.5.0:R 4.2.0//var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpOver12/file4ac05917b299.duckdb]</span></span>
+<span><span class="co">#&gt; Database: DuckDB 0.5.0 [root@Darwin 21.5.0:R 4.2.0//var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpxCFxFD/file773f512b392b.duckdb]</span></span>
 <span><span class="co">#&gt; $ FECHA_ACTUALIZACION   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2022-07-14, 2022-07-14, 2022-07-14, 2022-07-14,…</span></span>
 <span><span class="co">#&gt; $ ID_REGISTRO           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "78ce0b", "526821", "4ab051", "ba3171", "b970bb"…</span></span>
 <span><span class="co">#&gt; $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, …</span></span>
@@ -388,7 +388,7 @@ volver a descargar.</p>
 descargamos arriba con <code>descarga_datos_abiertos</code>)</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diccionario_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_db.html">descarga_diccionario</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: La descarga mas reciente de fue hace 0.03304 dias. Como tiene menos de un dia</span></span>
+<span><span class="co">#&gt; Warning: La descarga mas reciente de fue hace 0.14717 dias. Como tiene menos de un dia</span></span>
 <span><span class="co">#&gt; usare esa. Escribe `force_download = TRUE` si quieres descargar de todas</span></span>
 <span><span class="co">#&gt; formas. Para desactivar este mensaje `show_warnings = FALSE.`</span></span></code></pre></div>
 <p>Si de todas maneras quieres reintentar la descarga puedes usar
@@ -453,12 +453,12 @@ con el que ya puedes operar:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           229 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           794 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           240 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           535 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           269 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           646 BAJA CALIFORNIA SUR BS</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           139 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           519 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           164 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           357 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           170 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           421 BAJA CALIFORNIA SUR BS</span></span></code></pre></div>
 <p>Nota que lo que hace es agregar por fecha y por entidad de la unidad
 médica los casos.</p>
 <p>Se puede filtar por entidad de la unidad médica seleccionando las
@@ -470,12 +470,12 @@ entidades de interés:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           229 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           794 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           240 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           535 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           269 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           646 BAJA CALIFORNIA SUR BS</span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           139 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           519 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           164 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           357 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           170 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           421 BAJA CALIFORNIA SUR BS</span></span></code></pre>
 <p>Si se quiere filtrar por entidad de nacimiento y que la fecha sea la
 de ingreso, por ejemplo:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -487,12 +487,12 @@ de ingreso, por ejemplo:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   FECHA_INGRESO       ENTIDAD_NAC     n ENTIDAD_FEDERATIVA ABREVIATURA</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02             15 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02             55 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02             27 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span> 02             27 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span> 02            224 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span> 02            192 BAJA CALIFORNIA    BC</span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02              9 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02             33 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02             14 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span> 02             16 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span> 02            156 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span> 02            119 BAJA CALIFORNIA    BC</span></span></code></pre>
 <p>Finalmente, si sólo se desean casos confirmados e inválidos:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
@@ -505,11 +505,11 @@ de ingreso, por ejemplo:</p>
 <span><span class="co">#&gt;   FECHA_INGRESO       ENTIDAD_NAC     n ENTIDAD_FEDERATIVA ABREVIATURA</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02              3 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02              7 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02              5 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span> 02              2 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span> 02             35 BAJA CALIFORNIA    BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span> 02             43 BAJA CALIFORNIA    BC</span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02              3 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02              4 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span> 02              1 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span> 02             24 BAJA CALIFORNIA    BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span> 02             26 BAJA CALIFORNIA    BC</span></span></code></pre>
 <p>Nota que por default el programa rellena con ceros lo que no se
 observó. Si quieres cancelar esta opción basta con cambiar
 <code>fill_zeros = FALSE</code>:</p>
@@ -526,10 +526,10 @@ observó. Si quieres cancelar esta opción basta con cambiar
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-05 <span style="color: #949494;">00:00:00</span> 01              1 AGUASCALIENTES     AS         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-09 <span style="color: #949494;">00:00:00</span> 23              1 QUINTANA ROO       QR         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-10 <span style="color: #949494;">00:00:00</span> 23              1 QUINTANA ROO       QR         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-11 <span style="color: #949494;">00:00:00</span> 01              1 AGUASCALIENTES     AS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-12 <span style="color: #949494;">00:00:00</span> 01              1 AGUASCALIENTES     AS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-13 <span style="color: #949494;">00:00:00</span> 01              1 AGUASCALIENTES     AS</span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-11 <span style="color: #949494;">00:00:00</span> 01              1 AGUASCALIENTES     AS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-12 <span style="color: #949494;">00:00:00</span> 01              1 AGUASCALIENTES     AS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-18 <span style="color: #949494;">00:00:00</span> 01              1 AGUASCALIENTES     AS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-19 <span style="color: #949494;">00:00:00</span> 01              1 AGUASCALIENTES     AS</span></span></code></pre>
 <p>Si se desea que los casos vengan agregados (es decir
 <code>QUINTANA ROO + AGUASCALIENTES</code>) se puede cambiar la opción
 de <code>group_by_entidad</code> a <code>FALSE</code>:</p>
@@ -559,12 +559,12 @@ con los casos de 5 a 25 años:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS      EDAD_CAT ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (5,25]   02            60 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (5,25]   03           188 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> (5,25]   02            50 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> (5,25]   03           131 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> (5,25]   02            57 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> (5,25]   03           187 BAJA CALIFORNIA SUR BS</span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (5,25]   02            38 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (5,25]   03           131 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> (5,25]   02            33 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> (5,25]   03            93 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> (5,25]   02            35 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> (5,25]   03           113 BAJA CALIFORNIA SUR BS</span></span></code></pre>
 <p>O bien definir grupos de edad de la forma <code>0-20</code>,
 <code>20-60</code> y <code>60+</code></p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
@@ -573,12 +573,12 @@ con los casos de 5 a 25 años:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS      EDAD_CAT ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (0,20]   02            35 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (0,20]   03           101 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (20,60]  02           172 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (20,60]  03           657 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (60,Inf] 02            20 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (60,Inf] 03            34 BAJA CALIFORNIA SUR BS</span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (0,20]   02            22 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (0,20]   03            70 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (20,60]  02           107 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (20,60]  03           426 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (60,Inf] 02             9 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> (60,Inf] 03            21 BAJA CALIFORNIA SUR BS</span></span></code></pre>
 <p>Puedes acumular diferentes bases de datos en la misma lista
 asignándoles nombres:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
@@ -591,34 +591,34 @@ asignándoles nombres:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS          n</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>  <span style="text-decoration: underline;">1</span>023</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>   775</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span>   915</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span>   960</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span>  <span style="text-decoration: underline;">1</span>143</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span>  <span style="text-decoration: underline;">1</span>068</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>   658</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>   521</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span>   591</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span>   643</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span>   736</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span>   728</span></span>
 <span></span>
 <span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Todos por entidad`</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           229 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           794 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           240 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           535 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           269 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           646 BAJA CALIFORNIA SUR BS</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           139 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           519 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           164 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           357 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           170 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           421 BAJA CALIFORNIA SUR BS</span></span>
 <span></span>
 <span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`Defunciones (todos)`</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02             5 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03            37 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02             7 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03            11 BAJA CALIFORNIA SUR BS         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02             7 BAJA CALIFORNIA     BC         </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03            22 BAJA CALIFORNIA SUR BS</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02             3 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03            24 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02             4 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03             5 BAJA CALIFORNIA SUR BS         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02             4 BAJA CALIFORNIA     BC         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03            18 BAJA CALIFORNIA SUR BS</span></span></code></pre></div>
 <p>Hay múltiples opciones permitiendo seleccionar variables específicas
 de unidades de cuidado intensivo, defunciones y si devolver la tabla
 como <code>tibble</code> o como conexión de <code>dbplyr</code> a
@@ -696,14 +696,14 @@ como <code>tibble</code> o como conexión de <code>dbplyr</code> a
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 14</span></span></span>
 <span><span class="co">#&gt;   FECHA_INGRESO       DIABETES  SEXO EDAD_…¹ ENTID…² CLASI…³ TIPO_…⁴   UCI     n</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>        2     2 (20,40] 03            3       2     2     2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>        2     2 (20,40] 20            3       2     2     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>        2     2 (40,60] 03            3       2     2     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>        2     2 (40,60] 15            3       2     2     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span>        2     2 (20,40] 02            7       2     1     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span>        2     2 (40,60] 03            3       2     2     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>        2     2 (20,40] 03            3       2     2     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-03 <span style="color: #949494;">00:00:00</span>        2     2 (20,40] 02            7       2     1     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span>        2     2 (40,60] 03            3       2     2     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-03 <span style="color: #949494;">00:00:00</span>        2     2 (40,60] 26            3       2     2     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span>       98     2 (40,60] 03            3       2     2     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-04 <span style="color: #949494;">00:00:00</span>        2     2 (40,60] 02            3       2     2     1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: ENTIDAD_FEDERATIVA &lt;chr&gt;, ABREVIATURA &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   CLASIFICACIÓN &lt;chr&gt;, DESCRIPCION_TIPO_PACIENTE &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `CLASIFICACI\032N` &lt;chr&gt;, DESCRIPCION_TIPO_PACIENTE &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   DESCRIPCION_TIPO_UCI &lt;chr&gt;, and abbreviated variable names ¹​EDAD_CAT,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ²​ENTIDAD_NAC, ³​CLASIFICACION_FINAL, ⁴​TIPO_PACIENTE</span></span></span></code></pre></div>
 </div>
@@ -726,12 +726,12 @@ prueba</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS      ENTIDAD_UM TIPO_PRUEBA     n ENTIDAD_FEDERATIVA  ABREVIA…¹</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         ANTIGENO      208 BAJA CALIFORNIA     BC       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         PCR            37 BAJA CALIFORNIA     BC       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         ANTIGENO      723 BAJA CALIFORNIA SUR BS       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         PCR           119 BAJA CALIFORNIA SUR BS       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         ANTIGENO      211 BAJA CALIFORNIA     BC       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         PCR            53 BAJA CALIFORNIA     BC       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         ANTIGENO      125 BAJA CALIFORNIA     BC       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         PCR            21 BAJA CALIFORNIA     BC       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         ANTIGENO      479 BAJA CALIFORNIA SUR BS       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         PCR            69 BAJA CALIFORNIA SUR BS       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         ANTIGENO      143 BAJA CALIFORNIA     BC       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         PCR            36 BAJA CALIFORNIA     BC       </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable name ¹​ABREVIATURA</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">numero_pruebas</span> <span class="op">|&gt;</span> </span>
@@ -769,12 +769,12 @@ calcular por ahora. Ten paciencia</p>
 <span><span class="co"><span style="color: #949494;">#&gt; #   ABREVIATURA [6]</span></span></span>
 <span><span class="co">#&gt;   Positivi…¹ FECHA_SINTOMAS      ENTID…² TIPO_…³ ENTID…⁴ ABREV…⁵ n_pru…⁶ n_pos…⁷</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      0.457 2021-07-01 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           35      16</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      0.587 2021-07-01 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS          109      64</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      0.42  2021-07-02 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           50      21</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      0.571 2021-07-02 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           70      40</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>      0.451 2021-07-03 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           51      23</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      0.641 2021-07-03 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           78      50</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      0.5   2021-07-01 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           20      10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      0.594 2021-07-01 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           64      38</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      0.5   2021-07-02 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           34      17</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      0.519 2021-07-02 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           52      27</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>      0.517 2021-07-03 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           29      15</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      0.755 2021-07-03 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           53      40</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​Positividad, ²​ENTIDAD_UM, ³​TIPO_PRUEBA,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​ENTIDAD_FEDERATIVA, ⁵​ABREVIATURA, ⁶​n_pruebas, ⁷​n_positivos</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
@@ -801,12 +801,12 @@ confirmados}}
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS      ENTIDAD_UM ENTIDAD_FEDERATIVA  ABREVIATURA CASE HOSPITAL…¹</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                    0.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                    0.179</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                    0.277</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                    0.101</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                    0.172</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                    0.1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.25  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.183 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.355 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.078<span style="text-decoration: underline;">7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.088<span style="text-decoration: underline;">2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.122 </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable name ¹​`CASE HOSPITALIZATION RATE`</span></span></span></code></pre>
 <p>Las variables para agrupar son casi las mismas que en
 <code>casos</code>. Por ejemplo si queremos agrupar el <code>chr</code>
@@ -840,12 +840,12 @@ confirmados}}
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   FECHA_SINTOMAS      ENTIDAD_UM ENTIDAD_FEDERATIVA  ABREVIATURA CASE FATALITY…¹</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.075 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.092<span style="text-decoration: underline;">1</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.063<span style="text-decoration: underline;">8</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.037<span style="text-decoration: underline;">3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.086<span style="text-decoration: underline;">2</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.058<span style="text-decoration: underline;">8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.125 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.093<span style="text-decoration: underline;">5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.064<span style="text-decoration: underline;">5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.028<span style="text-decoration: underline;">1</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.058<span style="text-decoration: underline;">8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.069<span style="text-decoration: underline;">9</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable name ¹​`CASE FATALITY RATE`</span></span></span></code></pre>
 <p>Las variables para agrupar son casi las mismas que en
 <code>casos</code>. Por ejemplo si queremos agrupar el <code>cfr</code>
@@ -897,12 +897,12 @@ en este ejemplo</a>.</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 17</span></span></span>
 <span><span class="co">#&gt;   ENTIDA…¹ ENTID…² ABREV…³ t_start t_end Mean(…⁴ Std(R…⁵ Quant…⁶ Quant…⁷ Quant…⁸</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 02       BAJA C… BC            2     8    1.29  0.029<span style="text-decoration: underline;">0</span>    1.23    1.24    1.27</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 02       BAJA C… BC            3     9    1.16  0.025<span style="text-decoration: underline;">9</span>    1.11    1.12    1.14</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 02       BAJA C… BC            4    10    1.09  0.024<span style="text-decoration: underline;">2</span>    1.04    1.05    1.08</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 02       BAJA C… BC            5    11    1.07  0.023<span style="text-decoration: underline;">5</span>    1.03    1.03    1.06</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 02       BAJA C… BC            6    12    1.06  0.023<span style="text-decoration: underline;">1</span>    1.02    1.03    1.05</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 02       BAJA C… BC            7    13    1.06  0.022<span style="text-decoration: underline;">8</span>    1.02    1.03    1.05</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 02       BAJA C… BC            2     8    1.29  0.035<span style="text-decoration: underline;">9</span>   1.22    1.23     1.27</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 02       BAJA C… BC            3     9    1.16  0.032<span style="text-decoration: underline;">0</span>   1.10    1.11     1.14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 02       BAJA C… BC            4    10    1.10  0.030<span style="text-decoration: underline;">0</span>   1.04    1.05     1.08</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 02       BAJA C… BC            5    11    1.07  0.028<span style="text-decoration: underline;">9</span>   1.01    1.02     1.05</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 02       BAJA C… BC            6    12    1.05  0.028<span style="text-decoration: underline;">3</span>   0.994   1.00     1.03</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 02       BAJA C… BC            7    13    1.04  0.027<span style="text-decoration: underline;">9</span>   0.989   0.997    1.02</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 7 more variables: `Median(R)` &lt;dbl&gt;, `Quantile.0.75(R)` &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   `Quantile.0.95(R)` &lt;dbl&gt;, `Quantile.0.975(R)` &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   FECHA_SINTOMAS_start &lt;dttm&gt;, FECHA_SINTOMAS_end &lt;dttm&gt;,</span></span></span>
@@ -915,27 +915,6 @@ en este ejemplo</a>.</p>
 <span>  <span class="fu"><a href="../reference/estima_rt.html">estima_rt</a></span><span class="op">(</span>tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span>,</span>
 <span>     list_name <span class="op">=</span> <span class="st">"RT_confirmados_COVID"</span>,</span>
 <span>     min_date  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021/07/01"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
 <span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
 <span><span class="co">#&gt;             posterior CV.</span></span>
 <span></span>
@@ -1028,8 +1007,8 @@ en este ejemplo</a>.</p>
 </h2>
 <p>Para descargar las variantes reportadas por la publicación diaria en
 Github del reporte nacional en <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-link">RodrigoZepeda/VariantesCovid</a>
-a partir de las variantes de <a href="www.gisaid.org">GISAID</a> puedes
-hacer:</p>
+a partir de las variantes de <a href="https://gisaid.org/" class="external-link">GISAID</a>
+puedes hacer:</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_variantes_GISAID.html">descarga_datos_variantes_GISAID</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Los datos se ven así:</p>
@@ -1213,7 +1192,7 @@ desconectarte:</p>
 <span><span class="co">#&gt;  coarseDataTools   0.6-6      <span style="color: #555555;">2021-12-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  coda              0.19-4     <span style="color: #555555;">2020-09-30</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  colorspace        2.0-3      <span style="color: #555555;">2022-02-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  covidmx         * 0.7.0.1000 <span style="color: #555555;">2022-09-08</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  covidmx         * 0.7.1.0000 <span style="color: #555555;">2022-09-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;  crayon            1.5.1      <span style="color: #555555;">2022-03-26</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  curl              4.3.2      <span style="color: #555555;">2021-06-23</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  DBI               1.1.3      <span style="color: #555555;">2022-06-18</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
@@ -1306,7 +1285,7 @@ desconectarte:</p>
 <span><span class="co">#&gt;  xfun              0.32       <span style="color: #555555;">2022-08-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt;  yaml              2.3.5      <span style="color: #555555;">2022-02-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #555555;"> [1] /private/var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T/Rtmpw4t1pn/temp_libpath385b1082e58f</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [1] /private/var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T/RtmpsH30hS/temp_libpath6c6c2718544a</span></span></span>
 <span><span class="co">#&gt; <span style="color: #555555;"> [2] /Library/Frameworks/R.framework/Versions/4.2/Resources/library</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">──────────────────────────────────────────────────────────────────────────────</span></span></span></code></pre></div>

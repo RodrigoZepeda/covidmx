@@ -12,7 +12,7 @@ confirmados en distintas categorías (residencia / edad / etc)"><meta property="
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -211,7 +211,7 @@ nombre cambia si se usa <code>list_name</code>).</p></li>
     <div class="section level2">
     <h2 id="detalles">Detalles<a class="anchor" aria-label="anchor" href="#detalles"></a></h2>
     <p>El case hospitalization rate se define como</p>
-<p>$$\frac{\# \text{Hospitalizados}}{\text{Total de enfermos}}$$</p>
+<p>$$\frac{\# Hospitalizados}{Total de enfermos}$$</p>
 <p>Si se utiliza la opción <code>incluir_paciente_no_especificado</code> se puede cambiar la definicion
 de <strong>Total de enfermos</strong> para incluir a los pacientes que dicen <code>NO ESPECIFICADO</code>. Estos
 por default se excluyen justo por su naturaleza desconocida.</p>
@@ -236,12 +236,12 @@ por default se excluyen justo por su naturaleza desconocida.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM ENTIDAD_FEDERATIVA  ABREVIATURA CASE HOSPITAL…¹</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                    0.2  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                    0.179</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                    0.277</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                    0.101</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                    0.172</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                    0.1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.25  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.183 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.355 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.078<span style="text-decoration: underline;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIFORNIA     BC                   0.088<span style="text-decoration: underline;">2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIFORNIA SUR BS                   0.122 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable name ¹​`CASE HOSPITALIZATION RATE`</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Nacional</span></span></span>
@@ -250,12 +250,12 @@ por default se excluyen justo por su naturaleza desconocida.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      `CASE HOSPITALIZATION RATE`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>                      0.181 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>                      0.127 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span>                      0.111 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span>                      0.080<span style="text-decoration: underline;">6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span>                      0.081<span style="text-decoration: underline;">9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span>                      0.114 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>                      0.189 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>                      0.120 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span>                      0.118 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span>                      0.070<span style="text-decoration: underline;">0</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span>                      0.083<span style="text-decoration: underline;">0</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span>                      0.138 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># CHR en IMSS e ISSSTE</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
@@ -266,10 +266,10 @@ por default se excluyen justo por su naturaleza desconocida.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02              4 BAJA CALIFORNIA  BC      IMSS     0.111 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03              4 BAJA CALIFORNIA… BS      IMSS     0.159 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03              6 BAJA CALIFORNIA… BS      ISSSTE   0.462 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02              4 BAJA CALIFORNIA  BC      IMSS     0.214 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03              4 BAJA CALIFORNIA… BS      IMSS     0.064<span style="text-decoration: underline;">5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03              6 BAJA CALIFORNIA… BS      ISSSTE   0.167 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03              6 BAJA CALIFORNIA… BS      ISSSTE   0.571 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02              4 BAJA CALIFORNIA  BC      IMSS     0.235 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03              4 BAJA CALIFORNIA… BS      IMSS     0.045<span style="text-decoration: underline;">8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03              6 BAJA CALIFORNIA… BS      ISSSTE   0.333 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​ENTIDAD_FEDERATIVA, ²​ABREVIATURA,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​DESCRIPCION_TIPO_SECTOR, ⁴​`CASE HOSPITALIZATION RATE`</span></span>
 <span class="r-in"><span></span></span>
@@ -286,14 +286,14 @@ por default se excluyen justo por su naturaleza desconocida.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM CLASIFICACION…¹ ENTID…² ABREV…³ CLASI…⁴ CASE …⁵</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                       1 BAJA C… BC      CASO D…  0     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                       3 BAJA C… BC      CASO D…  0.205 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                       6 BAJA C… BC      CASO S…  0.125 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                       7 BAJA C… BC      NEGATI…  0.044<span style="text-decoration: underline;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                       1 BAJA C… BS      CASO D…  0     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                       3 BAJA C… BS      CASO D…  0.179 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                       3 BAJA C… BC      <span style="color: #949494;">"</span>CASO …  0.25  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                       6 BAJA C… BC      <span style="color: #949494;">"</span>CASO …  0.2   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                       7 BAJA C… BC      <span style="color: #949494;">"</span>NEGAT…  0.045<span style="text-decoration: underline;">5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                       1 BAJA C… BS      <span style="color: #949494;">"</span>CASO …  0     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                       3 BAJA C… BS      <span style="color: #949494;">"</span>CASO …  0.184 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                       5 BAJA C… BS      <span style="color: #949494;">"</span>NO RE…  1     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​CLASIFICACION_FINAL, ²​ENTIDAD_FEDERATIVA,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​ABREVIATURA, ⁴​CLASIFICACIÓN, ⁵​`CASE HOSPITALIZATION RATE`</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​ABREVIATURA, ⁴​`CLASIFICACI\032N`, ⁵​`CASE HOSPITALIZATION RATE`</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Distinguiendo sólo entre defunciones</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
@@ -317,12 +317,12 @@ por default se excluyen justo por su naturaleza desconocida.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      DIABETES ENTIDAD_UM ENTIDAD_FEDERATIVA  ABREVIAT…¹ CASE …²</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>        1 02         BAJA CALIFORNIA     BC           0.4  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>        1 03         BAJA CALIFORNIA SUR BS           0.393</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>        2 02         BAJA CALIFORNIA     BC           0.171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>        1 02         BAJA CALIFORNIA     BC           0.333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>        1 03         BAJA CALIFORNIA SUR BS           0.409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>        2 02         BAJA CALIFORNIA     BC           0.238</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>        2 03         BAJA CALIFORNIA SUR BS           0.161</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>        1 02         BAJA CALIFORNIA     BC           0.5  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>        1 03         BAJA CALIFORNIA SUR BS           0.316</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>        1 03         BAJA CALIFORNIA SUR BS           0.231</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​ABREVIATURA, ²​`CASE HOSPITALIZATION RATE`</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Finalmente desconectamos</span></span></span>

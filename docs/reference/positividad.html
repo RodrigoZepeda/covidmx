@@ -14,7 +14,7 @@ haciendo Antigeno y PCR por separado, cada una por fecha y entidad."><meta prope
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -244,7 +244,7 @@ se usa <code>list_name</code>).</p></li>
     <div class="section level2">
     <h2 id="detalles">Detalles<a class="anchor" aria-label="anchor" href="#detalles"></a></h2>
     <p>La positividad se define como
-$$\frac{\# \text{Pruebas positivas}}{\text{Total de pruebas}}$$
+$$\frac{\# Pruebas positivas}{Total de pruebas}$$
 Si se utiliza la opción <code>remove_inconclusive = TRUE</code> el <strong>Total de pruebas</strong> se calcula
 utilizando solo <code>POSITIVOS + NEGATIVOS</code>. Si <code>remove_inconclusive = FALSE</code> se calcula
 utilizando todas las personas que tuvieron prueba:
@@ -282,12 +282,12 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ABREVIATURA [6]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Positivi…¹ FECHA_SINTOMAS      ENTID…² TIPO_…³ ENTID…⁴ ABREV…⁵ n_pru…⁶ n_pos…⁷</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      0.457 2021-07-01 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           35      16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      0.587 2021-07-01 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS          109      64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      0.42  2021-07-02 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           50      21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      0.571 2021-07-02 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           70      40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>      0.451 2021-07-03 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           51      23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>      0.641 2021-07-03 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           78      50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      0.5   2021-07-01 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           20      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      0.594 2021-07-01 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           64      38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      0.5   2021-07-02 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           34      17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      0.519 2021-07-02 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           52      27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>      0.517 2021-07-03 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           29      15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>      0.755 2021-07-03 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           53      40</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​Positividad, ²​ENTIDAD_UM, ³​TIPO_PRUEBA,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁴​ENTIDAD_FEDERATIVA, ⁵​ABREVIATURA, ⁶​n_pruebas, ⁷​n_positivos</span></span>
 <span class="r-in"><span></span></span>
@@ -299,12 +299,12 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   FECHA_SINTOMAS, TIPO_PRUEBA [6]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Positividad FECHA_SINTOMAS      TIPO_PRUEBA n_pruebas n_positivos</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       0.556 2021-07-01 <span style="color: #949494;">00:00:00</span> PCR               144          80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>       0.508 2021-07-02 <span style="color: #949494;">00:00:00</span> PCR               120          61</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       0.566 2021-07-03 <span style="color: #949494;">00:00:00</span> PCR               129          73</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>       0.487 2021-07-04 <span style="color: #949494;">00:00:00</span> PCR               150          73</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       0.365 2021-07-05 <span style="color: #949494;">00:00:00</span> PCR               148          54</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       0.541 2021-07-06 <span style="color: #949494;">00:00:00</span> PCR               133          72</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       0.571 2021-07-01 <span style="color: #949494;">00:00:00</span> PCR                84          48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>       0.512 2021-07-02 <span style="color: #949494;">00:00:00</span> PCR                86          44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       0.671 2021-07-03 <span style="color: #949494;">00:00:00</span> PCR                82          55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>       0.469 2021-07-04 <span style="color: #949494;">00:00:00</span> PCR                98          46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       0.365 2021-07-05 <span style="color: #949494;">00:00:00</span> PCR                96          35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       0.557 2021-07-06 <span style="color: #949494;">00:00:00</span> PCR                97          54</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Positivos en Baja California y Baja California Sur</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
@@ -318,12 +318,12 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ABREVIATURA [6]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Positivi…¹ FECHA_SINTOMAS      ENTID…² TIPO_…³ ENTID…⁴ ABREV…⁵ n_pru…⁶ n_pos…⁷</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      0.457 2021-07-01 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           35      16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      0.587 2021-07-01 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS          109      64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      0.42  2021-07-02 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           50      21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      0.571 2021-07-02 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           70      40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>      0.451 2021-07-03 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           51      23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>      0.641 2021-07-03 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           78      50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      0.5   2021-07-01 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           20      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      0.594 2021-07-01 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           64      38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      0.5   2021-07-02 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           34      17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      0.519 2021-07-02 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           52      27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>      0.517 2021-07-03 <span style="color: #949494;">00:00:00</span> 02      PCR     BAJA C… BC           29      15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>      0.755 2021-07-03 <span style="color: #949494;">00:00:00</span> 03      PCR     BAJA C… BS           53      40</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​Positividad, ²​ENTIDAD_UM, ³​TIPO_PRUEBA,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁴​ENTIDAD_FEDERATIVA, ⁵​ABREVIATURA, ⁶​n_pruebas, ⁷​n_positivos</span></span>
 <span class="r-in"><span></span></span>
@@ -339,12 +339,12 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   FECHA_SINTOMAS, ENTIDAD_UM, ENTIDAD_FEDERATIVA, ABREVIATURA [6]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Positividad FECHA_SINTOMAS      ENTIDAD_UM ENTIDAD_F…¹ ABREV…² n_pru…³ n_pos…⁴</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       0.192 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIF… BC          245      47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>       0.473 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIF… BS          842     398</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       0.208 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIF… BC          264      55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>       0.503 2021-07-02 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIF… BS          571     287</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       0.233 2021-07-03 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIF… BC          296      69</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       0.533 2021-07-03 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIF… BS          683     364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       0.205 2021-07-01 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIF… BC          146      30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>       0.485 2021-07-01 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIF… BS          548     266</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       0.207 2021-07-02 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIF… BC          179      37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>       0.496 2021-07-02 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIF… BS          385     191</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       0.223 2021-07-03 <span style="color: #949494;">00:00:00</span> 02         BAJA CALIF… BC          184      41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       0.555 2021-07-03 <span style="color: #949494;">00:00:00</span> 03         BAJA CALIF… BS          445     247</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​ENTIDAD_FEDERATIVA, ²​ABREVIATURA,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​n_pruebas, ⁴​n_positivos</span></span>
 <span class="r-in"><span></span></span>
@@ -363,12 +363,12 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   DESCRIPCION_TIPO_PACIENTE [6]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Positividad FECHA_SINTOMAS      TIPO_PRUEBA TIPO_PAC…¹ DESCR…² n_pru…³ n_pos…⁴</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       0.351 2021-07-01 <span style="color: #949494;">00:00:00</span> PCR                  1 AMBULA…      74      26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>       0.771 2021-07-01 <span style="color: #949494;">00:00:00</span> PCR                  2 HOSPIT…      70      54</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       0.405 2021-07-02 <span style="color: #949494;">00:00:00</span> PCR                  1 AMBULA…      74      30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>       0.674 2021-07-02 <span style="color: #949494;">00:00:00</span> PCR                  2 HOSPIT…      46      31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       0.462 2021-07-03 <span style="color: #949494;">00:00:00</span> PCR                  1 AMBULA…      80      37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       0.735 2021-07-03 <span style="color: #949494;">00:00:00</span> PCR                  2 HOSPIT…      49      36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       0.325 2021-07-01 <span style="color: #949494;">00:00:00</span> PCR                  1 AMBULA…      40      13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>       0.795 2021-07-01 <span style="color: #949494;">00:00:00</span> PCR                  2 HOSPIT…      44      35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       0.404 2021-07-02 <span style="color: #949494;">00:00:00</span> PCR                  1 AMBULA…      57      23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>       0.724 2021-07-02 <span style="color: #949494;">00:00:00</span> PCR                  2 HOSPIT…      29      21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       0.583 2021-07-03 <span style="color: #949494;">00:00:00</span> PCR                  1 AMBULA…      48      28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       0.794 2021-07-03 <span style="color: #949494;">00:00:00</span> PCR                  2 HOSPIT…      34      27</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​TIPO_PACIENTE, ²​DESCRIPCION_TIPO_PACIENTE,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​n_pruebas, ⁴​n_positivos</span></span>
 <span class="r-in"><span></span></span>
@@ -376,24 +376,23 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">positividad</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    tipo_sector <span class="op">=</span> <span class="st">"IMSS"</span>,</span></span>
-<span class="r-in"><span>    .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PAIS_ORIGEN"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"positividad_imss_pais"</span></span></span>
+<span class="r-in"><span>    .grouping_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEXO"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    list_name <span class="op">=</span> <span class="st">"positividad_imss_sexo"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad_imss_pais</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">positividad_imss_sexo</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   FECHA_SINTOMAS, PAIS_ORIGEN, ENTIDAD_UM, TIPO_PRUEBA,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ENTIDAD_FEDERATIVA, ABREVIATURA [6]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Positivi…¹ FECHA_SINTOMAS      PAIS_…² ENTID…³ TIPO_…⁴ ENTID…⁵ ABREV…⁶ n_pru…⁷</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      0.389 2021-07-01 <span style="color: #949494;">00:00:00</span> 97      02      PCR     BAJA C… BC           18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      0.688 2021-07-01 <span style="color: #949494;">00:00:00</span> 97      03      PCR     BAJA C… BS           64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      0.269 2021-07-02 <span style="color: #949494;">00:00:00</span> 97      02      PCR     BAJA C… BC           26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      0.471 2021-07-02 <span style="color: #949494;">00:00:00</span> 97      03      PCR     BAJA C… BS           34</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>      0.433 2021-07-03 <span style="color: #949494;">00:00:00</span> 97      02      PCR     BAJA C… BC           30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>      0.75  2021-07-03 <span style="color: #949494;">00:00:00</span> 97      03      PCR     BAJA C… BS           32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   FECHA_SINTOMAS, SEXO, ENTIDAD_UM, TIPO_PRUEBA, ENTIDAD_FEDERATIVA,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ABREVIATURA [6]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Positividad FECHA_SINTOMAS       SEXO ENTIDA…¹ TIPO_…² ENTID…³ ABREV…⁴ n_pru…⁵</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       0.5   2021-07-01 <span style="color: #949494;">00:00:00</span>     1 02       PCR     BAJA C… BC            6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>       0.875 2021-07-01 <span style="color: #949494;">00:00:00</span>     1 03       PCR     BAJA C… BS           16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       0.667 2021-07-01 <span style="color: #949494;">00:00:00</span>     2 02       PCR     BAJA C… BC            3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>       0.591 2021-07-01 <span style="color: #949494;">00:00:00</span>     2 03       PCR     BAJA C… BS           22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       0.417 2021-07-02 <span style="color: #949494;">00:00:00</span>     1 02       PCR     BAJA C… BC           12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       0.385 2021-07-02 <span style="color: #949494;">00:00:00</span>     1 03       PCR     BAJA C… BS           13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1 more variable: n_positivos &lt;int&gt;, and abbreviated variable names</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​Positividad, ²​PAIS_ORIGEN, ³​ENTIDAD_UM, ⁴​TIPO_PRUEBA, ⁵​ENTIDAD_FEDERATIVA,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​ABREVIATURA, ⁷​n_pruebas</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​ENTIDAD_UM, ²​TIPO_PRUEBA, ³​ENTIDAD_FEDERATIVA, ⁴​ABREVIATURA, ⁵​n_pruebas</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Una vez hayas concluido tu trabajo no olvides desconectar</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>

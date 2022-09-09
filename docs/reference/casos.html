@@ -12,7 +12,7 @@ por diferentes covariables. Por default calcula el total de casos (con y sin pru
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.1000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.0000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -290,12 +290,12 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           229 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           794 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           240 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           535 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           269 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           646 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           139 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           519 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           164 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           357 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           170 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           421 BAJA CALIFORNIA SUR BS         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Defunciones por entidad</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">casos</span><span class="op">(</span>defunciones <span class="op">=</span> <span class="cn">TRUE</span>, list_name <span class="op">=</span> <span class="st">"defunciones"</span><span class="op">)</span></span></span>
@@ -303,12 +303,12 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02             5 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03            37 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02             7 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03            11 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02             7 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03            22 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02             3 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03            24 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02             4 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03             5 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02             4 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03            18 BAJA CALIFORNIA SUR BS         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Hospitalizados por entidad</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
@@ -317,12 +317,12 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02            17 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03            85 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02            26 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03            35 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02            19 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03            44 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02            12 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03            55 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02            19 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03            19 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02             8 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03            35 BAJA CALIFORNIA SUR BS         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># UCI por entidad</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">casos</span><span class="op">(</span>tipo_uci <span class="op">=</span> <span class="st">"SI"</span>, list_name <span class="op">=</span> <span class="st">"uci"</span><span class="op">)</span></span></span>
@@ -331,11 +331,11 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03             6 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03             3 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02             2 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03             8 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03             2 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02             1 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03             7 BAJA CALIFORNIA SUR BS         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-04 <span style="color: #949494;">00:00:00</span> 02             1 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-04 <span style="color: #949494;">00:00:00</span> 03             3 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-05 <span style="color: #949494;">00:00:00</span> 02             1 BAJA CALIFORNIA     BC         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Solo pacientes IMSS</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">casos</span><span class="op">(</span>tipo_sector <span class="op">=</span> <span class="st">"IMSS"</span>, list_name <span class="op">=</span> <span class="st">"imss"</span><span class="op">)</span></span></span>
@@ -343,12 +343,12 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           194 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           554 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           196 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           378 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           231 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           408 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           121 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           360 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           134 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           258 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           145 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           252 BAJA CALIFORNIA SUR BS         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Pacientes IMSS y PEMEX separados</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">casos</span><span class="op">(</span>tipo_sector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IMSS"</span>, <span class="st">"PEMEX"</span><span class="op">)</span>, list_name <span class="op">=</span> <span class="st">"imss_y_pemex"</span><span class="op">)</span></span></span>
@@ -356,12 +356,12 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA  ABREVIATURA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           194 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           554 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           196 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           378 BAJA CALIFORNIA SUR BS         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           231 BAJA CALIFORNIA     BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           408 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           121 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03           360 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           134 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03           258 BAJA CALIFORNIA SUR BS         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           145 BAJA CALIFORNIA     BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03           252 BAJA CALIFORNIA SUR BS         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Pacientes IMSS y PEMEX sumados</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
@@ -373,12 +373,12 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM SECTOR     n ENTIDAD_FEDERATIVA ABREV…¹ DESCR…²</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02              4   194 BAJA CALIFORNIA    BC      IMSS   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03              4   554 BAJA CALIFORNIA S… BS      IMSS   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02              4   196 BAJA CALIFORNIA    BC      IMSS   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03              4   378 BAJA CALIFORNIA S… BS      IMSS   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02              4   231 BAJA CALIFORNIA    BC      IMSS   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03              4   408 BAJA CALIFORNIA S… BS      IMSS   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02              4   121 BAJA CALIFORNIA    BC      IMSS   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03              4   360 BAJA CALIFORNIA S… BS      IMSS   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02              4   134 BAJA CALIFORNIA    BC      IMSS   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 03              4   258 BAJA CALIFORNIA S… BS      IMSS   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02              4   145 BAJA CALIFORNIA    BC      IMSS   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 03              4   252 BAJA CALIFORNIA S… BS      IMSS   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​ABREVIATURA, ²​DESCRIPCION_TIPO_SECTOR</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Solo los de BAJA CALIFORNIA</span></span></span>
@@ -388,12 +388,12 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM     n ENTIDAD_FEDERATIVA ABREVIATURA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           229 BAJA CALIFORNIA    BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           240 BAJA CALIFORNIA    BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           269 BAJA CALIFORNIA    BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span> 02           308 BAJA CALIFORNIA    BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span> 02           333 BAJA CALIFORNIA    BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span> 02           317 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02           139 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02           164 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02           170 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span> 02           213 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span> 02           215 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span> 02           215 BAJA CALIFORNIA    BC         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Solo los de BAJA CALIFORNIA por residencia</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
@@ -402,12 +402,12 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_RES     n ENTIDAD_FEDERATIVA ABREVIATURA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02            230 BAJA CALIFORNIA    BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02            241 BAJA CALIFORNIA    BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02            266 BAJA CALIFORNIA    BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span> 02            308 BAJA CALIFORNIA    BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span> 02            331 BAJA CALIFORNIA    BC         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span> 02            317 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02            140 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02            164 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-03 <span style="color: #949494;">00:00:00</span> 02            167 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-04 <span style="color: #949494;">00:00:00</span> 02            212 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-05 <span style="color: #949494;">00:00:00</span> 02            214 BAJA CALIFORNIA    BC         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-06 <span style="color: #949494;">00:00:00</span> 02            215 BAJA CALIFORNIA    BC         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Agrupando casos por tipo de clasificacion</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
@@ -420,14 +420,14 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM CLASIFICACION_F…¹     n ENTID…² ABREV…³ CLASI…⁴</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                         1     1 BAJA C… BC      CASO D…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                         3    39 BAJA C… BC      CASO D…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                         6     8 BAJA C… BC      CASO S…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                         7   181 BAJA C… BC      NEGATI…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                         1     1 BAJA C… BS      CASO D…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                         3   368 BAJA C… BS      CASO D…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                         3    24 BAJA C… BC      <span style="color: #949494;">"</span>CASO …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                         6     5 BAJA C… BC      <span style="color: #949494;">"</span>CASO …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                         7   110 BAJA C… BC      <span style="color: #949494;">"</span>NEGAT…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                         1     1 BAJA C… BS      <span style="color: #949494;">"</span>CASO …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                         3   245 BAJA C… BS      <span style="color: #949494;">"</span>CASO …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                         5     3 BAJA C… BS      <span style="color: #949494;">"</span>NO RE…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​CLASIFICACION_FINAL, ²​ENTIDAD_FEDERATIVA,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​ABREVIATURA, ⁴​CLASIFICACIÓN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​ABREVIATURA, ⁴​`CLASIFICACI\032N`</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Regresa la suma de los de BC + BCS por tipo de paciente</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
@@ -442,12 +442,12 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS      ENTIDAD_UM TIPO_PACIENTE     n ENTIDAD_F…¹ ABREV…² DESCR…³</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                     1   212 BAJA CALIF… BC      AMBULA…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                     2    17 BAJA CALIF… BC      HOSPIT…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                     1   709 BAJA CALIF… BS      AMBULA…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                     2    85 BAJA CALIF… BS      HOSPIT…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02                     1   214 BAJA CALIF… BC      AMBULA…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02                     2    26 BAJA CALIF… BC      HOSPIT…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                     1   127 BAJA CALIF… BC      AMBULA…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 02                     2    12 BAJA CALIF… BC      HOSPIT…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                     1   464 BAJA CALIF… BS      AMBULA…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span> 03                     2    55 BAJA CALIF… BS      HOSPIT…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02                     1   145 BAJA CALIF… BC      AMBULA…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span> 02                     2    19 BAJA CALIF… BC      HOSPIT…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​ENTIDAD_FEDERATIVA, ²​ABREVIATURA,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​DESCRIPCION_TIPO_PACIENTE</span></span>
 <span class="r-in"><span></span></span>
@@ -464,12 +464,12 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS       SEXO TIPO_PACIENTE     n DESCRIPCION_TIPO_PACIENTE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     1             1   471 AMBULATORIO              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     1             2    44 HOSPITALIZADO            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     2             1   450 AMBULATORIO              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     2             2    58 HOSPITALIZADO            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             1   378 AMBULATORIO              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             2    27 HOSPITALIZADO            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     1             1   308 AMBULATORIO              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     1             2    28 HOSPITALIZADO            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     2             1   283 AMBULATORIO              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     2             2    39 HOSPITALIZADO            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             1   258 AMBULATORIO              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             2    13 HOSPITALIZADO            </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Si no recuerdas la codificacion de los sexos puedes usar el diccionario:</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">sexo</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span><span class="op">$</span><span class="va">sexo</span> <span class="op">|&gt;</span></span></span>
@@ -478,58 +478,37 @@ los casos por entidad se hace lo siguiente</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   FECHA_SINTOMAS       SEXO TIPO_PACIENTE     n DESCRIPCION_TIPO_PACIE…¹ DESCR…²</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     1             1   471 AMBULATORIO              MUJER  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     1             2    44 HOSPITALIZADO            MUJER  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     2             1   450 AMBULATORIO              HOMBRE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     2             2    58 HOSPITALIZADO            HOMBRE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             1   378 AMBULATORIO              MUJER  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             2    27 HOSPITALIZADO            MUJER  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​DESCRIPCION_TIPO_PACIENTE, ²​DESCRIPCIÓN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     1             1   308 AMBULATORIO              MUJER  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     1             2    28 HOSPITALIZADO            MUJER  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     2             1   283 AMBULATORIO              HOMBRE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2021-07-01 <span style="color: #949494;">00:00:00</span>     2             2    39 HOSPITALIZADO            HOMBRE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             1   258 AMBULATORIO              MUJER  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>     1             2    13 HOSPITALIZADO            MUJER  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​DESCRIPCION_TIPO_PACIENTE,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​`DESCRIPCI\032N`</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Si no recuerdas todas las variables de la base puedes usar glimpse para ver por</span></span></span>
 <span class="r-in"><span><span class="co"># que otras variables puedes clasificar</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dats</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 58,965</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ FECHA_ACTUALIZACION   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2022-08-09, 2022-08-09, 2022-08-09, 2022-08-09,…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ ID_REGISTRO           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "g164c1a", "78ce0b", "526821", "4ab051", "ba3171…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ SECTOR                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 12, 12, 4, 4, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ ENTIDAD_UM            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "02", "03", "03", "03", "03", "03", "03", "03", …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ SEXO                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ ENTIDAD_NAC           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "02", "09", "03", "25", "03", "03", "25", "03", …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ ENTIDAD_RES           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "02", "03", "03", "03", "03", "03", "03", "03", …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ MUNICIPIO_RES         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "001", "003", "008", "008", "008", "003", "003",…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ TIPO_PACIENTE         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ FECHA_INGRESO         <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2021-07-22, 2021-07-08, 2021-07-01, 2021-07-01,…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ FECHA_SINTOMAS        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2021-07-21, 2021-07-04, 2021-07-01, 2021-07-01,…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 20,000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ SECTOR                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 4, 4, 4, 12, 5, 4, 4, 12, 4, 4, 4, 4, 12, 12, 12…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ENTIDAD_UM            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "03", "03", "03", "03", "02", "03", "02", "03", …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ SEXO                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ENTIDAD_NAC           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "12", "03", "03", "03", "20", "03", "20", "12", …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ENTIDAD_RES           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "03", "03", "03", "03", "02", "03", "02", "03", …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ TIPO_PACIENTE         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ FECHA_INGRESO         <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2021-07-05, 2021-07-12, 2021-07-22, 2021-07-15,…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ FECHA_SINTOMAS        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2021-07-04, 2021-07-11, 2021-07-19, 2021-07-13,…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ FECHA_DEF             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ INTUBADO              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ NEUMONIA              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ EDAD                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 43, 17, 28, 30, 22, 32, 35, 24, 40, 21, 78, 13, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ NACIONALIDAD          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ EMBARAZO              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 97, 97, 97, 97, 97, 97, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ HABLA_LENGUA_INDIG    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 99, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ INDIGENA              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 99, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ DIABETES              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ EPOC                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ ASMA                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ INMUSUPR              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ HIPERTENSION          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ OTRA_COM              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ CARDIOVASCULAR        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ OBESIDAD              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ RENAL_CRONICA         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ TABAQUISMO            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ OTRO_CASO             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ TOMA_MUESTRA_LAB      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ RESULTADO_LAB         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 97, 2, 97, 97, 97, 97, 1, 97, 97, 97, 97, 97, 97…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ TOMA_MUESTRA_ANTIGENO <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ RESULTADO_ANTIGENO    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 2, 1, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 2, 2, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ CLASIFICACION_FINAL   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 3, 7, 7, 3, 7, 7, 3, 3, 3, 7, 7, 3, 7, 6, 7, 7, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ MIGRANTE              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ PAIS_NACIONALIDAD     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "México", "México", "México", "México", "México"…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ PAIS_ORIGEN           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "97", "97", "97", "97", "97", "97", "97", "97", …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ EDAD                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 22, 52, 19, 10, 29, 54, 25, 22, 32, 38, 11, 27, …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ HABLA_LENGUA_INDIG    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 99, 2, 2, 2,…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ DIABETES              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ TOMA_MUESTRA_LAB      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 1, …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ RESULTADO_LAB         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ TOMA_MUESTRA_ANTIGENO <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ RESULTADO_ANTIGENO    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 1, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 97, 1, 2, 97…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ CLASIFICACION_FINAL   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 3, 7, 7, 3, 7, 7, 7, 3, 7, 7, 7, 7, 7, 3, 7, 3, …</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ UCI                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, 97, …</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Una vez hayas concluido tu trabajo no olvides desconectar</span></span></span>
