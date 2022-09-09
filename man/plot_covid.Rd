@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_covid.R
 \name{plot_covid}
 \alias{plot_covid}
-\title{PLOT DATOS DE COVID}
+\title{Grafica los casos de COVID-19}
 \usage{
 plot_covid(
   datos_covid,
@@ -54,11 +54,7 @@ plot_covid(
 Un \code{ggplot2} con la imagen graficada.
 }
 \description{
-\code{plot_covid} Grafica automaticamente la base de datos de covid
-}
-\details{
-Por default calcula el total de casos.
-This is not an official product / este no es un producto oficial
+\code{plot_covid} Intenta graficar automaticamente la base de datos de covid generados por \code{\link[=casos]{casos()}}
 }
 \examples{
 # Para el ejemplo usaremos los datos precargados pero tu puedes
@@ -124,4 +120,7 @@ datos_covid$plot_nal |>
 # Finalmente desconectamos
 datos_covid$disconnect()
 
+}
+\seealso{
+\code{\link[=casos]{casos()}}
 }
