@@ -235,7 +235,7 @@ numero_pruebas <- function(datos_covid,
     datos_covid$dict["PACIENTE"][[1]] |>
     dplyr::filter(
       stringr::str_detect(
-        get("DESCRIPCI\u00d3N"),
+        get(stringr::str_subset(colnames(datos_covid$dict["PACIENTE"][[1]]), "DESC*")[1]),
         paste0(
           "\\b",
           paste0(tipo_paciente, collapse = "\\b|\\b"), "\\b"
@@ -253,7 +253,7 @@ numero_pruebas <- function(datos_covid,
     datos_covid$dict["UCI"][[1]] |>
     dplyr::filter(
       stringr::str_detect(
-        get("DESCRIPCI\u00d3N"),
+        get(stringr::str_subset(colnames(datos_covid$dict["UCI"][[1]]), "DESC*")),
         paste0(paste0("^", tipo_uci, "$"), collapse = "|")
       )
     )
@@ -268,7 +268,7 @@ numero_pruebas <- function(datos_covid,
     datos_covid$dict["SECTOR"][[1]] |>
     dplyr::filter(
       stringr::str_detect(
-        get("DESCRIPCI\u00d3N"),
+        get(stringr::str_subset(colnames(datos_covid$dict["SECTOR"][[1]]), "DESC*")),
         paste0(paste0("^", tipo_sector, "$"), collapse = "|")
       )
     )

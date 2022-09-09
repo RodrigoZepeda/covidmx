@@ -90,7 +90,7 @@
 #'     date_break_format = "1 week",
 #'     date_labels_format = "%d/%B/%Y",
 #'     df_variable = "CASE HOSPITALIZATION RATE",
-#'     df_covariates = c("DESCRIPCIÓN", "ENTIDAD_FEDERATIVA"),
+#'     df_covariates = c("DESCRIPCI\032N", "ENTIDAD_FEDERATIVA"),
 #'     type = "area"
 #'   ) +
 #'   ggtitle("Plot nacional")

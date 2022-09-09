@@ -1,3 +1,13 @@
+# covidmx 0.7.1.0000
+
+* Se cambió la base de ejemplo por una más pequeña y con mejor compresión
+
+# covidmx 0.7.0.2000
+
+* Se arreglaron las notas sobre el manual del pdf en LaTeX
+* Se quitaron el README.md y el NEWS.md del build
+* Se arreglo el archivo que no estaba guardado como non-ascii
+
 # covidmx 0.7.0.1000
 
 * Se arreglaron los headings del `README.md`

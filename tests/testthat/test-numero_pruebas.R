@@ -129,8 +129,8 @@ test_that("Num pruebas", {
     dplyr::tally() |>
     dplyr::left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD")) |>
     dplyr::left_join(datos_covid$dict$SECTOR, by = c("SECTOR" = "CLAVE")) |>
-    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\u00d3N"),"^IMSS$|^ISSSTE$")) |>
-    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_SECTOR") := !!as.symbol("DESCRIPCI\u00d3N"))
+    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\032N"),"^IMSS$|^ISSSTE$")) |>
+    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_SECTOR") := !!as.symbol("DESCRIPCI\032N"))
 
   #Verificamos igualdad
   expect_true(dplyr::all_equal(numero_pruebas_agrupados$numero_pruebas, numero_pruebas_agrupados_al_natural))
@@ -151,8 +151,8 @@ test_that("Num pruebas", {
     dplyr::tally() |>
     dplyr::left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD")) |>
     dplyr::left_join(datos_covid$dict$UCI, by = c("UCI" = "CLAVE")) |>
-    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\u00d3N"),"^SI$|^NO$")) |>
-    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_UCI") := !!as.symbol("DESCRIPCI\u00d3N"))
+    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\032N"),"^SI$|^NO$")) |>
+    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_UCI") := !!as.symbol("DESCRIPCI\032N"))
 
   #Verificamos igualdad
   expect_true(dplyr::all_equal(numero_pruebas_agrupados$numero_pruebas, numero_pruebas_agrupados_al_natural))
@@ -173,8 +173,8 @@ test_that("Num pruebas", {
     dplyr::tally() |>
     dplyr::left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD")) |>
     dplyr::left_join(datos_covid$dict$PACIENTE, by = c("TIPO_PACIENTE" = "CLAVE")) |>
-    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\u00d3N"),"^AMBULATORIO$|^NO ESPECIFICADO$")) |>
-    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_PACIENTE") := !!as.symbol("DESCRIPCI\u00d3N"))
+    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\032N"),"^AMBULATORIO$|^NO ESPECIFICADO$")) |>
+    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_PACIENTE") := !!as.symbol("DESCRIPCI\032N"))
 
   #Verificamos igualdad
   expect_true(dplyr::all_equal(numero_pruebas_agrupados$numero_pruebas, numero_pruebas_agrupados_al_natural))

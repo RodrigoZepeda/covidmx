@@ -130,7 +130,7 @@ en distintas categorias (residencia / edad / etc)
 \details{
 El case fatality rate se define como
 
-\deqn{\frac{\# \text{Defunciones}}{\text{Total de enfermos}}}{%
+\deqn{\frac{\# Defunciones}{Total de enfermos}}{%
 \# Defunciones / Total de enfermos}
 
 Si se utiliza la opción \code{tipo_clasificacion} se puede cambiar la definicion de enfermo

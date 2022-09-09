@@ -6,7 +6,7 @@
 #' haciendo Antigeno y PCR por separado, cada una por fecha y entidad.
 #'
 #' @details La positividad se define como
-#' \deqn{\frac{\# \text{Pruebas positivas}}{\text{Total de pruebas}}}{%
+#' \deqn{\frac{\# Pruebas positivas}{Total de pruebas}}{%
 #' \# Pruebas positivas / Total de pruebas}
 #' Si se utiliza la opción `remove_inconclusive = TRUE` el **Total de pruebas** se calcula
 #' utilizando solo `POSITIVOS + NEGATIVOS`. Si `remove_inconclusive = FALSE` se calcula
@@ -89,10 +89,10 @@
 #' datos_covid <- datos_covid |>
 #'   positividad(
 #'     tipo_sector = "IMSS",
-#'     .grouping_vars = c("PAIS_ORIGEN"),
-#'     list_name = "positividad_imss_pais"
+#'     .grouping_vars = c("SEXO"),
+#'     list_name = "positividad_imss_sexo"
 #'   )
-#' head(datos_covid$positividad_imss_pais)
+#' head(datos_covid$positividad_imss_sexo)
 #'
 #' # Una vez hayas concluido tu trabajo no olvides desconectar
 #' datos_covid$disconnect()

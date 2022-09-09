@@ -1,6 +1,6 @@
 Package: covidmx
 Title: Herramientas para el analisis de datos de COVID-19 en Mexico
-Version: 0.7.0.1000
+Version: 0.7.1.0000
 Authors@R: 
     c(person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4471-5270")),
@@ -33,7 +33,7 @@ Description: Conjunto de herramientas para analisis de datos de COVID-19 en Mexi
   Mexican General Directorate of Epidemiology, the IRAG network and GISAID. 
 License: MIT + file LICENSE
 Encoding: UTF-8
-Language: es
+Language: es_ES
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports:

@@ -561,7 +561,7 @@ datos_covid$disconnect()
 
 ## Datos de variantes (GISAID)
 
-Para descargar las variantes reportadas por la publicación diaria en Github del reporte nacional en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) a partir de las variantes de [GISAID](www.gisaid.org) puedes hacer:
+Para descargar las variantes reportadas por la publicación diaria en Github del reporte nacional en [RodrigoZepeda/VariantesCovid](https://github.com/RodrigoZepeda/VariantesCovid) a partir de las variantes de [GISAID](https://gisaid.org/) puedes hacer:
 
 ```{r, message = FALSE, warning=FALSE}
 variantes_covid <- descarga_datos_variantes_GISAID()

@@ -19,7 +19,7 @@ remotes::install_github("RodrigoZepeda/covidmx")
 
 ## Uso 
 
-Puedes descargar la información de variantes de [GISAID](www.gisaid.org) de la [publicación de Github](https://github.com/RodrigoZepeda/VariantesCovid), ocupación hospitalaria de [RED IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome) a partir del [Github](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) y datos abiertos de la [SSA](https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico) todo con los siguientes comandos.
+Puedes descargar la información de variantes de [GISAID](https://gisaid.org/) de la [publicación de Github](https://github.com/RodrigoZepeda/VariantesCovid), ocupación hospitalaria de [RED IRAG](https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome) a partir del [Github](https://github.com/RodrigoZepeda/CapacidadHospitalariaMX) y datos abiertos de la [SSA](https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico) todo con los siguientes comandos.
 
 > El proceso está optimizado mediante `duckdb` para que puedas realizar `queries` sobre la base de > 15 millones de personas en segundos. 
 

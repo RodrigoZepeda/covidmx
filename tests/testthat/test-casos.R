@@ -81,8 +81,8 @@ test_that("Casos", {
     dplyr::tally() |>
     dplyr::left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD")) |>
     dplyr::left_join(datos_covid$dict$SECTOR, by = c("SECTOR" = "CLAVE")) |>
-    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\u00d3N"),"^IMSS$|^ISSSTE$")) |>
-    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_SECTOR") := !!as.symbol("DESCRIPCI\u00d3N"))
+    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\032N"),"^IMSS$|^ISSSTE$")) |>
+    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_SECTOR") := !!as.symbol("DESCRIPCI\032N"))
 
   #Verificamos igualdad
   expect_true(dplyr::all_equal(casos_agrupados$casos, casos_agrupados_al_natural))
@@ -99,8 +99,8 @@ test_that("Casos", {
     dplyr::tally() |>
     dplyr::left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD")) |>
     dplyr::left_join(datos_covid$dict$UCI, by = c("UCI" = "CLAVE")) |>
-    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\u00d3N"),"^SI$|^NO$")) |>
-    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_UCI") := !!as.symbol("DESCRIPCI\u00d3N"))
+    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\032N"),"^SI$|^NO$")) |>
+    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_UCI") := !!as.symbol("DESCRIPCI\032N"))
 
   #Verificamos igualdad
   expect_true(dplyr::all_equal(casos_agrupados$casos, casos_agrupados_al_natural))
@@ -118,8 +118,8 @@ test_that("Casos", {
     dplyr::tally() |>
     dplyr::left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD")) |>
     dplyr::left_join(datos_covid$dict$PACIENTE, by = c("TIPO_PACIENTE" = "CLAVE")) |>
-    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\u00d3N"),"^AMBULATORIO$|^NO ESPECIFICADO$")) |>
-    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_PACIENTE") := !!as.symbol("DESCRIPCI\u00d3N"))
+    dplyr::filter(str_detect(!!as.symbol("DESCRIPCI\032N"),"^AMBULATORIO$|^NO ESPECIFICADO$")) |>
+    dplyr::rename(!!as.symbol("DESCRIPCION_TIPO_PACIENTE") := !!as.symbol("DESCRIPCI\032N"))
 
   #Verificamos igualdad
   expect_true(dplyr::all_equal(casos_agrupados$casos, casos_agrupados_al_natural))
@@ -257,7 +257,8 @@ test_that("Casos", {
 
   #Chequeo de que el fill zeros funcione-----
   casos_agrupados <- datos_covid |>
-    casos(edad_cut = c(0, 1), fill_zeros = TRUE)
+    casos(edad_cut = c(0, 1), fill_zeros = TRUE, entidades = c("BAJA CALIFORNIA","ZACATECAS"))
+  
   casos_agrupados$casos <- casos_agrupados$casos |>
     dplyr::select(- !!as.symbol("EDAD_CAT")) |>
     dplyr::arrange(FECHA_SINTOMAS, ENTIDAD_UM)
@@ -275,6 +276,7 @@ test_that("Casos", {
     dplyr::distinct() |>
     dplyr::left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD")) |>
     dplyr::filter(as.numeric(ENTIDAD_UM) < 36) |>
+    dplyr::filter(ENTIDAD_UM == "32" | ENTIDAD_UM == "02") |>
     dplyr::arrange(FECHA_SINTOMAS, ENTIDAD_UM)
 
   casos_edad_cut <- casos_edad_cut |>

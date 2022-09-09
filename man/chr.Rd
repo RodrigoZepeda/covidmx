@@ -115,7 +115,7 @@ confirmados en distintas categorías (residencia / edad / etc)
 \details{
 El case hospitalization rate se define como
 
-\deqn{\frac{\# \text{Hospitalizados}}{\text{Total de enfermos}}}{%
+\deqn{\frac{\# Hospitalizados}{Total de enfermos}}{%
 \# Hospitalizados / Total de enfermos}
 
 Si se utiliza la opción \code{incluir_paciente_no_especificado} se puede cambiar la definicion
