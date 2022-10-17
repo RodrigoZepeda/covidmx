@@ -38,10 +38,9 @@
 #' }
 #'
 #' @examples
-#' # Para el ejemplo usaremos los datos precargados pero tu puedes
-#' # correr el ejemplo descargando informacion mas reciente:
-#' # datos_covid <- descarga_datos_abiertos() #Sugerido
 #'
+#' # Para el ejemplo usaremos los datos precargados (datosabiertos) pero tu puedes
+#' # correr el ejemplo descargando informacion mas reciente.
 #' datos_covid <- datosabiertos
 #'
 #' # Número de pruebas PCR/Antigeno a nivel nacional por estado

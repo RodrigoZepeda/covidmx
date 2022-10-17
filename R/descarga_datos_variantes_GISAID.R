@@ -33,32 +33,18 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
+#'
 #' # Descarga de variantes a nivel nacional
-#' variantes_covid <- descarga_datos_variantes_GISAID("nacional")
+#' url_global <- "https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/"
+#' if (RCurl::url.exists(paste0(url_global, "Proporcion_variantes_nacional.csv"))) {
+#'   variantes_covid <- descarga_datos_variantes_GISAID("nacional")
+#' }
 #'
 #' # Descarga de variantes para CDMX
-#' variantes_covid <- descarga_datos_variantes_GISAID("cdmx")
-#'
-#' # Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
-#' # sin verificar que el contenido en Internet haya cambiado
-#' variantes_covid <- descarga_datos_variantes_GISAID("nacional")
-#'
-#' # Puedes forzarlo a checar el contenido en Internet usando
-#' variantes_covid <- descarga_datos_variantes_GISAID("nacional", force_download = TRUE)
-#'
-#' # Para visualizar
-#' if (requireNamespace("ggstream") & requireNamespace("lubridate")) {
-#'   library(ggplot2)
-#'   library(lubridate)
-#'   ggplot(variantes_covid) +
-#'     ggstream::geom_stream(aes(
-#'       x = ymd("2019/12/27") + years(ano - 2020) + weeks(semana),
-#'       y = n, fill = variant,
-#'     )) +
-#'     theme_minimal()
+#' if (RCurl::url.exists(paste0(url_global, "Proporcion_variantes_cdmx.csv"))) {
+#'   variantes_covid <- descarga_datos_variantes_GISAID("cdmx")
 #' }
-#' }
+#'
 #' @encoding UTF-8
 #' @references
 #'

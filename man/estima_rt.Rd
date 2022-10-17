@@ -78,7 +78,7 @@ serial depende mucho de la variante se recomienda cambiarlo.}
 \item{...}{(\strong{opcional}) Parámetros adicionales para \code{\link[EpiEstim:estimate_R]{EpiEstim::estimate_R()}}.}
 }
 \value{
-Appends a la lista de \code{datos_covid} una nueva entrada de nombre \code{list_name}
+Une a la lista de \code{datos_covid} una nueva entrada de nombre \code{list_name}
 (default: \code{estima_rt}) con una base de datos (\code{tibble}) con los
 resultados agregados.
 \itemize{
@@ -101,13 +101,13 @@ Se sugiere establecer una mínima fecha y una máxima fecha con \code{min_date} 
 a los de la variante delta.
 }
 \examples{
-# Para el ejemplo usaremos los datos precargados pero tu puedes
-# correr el ejemplo descargando informacion mas reciente:
-# datos_covid <- descarga_datos_abiertos() #Sugerido
 
+# Para el ejemplo usaremos los datos precargados (datosabiertos) pero tu puedes
+# correr el ejemplo descargando informacion mas reciente.
 datos_covid <- datosabiertos
 
 # Casos a nivel nacional por estado en todos
+\donttest{
 suppressWarnings(
   datos_covid <- datos_covid |> estima_rt()
 )
@@ -134,7 +134,6 @@ head(datos_covid$rt_confirmados)
 
 #' # Cambios en los parametros de epiestim
 # estos parametros no tienen razon de ser mas alla de mostrar como se cambian
-\dontrun{
 datos_covid <- datos_covid |>
   estima_rt(
     group_by_entidad = FALSE,
@@ -151,7 +150,6 @@ datos_covid <- datos_covid |>
       max_std_si = 1.0
     )
   )
-
 head(datos_covid$config_rt)
 
 # Casos en BC, BCS en los confirmados

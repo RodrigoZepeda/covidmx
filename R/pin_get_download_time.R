@@ -118,3 +118,47 @@ get_site_dic <- function() {
     "covid19.zip"
   )
 }
+
+#' @title Funcion para verificar la existencia de los sitios web de datos de covid
+#'
+#' @description La funcion recorre cada uno de los sitios y verifica su existencia.
+#'
+#' @param covid_data (**opcional**) Variable booleana `TRUE` si verifica los sitios de
+#' datos y `FALSE` si no los verifica
+#'
+#' @param dictionnary  (**opcional**) Variable booleana `TRUE` si verifica los sitios del
+#' diccionario y `FALSE` si no lo verifica
+#'
+#'
+#' @return Devuelve `TRUE` si todos los sitios web existen, `FALSE`en caso de que no.
+#'
+#' @examples
+#' # Verificamos que existan los sitios cambiando a TRUE cualquiera:
+#' check_sites(covid_data = FALSE, dictionnary = FALSE)
+#'
+#' @export
+check_sites <- function(covid_data = TRUE, dictionnary = TRUE) {
+  sites <- c()
+
+  if (covid_data) {
+    sites <- c(sites, get_sites_covid())
+  }
+
+  if (dictionnary) {
+    dictionnary <- c(sites, get_site_dic())
+  }
+
+  site_available <- c(TRUE)
+  if (length(sites) > 0) {
+    for (site in sites) {
+      cli::cli_alert("Checando {.url {site}}")
+      site_available <- c(site_available, RCurl::url.exists(site))
+    }
+  }
+
+  if (all(site_available)) {
+    cli::cli_alert_success("Los sitios de descarga fueron encontrados")
+  }
+
+  return(all(site_available))
+}

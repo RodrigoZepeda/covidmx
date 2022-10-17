@@ -1,6 +1,6 @@
 Package: covidmx
-Title: Herramientas para el analisis de datos de COVID-19 en Mexico
-Version: 0.7.1.0000
+Title: Descarga y analiza datos de COVID-19 en México
+Version: 0.7.1.2000
 Authors@R: 
     c(person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4471-5270")),
@@ -26,14 +26,20 @@ Authors@R:
           person(given = "Andrew", family = "Johnson", role = "ctb", 
           comment = "Author of included cmdstanr fragment"),
           person(given = "Instituto Mexicano del Seguro Social", role = c("cph", "fnd")))
-Description: Conjunto de herramientas para analisis de datos de COVID-19 en Mexico. 
-  Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiologia de Mexico, 
-  la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) y la Global Initiative on 
-  Sharing All Influenza Data (GISAID). EN: Downloads and analyzes data for COVID-19 from the 
-  Mexican General Directorate of Epidemiology, the IRAG network and GISAID. 
+Description: Herramientas para el análisis de datos de COVID-19 en México. Descarga y analiza 
+  los datos para COVID-19 de la Direccion General de Epidemiología de México (DGE) 
+  <https://www.gob.mx/salud/documentos/datos-abiertos-152127>,
+  la Red de Infecciones Respiratorias Agudas Graves (Red IRAG)
+  <https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome> y la Iniciativa Global 
+  para compartir todos los datos de influenza (GISAID)
+  <https://www.gisaid.org/>. 
+  English: Downloads and analyzes data  of COVID-19 from the  Mexican General 
+  Directorate of Epidemiology (DGE), the Network of 
+  Severe Acute Respiratory  Infections (IRAG network),and the Global 
+  Initiative on Sharing All Influenza Data GISAID.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Language: es_ES
+Language: es
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports:

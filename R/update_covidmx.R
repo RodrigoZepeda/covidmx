@@ -7,9 +7,10 @@
 #' @param force (**opcional**) Determina si forzar la reinstalacion
 #' @param ...   (**opcional**) Parametros adicionales para [remotes::install_github()]
 #'
+#' @return Ningún valor. Se llama para actualizar el paquete a la versión más reciente desde Github.
 #' @examples
 #' \dontrun{
-#' # Actualiza el paquete de coivdmx
+#' # Actualiza el paquete de coivdmx de Github | Updates the covidmx package from Github
 #' update_covidmx()
 #' }
 #'
@@ -29,8 +30,13 @@ update_covidmx <- function(quiet = FALSE, force = FALSE, ...) {
       )
     }
 
-    # Instalaciom
+    # Instalacion
     remotes::install_github("RodrigoZepeda/covidmx", quiet = quiet, force = force, ...)
+
+    # Mensaje de reinicio
+    cli::cli_alert_success(
+      "Actualizaste exitosamente {.code covidmx}. Por favor reinicia la sesion actual de {.code R}"
+    )
   } else {
 
     # Sugerimos instalar

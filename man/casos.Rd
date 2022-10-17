@@ -177,11 +177,10 @@ es equivalente a
 }\if{html}{\out{</div>}}
 }
 \examples{
-# Para el ejemplo usaremos los datos precargados pero tu puedes
-# correr el ejemplo descargando informacion mas reciente:
-# datos_covid <- descarga_datos_abiertos() #Sugerido
 
-datos_covid <- datosabiertos # Datos precargados para el ejemplo
+# Para el ejemplo usaremos los datos precargados (datosabiertos) pero tu puedes
+# correr el ejemplo descargando informacion mas reciente:
+datos_covid <- datosabiertos
 
 # Casos por entidad
 datos_covid <- datos_covid |> casos()
@@ -197,6 +196,7 @@ datos_covid <- datos_covid |>
 head(datos_covid$hospitalizados)
 
 # UCI por entidad
+\donttest{
 datos_covid <- datos_covid |> casos(tipo_uci = "SI", list_name = "uci")
 head(datos_covid$uci)
 
@@ -265,6 +265,7 @@ head(datos_covid$sexo)
 # Si no recuerdas todas las variables de la base puedes usar glimpse para ver por
 # que otras variables puedes clasificar
 datos_covid$dats |> dplyr::glimpse()
+}
 
 # Una vez hayas concluido tu trabajo no olvides desconectar
 datos_covid$disconnect()

@@ -12,7 +12,7 @@ confirmados en distintas categorías (residencia / edad / etc)"><meta property="
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.2000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -29,6 +29,7 @@ confirmados en distintas categorías (residencia / edad / etc)"><meta property="
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
+    <a class="dropdown-item" href="../articles/Ejemplos_de_analisis.html">Ejemplos de análisis</a>
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
     <a class="dropdown-item" href="../articles/Preguntas_Frecuentes.html">Preguntas Frecuentes</a>
   </div>
@@ -224,10 +225,9 @@ por default se excluyen justo por su naturaleza desconocida.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Para el ejemplo usaremos los datos precargados pero tu puedes</span></span></span>
-<span class="r-in"><span><span class="co"># correr el ejemplo descargando informacion mas reciente:</span></span></span>
-<span class="r-in"><span><span class="co"># datos_covid &lt;- descarga_datos_abiertos() #Sugerido</span></span></span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Para el ejemplo usaremos los datos precargados (datosabiertos) pero tu puedes</span></span></span>
+<span class="r-in"><span><span class="co"># correr el ejemplo descargando informacion mas reciente.</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datosabiertos</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Casos a nivel nacional</span></span></span>
@@ -245,6 +245,7 @@ por default se excluyen justo por su naturaleza desconocida.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable name ¹​`CASE HOSPITALIZATION RATE`</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Nacional</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> <span class="fu">chr</span><span class="op">(</span>list_name <span class="op">=</span> <span class="st">"chr_nacional"</span>, group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datos_covid</span><span class="op">$</span><span class="va">`chr_nacional`</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 2</span></span>
@@ -324,7 +325,7 @@ por default se excluyen justo por su naturaleza desconocida.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>        1 02         BAJA CALIFORNIA     BC           0.5  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2021-07-02 <span style="color: #949494;">00:00:00</span>        1 03         BAJA CALIFORNIA SUR BS           0.231</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​ABREVIATURA, ²​`CASE HOSPITALIZATION RATE`</span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="co"># Finalmente desconectamos</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Desconectado</span>

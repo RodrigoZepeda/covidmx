@@ -14,7 +14,7 @@ haciendo Antigeno y PCR por separado, cada una por fecha y entidad."><meta prope
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.2000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -31,6 +31,7 @@ haciendo Antigeno y PCR por separado, cada una por fecha y entidad."><meta prope
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
+    <a class="dropdown-item" href="../articles/Ejemplos_de_analisis.html">Ejemplos de análisis</a>
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
     <a class="dropdown-item" href="../articles/Preguntas_Frecuentes.html">Preguntas Frecuentes</a>
   </div>
@@ -268,10 +269,9 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Para el ejemplo usaremos los datos precargados pero tu puedes</span></span></span>
-<span class="r-in"><span><span class="co"># correr el ejemplo descargando informacion mas reciente:</span></span></span>
-<span class="r-in"><span><span class="co"># datos_covid &lt;- descarga_datos_abiertos() #Sugerido</span></span></span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Para el ejemplo usaremos los datos precargados (datosabiertos) pero tu puedes</span></span></span>
+<span class="r-in"><span><span class="co"># correr el ejemplo descargando informacion mas reciente.</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datosabiertos</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Casos a nivel nacional por estado por tipo de prueba</span></span></span>
@@ -291,6 +291,7 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​Positividad, ²​ENTIDAD_UM, ³​TIPO_PRUEBA,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁴​ENTIDAD_FEDERATIVA, ⁵​ABREVIATURA, ⁶​n_pruebas, ⁷​n_positivos</span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Total nacional sumando todas las pruebas del pais</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">positividad</span><span class="op">(</span>group_by_entidad <span class="op">=</span> <span class="cn">FALSE</span>, list_name <span class="op">=</span> <span class="st">"positividad_nacional"</span><span class="op">)</span></span></span>
@@ -393,6 +394,7 @@ spread of COVID-19. Current Medical Research and Opinion, 37(12), 2067-2076.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       0.385 2021-07-02 <span style="color: #949494;">00:00:00</span>     1 03       PCR     BAJA C… BS           13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1 more variable: n_positivos &lt;int&gt;, and abbreviated variable names</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​ENTIDAD_UM, ²​TIPO_PRUEBA, ³​ENTIDAD_FEDERATIVA, ⁴​ABREVIATURA, ⁵​n_pruebas</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Una vez hayas concluido tu trabajo no olvides desconectar</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>

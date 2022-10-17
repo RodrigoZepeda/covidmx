@@ -20,7 +20,8 @@
 #' Por otro lado,[descarga_db()] ejecuta las siguientes para obtener los datos abiertos:
 #' * [descarga_db_datos_abiertos_tbl()] Descarga las bases de datos de covid de la DGE
 #' * [unzip_db_datos_abiertos_tbl()] Libera el archivo `zip` descargado
-#' * [parse_db_datos_abiertos_tbl()] Genera una base de datos en `duckdb` (o `tibble`) con la informacion
+#' * [parse_db_datos_abiertos_tbl()] Genera una base de datos en `duckdb` (o `tibble`) c
+#'                                   on la informacion
 #'
 #' Si en algun momento se interrumpio la descarga o hubo problemas de conexion o detuviste
 #' el proceso de generacion de la base de datos abiertos puedes llamar a las funciones
@@ -65,13 +66,13 @@
 #' @param dbdir (**opcional**) Direccion donde guardar la base de datos con terminacion `.duckdb`.
 #' Corresponde al argumento de [duckdb::dbConnect__duckdb_driver()]
 #'
-#' @param sites.covid (**opcional**)  Sitios web con el vinculo a los archivos `.zip` de los datos abiertos. Puedes
-#' cambiarlo por uno de los historicos, por ejemplo. La estructura es
+#' @param sites.covid (**opcional**)  Sitios web con el vinculo a los archivos `.zip` de l
+#' os datos abiertos. Puedes cambiarlo por uno de los historicos, por ejemplo. La estructura es
 #' `c("nombre" = "url", "nombre2" = "url2")`. La ultima verificacion del sitio web default fue
 #' el 6 de septiembre del 2022.
 #'
-#' @param site.covid.dic (**opcional**)  Sitio desde el cual descarga del diccionario de datos. La ultima
-#' verificacion del sitio fue el 6 de septiembre 2022.
+#' @param site.covid.dic (**opcional**)  Sitio desde el cual descarga del diccionario de datos.
+#'  La ultima verificacion del sitio fue el 6 de septiembre 2022.
 #'
 #' @param read_format (**opcional**) \code{"duckdb"} o \code{"tibble"} establece el formato
 #' de lectura de la base de datos. En la mayoria de los casos \code{"tibble"} va a
@@ -100,63 +101,67 @@
 #' @param cache_diccionario (**opcional**) Direccion donde guardar el diccionario en memoria
 #' usando `pins` para no tener que volver a descargarlo si nada ha cambiado
 #'
-#' @param use_cache_on_failure  (**opcional**) Booleana. Establece que si no se pueden descargar datos nuevos
-#' utilice los que tenga en memoria. Por default es `TRUE`.
+#' @param use_cache_on_failure  (**opcional**) Booleana. Establece que si no se pueden descargar
+#' datos nuevos utilice los que tenga en memoria. Por default es `TRUE`.
 #'
 #' @param board_url_name (**opcional**) Establece el nombre del `pins::board_url` para
 #' los datos abiertos (si ya usas pins para que no se empalme).
 #' Por default se llama `datos_abiertos`
 #'
-#' @param board_url_name_dict (**opcional**) Establece el nombre del `pins::board_url` para los datos abiertos. Por
-#' default se llama `diccionario_covid`
+#' @param board_url_name_dict (**opcional**) Establece el nombre del `pins::board_url` para los 
+#' datos abiertos. Por default se llama `diccionario_covid`
 #'
-#' @param clear_zip (**opcional**) Si borrar los archivos `.zip` descargados para el diccionario y los datos
-#' abiertos. No se recomienda si estas usando `pins`. Ve la nota para mas informacion.
+#' @param clear_zip (**opcional**) Si borrar los archivos `.zip` descargados para el diccionario 
+#' y los datos abiertos. No se recomienda si estas usando `pins`. Ve la nota para mas informacion.
 #'
-#' @param clear_csv (**opcional**) Si borrar los archivos `.csv` que se generan despues de abrir el zip. El
-#' default es que si pues en general solo requieres el `duckdb`.
+#' @param clear_csv (**opcional**) Si borrar los archivos `.csv` que se generan despues de abrir 
+#' el zip. El default es que si pues en general solo requieres el `duckdb`.
 #'
 #' @param use_dict (**opcional**) Si descargar el diccionario de `site.covid.dic`.
 #'
-#' @param unzip_command (**opcional**) Forma de extraer la base de datos de datos abiertos si `unzip` falla.
+#' @param unzip_command (**opcional**) Forma de extraer la base de datos de datos abiertos 
+#' si `unzip` falla.
 #' La forma de llamarla es con `system2(unzip_command, args = c(unzip_args, file_download_data))`.
 #'
-#' @param unzip_args (**opcional**) Argumentos de extraccion de la base de datos de datos abiertos si `unzip` falla.
+#' @param unzip_args (**opcional**) Argumentos de extraccion de la base de datos de datos abiertos 
+#' si `unzip` falla.
 #' La forma de llamarla es con `system2(unzip_command, args = c(unzip_args, file_download_data))`.
 #'
-#' @param unzip_args_dict (**opcional**) Lista de argumentos para usar `utils::unzip` en el diccionario de datos.
+#' @param unzip_args_dict (**opcional**) Lista de argumentos para usar `utils::unzip` en el 
+#' diccionario de datos.
 #'
-#' @param check_unzip_install (**opcional**) Bandera de verificacion para checar si tienes lo necesario para
-#' unzippear los datos en el caso de que `unzip` no sirva.
+#' @param check_unzip_install (**opcional**) Bandera de verificacion para checar si tienes 
+#' lo necesario para unzippear los datos en el caso de que `unzip` no sirva.
 #'
-#' @param descarga_db_datos_abiertos_tbl_args (**opcional**) Lista con argumentos adicionales para el
-#' `pins::pin_download` de datos abiertos
+#' @param descarga_db_datos_abiertos_tbl_args (**opcional**) Lista con argumentos adicionales 
+#' para el `pins::pin_download` de datos abiertos
 #'
-#' @param download_file_args (**opcional**) Lista de argumentos adicionales para `download.file` de los datos
-#' si se elige este metodo para descargar.
+#' @param download_file_args (**opcional**) Lista de argumentos adicionales para `download.file` 
+#' de los datos si se elige este metodo para descargar.
 #'
 #' @param descarga_db_diccionario_ssa_args (**opcional**) Lista con argumentos adicionales para el
 #' `pins::pin_download` de datos abiertos
 #'
-#' @param download_file_args_dict (**opcional**) Lista de argumentos adicionales para `download.file` del diccionario
-#' si se elige este metodo de descarga.
+#' @param download_file_args_dict (**opcional**) Lista de argumentos adicionales 
+#' para `download.file` del diccionario si se elige este metodo de descarga.
 #'
-#' @param force_download (**opcional**) Analiza si cambio el pin y descarga datos nuevos en caso afirmativo aunque
-#' haya pasado menos de un dia.
+#' @param force_download (**opcional**) Analiza si cambio el pin y descarga datos nuevos en caso 
+#' afirmativo aunque haya pasado menos de un dia.
 #'
 #' @param show_warnings (**opcional**) si arrojar `warnings`
 #'
-#' @param datos_abiertos_zip_paths (**opcional**)  Camino a los datos abiertos si ya los descargaste en `zip`
+#' @param datos_abiertos_zip_paths (**opcional**)  Camino a los datos abiertos si ya los 
+#' descargaste en `zip`
 #'
-#' @param datos_abiertos_unzipped_path (**opcional**)  Camino a los datos abiertos `csv` si ya los descargaste y
-#' descomprimiste el archivo `zip` en un `csv`
+#' @param datos_abiertos_unzipped_path (**opcional**)  Camino a los datos abiertos `csv` si ya 
+#' los descargaste y descomprimiste el archivo `zip` en un `csv`
 #'
 #' @param datos_abiertos_tbl (**opcional**) Camino a un archivo `.duckdb` con los datos formateados
 #'
 #' @param diccionario_zip_path (**opcional**)  Camino al diccionario si ya losdescargaste en `zip`
 #'
-#' @param diccionario_unzipped_path (**opcional**)  Camino al diccionario `csv` si ya lo descargaste y
-#' descomprimiste el archivo `zip` en un `csv`
+#' @param diccionario_unzipped_path (**opcional**)  Camino al diccionario `csv` si ya 
+#' lo descargaste y descomprimiste el archivo `zip` en un `csv`
 #'
 #' @param diccionario (**opcional**)  Lo que resulta de realizar una descarga del diccionario
 #' usando `descarga_diccionario`
@@ -169,17 +174,23 @@
 #'
 #' @return Lista de valores:
 #' \itemize{
-#'   \item dats        - Tabla conectada mediante `duckdb::dbConnect__duckdb_driver()` (si `duckdb`) o
-#'                       tibble (si `tibble`)
+#'   \item dats        - Tabla conectada mediante `duckdb::dbConnect__duckdb_driver()` 
+#'                       (si `duckdb`) o tibble (si `tibble`)
 #'   \item disconnect  - Funcion para cerrar la conexion a la base de datos.
 #'   \item dict        - Lista de `tibble`s con el diccionario de datos para cada variable
 #' }
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Descarga de la base de datos junto con diccionario en duckdb y la guarda en
-#' # un archivo llamado covidmx.duckdb
-#' file_duck <- "covidmx.duckdb" # descomenta esta linea
-#' datos_covid <- descarga_datos_abiertos(dbdir = file_duck, show_warnings = FALSE)
+#' # un archivo temporal.
+#' # Puede cambiarse el dlink por el adecuado o dejarse en blanco.
+#' # quita la opción de sites.covid para descargar los de la DGE. Esto es sólo un ejemplo.
+#' file_duck <- tempfile(fileext = ".duckdb")
+#' dlink <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
+#' datos_covid <- descarga_datos_abiertos(
+#'   dbdir = file_duck,
+#'   sites.covid = dlink, show_warnings = FALSE
+#' )
 #'
 #' # Luego haces algo con esos datos...
 #'
@@ -192,17 +203,7 @@
 #'
 #' # Si no pones `dbdir` nota que los datos se guardan en un archivo temporal que se elimina
 #' # al cerrar tu sesion
-#' datos_covid <- descarga_datos_abiertos()
-#'
-#' # Desconectamos
-#' datos_covid$disconnect()
-#'
-#' # Tambien puedes descargar de otra direccion con sites.covid
-#' url <- c(
-#'   "link_de_ejemplo" =
-#'     "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
-#' )
-#' datos_covid <- descarga_datos_abiertos(sites.covid = url)
+#' datos_covid <- descarga_datos_abiertos(sites.covid = dlink, show_warnings = FALSE)
 #'
 #' # Desconectamos
 #' datos_covid$disconnect()

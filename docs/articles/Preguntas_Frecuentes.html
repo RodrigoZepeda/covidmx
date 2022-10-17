@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.2000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -51,6 +51,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
+    <a class="dropdown-item" href="../articles/Ejemplos_de_analisis.html">Ejemplos de análisis</a>
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
     <a class="dropdown-item" href="../articles/Preguntas_Frecuentes.html">Preguntas Frecuentes</a>
   </div>
@@ -92,7 +93,7 @@
                         <h4 data-toc-skip class="author">Rodrigo
 Zepeda</h4>
             
-            <h4 data-toc-skip class="date">2022-09-08</h4>
+            <h4 data-toc-skip class="date">2022-10-17</h4>
       
       <small class="dont-index">Código: <a href="https://github.com/RodrigoZepeda/covidmx/blob/HEAD/vignettes/articles/Preguntas_Frecuentes.Rmd" class="external-link"><code>vignettes/articles/Preguntas_Frecuentes.Rmd</code></a></small>
       <div class="d-none name"><code>Preguntas_Frecuentes.Rmd</code></div>
@@ -118,11 +119,117 @@ rápida. Por ejemplo con el siguiente benchmark:</p>
 <span></span>
 <span><span class="co">#Datos del 2021 en tibble (clásico)</span></span>
 <span><span class="va">datos_tibble</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>read_format <span class="op">=</span> <span class="st">"tibble"</span>, </span>
-<span>                                        sites.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2021"</span> <span class="op">=</span> <span class="va">url_2021</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#Datos del 2021 en duckdb (paquete covidmx)</span></span>
+<span>                                        sites.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2021"</span> <span class="op">=</span> <span class="va">url_2021</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+ [1mindexing [0m  [34m2021.csv [0m [---------------------------------------]  [32m311.32GB/s [0m, eta:  [36m 0s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==-------------------------------------]  [32m332.66MB/s [0m, eta:  [36m 4s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==-------------------------------------]  [32m195.93MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===------------------------------------]  [32m222.90MB/s [0m, eta:  [36m 6s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===------------------------------------]  [32m194.57MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [====-----------------------------------]  [32m200.82MB/s [0m, eta:  [36m 6s [0m
+ [1mindexing [0m  [34m2021.csv [0m [====-----------------------------------]  [32m189.01MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [====-----------------------------------]  [32m178.22MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=====----------------------------------]  [32m188.57MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=====----------------------------------]  [32m197.86MB/s [0m, eta:  [36m 6s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=====----------------------------------]  [32m199.05MB/s [0m, eta:  [36m 6s [0m
+ [1mindexing [0m  [34m2021.csv [0m [======---------------------------------]  [32m182.09MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [======---------------------------------]  [32m158.09MB/s [0m, eta:  [36m 8s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=======---------------------------------]  [32m69.27MB/s [0m, eta:  [36m17s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=======---------------------------------]  [32m71.21MB/s [0m, eta:  [36m16s [0m
+ [1mindexing [0m  [34m2021.csv [0m [========--------------------------------]  [32m73.02MB/s [0m, eta:  [36m16s [0m
+ [1mindexing [0m  [34m2021.csv [0m [========--------------------------------]  [32m76.01MB/s [0m, eta:  [36m15s [0m
+ [1mindexing [0m  [34m2021.csv [0m [========--------------------------------]  [32m79.54MB/s [0m, eta:  [36m14s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=========-------------------------------]  [32m73.69MB/s [0m, eta:  [36m15s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=========-------------------------------]  [32m76.02MB/s [0m, eta:  [36m15s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==========------------------------------]  [32m76.57MB/s [0m, eta:  [36m14s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==========------------------------------]  [32m78.39MB/s [0m, eta:  [36m14s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==========------------------------------]  [32m75.09MB/s [0m, eta:  [36m14s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===========-----------------------------]  [32m77.01MB/s [0m, eta:  [36m14s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===========-----------------------------]  [32m77.52MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [============----------------------------]  [32m77.67MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [============----------------------------]  [32m77.72MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [============----------------------------]  [32m76.18MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=============---------------------------]  [32m72.34MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=============---------------------------]  [32m65.28MB/s [0m, eta:  [36m15s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==============--------------------------]  [32m66.09MB/s [0m, eta:  [36m14s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==============--------------------------]  [32m69.44MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===============-------------------------]  [32m70.86MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===============-------------------------]  [32m66.49MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [================------------------------]  [32m67.59MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [================------------------------]  [32m66.01MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [================------------------------]  [32m65.84MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=================-----------------------]  [32m64.21MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=================-----------------------]  [32m64.38MB/s [0m, eta:  [36m13s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==================----------------------]  [32m65.54MB/s [0m, eta:  [36m12s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==================----------------------]  [32m66.44MB/s [0m, eta:  [36m12s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==================----------------------]  [32m66.81MB/s [0m, eta:  [36m12s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===================---------------------]  [32m64.43MB/s [0m, eta:  [36m12s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===================---------------------]  [32m64.28MB/s [0m, eta:  [36m12s [0m
+ [1mindexing [0m  [34m2021.csv [0m [====================--------------------]  [32m64.46MB/s [0m, eta:  [36m11s [0m
+ [1mindexing [0m  [34m2021.csv [0m [====================--------------------]  [32m65.16MB/s [0m, eta:  [36m11s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=====================-------------------]  [32m67.03MB/s [0m, eta:  [36m10s [0m
+ [1mindexing [0m  [34m2021.csv [0m [======================------------------]  [32m63.87MB/s [0m, eta:  [36m10s [0m
+ [1mindexing [0m  [34m2021.csv [0m [======================------------------]  [32m62.92MB/s [0m, eta:  [36m10s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=======================-----------------]  [32m63.03MB/s [0m, eta:  [36m10s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=======================-----------------]  [32m58.91MB/s [0m, eta:  [36m10s [0m
+ [1mindexing [0m  [34m2021.csv [0m [========================----------------]  [32m58.58MB/s [0m, eta:  [36m10s [0m
+ [1mindexing [0m  [34m2021.csv [0m [========================----------------]  [32m57.23MB/s [0m, eta:  [36m10s [0m
+ [1mindexing [0m  [34m2021.csv [0m [========================----------------]  [32m57.94MB/s [0m, eta:  [36m10s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=========================---------------]  [32m58.26MB/s [0m, eta:  [36m 9s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=========================---------------]  [32m58.32MB/s [0m, eta:  [36m 9s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==========================--------------]  [32m59.11MB/s [0m, eta:  [36m 9s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==========================--------------]  [32m59.45MB/s [0m, eta:  [36m 8s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==========================--------------]  [32m60.19MB/s [0m, eta:  [36m 8s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===========================-------------]  [32m60.60MB/s [0m, eta:  [36m 8s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===========================-------------]  [32m61.17MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [============================------------]  [32m57.61MB/s [0m, eta:  [36m 8s [0m
+ [1mindexing [0m  [34m2021.csv [0m [============================------------]  [32m57.86MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [============================------------]  [32m58.43MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=============================-----------]  [32m54.68MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=============================-----------]  [32m52.68MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==============================----------]  [32m50.17MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==============================----------]  [32m50.50MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==============================----------]  [32m50.33MB/s [0m, eta:  [36m 7s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===============================---------]  [32m50.84MB/s [0m, eta:  [36m 6s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===============================---------]  [32m51.24MB/s [0m, eta:  [36m 6s [0m
+ [1mindexing [0m  [34m2021.csv [0m [================================--------]  [32m51.87MB/s [0m, eta:  [36m 6s [0m
+ [1mindexing [0m  [34m2021.csv [0m [================================--------]  [32m52.46MB/s [0m, eta:  [36m 5s [0m
+ [1mindexing [0m  [34m2021.csv [0m [================================--------]  [32m52.99MB/s [0m, eta:  [36m 5s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=================================-------]  [32m53.47MB/s [0m, eta:  [36m 5s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==================================------]  [32m53.19MB/s [0m, eta:  [36m 4s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==================================------]  [32m51.50MB/s [0m, eta:  [36m 4s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==================================------]  [32m50.92MB/s [0m, eta:  [36m 4s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==================================------]  [32m50.81MB/s [0m, eta:  [36m 4s [0m
+ [1mindexing [0m  [34m2021.csv [0m [==================================------]  [32m51.07MB/s [0m, eta:  [36m 4s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===================================-----]  [32m48.52MB/s [0m, eta:  [36m 4s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===================================-----]  [32m47.88MB/s [0m, eta:  [36m 4s [0m
+ [1mindexing [0m  [34m2021.csv [0m [===================================-----]  [32m46.18MB/s [0m, eta:  [36m 4s [0m
+ [1mindexing [0m  [34m2021.csv [0m [====================================----]  [32m46.19MB/s [0m, eta:  [36m 3s [0m
+ [1mindexing [0m  [34m2021.csv [0m [====================================----]  [32m46.36MB/s [0m, eta:  [36m 3s [0m
+ [1mindexing [0m  [34m2021.csv [0m [====================================----]  [32m46.53MB/s [0m, eta:  [36m 3s [0m
+ [1mindexing [0m  [34m2021.csv [0m [====================================----]  [32m45.28MB/s [0m, eta:  [36m 3s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=====================================---]  [32m45.15MB/s [0m, eta:  [36m 3s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=====================================---]  [32m42.18MB/s [0m, eta:  [36m 3s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=====================================---]  [32m41.37MB/s [0m, eta:  [36m 3s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=====================================---]  [32m41.71MB/s [0m, eta:  [36m 2s [0m
+ [1mindexing [0m  [34m2021.csv [0m [======================================--]  [32m41.73MB/s [0m, eta:  [36m 2s [0m
+ [1mindexing [0m  [34m2021.csv [0m [======================================--]  [32m42.07MB/s [0m, eta:  [36m 2s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=======================================-]  [32m42.42MB/s [0m, eta:  [36m 1s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=======================================-]  [32m42.36MB/s [0m, eta:  [36m 1s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=======================================-]  [32m42.56MB/s [0m, eta:  [36m 1s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=======================================-]  [32m42.61MB/s [0m, eta:  [36m 1s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=======================================-]  [32m42.58MB/s [0m, eta:  [36m 1s [0m
+ [1mindexing [0m  [34m2021.csv [0m [=======================================-]  [32m42.59MB/s [0m, eta:  [36m 1s [0m
+ [1mindexing [0m  [34m2021.csv [0m [========================================]  [32m42.86MB/s [0m, eta:  [36m 0s [0m
+ [1mindexing [0m  [34m2021.csv [0m [========================================]  [32m42.90MB/s [0m, eta:  [36m 0s [0m
+ [1mindexing [0m  [34m2021.csv [0m [========================================]  [32m42.70MB/s [0m, eta:  [36m 0s [0m
+                                                                                                                   
+
+                                                                                                                   </code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Datos del 2021 en duckdb (paquete covidmx)</span></span>
 <span><span class="va">datos_duckdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>sites.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2021"</span> <span class="op">=</span> <span class="va">url_2021</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Calculamos el total de casos por fecha y sexo para ver que </span></span>
 <span><span class="co">#el duckdb es mucho más rápido</span></span>
 <span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
@@ -167,25 +274,25 @@ DesvEst
 duckdb
 </td>
 <td style="text-align:right;">
-6.01364
+10.14661
 </td>
 <td style="text-align:right;">
-4.876787
+6.677109
 </td>
 <td style="text-align:right;">
-14.18054
+31.15047
 </td>
 <td style="text-align:right;">
-5.702899
+9.30224
 </td>
 <td style="text-align:right;">
-5.274615
+7.76726
 </td>
 <td style="text-align:right;">
-6.442622
+11.60995
 </td>
 <td style="text-align:right;">
-1.130843
+3.409276
 </td>
 </tr>
 <tr>
@@ -193,31 +300,31 @@ duckdb
 tibble
 </td>
 <td style="text-align:right;">
-506.28929
+875.44755
 </td>
 <td style="text-align:right;">
-362.021885
+539.302438
 </td>
 <td style="text-align:right;">
-1810.87549
+3731.99175
 </td>
 <td style="text-align:right;">
-389.746090
+658.54509
 </td>
 <td style="text-align:right;">
-377.586454
+612.47642
 </td>
 <td style="text-align:right;">
-438.285198
+813.36705
 </td>
 <td style="text-align:right;">
-274.288813
+504.948524
 </td>
 </tr>
 </tbody>
 </table>
 <p>No olvides desconectar</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_duckdb</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Desconectado</span></span></code></pre>
 </div>
@@ -230,43 +337,43 @@ dirección antes de descargar de nuevo. Esto te permite no perder tanto
 tiempo en la descarga. Ve cómo si descargo una vez y luego una
 subsecuente el mismo paquete me advierte que no hace falta pues nada ha
 cambiado:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cache_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span>cache <span class="op">=</span> <span class="va">cache_dir</span><span class="op">)</span> <span class="co">#Primer intento no dice nada</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 28,146 × 6</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 29,362 × 6</span></span></span>
 <span><span class="co">##    Estado           Hospitaliza…¹ Venti…² UCI y…³ Fecha      Actualizacion      </span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Oaxaca                   100      0       0    2020-04-01 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Ciudad de México         100     65.8    65.8  2020-04-01 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> México                   100     16.7    33.3  2020-04-01 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Guanajuato               100      7.69    7.69 2020-04-01 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Oaxaca                   100      0       8.33 2020-04-02 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Ciudad de México         100     60.2    61    2020-04-02 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> México                   100     16.7    16.7  2020-04-02 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Guanajuato               100      8.33    8.33 2020-04-02 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Oaxaca                   100      0       0    2020-04-03 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> Ciudad de México          43.7   36.8    75    2020-04-03 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 28,136 more rows, and abbreviated variable names</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Oaxaca                   100      0       0    2020-04-01 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Ciudad de México         100     65.8    65.8  2020-04-01 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> México                   100     16.7    33.3  2020-04-01 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Guanajuato               100      7.69    7.69 2020-04-01 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Oaxaca                   100      0       8.33 2020-04-02 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Ciudad de México         100     60.2    61    2020-04-02 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> México                   100     16.7    16.7  2020-04-02 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Guanajuato               100      8.33    8.33 2020-04-02 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Oaxaca                   100      0       0    2020-04-03 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Ciudad de México          43.7   36.8    75    2020-04-03 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 29,352 more rows, and abbreviated variable names</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   ¹​`Hospitalizados (%)`, ²​`Ventilación (%)`, ³​`UCI y Ventilación (%)`</span></span></span></code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span>cache <span class="op">=</span> <span class="va">cache_dir</span><span class="op">)</span> <span class="co">#Segundo intento nos dice que ya descargó</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: La descarga mas reciente de fue hace 0.00042 dias. Como tiene menos de un dia</span></span>
+<pre><code><span><span class="co">## Warning: La descarga mas reciente de fue hace 0.00053 dias. Como tiene menos de un dia</span></span>
 <span><span class="co">## usare esa. Escribe `force_download = TRUE` si quieres descargar de todas</span></span>
 <span><span class="co">## formas. Para desactivar este mensaje `show_warnings = FALSE.`</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 28,146 × 6</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 29,362 × 6</span></span></span>
 <span><span class="co">##    Estado           Hospitaliza…¹ Venti…² UCI y…³ Fecha      Actualizacion      </span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Oaxaca                   100      0       0    2020-04-01 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Ciudad de México         100     65.8    65.8  2020-04-01 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> México                   100     16.7    33.3  2020-04-01 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Guanajuato               100      7.69    7.69 2020-04-01 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Oaxaca                   100      0       8.33 2020-04-02 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Ciudad de México         100     60.2    61    2020-04-02 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> México                   100     16.7    16.7  2020-04-02 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Guanajuato               100      8.33    8.33 2020-04-02 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Oaxaca                   100      0       0    2020-04-03 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> Ciudad de México          43.7   36.8    75    2020-04-03 2022-09-07 <span style="color: #949494;">13:01:36</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 28,136 more rows, and abbreviated variable names</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Oaxaca                   100      0       0    2020-04-01 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Ciudad de México         100     65.8    65.8  2020-04-01 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> México                   100     16.7    33.3  2020-04-01 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Guanajuato               100      7.69    7.69 2020-04-01 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Oaxaca                   100      0       8.33 2020-04-02 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Ciudad de México         100     60.2    61    2020-04-02 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> México                   100     16.7    16.7  2020-04-02 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Guanajuato               100      8.33    8.33 2020-04-02 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Oaxaca                   100      0       0    2020-04-03 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Ciudad de México          43.7   36.8    75    2020-04-03 2022-10-17 <span style="color: #949494;">12:31:02</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 29,352 more rows, and abbreviated variable names</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   ¹​`Hospitalizados (%)`, ²​`Ventilación (%)`, ³​`UCI y Ventilación (%)`</span></span></span></code></pre>
 </div>
 <div class="section level3">
@@ -284,7 +391,7 @@ con un <code>tibble</code>.</p>
 <p>Utiliza la opción <code>dbdir</code> para crear un archivo
 <code>.duckdb</code> y guardar tus datos en formato <code>duckdb</code>.
 Como ejemplo:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Descarga y almacena en archivo duckdb</span></span>
 <span><span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>dbdir <span class="op">=</span> <span class="st">"ejemplo.duckdb"</span><span class="op">)</span> </span>
 <span></span>
@@ -300,7 +407,7 @@ memoria<a class="anchor" aria-label="anchor" href="#deseo-aplicar-una-funci%C3%B
 <code>duckdb</code>. La recomendación es aplicar la mayor cantidad de
 filtros y selecciones que puedas en <code>duckdb</code> y después
 aplicarle la función que quieras. Ejemplo:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">covidmx</span><span class="fu">::</span><span class="va"><a href="../reference/datosabiertos.html">datosabiertos</a></span></span>
 <span></span>
 <span><span class="co">#No recomendado primero aplicar función ajena a duck y luego semana</span></span>
@@ -347,7 +454,7 @@ adivinar el formato automáticamente.</p>
 <code>sites.covid</code> poniendo el nombre de la base como
 identificador y el sitio en forma de vector. Por ejemplo descargando la
 siguiente de Github:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dlink</span>       <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gtest"</span> <span class="op">=</span> <span class="st">"https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"</span><span class="op">)</span></span>
 <span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>read_format <span class="op">=</span> <span class="st">"duckdb"</span>, sites.covid <span class="op">=</span> <span class="va">dlink</span>, </span>
 <span>                                       tblname <span class="op">=</span> <span class="st">"test"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, show_warnings <span class="op">=</span> <span class="cn">F</span>, </span>
@@ -362,7 +469,7 @@ siguiente de Github:</p>
 <code>tibble</code> ni un <code>data.frame</code> por lo cual no todas
 las funciones que aplican para <code>tibble</code> están disponibles.
 Para obtener una sola columna usa <code>pull</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_duckdb</span><span class="op">$</span><span class="va">dats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">ORIGEN</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -370,7 +477,7 @@ Para obtener una sola columna usa <code>pull</code>:</p>
 </h3>
 <p>Para convertir tu base en <code>tibble</code> utiliza <a href="https://dbplyr.tidyverse.org/reference/collapse.tbl_sql.html" class="external-link"><code>collect</code></a>.
 Por ejemplo:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_duckdb</span><span class="op">$</span><span class="va">dats</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>

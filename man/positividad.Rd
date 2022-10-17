@@ -149,16 +149,16 @@ es cero. En ese caso si \code{fill_NA = TRUE} se devuelven las entradas de esos 
 con valor \code{NA}.
 }
 \examples{
-# Para el ejemplo usaremos los datos precargados pero tu puedes
-# correr el ejemplo descargando informacion mas reciente:
-# datos_covid <- descarga_datos_abiertos() #Sugerido
 
+# Para el ejemplo usaremos los datos precargados (datosabiertos) pero tu puedes
+# correr el ejemplo descargando informacion mas reciente.
 datos_covid <- datosabiertos
 
 # Casos a nivel nacional por estado por tipo de prueba
 datos_covid <- datos_covid |> positividad()
 head(datos_covid$positividad)
 
+\donttest{
 # Total nacional sumando todas las pruebas del pais
 datos_covid <- datos_covid |>
   positividad(group_by_entidad = FALSE, list_name = "positividad_nacional")
@@ -200,6 +200,7 @@ datos_covid <- datos_covid |>
     list_name = "positividad_imss_sexo"
   )
 head(datos_covid$positividad_imss_sexo)
+}
 
 # Una vez hayas concluido tu trabajo no olvides desconectar
 datos_covid$disconnect()

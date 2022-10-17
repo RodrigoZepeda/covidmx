@@ -4,7 +4,8 @@
 #' La funcion principal es [read_datos_abiertos()] la cual decide si los lee de `zip`,
 #' `duckdb` o `csv` Tambien puedes usar las auxiliares respectivas
 #' * [read_datos_abiertos_zip()]     Si sólo descargaste los datos de la DGE en `.zip`
-#' * [read_datos_abiertos_csv()]     Si descargaste los datos de la DGE en `.zip` y los descomprimiste.
+#' * [read_datos_abiertos_csv()]     Si descargaste los datos de la DGE en `.zip` y 
+#'                                   los descomprimiste.
 #' * [read_datos_abiertos_duckdb()]  Si ya creaste tu table en `duckdb`
 #'
 #' @note Para guardar tu base con `duckdb` cambia el `dbdir` a un archivo `.duckdb`. Como ejemplo
@@ -19,10 +20,15 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Lee los datos de duckdb una vez descargados
-#' file_ejemplo <- "datos.duckdb"
-#' datos_covid <- descarga_datos_abiertos(dbdir = file_ejemplo)
+#' # quita la opción de sites.covid para descargar los de la DGE. Esto es sólo un ejemplo.
+#' file_ejemplo <- tempfile(fileext = ".duckdb")
+#' dlink <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
+#' datos_covid <- descarga_datos_abiertos(
+#'   dbdir = file_ejemplo,
+#'   sites.covid = dlink, show_warnings = FALSE
+#' )
 #' datos_covid$disconnect()
 #'
 #' datos_covid <- read_datos_abiertos(file_ejemplo, show_warnings = FALSE)
@@ -34,27 +40,28 @@
 #'
 #' # Descarga los datos y lee de un zip guardandolos a la vez en
 #' # base de nombre datos_desde_zip.duckdb
-#' direccion_zip <- descarga_db_datos_abiertos_tbl()
+#' direccion_zip <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = FALSE)
 #' datos_covid <- read_datos_abiertos(direccion_zip,
-#'   dbdir = "datos_desde_zip.duckdb",
+#'   dbdir = file_ejemplo,
 #'   show_warnings = FALSE
 #' )
 #' datos_covid$disconnect()
 #'
 #' # Es lo mismo que:
 #' datos_covid <- read_datos_abiertos_zip(direccion_zip,
-#'   dbdir = "datos_desde_zip.duckdb",
+#'   dbdir = file_ejemplo,
 #'   show_warnings = FALSE
 #' )
 #' datos_covid$disconnect()
 #'
 #' # Descarga los datos y lee de un csv
-#' direccion_zip <- descarga_db_datos_abiertos_tbl(show_warnings = FALSE)
-#' direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip, show_warnings = FALSE)
+#' direccion_zip <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = FALSE)
+#' direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
 #' datos_covid <- read_datos_abiertos(direccion_csv, show_warnings = FALSE)
 #' datos_covid$disconnect()
 #'
 #' # Es lo mismo que:
+#' direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
 #' datos_covid <- read_datos_abiertos_csv(direccion_csv, show_warnings = FALSE)
 #' datos_covid$disconnect()
 #' }

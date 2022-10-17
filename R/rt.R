@@ -27,7 +27,7 @@
 #'
 #' @importFrom rlang :=
 #'
-#' @return Appends a la lista de `datos_covid` una nueva entrada de nombre `list_name`
+#' @return Une a la lista de `datos_covid` una nueva entrada de nombre `list_name`
 #' (default: `estima_rt`) con una base de datos (`tibble`) con los
 #' resultados agregados.
 #' \itemize{
@@ -40,13 +40,13 @@
 #' }
 #'
 #' @examples
-#' # Para el ejemplo usaremos los datos precargados pero tu puedes
-#' # correr el ejemplo descargando informacion mas reciente:
-#' # datos_covid <- descarga_datos_abiertos() #Sugerido
 #'
+#' # Para el ejemplo usaremos los datos precargados (datosabiertos) pero tu puedes
+#' # correr el ejemplo descargando informacion mas reciente.
 #' datos_covid <- datosabiertos
 #'
 #' # Casos a nivel nacional por estado en todos
+#' \donttest{
 #' suppressWarnings(
 #'   datos_covid <- datos_covid |> estima_rt()
 #' )
@@ -73,7 +73,6 @@
 #'
 #' #' # Cambios en los parametros de epiestim
 #' # estos parametros no tienen razon de ser mas alla de mostrar como se cambian
-#' \dontrun{
 #' datos_covid <- datos_covid |>
 #'   estima_rt(
 #'     group_by_entidad = FALSE,
@@ -90,9 +89,8 @@
 #'       max_std_si = 1.0
 #'     )
 #'   )
-#'
 #' head(datos_covid$config_rt)
-#'
+#' 
 #' # Casos en BC, BCS en los confirmados
 #' datos_covid |>
 #'   estima_rt(

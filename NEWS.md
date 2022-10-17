@@ -1,3 +1,17 @@
+# covidmx 0.7.1.2000
+
+* Se agregaron los cambios de CRAN:
+  + Quitar los cambios en `options`
+  + Se agregó el `value` tag en `update_covidmx`
+  + Se agregaron links en `DESCRIPTION`. 
+  + Se arregló un error de encoding al leer como `tibble`.
+  + Se arreglaron los `dontrun` excepto para `update_covidmx` donde sí es un `dontrun`.
+
+# covidmx 0.7.1.1000
+
+* Se cambió la descripción. 
+* Se envió a CRAN. 
+
 # covidmx 0.7.1.0000
 
 * Se cambió la base de ejemplo por una más pequeña y con mejor compresión

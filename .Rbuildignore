@@ -3,6 +3,7 @@
 ^LICENSE\.md$
 .DS_Store
 .gitignore
+.Rprofile
 .git/.*
 ^\.RData$
 ^\.csv$

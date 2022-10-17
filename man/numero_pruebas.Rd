@@ -144,10 +144,9 @@ Para mas informacion sobre las pruebas y su interpretacion puedes consultar
 \href{https://espanol.cdc.gov/coronavirus/2019-ncov/symptoms-testing/testing.html}{las guias del CDC}
 }
 \examples{
-# Para el ejemplo usaremos los datos precargados pero tu puedes
-# correr el ejemplo descargando informacion mas reciente:
-# datos_covid <- descarga_datos_abiertos() #Sugerido
 
+# Para el ejemplo usaremos los datos precargados (datosabiertos) pero tu puedes
+# correr el ejemplo descargando informacion mas reciente.
 datos_covid <- datosabiertos
 
 # Número de pruebas PCR/Antigeno a nivel nacional por estado

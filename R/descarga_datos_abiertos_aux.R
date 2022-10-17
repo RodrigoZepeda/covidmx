@@ -34,21 +34,26 @@
 #'   \item dict        - Lista de `tibble`s con el diccionario de datos para cada variable
 #' }
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Descarga solo el diccionario
-#' # diccionario    <- descarga_diccionario()
+#' diccionario <- descarga_diccionario(show_warnings = FALSE)
 #'
-#' # O bien descarga solo los datos abiertos
-#' datos_abiertos <- descarga_db()
+#' # O bien descarga solo los datos abiertos de ejemplo desde Github
+#' # omite el dlink (o cámbialo por el vínculo correcto) para descargar los datos de la DGE
+#' dlink <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
+#' datos_abiertos <- descarga_db(sites.covid = dlink, show_warnings = FALSE)
 #'
 #' # Pegalos en el formato que se necesita para el resto de funciones
-#' datos_covid <- pega_db_datos_abiertos(datos_abiertos, diccionario)
+#' datos_covid <- pega_db_datos_abiertos_tbl_y_diccionario(datos_abiertos, diccionario)
 #'
 #' # Desconectamos
 #' datos_covid$disconnect()
 #'
 #' # Tambien puedes descargar paso por paso
-#' datos_abiertos <- descarga_db_datos_abiertos_tbl() |> # Descarga
+#' datos_abiertos <- descarga_db_datos_abiertos_tbl(
+#'   sites.covid = dlink,
+#'   show_warnings = FALSE
+#' ) |> # Descarga
 #'   unzip_db_datos_abiertos_tbl() |> # Unzippea
 #'   parse_db_datos_abiertos_tbl() # Duckdb
 #'
@@ -66,7 +71,8 @@
 #' [descarga_datos_variantes_GISAID()]
 #' @export
 #' @param cache  (**opcional**) parametro para el cache de `pins::board_url`
-#' @param ...  (**opcional**) Parametros adicionales para `duckdb::dbConnect()` con  conexion de `duckdb::duckdb()`
+#' @param ...  (**opcional**) Parametros adicionales para `duckdb::dbConnect()` con 
+#'  conexion de `duckdb::duckdb()`
 
 descarga_db <- function(read_format = c("duckdb", "tibble"),
                         tblname = "covidmx",
@@ -673,25 +679,17 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
     cli::cli_abort("Por favor instala {.code dbplyr} con {.code install.packages('dbplyr')}")
   }
 
-
   if (read_format == "tibble") {
-
-    # Desactivamos que nos hable
-    readr_progress_old <- getOption("readr.show_progress")
-    options(readr.show_progress = !quiet)
-
-    # Desactivamos las parsing warnings
-    old_warning <- getOption("warn")
-    options(warn = -1)
-
     if (!quiet) {
       cli::cli_alert_info("{.strong Cargando} los datos en {.file tibble}...")
     }
 
     # Leemos el archivo
-    dats <- readr::read_csv(datos_abiertos_unzipped_path,
+    dats <- readr::read_csv(unlist(datos_abiertos_unzipped_path),
       locale = readr::locale(encoding = "UTF-8"),
       trim_ws = TRUE,
+      show_col_types = !quiet,
+      progress = !quiet,
       col_types = readr::cols(
         .default              = readr::col_character(),
         FECHA_ACTUALIZACION   = readr::col_date(format = "%Y-%m-%d"),
@@ -729,11 +727,6 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
         UCI                   = readr::col_double()
       )
     )
-
-
-    # Set readr progress
-    options(readr.show_progress = readr_progress_old)
-    options(warn = old_warning)
 
     if (!quiet) {
       cli::cli_alert_info(

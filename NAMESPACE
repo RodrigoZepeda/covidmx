@@ -2,6 +2,7 @@
 
 export(casos)
 export(cfr)
+export(check_sites)
 export(chr)
 export(descarga_datos_abiertos)
 export(descarga_datos_red_irag)

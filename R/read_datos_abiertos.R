@@ -22,40 +22,52 @@
 #' @seealso [descarga_datos_abiertos()]  [descarga_datos_red_irag()]
 #' [descarga_datos_variantes_GISAID()] [casos()]
 #' @examples
-#' \dontrun{
-#' # EJEMPLO 1: Lee los datos de duckdb una vez descargados
-#' datos_covid <- descarga_datos_abiertos(dbdir = "ejemplo.duckdb") # Descarga y genera duckdb
-#' datos_covid$disconnect()
+#' \donttest{
+#' # EJEMPLO 0: Descarga los datos abiertos en archivo file_duck
+#' file_duck <- tempfile(fileext = ".duckdb")
+#' dlink <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
+#' descarga_datos_abiertos(dbdir = file_duck, sites.covid = dlink, show_warnings = FALSE)$disconnect()
 #'
-#' datos_covid <- read_datos_abiertos("ejemplo.duckdb") # Lee duckdb
+#' # EJEMPLO 1: Lee los datos de duckdb una vez descargados
+#' datos_covid <- read_datos_abiertos(file_duck, show_warnings = FALSE) # Lee duckdb
 #' datos_covid$disconnect()
 #'
 #' # EJEMPLO 2: Lee los datos desde un zip descargado
-#' direccion_zip <- descarga_db_datos_abiertos_tbl() # Descarga archivos de la DGE y guarda el zip
-#' datos_covid <- read_datos_abiertos(direccion_zip, dbdir = "ejemplo.duckdb") # Lee zip
+#' # Descarga archivos de la DGE y guarda el zip
+#' direccion_zip <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = FALSE)
+#' # Lee zip
+#' datos_covid <- read_datos_abiertos(direccion_zip, dbdir = file_duck, show_warnings = FALSE)
 #' datos_covid$disconnect()
 #'
 #' # EJEMPLO 3: Lee los datos desde un zip descargado
-#' direccion_zip <- descarga_db_datos_abiertos_tbl() # Descarga archivos zip de la DGE
+#' # Descarga archivos zip de la DGE
+#' direccion_zip <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = FALSE)
 #' direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip) # Descomprime el zip para tener csv
-#' datos_covid <- read_datos_abiertos(direccion_csv, dbdir = "ejemplo.duckdb") # Lee los csv
+#' # Lee los csv
+#' datos_covid <- read_datos_abiertos(direccion_csv, dbdir = file_duck, show_warnings = FALSE) 
 #' datos_covid$disconnect()
 #'
 #' # EJEMPLO 4: Si ya tenias el diccionario lo puedes agregar
-#' diccionario <- descarga_diccionario() # Simula la idea de ya tener el diccionario
-#' datos_covid <- read_datos_abiertos("ejemplo.duckdb", diccionario = diccionario)
+#' # Simula la idea de ya tener el diccionario
+#' diccionario <- descarga_diccionario(show_warnings = FALSE) 
+#' datos_covid <- read_datos_abiertos(file_duck, diccionario = diccionario, show_warnings = FALSE)
 #' datos_covid$disconnect()
 #'
 #' # EJEMPLO 5: Si ya tenias el diccionario como archivo zip
-#' diccionario_zip <- descarga_db_diccionario_ssa() # Descarga el diccionario para tenerlo como zip
-#' datos_covid <- read_datos_abiertos("ejemplo.duckdb", diccionario_zip_path = diccionario_zip)
+#' # Descarga el diccionario para tenerlo como zip
+#' diccionario_zip <- descarga_db_diccionario_ssa(show_warnings = FALSE) 
+#' datos_covid <- read_datos_abiertos(file_duck, diccionario_zip_path = diccionario_zip, 
+#'                                     show_warnings = FALSE)
 #' datos_covid$disconnect()
 #'
 #' # EJEMPLO 6: Si ya tenias el diccionario como archivo xlsx
-#' diccionario_zip <- descarga_db_diccionario_ssa() # Descarga el diccionario para tenerlo como zip
-#' diccionario_csv <- unzip_db_diccionario_ssa(diccionario_zip) # Abre el csv del diccionario
-#' datos_covid <- read_datos_abiertos("ejemplo.duckdb",
-#'   diccionario_unzipped_path = diccionario_csv
+#' # Descarga el diccionario para tenerlo como zip
+#' diccionario_zip <- descarga_db_diccionario_ssa(show_warnings = FALSE)
+#' # Abre el csv del diccionario
+#' diccionario_csv <- unzip_db_diccionario_ssa(diccionario_zip) 
+#' datos_covid <- read_datos_abiertos(file_duck,
+#'   diccionario_unzipped_path = diccionario_csv,
+#'   show_warnings = FALSE
 #' )
 #' datos_covid$disconnect()
 #' }

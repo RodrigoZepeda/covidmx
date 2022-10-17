@@ -61,24 +61,24 @@ y esta funcion los lee de ahi. Puede que esten un poco rezagados respecto a la p
 pero el rezago nunca es mayor a un dia.
 }
 \examples{
-\dontrun{
+\donttest{
 # Descarga de datos estatales
-ocupacion_hospitalaria <- descarga_datos_red_irag("Estatal")
+url_global <- paste0(
+  "https://media.githubusercontent.com/media/RodrigoZepeda/",
+  "CapacidadHospitalariaMX/master/processed/"
+)
 
-# Descarga de datos por unidad medica
-ocupacion_hospitalaria <- descarga_datos_red_irag("Unidad Medica")
-
-# Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
-# sin verificar que el contenido en Internet haya cambiado
-ocupacion_unidad <- descarga_datos_red_irag("Unidad Medica")
-
-# Puedes forzarlo a checar el contenido en Internet usando
-ocupacion_unidad <- descarga_datos_red_irag("Unidad Medica", force_download = TRUE)
-
-# Así se ven los datos
-ocupacion_hospitalaria |>
-  plot_covid(df_variable = "Hospitalizados (\%)", df_covariates = "Estado", type = "area")
+if (RCurl::url.exists(paste0(url_global, "HospitalizacionesMX_estatal.csv"))) {
+  ocupacion_hospitalaria <- descarga_datos_red_irag("Estatal", show_warnings = FALSE)
 }
+
+# También puedes hacer la descarga por unidad medica
+# Descarga de datos por unidad medica
+if (RCurl::url.exists(paste0(url_global, "HospitalizacionesMX_unidad_medica.csv"))) {
+  ocupacion_unidad <- descarga_datos_red_irag("Unidad Medica", show_warnings = FALSE)
+}
+}
+
 }
 \references{
 Secretaría de Salud (2022). Sistema de Información de la Red IRAG

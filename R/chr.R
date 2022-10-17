@@ -35,10 +35,9 @@
 #' }
 #'
 #' @examples
-#' # Para el ejemplo usaremos los datos precargados pero tu puedes
-#' # correr el ejemplo descargando informacion mas reciente:
-#' # datos_covid <- descarga_datos_abiertos() #Sugerido
 #'
+#' # Para el ejemplo usaremos los datos precargados (datosabiertos) pero tu puedes
+#' # correr el ejemplo descargando informacion mas reciente.
 #' datos_covid <- datosabiertos
 #'
 #' # Casos a nivel nacional
@@ -46,6 +45,7 @@
 #' head(datos_covid$`case hospitalization rate`)
 #'
 #' # Nacional
+#' \donttest{
 #' datos_covid <- datos_covid |> chr(list_name = "chr_nacional", group_by_entidad = FALSE)
 #' head(datos_covid$`chr_nacional`)
 #'
@@ -74,7 +74,7 @@
 #' datos_covid <- datos_covid |>
 #'   chr(.grouping_vars = c("DIABETES"), list_name = "chr_diab")
 #' head(datos_covid$chr_diab)
-#'
+#' }
 #' # Finalmente desconectamos
 #' datos_covid$disconnect()
 #'

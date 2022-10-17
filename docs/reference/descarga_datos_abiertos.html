@@ -12,7 +12,7 @@ la Direccion General de Epidemiologia (DGE)"><meta property="og:image" content="
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1.2000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -29,6 +29,7 @@ la Direccion General de Epidemiologia (DGE)"><meta property="og:image" content="
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
+    <a class="dropdown-item" href="../articles/Ejemplos_de_analisis.html">Ejemplos de análisis</a>
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
     <a class="dropdown-item" href="../articles/Preguntas_Frecuentes.html">Preguntas Frecuentes</a>
   </div>
@@ -117,15 +118,15 @@ Corresponde al argumento de <code><a href="https://rdrr.io/pkg/duckdb/man/duckdb
 
 
 <dt>sites.covid</dt>
-<dd><p>(<strong>opcional</strong>)  Sitios web con el vinculo a los archivos <code>.zip</code> de los datos abiertos. Puedes
-cambiarlo por uno de los historicos, por ejemplo. La estructura es
+<dd><p>(<strong>opcional</strong>)  Sitios web con el vinculo a los archivos <code>.zip</code> de l
+os datos abiertos. Puedes cambiarlo por uno de los historicos, por ejemplo. La estructura es
 <code>c("nombre" = "url", "nombre2" = "url2")</code>. La ultima verificacion del sitio web default fue
 el 6 de septiembre del 2022.</p></dd>
 
 
 <dt>site.covid.dic</dt>
-<dd><p>(<strong>opcional</strong>)  Sitio desde el cual descarga del diccionario de datos. La ultima
-verificacion del sitio fue el 6 de septiembre 2022.</p></dd>
+<dd><p>(<strong>opcional</strong>)  Sitio desde el cual descarga del diccionario de datos.
+La ultima verificacion del sitio fue el 6 de septiembre 2022.</p></dd>
 
 
 <dt>read_format</dt>
@@ -164,32 +165,35 @@ archivo ha cambiado y si hubo cambios entonces lo descarga.</p></dd>
 
 
 <dt>unzip_command</dt>
-<dd><p>(<strong>opcional</strong>) Forma de extraer la base de datos de datos abiertos si <code>unzip</code> falla.
+<dd><p>(<strong>opcional</strong>) Forma de extraer la base de datos de datos abiertos
+si <code>unzip</code> falla.
 La forma de llamarla es con <code>system2(unzip_command, args = c(unzip_args, file_download_data))</code>.</p></dd>
 
 
 <dt>unzip_args</dt>
-<dd><p>(<strong>opcional</strong>) Argumentos de extraccion de la base de datos de datos abiertos si <code>unzip</code> falla.
+<dd><p>(<strong>opcional</strong>) Argumentos de extraccion de la base de datos de datos abiertos
+si <code>unzip</code> falla.
 La forma de llamarla es con <code>system2(unzip_command, args = c(unzip_args, file_download_data))</code>.</p></dd>
 
 
 <dt>unzip_args_dict</dt>
-<dd><p>(<strong>opcional</strong>) Lista de argumentos para usar <code><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">utils::unzip</a></code> en el diccionario de datos.</p></dd>
+<dd><p>(<strong>opcional</strong>) Lista de argumentos para usar <code><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">utils::unzip</a></code> en el
+diccionario de datos.</p></dd>
 
 
 <dt>check_unzip_install</dt>
-<dd><p>(<strong>opcional</strong>) Bandera de verificacion para checar si tienes lo necesario para
-unzippear los datos en el caso de que <code>unzip</code> no sirva.</p></dd>
+<dd><p>(<strong>opcional</strong>) Bandera de verificacion para checar si tienes
+lo necesario para unzippear los datos en el caso de que <code>unzip</code> no sirva.</p></dd>
 
 
 <dt>clear_zip</dt>
-<dd><p>(<strong>opcional</strong>) Si borrar los archivos <code>.zip</code> descargados para el diccionario y los datos
-abiertos. No se recomienda si estas usando <code>pins</code>. Ve la nota para mas informacion.</p></dd>
+<dd><p>(<strong>opcional</strong>) Si borrar los archivos <code>.zip</code> descargados para el diccionario
+y los datos abiertos. No se recomienda si estas usando <code>pins</code>. Ve la nota para mas informacion.</p></dd>
 
 
 <dt>clear_csv</dt>
-<dd><p>(<strong>opcional</strong>) Si borrar los archivos <code>.csv</code> que se generan despues de abrir el zip. El
-default es que si pues en general solo requieres el <code>duckdb</code>.</p></dd>
+<dd><p>(<strong>opcional</strong>) Si borrar los archivos <code>.csv</code> que se generan despues de abrir
+el zip. El default es que si pues en general solo requieres el <code>duckdb</code>.</p></dd>
 
 
 <dt>use_dict</dt>
@@ -197,12 +201,13 @@ default es que si pues en general solo requieres el <code>duckdb</code>.</p></dd
 
 
 <dt>datos_abiertos_zip_paths</dt>
-<dd><p>(<strong>opcional</strong>)  Camino a los datos abiertos si ya los descargaste en <code>zip</code></p></dd>
+<dd><p>(<strong>opcional</strong>)  Camino a los datos abiertos si ya los
+descargaste en <code>zip</code></p></dd>
 
 
 <dt>datos_abiertos_unzipped_path</dt>
-<dd><p>(<strong>opcional</strong>)  Camino a los datos abiertos <code>csv</code> si ya los descargaste y
-descomprimiste el archivo <code>zip</code> en un <code>csv</code></p></dd>
+<dd><p>(<strong>opcional</strong>)  Camino a los datos abiertos <code>csv</code> si ya
+los descargaste y descomprimiste el archivo <code>zip</code> en un <code>csv</code></p></dd>
 
 
 <dt>datos_abiertos_tbl</dt>
@@ -214,8 +219,8 @@ descomprimiste el archivo <code>zip</code> en un <code>csv</code></p></dd>
 
 
 <dt>diccionario_unzipped_path</dt>
-<dd><p>(<strong>opcional</strong>)  Camino al diccionario <code>csv</code> si ya lo descargaste y
-descomprimiste el archivo <code>zip</code> en un <code>csv</code></p></dd>
+<dd><p>(<strong>opcional</strong>)  Camino al diccionario <code>csv</code> si ya
+lo descargaste y descomprimiste el archivo <code>zip</code> en un <code>csv</code></p></dd>
 
 
 <dt>diccionario</dt>
@@ -233,8 +238,8 @@ para no tener que volver a descargarlos si nada ha cambiado</p></dd>
 
 
 <dt>use_cache_on_failure</dt>
-<dd><p>(<strong>opcional</strong>) Booleana. Establece que si no se pueden descargar datos nuevos
-utilice los que tenga en memoria. Por default es <code>TRUE</code>.</p></dd>
+<dd><p>(<strong>opcional</strong>) Booleana. Establece que si no se pueden descargar
+datos nuevos utilice los que tenga en memoria. Por default es <code>TRUE</code>.</p></dd>
 
 
 <dt>cache_diccionario</dt>
@@ -243,8 +248,8 @@ usando <code>pins</code> para no tener que volver a descargarlo si nada ha cambi
 
 
 <dt>force_download</dt>
-<dd><p>(<strong>opcional</strong>) Analiza si cambio el pin y descarga datos nuevos en caso afirmativo aunque
-haya pasado menos de un dia.</p></dd>
+<dd><p>(<strong>opcional</strong>) Analiza si cambio el pin y descarga datos nuevos en caso
+afirmativo aunque haya pasado menos de un dia.</p></dd>
 
 
 <dt>show_warnings</dt>
@@ -258,23 +263,23 @@ Por default se llama <code>datos_abiertos</code></p></dd>
 
 
 <dt>board_url_name_dict</dt>
-<dd><p>(<strong>opcional</strong>) Establece el nombre del <code><a href="https://pins.rstudio.com/reference/board_url.html" class="external-link">pins::board_url</a></code> para los datos abiertos. Por
-default se llama <code>diccionario_covid</code></p></dd>
+<dd><p>(<strong>opcional</strong>) Establece el nombre del <code><a href="https://pins.rstudio.com/reference/board_url.html" class="external-link">pins::board_url</a></code> para los
+datos abiertos. Por default se llama <code>diccionario_covid</code></p></dd>
 
 
 <dt>download_file_args</dt>
-<dd><p>(<strong>opcional</strong>) Lista de argumentos adicionales para <code>download.file</code> de los datos
-si se elige este metodo para descargar.</p></dd>
+<dd><p>(<strong>opcional</strong>) Lista de argumentos adicionales para <code>download.file</code>
+de los datos si se elige este metodo para descargar.</p></dd>
 
 
 <dt>download_file_args_dict</dt>
-<dd><p>(<strong>opcional</strong>) Lista de argumentos adicionales para <code>download.file</code> del diccionario
-si se elige este metodo de descarga.</p></dd>
+<dd><p>(<strong>opcional</strong>) Lista de argumentos adicionales
+para <code>download.file</code> del diccionario si se elige este metodo de descarga.</p></dd>
 
 
 <dt>descarga_db_datos_abiertos_tbl_args</dt>
-<dd><p>(<strong>opcional</strong>) Lista con argumentos adicionales para el
-<code><a href="https://pins.rstudio.com/reference/pin_download.html" class="external-link">pins::pin_download</a></code> de datos abiertos</p></dd>
+<dd><p>(<strong>opcional</strong>) Lista con argumentos adicionales
+para el <code><a href="https://pins.rstudio.com/reference/pin_download.html" class="external-link">pins::pin_download</a></code> de datos abiertos</p></dd>
 
 
 <dt>descarga_db_diccionario_ssa_args</dt>
@@ -290,8 +295,8 @@ si se elige este metodo de descarga.</p></dd>
     <h2 id="valor">Valor<a class="anchor" aria-label="anchor" href="#valor"></a></h2>
     
 
-<p>Lista de valores:</p><ul><li><p>dats        - Tabla conectada mediante <code><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb::dbConnect__duckdb_driver()</a></code> (si <code>duckdb</code>) o
-tibble (si <code>tibble</code>)</p></li>
+<p>Lista de valores:</p><ul><li><p>dats        - Tabla conectada mediante <code><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html" class="external-link">duckdb::dbConnect__duckdb_driver()</a></code>
+(si <code>duckdb</code>) o tibble (si <code>tibble</code>)</p></li>
 <li><p>disconnect  - Funcion para cerrar la conexion a la base de datos.</p></li>
 <li><p>dict        - Lista de <code>tibble</code>s con el diccionario de datos para cada variable</p></li>
 </ul></div>
@@ -306,7 +311,8 @@ en orden:</p><ul><li><p><code><a href="descarga_db.html">descarga_diccionario()<
 <li><p><code><a href="descarga_db.html">parse_db_diccionario_ssa()</a></code> Genera una lista de tiblles con el diccionario por variable</p></li>
 </ul><p>Por otro lado,<code><a href="descarga_db.html">descarga_db()</a></code> ejecuta las siguientes para obtener los datos abiertos:</p><ul><li><p><code><a href="descarga_db.html">descarga_db_datos_abiertos_tbl()</a></code> Descarga las bases de datos de covid de la DGE</p></li>
 <li><p><code><a href="descarga_db.html">unzip_db_datos_abiertos_tbl()</a></code> Libera el archivo <code>zip</code> descargado</p></li>
-<li><p><code><a href="descarga_db.html">parse_db_datos_abiertos_tbl()</a></code> Genera una base de datos en <code>duckdb</code> (o <code>tibble</code>) con la informacion</p></li>
+<li><p><code><a href="descarga_db.html">parse_db_datos_abiertos_tbl()</a></code> Genera una base de datos en <code>duckdb</code> (o <code>tibble</code>) c
+on la informacion</p></li>
 </ul><p>Si en algun momento se interrumpio la descarga o hubo problemas de conexion o detuviste
 el proceso de generacion de la base de datos abiertos puedes llamar a las funciones
 de <code><a href="read_datos_abiertos.html">read_datos_abiertos()</a></code>.</p>
@@ -368,38 +374,96 @@ URL: <a href="https://www.gob.mx/salud/documentos/datos-abiertos-152127" class="
 
     <div class="section level2">
     <h2 id="ref-examples">Ejemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Descarga de la base de datos junto con diccionario en duckdb y la guarda en</span></span></span>
-<span class="r-in"><span><span class="co"># un archivo llamado covidmx.duckdb</span></span></span>
-<span class="r-in"><span><span class="va">file_duck</span> <span class="op">&lt;-</span> <span class="st">"covidmx.duckdb"</span> <span class="co"># descomenta esta linea</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">descarga_datos_abiertos</span><span class="op">(</span>dbdir <span class="op">=</span> <span class="va">file_duck</span>, show_warnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># un archivo temporal.</span></span></span>
+<span class="r-in"><span><span class="co"># Puede cambiarse el dlink por el adecuado o dejarse en blanco.</span></span></span>
+<span class="r-in"><span><span class="co"># quita la opción de sites.covid para descargar los de la DGE. Esto es sólo un ejemplo.</span></span></span>
+<span class="r-in"><span><span class="va">file_duck</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".duckdb"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dlink</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">descarga_datos_abiertos</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  dbdir <span class="op">=</span> <span class="va">file_duck</span>,</span></span>
+<span class="r-in"><span>  sites.covid <span class="op">=</span> <span class="va">dlink</span>, show_warnings <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Hola esto es lo que hare hoy para ti:</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. Base de datos de covid-19 de la Direccion General de Epidemiologia:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Descargar</span> las bases de datos abiertos</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Descomprimir</span> las bases de datos abiertos</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Consolidar</span> en una sola base de datos</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2. Diccionario de datos de covid-19 de la Direccion General de Epidemiologia:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Descargar</span> el diccionario</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Descomprimir</span> el diccionario</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Consolidar</span> todos los diccionarios en una lista</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 3. <span style="font-weight: bold;">Unir</span> datos y diccionario en una sola lista</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Comenzamos (por favor ten paciencia):</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Descargando</span> la informacion...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Descomprimiendo</span> los archivos <a href="file:///Users/rod/covidmx/docs/reference/.zip"><span style="color: #0000BB;">.zip</span></a>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Consolidando</span> los archivos <a href="file:///Users/rod/covidmx/docs/reference/.csv"><span style="color: #0000BB;">.csv</span></a> en <a href="file:///Users/rod/covidmx/docs/reference/duckdb"><span style="color: #0000BB;">duckdb</span></a>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Cargando</span> los datos en <a href="file:///Users/rod/covidmx/docs/reference/duckdb"><span style="color: #0000BB;">duckdb</span></a>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Conectando</span> a la tabla `covidmx` creada en <a href="file:///Users/rod/covidmx/docs/reference/duckdb"><span style="color: #0000BB;">duckdb</span></a>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Eliminando</span> los archivos <a href="file:///Users/rod/covidmx/docs/reference/.csv"><span style="color: #0000BB;">.csv</span></a></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="font-weight: bold;">Terminado</span>. No olvides desconectar la base con `datos_covid$disconnect()`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> al terminar de trabajar.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Luego haces algo con esos datos...</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Cuando terminas cierras la sesion:</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Desconectado</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Despues podras leerlos con read_datos_abiertos cuando quieras:</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span>dbdir <span class="op">=</span> <span class="va">file_duck</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Hola esto es lo que hare hoy para ti:</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. Base de datos de covid-19 de la Direccion General de Epidemiologia:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Ya lo tienes.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2. Diccionario de datos de covid-19 de la Direccion General de Epidemiologia:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Descargar</span> el diccionario</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Descomprimir</span> el diccionario</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Consolidar</span> todos los diccionarios en una lista</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 3. <span style="font-weight: bold;">Unir</span> datos y diccionario en una sola lista</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Comenzamos (por favor ten paciencia):</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Conectando</span> a la tabla `covidmx` creada en <a href="file:///Users/rod/covidmx/docs/reference/duckdb"><span style="color: #0000BB;">duckdb</span></a>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="font-weight: bold;">Terminado</span>. No olvides desconectar la base con `datos_covid$disconnect()`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> al terminar de trabajar.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>La descarga mas reciente de fue hace 0.20565 dias. Como tiene menos de un dia</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> usare esa. Escribe `force_download = TRUE` si quieres descargar de todas</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> formas. Para desactivar este mensaje `show_warnings = FALSE.`</span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Desconectado</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Si no pones `dbdir` nota que los datos se guardan en un archivo temporal que se elimina</span></span></span>
 <span class="r-in"><span><span class="co"># al cerrar tu sesion</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">descarga_datos_abiertos</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">descarga_datos_abiertos</span><span class="op">(</span>sites.covid <span class="op">=</span> <span class="va">dlink</span>, show_warnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Hola esto es lo que hare hoy para ti:</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1. Base de datos de covid-19 de la Direccion General de Epidemiologia:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Descargar</span> las bases de datos abiertos</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Descomprimir</span> las bases de datos abiertos</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Consolidar</span> en una sola base de datos</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2. Diccionario de datos de covid-19 de la Direccion General de Epidemiologia:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Descargar</span> el diccionario</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Descomprimir</span> el diccionario</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   • <span style="font-weight: bold;">Consolidar</span> todos los diccionarios en una lista</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 3. <span style="font-weight: bold;">Unir</span> datos y diccionario en una sola lista</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Comenzamos (por favor ten paciencia):</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Descargando</span> la informacion...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Descomprimiendo</span> los archivos <a href="file:///Users/rod/covidmx/docs/reference/.zip"><span style="color: #0000BB;">.zip</span></a>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Consolidando</span> los archivos <a href="file:///Users/rod/covidmx/docs/reference/.csv"><span style="color: #0000BB;">.csv</span></a> en <a href="file:///Users/rod/covidmx/docs/reference/duckdb"><span style="color: #0000BB;">duckdb</span></a>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Cargando</span> los datos en <a href="file:///Users/rod/covidmx/docs/reference/duckdb"><span style="color: #0000BB;">duckdb</span></a>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Conectando</span> a la tabla `covidmx` creada en <a href="file:///Users/rod/covidmx/docs/reference/duckdb"><span style="color: #0000BB;">duckdb</span></a>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Eliminando</span> los archivos <a href="file:///Users/rod/covidmx/docs/reference/.csv"><span style="color: #0000BB;">.csv</span></a></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="font-weight: bold;">Terminado</span>. No olvides desconectar la base con `datos_covid$disconnect()`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> al terminar de trabajar.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Desconectamos</span></span></span>
 <span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Tambien puedes descargar de otra direccion con sites.covid</span></span></span>
-<span class="r-in"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="st">"link_de_ejemplo"</span> <span class="op">=</span></span></span>
-<span class="r-in"><span>    <span class="st">"https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="fu">descarga_datos_abiertos</span><span class="op">(</span>sites.covid <span class="op">=</span> <span class="va">url</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Desconectamos</span></span></span>
-<span class="r-in"><span><span class="va">datos_covid</span><span class="op">$</span><span class="fu">disconnect</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Desconectado</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>En esta página</h2>

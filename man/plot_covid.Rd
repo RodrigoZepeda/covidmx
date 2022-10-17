@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_covid.R
 \name{plot_covid}
 \alias{plot_covid}
-\title{PLOT DATOS DE COVID}
+\title{Grafica los casos de COVID-19}
 \usage{
 plot_covid(
   datos_covid,
@@ -54,32 +54,26 @@ plot_covid(
 Un \code{ggplot2} con la imagen graficada.
 }
 \description{
-\code{plot_covid} Grafica automaticamente la base de datos de covid
-}
-\details{
-Por default calcula el total de casos.
-This is not an official product / este no es un producto oficial
+\code{plot_covid} Intenta graficar automaticamente la base de datos de covid generados por \code{\link[=casos]{casos()}}
 }
 \examples{
-# Para el ejemplo usaremos los datos precargados pero tu puedes
-# correr el ejemplo descargando informacion mas reciente:
-# datos_covid <- descarga_datos_abiertos() #Sugerido
 
-# Grafica de casos por entidad
+# Para el ejemplo usaremos los datos precargados (datosabiertos) pero tu puedes
+# correr el ejemplo descargando informacion mas reciente:
 datos_covid <- datosabiertos
 
 # Aqui muchos aparecen en cero si usas el default de datosabiertos
 # porque la base de datosabiertos tiene muy pocos casos
 datos_covid |>
-  casos(list_name = "casos_for_plot") |>
+  casos(list_name = "casos_for_plot", group_by_entidad = FALSE) |>
   plot_covid(df_name = "casos_for_plot")
 
 # Grafica de casos nacional
+\donttest{
 datos_covid |>
   casos(group_by_entidad = FALSE, list_name = "plot_nal") |>
   plot_covid(df_name = "plot_nal")
 
-\dontrun{
 # Ajuste mediante splines
 datos_covid |>
   casos(group_by_entidad = FALSE, list_name = "spline_nacional") |>
@@ -87,19 +81,21 @@ datos_covid |>
 
 # Graficacion por covariables
 # el objeto devuelto es un objeto de ggplot2 al que se le puede dar formato
-datos_covid |>
-  chr(
-    group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
-    entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR")
-  ) |>
-  plot_covid(
-    df_name = "plot_nal",
-    date_break_format = "1 week",
-    date_labels_format = "\%d/\%B/\%Y",
-    df_covariates = c("SEXO", "ENTIDAD_FEDERATIVA"),
-    type = "area"
-  ) +
-  ggtitle("Plot nacional")
+if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  datos_covid |>
+    chr(
+      group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
+      entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR")
+    ) |>
+    plot_covid(
+      df_name = "plot_nal",
+      date_break_format = "1 week",
+      date_labels_format = "\%d/\%B/\%Y",
+      df_covariates = c("SEXO", "ENTIDAD_FEDERATIVA"),
+      type = "area"
+    ) +
+    ggplot2::ggtitle("Plot nacional")
+}
 
 # Puedes tambien primero editar el tibble que usaras por ejemplo poniendo
 # los nombres de los sexos
@@ -108,20 +104,12 @@ datos_covid <- datos_covid |>
     group_by_entidad = TRUE, list_name = "plot_nal", .grouping_vars = c("SEXO"),
     entidades = c("BAJA CALIFORNIA", "BAJA CALIFORNIA SUR")
   )
-
-datos_covid$plot_nal |>
-  left_join(datos_covid$dict$SEXO, by = c("SEXO" = "CLAVE")) |>
-  plot_covid(
-    date_break_format = "1 week",
-    date_labels_format = "\%d/\%B/\%Y",
-    df_variable = "CASE HOSPITALIZATION RATE",
-    df_covariates = c("DESCRIPCI\032N", "ENTIDAD_FEDERATIVA"),
-    type = "area"
-  ) +
-  ggtitle("Plot nacional")
 }
 
 # Finalmente desconectamos
 datos_covid$disconnect()
 
+}
+\seealso{
+\code{\link[=casos]{casos()}}
 }

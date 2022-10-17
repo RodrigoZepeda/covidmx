@@ -13,6 +13,9 @@ update_covidmx(quiet = FALSE, force = FALSE, ...)
 
 \item{...}{(\strong{opcional}) Parametros adicionales para \code{\link[remotes:install_github]{remotes::install_github()}}}
 }
+\value{
+Ningún valor. Se llama para actualizar el paquete a la versión más reciente desde Github.
+}
 \description{
 Descarga e instala la version mas reciente de covidmx desde Github
 \url{https://github.com/RodrigoZepeda/covidmx}
@@ -22,7 +25,7 @@ Actualiza el paquete instalando todas las dependencias necesarias.
 }
 \examples{
 \dontrun{
-# Actualiza el paquete de coivdmx
+# Actualiza el paquete de coivdmx de Github | Updates the covidmx package from Github
 update_covidmx()
 }
 

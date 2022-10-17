@@ -39,24 +39,24 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Descarga de datos estatales
-#' ocupacion_hospitalaria <- descarga_datos_red_irag("Estatal")
-#'
-#' # Descarga de datos por unidad medica
-#' ocupacion_hospitalaria <- descarga_datos_red_irag("Unidad Medica")
-#'
-#' # Si ya descargaste hace menos de un día el programa solito se da cuenta y lee de memoria
-#' # sin verificar que el contenido en Internet haya cambiado
-#' ocupacion_unidad <- descarga_datos_red_irag("Unidad Medica")
-#'
-#' # Puedes forzarlo a checar el contenido en Internet usando
-#' ocupacion_unidad <- descarga_datos_red_irag("Unidad Medica", force_download = TRUE)
-#'
-#' # Así se ven los datos
-#' ocupacion_hospitalaria |>
-#'   plot_covid(df_variable = "Hospitalizados (%)", df_covariates = "Estado", type = "area")
+#' url_global <- paste0(
+#'   "https://media.githubusercontent.com/media/RodrigoZepeda/",
+#'   "CapacidadHospitalariaMX/master/processed/"
+#' )
+#' 
+#' if (RCurl::url.exists(paste0(url_global, "HospitalizacionesMX_estatal.csv"))) {
+#'   ocupacion_hospitalaria <- descarga_datos_red_irag("Estatal", show_warnings = FALSE)
 #' }
+#'
+#' # También puedes hacer la descarga por unidad medica
+#' # Descarga de datos por unidad medica
+#' if (RCurl::url.exists(paste0(url_global, "HospitalizacionesMX_unidad_medica.csv"))) {
+#'   ocupacion_unidad <- descarga_datos_red_irag("Unidad Medica", show_warnings = FALSE)
+#' }
+#' }
+#'
 #' @encoding UTF-8
 #' @seealso [descarga_datos_variantes_GISAID()] [descarga_datos_abiertos()] [read_datos_abiertos()]
 #'

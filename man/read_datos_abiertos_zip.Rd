@@ -93,12 +93,13 @@ read_datos_abiertos_duckdb(
 )
 }
 \arguments{
-\item{datos_abiertos_zip_paths}{(\strong{opcional})  Camino a los datos abiertos si ya los descargaste en \code{zip}}
+\item{datos_abiertos_zip_paths}{(\strong{opcional})  Camino a los datos abiertos si ya los
+descargaste en \code{zip}}
 
 \item{diccionario_zip_path}{(\strong{opcional})  Camino al diccionario si ya losdescargaste en \code{zip}}
 
-\item{diccionario_unzipped_path}{(\strong{opcional})  Camino al diccionario \code{csv} si ya lo descargaste y
-descomprimiste el archivo \code{zip} en un \code{csv}}
+\item{diccionario_unzipped_path}{(\strong{opcional})  Camino al diccionario \code{csv} si ya
+lo descargaste y descomprimiste el archivo \code{zip} en un \code{csv}}
 
 \item{diccionario}{(\strong{opcional})  Lo que resulta de realizar una descarga del diccionario
 usando \code{descarga_diccionario}}
@@ -124,25 +125,28 @@ Se recomienda \code{pins} pues guarda en memoria la fecha de la ultima descarga 
 si ha pasado mas de un dia desde la descarga. En caso afirmativo verifica si el
 archivo ha cambiado y si hubo cambios entonces lo descarga.}
 
-\item{site.covid.dic}{(\strong{opcional})  Sitio desde el cual descarga del diccionario de datos. La ultima
-verificacion del sitio fue el 6 de septiembre 2022.}
+\item{site.covid.dic}{(\strong{opcional})  Sitio desde el cual descarga del diccionario de datos.
+La ultima verificacion del sitio fue el 6 de septiembre 2022.}
 
-\item{unzip_command}{(\strong{opcional}) Forma de extraer la base de datos de datos abiertos si \code{unzip} falla.
+\item{unzip_command}{(\strong{opcional}) Forma de extraer la base de datos de datos abiertos
+si \code{unzip} falla.
 La forma de llamarla es con \code{system2(unzip_command, args = c(unzip_args, file_download_data))}.}
 
-\item{unzip_args}{(\strong{opcional}) Argumentos de extraccion de la base de datos de datos abiertos si \code{unzip} falla.
+\item{unzip_args}{(\strong{opcional}) Argumentos de extraccion de la base de datos de datos abiertos
+si \code{unzip} falla.
 La forma de llamarla es con \code{system2(unzip_command, args = c(unzip_args, file_download_data))}.}
 
-\item{unzip_args_dict}{(\strong{opcional}) Lista de argumentos para usar \code{utils::unzip} en el diccionario de datos.}
+\item{unzip_args_dict}{(\strong{opcional}) Lista de argumentos para usar \code{utils::unzip} en el
+diccionario de datos.}
 
-\item{check_unzip_install}{(\strong{opcional}) Bandera de verificacion para checar si tienes lo necesario para
-unzippear los datos en el caso de que \code{unzip} no sirva.}
+\item{check_unzip_install}{(\strong{opcional}) Bandera de verificacion para checar si tienes
+lo necesario para unzippear los datos en el caso de que \code{unzip} no sirva.}
 
-\item{clear_zip}{(\strong{opcional}) Si borrar los archivos \code{.zip} descargados para el diccionario y los datos
-abiertos. No se recomienda si estas usando \code{pins}. Ve la nota para mas informacion.}
+\item{clear_zip}{(\strong{opcional}) Si borrar los archivos \code{.zip} descargados para el diccionario
+y los datos abiertos. No se recomienda si estas usando \code{pins}. Ve la nota para mas informacion.}
 
-\item{clear_csv}{(\strong{opcional}) Si borrar los archivos \code{.csv} que se generan despues de abrir el zip. El
-default es que si pues en general solo requieres el \code{duckdb}.}
+\item{clear_csv}{(\strong{opcional}) Si borrar los archivos \code{.csv} que se generan despues de abrir
+el zip. El default es que si pues en general solo requieres el \code{duckdb}.}
 
 \item{use_dict}{(\strong{opcional}) Si descargar el diccionario de \code{site.covid.dic}.}
 
@@ -151,14 +155,14 @@ default es que si pues en general solo requieres el \code{duckdb}.}
 \item{cache_datos}{(\strong{opcional}) Direccion donde guardar los datos en memoria usando \code{pins}
 para no tener que volver a descargarlos si nada ha cambiado}
 
-\item{use_cache_on_failure}{(\strong{opcional}) Booleana. Establece que si no se pueden descargar datos nuevos
-utilice los que tenga en memoria. Por default es \code{TRUE}.}
+\item{use_cache_on_failure}{(\strong{opcional}) Booleana. Establece que si no se pueden descargar
+datos nuevos utilice los que tenga en memoria. Por default es \code{TRUE}.}
 
 \item{cache_diccionario}{(\strong{opcional}) Direccion donde guardar el diccionario en memoria
 usando \code{pins} para no tener que volver a descargarlo si nada ha cambiado}
 
-\item{force_download}{(\strong{opcional}) Analiza si cambio el pin y descarga datos nuevos en caso afirmativo aunque
-haya pasado menos de un dia.}
+\item{force_download}{(\strong{opcional}) Analiza si cambio el pin y descarga datos nuevos en caso
+afirmativo aunque haya pasado menos de un dia.}
 
 \item{show_warnings}{(\strong{opcional}) si arrojar \code{warnings}}
 
@@ -166,19 +170,19 @@ haya pasado menos de un dia.}
 los datos abiertos (si ya usas pins para que no se empalme).
 Por default se llama \code{datos_abiertos}}
 
-\item{board_url_name_dict}{(\strong{opcional}) Establece el nombre del \code{pins::board_url} para los datos abiertos. Por
-default se llama \code{diccionario_covid}}
+\item{board_url_name_dict}{(\strong{opcional}) Establece el nombre del \code{pins::board_url} para los
+datos abiertos. Por default se llama \code{diccionario_covid}}
 
-\item{download_file_args}{(\strong{opcional}) Lista de argumentos adicionales para \code{download.file} de los datos
-si se elige este metodo para descargar.}
+\item{download_file_args}{(\strong{opcional}) Lista de argumentos adicionales para \code{download.file}
+de los datos si se elige este metodo para descargar.}
 
 \item{descarga_db_diccionario_ssa_args}{(\strong{opcional}) Lista con argumentos adicionales para el
 \code{pins::pin_download} de datos abiertos}
 
 \item{...}{(\strong{opcional}) Parametros adicionales para \code{DBI::dbConnect}.}
 
-\item{datos_abiertos_unzipped_path}{(\strong{opcional})  Camino a los datos abiertos \code{csv} si ya los descargaste y
-descomprimiste el archivo \code{zip} en un \code{csv}}
+\item{datos_abiertos_unzipped_path}{(\strong{opcional})  Camino a los datos abiertos \code{csv} si ya
+los descargaste y descomprimiste el archivo \code{zip} en un \code{csv}}
 
 \item{datos_abiertos_tbl}{(\strong{opcional}) Camino a un archivo \code{.duckdb} con los datos formateados}
 
@@ -201,7 +205,8 @@ La funcion principal es \code{\link[=read_datos_abiertos]{read_datos_abiertos()}
 \code{duckdb} o \code{csv} Tambien puedes usar las auxiliares respectivas
 \itemize{
 \item \code{\link[=read_datos_abiertos_zip]{read_datos_abiertos_zip()}}     Si sólo descargaste los datos de la DGE en \code{.zip}
-\item \code{\link[=read_datos_abiertos_csv]{read_datos_abiertos_csv()}}     Si descargaste los datos de la DGE en \code{.zip} y los descomprimiste.
+\item \code{\link[=read_datos_abiertos_csv]{read_datos_abiertos_csv()}}     Si descargaste los datos de la DGE en \code{.zip} y
+los descomprimiste.
 \item \code{\link[=read_datos_abiertos_duckdb]{read_datos_abiertos_duckdb()}}  Si ya creaste tu table en \code{duckdb}
 }
 }
@@ -210,10 +215,15 @@ Para guardar tu base con \code{duckdb} cambia el \code{dbdir} a un archivo \code
 \code{dbdir = "ejemplo.duckdb"}.
 }
 \examples{
-\dontrun{
+\donttest{
 # Lee los datos de duckdb una vez descargados
-file_ejemplo <- "datos.duckdb"
-datos_covid <- descarga_datos_abiertos(dbdir = file_ejemplo)
+# quita la opción de sites.covid para descargar los de la DGE. Esto es sólo un ejemplo.
+file_ejemplo <- tempfile(fileext = ".duckdb")
+dlink <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
+datos_covid <- descarga_datos_abiertos(
+  dbdir = file_ejemplo,
+  sites.covid = dlink, show_warnings = FALSE
+)
 datos_covid$disconnect()
 
 datos_covid <- read_datos_abiertos(file_ejemplo, show_warnings = FALSE)
@@ -225,27 +235,28 @@ datos_covid$disconnect()
 
 # Descarga los datos y lee de un zip guardandolos a la vez en
 # base de nombre datos_desde_zip.duckdb
-direccion_zip <- descarga_db_datos_abiertos_tbl()
+direccion_zip <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = FALSE)
 datos_covid <- read_datos_abiertos(direccion_zip,
-  dbdir = "datos_desde_zip.duckdb",
+  dbdir = file_ejemplo,
   show_warnings = FALSE
 )
 datos_covid$disconnect()
 
 # Es lo mismo que:
 datos_covid <- read_datos_abiertos_zip(direccion_zip,
-  dbdir = "datos_desde_zip.duckdb",
+  dbdir = file_ejemplo,
   show_warnings = FALSE
 )
 datos_covid$disconnect()
 
 # Descarga los datos y lee de un csv
-direccion_zip <- descarga_db_datos_abiertos_tbl(show_warnings = FALSE)
-direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip, show_warnings = FALSE)
+direccion_zip <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = FALSE)
+direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
 datos_covid <- read_datos_abiertos(direccion_csv, show_warnings = FALSE)
 datos_covid$disconnect()
 
 # Es lo mismo que:
+direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
 datos_covid <- read_datos_abiertos_csv(direccion_csv, show_warnings = FALSE)
 datos_covid$disconnect()
 }
