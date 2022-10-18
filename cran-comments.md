@@ -1,7 +1,17 @@
-# R CMD check results
+# v0.7.1.2000
 
+```
+0 errors | 0 warnings | 1 note
+```
 
-## v0.7.1.1000
++ This is a new release.
+Version contains large components (0.7.1.2000)
+
+Additional comments by reviewer: 
+
+* Please choose a serious vesin number for a software release.
+
+# v0.7.1.1000
 
 ```
 0 errors | 0 warnings | 1 note

@@ -1,3 +1,7 @@
+# covidmx 0.7.2
+
+* Segundo intento de enviar a CRAN. 
+
 # covidmx 0.7.1.2000
 
 * Se agregaron los cambios de CRAN:
