@@ -5,6 +5,7 @@
 [![R-CMD-check](https://github.com/RodrigoZepeda/covidmx/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RodrigoZepeda/covidmx/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/RodrigoZepeda/covidmx/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RodrigoZepeda/covidmx?branch=main)
 [![CRAN status](https://www.r-pkg.org/badges/version/covidmx)](https://CRAN.R-project.org/package=covidmx)
+[![metacran downloads](https://cranlogs.r-pkg.org/badges/last-week/covidmx)](https://cran.r-project.org/package=covidmx)
 <!-- badges: end -->
 
 > :computer: Sitio web: [https://rodrigozepeda.github.io/covidmx/](https://rodrigozepeda.github.io/covidmx/)
