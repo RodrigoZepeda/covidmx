@@ -28,6 +28,7 @@
 ^create_sticker.R
 ^\.github$
 ^scratch$
+^paper_spm$
 ^_snaps$
 ^data-raw$
 ^codecov\.yml$

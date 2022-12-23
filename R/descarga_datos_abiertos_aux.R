@@ -458,7 +458,10 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_paths,
     filecon <- tryCatch(
       {
         unzip(datos_abiertos_zip_path, overwrite = TRUE)
-        fname <- list.files(pattern = "?.*COVID19.*.csv", full.names = T)[1]
+        
+        #Get unzipped file name if changes
+        fname <- unzip(datos_abiertos_zip_path, list = T)$Name
+        fname <- list.files(pattern = fname, full.names = T)[1]
       },
       warning = function(cond) {
 
@@ -506,8 +509,11 @@ unzip_db_datos_abiertos_tbl <- function(datos_abiertos_zip_paths,
         }
 
         # Unzippeamos
+        fname <- system2(unzip_command, args = c("-l ", datos_abiertos_zip_path), stdout = TRUE)
+        fname <- grep(".*.csv", fname, value = TRUE)
+        fname <- sub(".*\\s","", fname)
         system2(unzip_command, args = c(unzip_args, datos_abiertos_zip_path), stdout = !quiet)
-        fname <- list.files(pattern = ".*COVID19.*.csv", full.names = T)[1]
+        fname <- list.files(pattern = fname[1], full.names = T)[1]
       },
       error = function(cond) {
         cli::cli_abort("No se puede leer {.file {datos_abiertos_zip_path}}")

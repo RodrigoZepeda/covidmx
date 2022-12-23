@@ -1,3 +1,9 @@
+# covidmx 0.7.3
+
+* Se corrige el issue #12 [cannot open file 'NA/2022.csv': No such file or directory](https://github.com/RodrigoZepeda/covidmx/issues/12).
+
+* Se actualizó la versión de roxygen2: `RoxygenNote: 7.2.3`. 
+
 # covidmx 0.7.2
 
 * Segundo intento de enviar a CRAN. 
