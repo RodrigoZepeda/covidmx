@@ -1,3 +1,7 @@
+# covidmx 0.7.5
+
+* Se arregló #13 permitiendo ahora que los marcados con edad de cero años aparezcan. Los cortes de fecha ahora incluyen el límite inferior. 
+
 # covidmx 0.7.4
 
 * Se corrige el issue #14 [que devolvía agrupados los dataframes al correr casos y positividad](https://github.com/RodrigoZepeda/covidmx/issues/14).

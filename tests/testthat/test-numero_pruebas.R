@@ -252,7 +252,7 @@ test_that("Num pruebas", {
     dplyr::select(-!!as.symbol("EDAD_CAT"))
 
   numero_pruebas_edad_cut <- datos_covid$dats |>
-    dplyr::filter(EDAD > 0 & EDAD <= 1) |>
+    dplyr::filter(EDAD >= 0 & EDAD <= 1) |>
     dplyr::filter(!!as.symbol("TOMA_MUESTRA_ANTIGENO") == 1) |>
     dplyr::mutate(TIPO_PRUEBA = "ANTIGENO") |>
     dplyr::group_by_at("FECHA_SINTOMAS") |>
@@ -271,7 +271,7 @@ test_that("Num pruebas", {
     dplyr::arrange(FECHA_SINTOMAS, ENTIDAD_UM)
 
   numero_pruebas_edad_cut <- datos_covid$dats |>
-    dplyr::filter(EDAD > 0 & EDAD <= 1) |>
+    dplyr::filter(EDAD >= 0 & EDAD <= 1) |>
     dplyr::filter(!!as.symbol("TOMA_MUESTRA_ANTIGENO") == 1) |>
     dplyr::mutate(TIPO_PRUEBA = "ANTIGENO") |>
     dplyr::group_by_at("FECHA_SINTOMAS") |>
@@ -280,8 +280,9 @@ test_that("Num pruebas", {
     dplyr::full_join(
       tidyr::expand_grid(
         FECHA_SINTOMAS = unique(datos_covid$dats$FECHA_SINTOMAS),
-        ENTIDAD_UM = unique(datos_covid$dats$ENTIDAD_UM)
-      )
+        ENTIDAD_UM = unique(datos_covid$dats$ENTIDAD_UM),
+      ),
+      by = c("FECHA_SINTOMAS", "ENTIDAD_UM")
     ) |>
     dplyr::left_join(datos_covid$dict$ENTIDAD_UM, by = c("ENTIDAD_UM" = "CLAVE_ENTIDAD")) |>
     dplyr::mutate(TIPO_PRUEBA = "ANTIGENO")

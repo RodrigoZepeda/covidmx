@@ -16,7 +16,7 @@ Global Initiative on Sharing Avian Influenza Data (GISAID)"><meta property="og:i
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -171,16 +171,16 @@ URL: <a href="https://github.com/RodrigoZepeda/VariantesCovid" class="external-l
 <span class="r-in"><span>  <span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu">descarga_datos_variantes_GISAID</span><span class="op">(</span><span class="st">"nacional"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → Descargando nacional desde <span style="color: #0000BB; font-style: italic;">&lt;</span><a href="https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_nacional.csv" class="external-link"><span style="color: #0000BB; font-style: italic;">https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_nacional.csv</span></a><span style="color: #0000BB; font-style: italic;">&gt;</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>La descarga mas reciente fue hace 0.0332 dias. Como tiene menos de un dia usare</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> esa. Escribe `force_download = TRUE` si quieres descargar de todas formas. Para</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> desactivar este mensaje `show_warnings = FALSE.`</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>La descarga mas reciente fue hace 0.01595 dias. Como tiene menos de un dia</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> usare esa. Escribe `force_download = TRUE` si quieres descargar de todas</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> formas. Para desactivar este mensaje `show_warnings = FALSE.`</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Descarga de variantes para CDMX</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">RCurl</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RCurl/man/url.exists.html" class="external-link">url.exists</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">url_global</span>, <span class="st">"Proporcion_variantes_cdmx.csv"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">variantes_covid</span> <span class="op">&lt;-</span> <span class="fu">descarga_datos_variantes_GISAID</span><span class="op">(</span><span class="st">"cdmx"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → Descargando cdmx desde <span style="color: #0000BB; font-style: italic;">&lt;</span><a href="https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_cdmx.csv" class="external-link"><span style="color: #0000BB; font-style: italic;">https://raw.githubusercontent.com/RodrigoZepeda/VariantesCovid/main/tablas/Proporcion_variantes_cdmx.csv</span></a><span style="color: #0000BB; font-style: italic;">&gt;</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>La descarga mas reciente fue hace 0.03112 dias. Como tiene menos de un dia</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>La descarga mas reciente fue hace 0.00485 dias. Como tiene menos de un dia</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> usare esa. Escribe `force_download = TRUE` si quieres descargar de todas</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> formas. Para desactivar este mensaje `show_warnings = FALSE.`</span>
 <span class="r-in"><span></span></span>

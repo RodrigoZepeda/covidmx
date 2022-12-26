@@ -253,7 +253,7 @@ test_that("Casos", {
     dplyr::select(-!!as.symbol("EDAD_CAT"))
 
   casos_edad_cut <- datos_covid$dats |>
-    dplyr::filter(EDAD > 0 & EDAD <= 1) |>
+    dplyr::filter(EDAD >= 0 & EDAD <= 1) |>
     dplyr::group_by_at("FECHA_SINTOMAS") |>
     dplyr::group_by_at("ENTIDAD_UM", .add = TRUE) |>
     dplyr::tally() |>
@@ -270,7 +270,7 @@ test_that("Casos", {
     dplyr::arrange(FECHA_SINTOMAS, ENTIDAD_UM)
 
   casos_edad_cut <- datos_covid$dats |>
-    dplyr::filter(EDAD > 0 & EDAD <= 1) |>
+    dplyr::filter(EDAD >= 0 & EDAD <= 1) |>
     dplyr::group_by_at("FECHA_SINTOMAS") |>
     dplyr::group_by_at("ENTIDAD_UM", .add = TRUE) |>
     dplyr::tally() |>

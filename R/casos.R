@@ -595,13 +595,17 @@ casos <- function(datos_covid,
   if (!is.null(edad_cut)) {
     # Obtenemos los grupos de edad
     .casos <- .casos |>
-      dplyr::mutate(!!as.symbol("EDAD_CAT") := cut(!!as.symbol("EDAD"), breaks = edad_cut)) |>
+      dplyr::mutate(!!as.symbol("EDAD_CAT") := cut(!!as.symbol("EDAD"), 
+                                                   breaks = edad_cut, 
+                                                   include.lowest = TRUE)) |>
       dplyr::filter(!is.na(!!as.symbol("EDAD_CAT")))
   }
 
   # Agregamos la entidad a la combinacion si fill zeros
   if (fill_zeros & !is.null(edad_cut)) {
-    .grouping_edad <- dplyr::tibble(EDAD_CAT = cut(edad_cut, breaks = edad_cut)) |>
+    .grouping_edad <- dplyr::tibble(EDAD_CAT = cut(edad_cut, breaks = edad_cut,
+                                                   include.lowest = TRUE)) |>
+      dplyr::distinct() |> #For n = 2, cut repeats the first label so keep only one
       dplyr::filter(!is.na(!!as.symbol("EDAD_CAT")))
 
     if (nrow(.grouping_edad) == 0) {

@@ -286,13 +286,14 @@ numero_pruebas <- function(datos_covid,
   if (!is.null(edad_cut)) {
     .num_pruebas <- .num_pruebas |>
       dplyr::mutate(!!as.symbol("EDAD_CAT") := cut(!!as.symbol("EDAD"),
-        breaks = edad_cut
+        breaks = edad_cut,
+        include.lowest = TRUE
       )) |>
       dplyr::filter(!is.na(!!as.symbol("EDAD_CAT")))
   }
 
   # Cortamos la base en tipos de pruebas
-  is_pcr <- any(stringr::str_detect(tolower(tipo_prueba), "pcr"))
+  is_pcr  <- any(stringr::str_detect(tolower(tipo_prueba), "pcr"))
   is_anti <- any(stringr::str_detect(tolower(tipo_prueba), "ant.*geno"))
   if (is_pcr) {
     .pcr <- .num_pruebas |>
