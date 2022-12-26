@@ -152,4 +152,13 @@ test_that("Positividad", {
 
   # Error si no se selecciona un tipo de antigeno----
   expect_error(positividad(datos_covid, tipo_prueba = "Y3W9EPGFOI"))
+  
+  # Chequeo de que no salgan agrupados----
+  positividad_agrupados <- datos_covid |> 
+    positividad(group_by_tipo_paciente = TRUE,
+                group_by_tipo_uci = TRUE,
+                group_by_tipo_sector = TRUE,
+                .grouping_vars = c("SEXO","DIABETES"))
+  
+  expect_true(!dplyr::is.grouped_df(positividad_agrupados$dats))
 })

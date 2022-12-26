@@ -303,4 +303,15 @@ test_that("Casos", {
 
   # Chequeo de repetidos----
   expect_message(casos(casos_prueba, list_name = "Prueba"))
+  
+  # Chequeo de que no salgan agrupados
+  casos_agrupados <- datos_covid |> 
+    casos(group_by_tipo_clasificacion = TRUE,
+          group_by_tipo_paciente = TRUE,
+          group_by_tipo_uci = TRUE,
+          group_by_tipo_sector = TRUE,
+          fill_zeros = FALSE,
+          .grouping_vars = c("SEXO","DIABETES"))
+  
+  expect_true(!dplyr::is.grouped_df(casos_agrupados$dats))
 })

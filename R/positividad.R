@@ -234,12 +234,12 @@ positividad <- function(datos_covid,
     # Obtenemos los positivos
     .pcr_positivos <- .pcr_positivos |>
       dplyr::group_by_at(groups) |>
-      dplyr::summarise(!!as.symbol("n_positivos") := sum(!!as.symbol("n")), .groups = "keep")
+      dplyr::summarise(!!as.symbol("n_positivos") := sum(!!as.symbol("n")), .groups = "drop")
 
     # Obtenemos los totales
     .pcr_totales <- .pcr_totales |>
       dplyr::group_by_at(groups) |>
-      dplyr::summarise(!!as.symbol("n_pruebas") := sum(!!as.symbol("n")), .groups = "keep")
+      dplyr::summarise(!!as.symbol("n_pruebas") := sum(!!as.symbol("n")), .groups = "drop")
 
     .pcr <- .pcr_totales |>
       dplyr::left_join(.pcr_positivos, by = groups) |>
@@ -276,12 +276,12 @@ positividad <- function(datos_covid,
     # Obtenemos los positivos
     .anti_positivos <- .anti_positivos |>
       dplyr::group_by_at(groups) |>
-      dplyr::summarise(!!as.symbol("n_positivos") := sum(!!as.symbol("n")), .groups = "keep")
+      dplyr::summarise(!!as.symbol("n_positivos") := sum(!!as.symbol("n")), .groups = "drop")
 
     # Obtenemos los totales
     .anti_totales <- .anti_totales |>
       dplyr::group_by_at(groups) |>
-      dplyr::summarise(!!as.symbol("n_pruebas") := sum(!!as.symbol("n")), .groups = "keep")
+      dplyr::summarise(!!as.symbol("n_pruebas") := sum(!!as.symbol("n")), .groups = "drop")
 
     .anti <- .anti_totales |>
       dplyr::left_join(.anti_positivos, by = groups) |>
@@ -301,13 +301,13 @@ positividad <- function(datos_covid,
     # Obtenemos los totales
     .totales <- .numero_pruebas[list_name][[1]] |>
       dplyr::group_by_at(groups) |>
-      dplyr::summarise(!!as.symbol("n_pruebas") := sum(!!as.symbol("n")), .groups = "keep")
+      dplyr::summarise(!!as.symbol("n_pruebas") := sum(!!as.symbol("n")), .groups = "drop")
 
     # Obtenemos los positivos
     .positivos <- .numero_pruebas[list_name][[1]] |>
       dplyr::filter(dplyr::if_any(dplyr::starts_with("RESULTADO"), ~ (. == 1))) |>
       dplyr::group_by_at(groups) |>
-      dplyr::summarise(!!as.symbol("n_positivos") := sum(!!as.symbol("n")), .groups = "keep")
+      dplyr::summarise(!!as.symbol("n_positivos") := sum(!!as.symbol("n")), .groups = "drop")
 
     .positividad <- .totales |>
       dplyr::left_join(.positivos, by = groups) |>

@@ -698,14 +698,14 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
       progress = !quiet,
       col_types = readr::cols(
         .default              = readr::col_character(),
-        FECHA_ACTUALIZACION   = readr::col_date(format = "%Y-%m-%d"),
+        FECHA_ACTUALIZACION   = readr::col_character(),
         ORIGEN                = readr::col_double(),
         SECTOR                = readr::col_double(),
         SEXO                  = readr::col_double(),
         TIPO_PACIENTE         = readr::col_double(),
-        FECHA_INGRESO         = readr::col_date(format = "%Y-%m-%d"),
-        FECHA_SINTOMAS        = readr::col_date(format = "%Y-%m-%d"),
-        FECHA_DEF             = readr::col_date(format = "%Y-%m-%d"),
+        FECHA_INGRESO         = readr::col_character(),
+        FECHA_SINTOMAS        = readr::col_character(),
+        FECHA_DEF             = readr::col_character(),
         INTUBADO              = readr::col_double(),
         NEUMONIA              = readr::col_double(),
         EDAD                  = readr::col_double(),
@@ -732,7 +732,10 @@ parse_db_datos_abiertos_tbl <- function(datos_abiertos_unzipped_path,
         MIGRANTE              = readr::col_double(),
         UCI                   = readr::col_double()
       )
-    )
+    ) |>
+    dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ dplyr::if_else(. == "9999-99-99", NA_character_, .))) |>
+    dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ dplyr::if_else(. == "-001-11-30", NA_character_, .))) |>
+    dplyr::mutate(dplyr::across(dplyr::starts_with("FECHA"), ~ strptime(., "%Y-%m-%d")))
 
     if (!quiet) {
       cli::cli_alert_info(

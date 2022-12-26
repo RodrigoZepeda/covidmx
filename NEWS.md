@@ -1,3 +1,9 @@
+# covidmx 0.7.4
+
+* Se corrige el issue #14 [que devolvía agrupados los dataframes al correr casos y positividad](https://github.com/RodrigoZepeda/covidmx/issues/14).
+
+* Se corrigió que arrojara problemas de lectura en la fecha al no poder parsear fechas del estilo 0001-11-03 al leer como `tibble`. Ahora dichas fechas son eliminadas automáticamente. 
+
 # covidmx 0.7.3
 
 * Se corrige el issue #12 [cannot open file 'NA/2022.csv': No such file or directory](https://github.com/RodrigoZepeda/covidmx/issues/12).

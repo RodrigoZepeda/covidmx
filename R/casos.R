@@ -686,14 +686,17 @@ casos <- function(datos_covid,
   if (nrow(entidades) > 0 & group_by_entidad) {
     name_join <- c("CLAVE_ENTIDAD")
     names(name_join) <- entidad_tipo
-    .casos <- .casos |> dplyr::left_join(datos_covid$dict[entidad_tipo][[1]], by = name_join)
+    .casos <- .casos |> 
+      dplyr::left_join(datos_covid$dict[entidad_tipo][[1]], by = name_join) |>
+      dplyr::ungroup()
   }
 
   if (length(clasificaciones_finales) > 0 & group_by_tipo_clasificacion) {
     name_join <- c("CLAVE")
     names(name_join) <- "CLASIFICACION_FINAL"
     .casos <- .casos |>
-      dplyr::left_join(datos_covid$dict["CLASIFICACION_FINAL"][[1]][, c(1, 2)], by = name_join)
+      dplyr::left_join(datos_covid$dict["CLASIFICACION_FINAL"][[1]][, c(1, 2)], by = name_join) |>
+      dplyr::ungroup()
   }
 
   if (nrow(pacientes) > 0 & group_by_tipo_paciente) {
@@ -702,7 +705,8 @@ casos <- function(datos_covid,
     paciente_df <- datos_covid$dict["PACIENTE"][[1]]
     colnames(paciente_df) <- c("CLAVE", "DESCRIPCION_TIPO_PACIENTE")
     .casos <- .casos |>
-      dplyr::left_join(paciente_df, by = name_join)
+      dplyr::left_join(paciente_df, by = name_join) |>
+      dplyr::ungroup()
   }
 
   if (nrow(ucis) > 0 & group_by_tipo_uci) {
@@ -711,7 +715,8 @@ casos <- function(datos_covid,
     uci_df <- datos_covid$dict["UCI"][[1]]
     colnames(uci_df) <- c("CLAVE", "DESCRIPCION_TIPO_UCI")
     .casos <- .casos |>
-      dplyr::left_join(uci_df, by = name_join)
+      dplyr::left_join(uci_df, by = name_join) |> 
+      dplyr::ungroup()
   }
 
   if (nrow(sectores) > 0 & group_by_tipo_sector) {
@@ -720,7 +725,8 @@ casos <- function(datos_covid,
     sector_df <- datos_covid$dict["SECTOR"][[1]]
     colnames(sector_df) <- c("CLAVE", "DESCRIPCION_TIPO_SECTOR")
     .casos <- .casos |>
-      dplyr::left_join(sector_df, by = name_join)
+      dplyr::left_join(sector_df, by = name_join) |> 
+      dplyr::ungroup()
   }
 
   .casos <- list(.casos)

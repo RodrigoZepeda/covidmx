@@ -7,7 +7,7 @@ test_that("Lectura y descarga datos abiertos", {
   download <- descarga_datos_abiertos(
     cache_datos = tempfile(), cache_diccionario = tempfile(),
     sites.covid = dlink, force_download = TRUE,
-    show_warnings = TRUE, read_format = "tibble", quiet = TRUE
+    show_warnings = FALSE, read_format = "tibble", quiet = TRUE
   )
   expect_length(download, 3)
   download$disconnect()

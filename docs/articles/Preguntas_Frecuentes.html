@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -93,7 +93,7 @@
                         <h4 data-toc-skip class="author">Rodrigo
 Zepeda</h4>
             
-            <h4 data-toc-skip class="date">2022-12-23</h4>
+            <h4 data-toc-skip class="date">2022-12-26</h4>
       
       <small class="dont-index">Código: <a href="https://github.com/RodrigoZepeda/covidmx/blob/HEAD/vignettes/articles/Preguntas_Frecuentes.Rmd" class="external-link"><code>vignettes/articles/Preguntas_Frecuentes.Rmd</code></a></small>
       <div class="d-none name"><code>Preguntas_Frecuentes.Rmd</code></div>
@@ -113,81 +113,18 @@ menos tiempo descargando y le dedicas más tiempo a analizar. El hecho de
 usar <code>duckdb</code> permite generar preguntas a la base de manera
 rápida. Por ejemplo con el siguiente benchmark:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#URL del 2021</span></span>
-<span><span class="va">url_2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://datosabiertos.salud.gob.mx/gobmx/salud"</span>,</span>
-<span>                   <span class="st">"/datos_abiertos/historicos/2021/"</span>, <span class="st">"COVID19MEXICO2021.zip"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">dlink</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"test"</span> <span class="op">=</span> <span class="st">"https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#Datos del 2021 en tibble (clásico)</span></span>
-<span><span class="va">datos_tibble</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>read_format <span class="op">=</span> <span class="st">"tibble"</span>, </span>
-<span>                                        sites.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2021"</span> <span class="op">=</span> <span class="va">url_2021</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">datos_tibble</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>read_format <span class="op">=</span> <span class="st">"tibble"</span>, sites.covid <span class="op">=</span> <span class="va">dlink</span>,</span>
+<span>                                        show_warnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
- [1mindexing [0m  [34m2021.csv [0m [---------------------------------------]  [32m682.78GB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [======-----------------------------------]  [32m1.05GB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [======---------------------------------]  [32m970.79MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [=======--------------------------------]  [32m425.71MB/s [0m, eta:  [36m 3s [0m
- [1mindexing [0m  [34m2021.csv [0m [========-------------------------------]  [32m487.84MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [=========------------------------------]  [32m522.83MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [=========------------------------------]  [32m525.44MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [==========-----------------------------]  [32m563.03MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [===========----------------------------]  [32m615.64MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [============---------------------------]  [32m625.11MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [============---------------------------]  [32m451.76MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [============---------------------------]  [32m441.29MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [=============--------------------------]  [32m414.78MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [==============-------------------------]  [32m435.94MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [==============-------------------------]  [32m456.63MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [===============------------------------]  [32m463.59MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [===============------------------------]  [32m464.00MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [================-----------------------]  [32m481.49MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [================-----------------------]  [32m472.27MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [==================---------------------]  [32m499.90MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [==================---------------------]  [32m504.81MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [==================---------------------]  [32m394.29MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [===================--------------------]  [32m405.28MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [====================-------------------]  [32m423.78MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [=====================------------------]  [32m426.66MB/s [0m, eta:  [36m 2s [0m
- [1mindexing [0m  [34m2021.csv [0m [======================-----------------]  [32m445.69MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [======================-----------------]  [32m446.86MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [=======================----------------]  [32m441.81MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [=======================----------------]  [32m446.09MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [========================---------------]  [32m464.65MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [=========================--------------]  [32m391.99MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [=========================--------------]  [32m400.25MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [===========================------------]  [32m413.89MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [============================-----------]  [32m423.69MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [============================-----------]  [32m409.36MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [=============================----------]  [32m422.23MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [==============================---------]  [32m425.75MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [==============================---------]  [32m420.36MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [===============================--------]  [32m315.21MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [===============================--------]  [32m310.89MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [================================-------]  [32m312.51MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [================================-------]  [32m312.09MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [=================================------]  [32m317.57MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [=================================------]  [32m315.89MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [=================================------]  [32m313.91MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [==================================-----]  [32m312.46MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [==================================-----]  [32m312.31MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [==================================-----]  [32m309.67MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [==================================-----]  [32m308.91MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [==================================-----]  [32m309.75MB/s [0m, eta:  [36m 1s [0m
- [1mindexing [0m  [34m2021.csv [0m [===================================----]  [32m309.28MB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [===================================----]  [32m308.76MB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [===================================----]  [32m311.26MB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [====================================---]  [32m306.73MB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [=====================================--]  [32m309.48MB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [======================================-]  [32m313.26MB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [======================================-]  [32m308.43MB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [======================================-]  [32m307.14MB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [======================================-]  [32m305.35MB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [=======================================]  [32m301.87MB/s [0m, eta:  [36m 0s [0m
- [1mindexing [0m  [34m2021.csv [0m [=======================================]  [32m298.31MB/s [0m, eta:  [36m 0s [0m
-                                                                                                                   
-
+ [1mindexing [0m  [34mtest.csv [0m [==============-------------------------]  [32m165.66GB/s [0m, eta:  [36m 0s [0m
+ [1mindexing [0m  [34mtest.csv [0m [=======================================]  [32m529.46MB/s [0m, eta:  [36m 0s [0m
                                                                                                                    </code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Datos del 2021 en duckdb (paquete covidmx)</span></span>
-<span><span class="va">datos_duckdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>sites.covid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2021"</span> <span class="op">=</span> <span class="va">url_2021</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">datos_duckdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_datos_abiertos.html">descarga_datos_abiertos</a></span><span class="op">(</span>sites.covid <span class="op">=</span> <span class="va">dlink</span>, show_warnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Calculamos el total de casos por fecha y sexo para ver que </span></span>
 <span><span class="co">#el duckdb es mucho más rápido</span></span>
@@ -233,25 +170,25 @@ DesvEst
 duckdb
 </td>
 <td style="text-align:right;">
-6.581088
+7.279872
 </td>
 <td style="text-align:right;">
-5.996185
+5.699957
 </td>
 <td style="text-align:right;">
-10.85472
+13.22268
 </td>
 <td style="text-align:right;">
-6.380504
+7.078405
 </td>
 <td style="text-align:right;">
-6.272119
+6.626515
 </td>
 <td style="text-align:right;">
-6.549464
+7.680551
 </td>
 <td style="text-align:right;">
-0.7110777
+1.127221
 </td>
 </tr>
 <tr>
@@ -259,25 +196,25 @@ duckdb
 tibble
 </td>
 <td style="text-align:right;">
-432.731543
+274.125133
 </td>
 <td style="text-align:right;">
-322.867694
+236.776537
 </td>
 <td style="text-align:right;">
-1551.72444
+437.13944
 </td>
 <td style="text-align:right;">
-335.781395
+274.363265
 </td>
 <td style="text-align:right;">
-327.368600
+255.172742
 </td>
 <td style="text-align:right;">
-374.874823
+288.407396
 </td>
 <td style="text-align:right;">
-227.6963391
+27.093612
 </td>
 </tr>
 </tbody>
@@ -316,7 +253,7 @@ cambiado:</p>
 <span><span class="co">## <span style="color: #949494;">#   ¹​`Hospitalizados (%)`, ²​`Ventilación (%)`, ³​`UCI y Ventilación (%)`</span></span></span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/descarga_datos_red_irag.html">descarga_datos_red_irag</a></span><span class="op">(</span>cache <span class="op">=</span> <span class="va">cache_dir</span><span class="op">)</span> <span class="co">#Segundo intento nos dice que ya descargó</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: La descarga mas reciente de fue hace 0.00012 dias. Como tiene menos de un dia</span></span>
+<pre><code><span><span class="co">## Warning: La descarga mas reciente de fue hace 0.00035 dias. Como tiene menos de un dia</span></span>
 <span><span class="co">## usare esa. Escribe `force_download = TRUE` si quieres descargar de todas</span></span>
 <span><span class="co">## formas. Para desactivar este mensaje `show_warnings = FALSE.`</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 31,506 × 6</span></span></span>

@@ -245,15 +245,15 @@ estima_rt <- function(datos_covid,
   }
 
   mfec <- .casos[fecha_name] |>
-    dplyr::summarise(!!as.symbol("min") := min(!!as.symbol(fecha_name))) |>
+    dplyr::summarise(!!as.symbol("min") := min(!!as.symbol(fecha_name)), .groups = "drop") |>
     as.vector()
 
   df_rt <- .casos |>
     dplyr::arrange(!!as.symbol(fecha_name)) |>
     dplyr::summarise(
-      EpiEstim::estimate_R(as.numeric(!!as.symbol("n")), method = method, config = config, ...)$R
+      EpiEstim::estimate_R(as.numeric(!!as.symbol("n")), method = method, config = config, ...)$R,
+      .groups = "drop"
     ) |>
-    dplyr::ungroup() |>
     dplyr::mutate(!!as.symbol(paste0(fecha_name, "_start")) := mfec$min[1] + lubridate::days(!!as.symbol("t_start"))) |>
     dplyr::mutate(!!as.symbol(paste0(fecha_name, "_end")) := mfec$min[1] + lubridate::days(!!as.symbol("t_end"))) |>
     dplyr::mutate(!!as.symbol(fecha_name) := mfec$min[1] + lubridate::days((!!as.symbol("t_start") + !!as.symbol("t_end")) / 2))

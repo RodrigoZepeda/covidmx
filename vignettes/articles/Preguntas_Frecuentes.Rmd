@@ -20,16 +20,14 @@ Centraliza la información y la lectura de la base es más rápida que lo que oc
 permite generar preguntas a la base de manera rápida. Por ejemplo con el siguiente benchmark:
 
 ```{r, message = FALSE, warning = FALSE}
-#URL del 2021
-url_2021 <- paste0("https://datosabiertos.salud.gob.mx/gobmx/salud",
-                   "/datos_abiertos/historicos/2021/", "COVID19MEXICO2021.zip")
+dlink <- c("test" = "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip")
 
 #Datos del 2021 en tibble (clásico)
-datos_tibble <- descarga_datos_abiertos(read_format = "tibble", 
-                                        sites.covid = c("2021" = url_2021))
+datos_tibble <- descarga_datos_abiertos(read_format = "tibble", sites.covid = dlink,
+                                        show_warnings = FALSE)
 
 #Datos del 2021 en duckdb (paquete covidmx)
-datos_duckdb <- descarga_datos_abiertos(sites.covid = c("2021" = url_2021))
+datos_duckdb <- descarga_datos_abiertos(sites.covid = dlink, show_warnings = FALSE)
 ```
 
 ```{r, eval = FALSE}

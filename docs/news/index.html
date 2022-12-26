@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -61,6 +61,11 @@
       <small>Código: <a href="https://github.com/RodrigoZepeda/covidmx/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.7.4" id="covidmx-074">covidmx 0.7.4<a class="anchor" aria-label="anchor" href="#covidmx-074"></a></h2>
+<ul><li><p>Se corrige el issue <a href="https://github.com/RodrigoZepeda/covidmx/issues/14" class="external-link">#14</a> <a href="https://github.com/RodrigoZepeda/covidmx/issues/14" class="external-link">que devolvía agrupados los dataframes al correr casos y positividad</a>.</p></li>
+<li><p>Se corrigió que arrojara problemas de lectura en la fecha al no poder parsear fechas del estilo 0001-11-03 al leer como <code>tibble</code>. Ahora dichas fechas son eliminadas automáticamente.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.3" id="covidmx-073">covidmx 0.7.3<a class="anchor" aria-label="anchor" href="#covidmx-073"></a></h2>
 <ul><li><p>Se corrige el issue <a href="https://github.com/RodrigoZepeda/covidmx/issues/12" class="external-link">#12</a> <a href="https://github.com/RodrigoZepeda/covidmx/issues/12" class="external-link">cannot open file ‘NA/2022.csv’: No such file or directory</a>.</p></li>
