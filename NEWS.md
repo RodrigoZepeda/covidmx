@@ -1,3 +1,7 @@
+# covidmx 0.7.6
+
+* Se arregló el `Suggests` de `tidyverse` a solicitud de correo masivo de RStudio
+
 # covidmx 0.7.5
 
 * Se arregló #13 permitiendo ahora que los marcados con edad de cero años aparezcan. Los cortes de fecha ahora incluyen el límite inferior. 

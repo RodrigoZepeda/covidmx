@@ -1,6 +1,6 @@
 Package: covidmx
 Title: Descarga y analiza datos de COVID-19 en México
-Version: 0.7.5
+Version: 0.7.6
 Authors@R: 
     c(person("Rodrigo", "Zepeda-Tello", , "rzepeda17@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4471-5270")),
@@ -77,7 +77,6 @@ Suggests:
     scales,
     sessioninfo,
     testthat (>= 3.0.0),
-    tidyverse,
     usethis
 URL: https://github.com/RodrigoZepeda/covidmx,
     https://rodrigozepeda.github.io/covidmx/
