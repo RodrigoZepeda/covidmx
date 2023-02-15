@@ -2,11 +2,10 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  Ejemplos_de_analisis: Ejemplos_de_analisis.html
   Estudio_de_Caso_CDMX: Estudio_de_Caso_CDMX.html
   Preguntas_Frecuentes: Preguntas_Frecuentes.html
   covidmx: covidmx.html
-last_built: 2022-12-26T22:45Z
+last_built: 2023-02-15T18:23Z
 urls:
   reference: https://rodrigozepeda.github.io/covidmx/reference
   article: https://rodrigozepeda.github.io/covidmx/articles

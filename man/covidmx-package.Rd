@@ -6,7 +6,7 @@
 \alias{covidmx-package}
 \title{covidmx: Descarga y analiza datos de COVID-19 en México}
 \description{
-Herramientas para el análisis de datos de COVID-19 en México. Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiología de México (DGE) \url{https://www.gob.mx/salud/documentos/datos-abiertos-152127}, la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) \url{https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome} y la Iniciativa Global para compartir todos los datos de influenza (GISAID) \url{https://www.gisaid.org/}. English: Downloads and analyzes data of COVID-19 from the Mexican General Directorate of Epidemiology (DGE), the Network of Severe Acute Respiratory Infections (IRAG network),and the Global Initiative on Sharing All Influenza Data GISAID.
+Herramientas para el análisis de datos de COVID-19 en México. Descarga y analiza los datos para COVID-19 de la Direccion General de Epidemiología de México (DGE) \url{https://www.gob.mx/salud/documentos/datos-abiertos-152127}, la Red de Infecciones Respiratorias Agudas Graves (Red IRAG) \url{https://www.gits.igg.unam.mx/red-irag-dashboard/reviewHome} y la Iniciativa Global para compartir todos los datos de influenza (GISAID) \url{https://gisaid.org/}. English: Downloads and analyzes data of COVID-19 from the Mexican General Directorate of Epidemiology (DGE), the Network of Severe Acute Respiratory Infections (IRAG network),and the Global Initiative on Sharing All Influenza Data GISAID.
 }
 \seealso{
 Useful links:

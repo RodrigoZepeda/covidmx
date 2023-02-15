@@ -9,8 +9,8 @@
 <title>Introducción a covidmx • covidmx</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Playfair_Display-0.4.4/font.css" rel="stylesheet">
-<link href="../deps/Playfair_Display_SC-0.4.4/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Playfair_Display-0.4.5/font.css" rel="stylesheet">
+<link href="../deps/Playfair_Display_SC-0.4.5/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introducción a covidmx">
@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">covidmx</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Cambiar la navegación">
@@ -51,7 +51,6 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-art-culos">Artículos</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-art-culos">
-    <a class="dropdown-item" href="../articles/Ejemplos_de_analisis.html">Ejemplos de análisis</a>
     <a class="dropdown-item" href="../articles/Estudio_de_Caso_CDMX.html">Estudio de caso: Ciudad de México</a>
     <a class="dropdown-item" href="../articles/Preguntas_Frecuentes.html">Preguntas Frecuentes</a>
   </div>
@@ -155,7 +154,7 @@ tardado hacerlo:</p>
 <code class="sourceCode R"><span><span class="va">datos_covid</span><span class="op">$</span><span class="va">dats</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: ??</span></span>
 <span><span class="co">#&gt; Columns: 40</span></span>
-<span><span class="co">#&gt; Database: DuckDB 0.6.1 [root@Darwin 22.2.0:R 4.2.2//var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpqTnWTB/filecc8b2a4c3ad.duckdb]</span></span>
+<span><span class="co">#&gt; Database: DuckDB 0.7.0 [root@Darwin 22.2.0:R 4.2.2//var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T//RtmpxTTKw1/file162953974c417.duckdb]</span></span>
 <span><span class="co">#&gt; $ FECHA_ACTUALIZACION   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2022-07-14, 2022-07-14, 2022-07-14, 2022-07-14,…</span></span>
 <span><span class="co">#&gt; $ ID_REGISTRO           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "78ce0b", "526821", "4ab051", "ba3171", "b970bb"…</span></span>
 <span><span class="co">#&gt; $ ORIGEN                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 2, …</span></span>
@@ -327,12 +326,12 @@ Puedes sólo leer los datos abiertos que ya tienes usando la función
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_datos_abiertos.html">read_datos_abiertos</a></span><span class="op">(</span><span class="va">base_duck</span>, tblname <span class="op">=</span> <span class="st">"tutorial"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 3</span></span>
 <span><span class="co">#&gt;  $ dats      :List of 2</span></span>
-<span><span class="co">#&gt;   ..$ src       :List of 2</span></span>
+<span><span class="co">#&gt;   ..$ FECHA_ACTUALIZACION  :List of 2</span></span>
 <span><span class="co">#&gt;   .. ..$ con  :Formal class 'duckdb_connection' [package "duckdb"] with 6 slots</span></span>
 <span><span class="co">#&gt;   .. ..$ disco: NULL</span></span>
 <span><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:4] "src_duckdb_connection" "src_dbi" "src_sql" "src"</span></span>
-<span><span class="co">#&gt;   ..$ lazy_query:List of 13</span></span>
-<span><span class="co">#&gt;   .. ..$ x                :List of 13</span></span>
+<span><span class="co">#&gt;   ..$ ID_REGISTRO          :List of 12</span></span>
+<span><span class="co">#&gt;   .. ..$ x                :List of 12</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr [1:2] "lazy_select_query" "lazy_query"</span></span>
 <span><span class="co">#&gt;   .. ..$ select           : tibble [40 × 5] (S3: tbl_df/tbl/data.frame)</span></span>
 <span><span class="co">#&gt;   .. ..$ where            : NULL</span></span>
@@ -341,7 +340,6 @@ Puedes sólo leer los datos abiertos que ya tienes usando la función
 <span><span class="co">#&gt;   .. ..$ distinct         : logi FALSE</span></span>
 <span><span class="co">#&gt;   .. ..$ limit            : NULL</span></span>
 <span><span class="co">#&gt;   .. ..$ select_operation : chr "mutate"</span></span>
-<span><span class="co">#&gt;   .. ..$ last_op          : chr "mutate"</span></span>
 <span><span class="co">#&gt;   .. ..$ message_summarise: NULL</span></span>
 <span><span class="co">#&gt;   .. ..$ group_vars       : chr(0) </span></span>
 <span><span class="co">#&gt;   .. ..$ order_vars       : NULL</span></span>
@@ -389,7 +387,7 @@ volver a descargar.</p>
 descargamos arriba con <code>descarga_datos_abiertos</code>)</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diccionario_datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/descarga_db.html">descarga_diccionario</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: La descarga mas reciente de fue hace 0.05169 dias. Como tiene menos de un dia</span></span>
+<span><span class="co">#&gt; Warning: La descarga mas reciente de fue hace 0.01335 dias. Como tiene menos de un dia</span></span>
 <span><span class="co">#&gt; usare esa. Escribe `force_download = TRUE` si quieres descargar de todas</span></span>
 <span><span class="co">#&gt; formas. Para desactivar este mensaje `show_warnings = FALSE.`</span></span></code></pre></div>
 <p>Si de todas maneras quieres reintentar la descarga puedes usar
@@ -892,7 +890,14 @@ en este ejemplo</a>.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datos_covid</span> <span class="op">&lt;-</span> <span class="va">datos_covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/estima_rt.html">estima_rt</a></span><span class="op">(</span>entidades <span class="op">=</span> <span class="st">"BAJA CALIFORNIA"</span>,</span>
-<span>            min_date  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021/07/01"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>            min_date  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021/07/01"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in</span></span>
+<span><span class="co">#&gt; dplyr 1.1.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `reframe()` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> When switching from `summarise()` to `reframe()`, remember that `reframe()`</span></span>
+<span><span class="co">#&gt;   always returns an ungrouped data frame and adjust accordingly.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">covidmx</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;</span></span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 17</span></span></span>
 <span><span class="co">#&gt;   ENTIDA…¹ ENTID…² ABREV…³ t_start t_end Mean(…⁴ Std(R…⁵ Quant…⁶ Quant…⁷ Quant…⁸</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -914,74 +919,15 @@ en este ejemplo</a>.</p>
 <span>  <span class="fu"><a href="../reference/estima_rt.html">estima_rt</a></span><span class="op">(</span>tipo_clasificacion <span class="op">=</span> <span class="st">"Confirmados COVID"</span>,</span>
 <span>     list_name <span class="op">=</span> <span class="st">"RT_confirmados_COVID"</span>,</span>
 <span>     min_date  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021/07/01"</span>, format <span class="op">=</span> <span class="st">"%Y/%m/%d"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
+<span><span class="co">#&gt; Warning: There were 23 warnings in `dplyr::summarise()`.</span></span>
+<span><span class="co">#&gt; The first warning was:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `...$R`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `ENTIDAD_UM = "01"`, `ENTIDAD_FEDERATIVA = "AGUASCALIENTES"`,</span></span>
+<span><span class="co">#&gt;   `ABREVIATURA = "AS"`.</span></span>
+<span><span class="co">#&gt; Caused by warning in `estimate_R_func()`:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> You're estimating R too early in the epidemic to get the desired</span></span>
 <span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in estimate_R_func(incid = incid, method = method, si_sample = si_sample, : You're estimating R too early in the epidemic to get the desired</span></span>
-<span><span class="co">#&gt;             posterior CV.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 22 remaining warnings.</span></span>
 <span></span>
 <span><span class="va">datos_covid</span><span class="op">$</span><span class="va">RT_confirmados_COVID</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/plot_covid.html">plot_covid</a></span><span class="op">(</span>df_date_index <span class="op">=</span> <span class="st">"FECHA_SINTOMAS"</span>, </span>
@@ -1043,7 +989,7 @@ quieres volver a bajar los datos.</p>
 <span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ano    <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">epiyear</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>semana <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/week.html" class="external-link">epiweek</a></span><span class="op">(</span><span class="va">fecha</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
-<span><span class="co">#&gt; Joining, by = c("semana", "ano")</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(semana, ano)`</span></span>
 <span></span>
 <span><span class="co">#Graficamos</span></span>
 <span><span class="va">nvariantes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">variantes_covid</span><span class="op">$</span><span class="va">variant</span><span class="op">)</span><span class="op">)</span></span>
@@ -1174,118 +1120,118 @@ desconectarte:</p>
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       America/Mexico_City</span></span>
-<span><span class="co">#&gt;  date     2022-12-26</span></span>
+<span><span class="co">#&gt;  date     2023-02-15</span></span>
 <span><span class="co">#&gt;  pandoc   2.19.2 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">package        </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version </span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span></span>
-<span><span class="co">#&gt;  assertthat        0.2.1    <span style="color: #555555;">2019-03-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  bit               4.0.5    <span style="color: #555555;">2022-11-15</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  bit64             4.0.5    <span style="color: #555555;">2020-08-30</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  bitops            1.0-7    <span style="color: #555555;">2021-04-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  blob              1.2.3    <span style="color: #555555;">2022-04-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  bslib             0.4.2    <span style="color: #555555;">2022-12-16</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  cachem            1.0.6    <span style="color: #555555;">2021-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  cellranger        1.1.0    <span style="color: #555555;">2016-07-27</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  cli               3.5.0    <span style="color: #555555;">2022-12-20</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  coarseDataTools   0.6-6    <span style="color: #555555;">2021-12-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  coda              0.19-4   <span style="color: #555555;">2020-09-30</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  colorspace        2.0-3    <span style="color: #555555;">2022-02-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  covidmx         * 0.7.5    <span style="color: #555555;">2022-12-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
-<span><span class="co">#&gt;  crayon            1.5.2    <span style="color: #555555;">2022-09-29</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  curl              4.3.3    <span style="color: #555555;">2022-10-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  DBI               1.1.3    <span style="color: #555555;">2022-06-18</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  dbplyr            2.2.1    <span style="color: #555555;">2022-06-27</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  desc              1.4.2    <span style="color: #555555;">2022-09-08</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  digest            0.6.31   <span style="color: #555555;">2022-12-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  dplyr           * 1.0.10   <span style="color: #555555;">2022-09-01</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  duckdb            0.6.1    <span style="color: #555555;">2022-12-08</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  ellipsis          0.3.2    <span style="color: #555555;">2021-04-29</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  EpiEstim          2.2-4    <span style="color: #555555;">2021-01-07</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  evaluate          0.19     <span style="color: #555555;">2022-12-13</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  fansi             1.0.3    <span style="color: #555555;">2022-03-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  farver            2.1.1    <span style="color: #555555;">2022-07-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  fastmap           1.1.0    <span style="color: #555555;">2021-01-25</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  fitdistrplus      1.1-8    <span style="color: #555555;">2022-03-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  forcats           0.5.2    <span style="color: #555555;">2022-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  fs                1.5.2    <span style="color: #555555;">2021-12-08</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  generics          0.1.3    <span style="color: #555555;">2022-07-05</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  ggforce           0.4.1    <span style="color: #555555;">2022-10-04</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  ggformula         0.10.2   <span style="color: #555555;">2022-09-01</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  ggplot2         * 3.4.0    <span style="color: #555555;">2022-11-04</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  ggridges          0.5.4    <span style="color: #555555;">2022-09-26</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  ggstance          0.3.6    <span style="color: #555555;">2022-11-16</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  ggstream          0.1.0    <span style="color: #555555;">2021-05-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  glue              1.6.2    <span style="color: #555555;">2022-02-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  gridExtra         2.3      <span style="color: #555555;">2017-09-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  gtable            0.3.1    <span style="color: #555555;">2022-09-01</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  haven             2.5.1    <span style="color: #555555;">2022-08-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  highr             0.10     <span style="color: #555555;">2022-12-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  hms               1.1.2    <span style="color: #555555;">2022-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  htmltools         0.5.4    <span style="color: #555555;">2022-12-07</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  httr              1.4.4    <span style="color: #555555;">2022-08-17</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  incidence         1.7.3    <span style="color: #555555;">2020-11-04</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  jquerylib         0.1.4    <span style="color: #555555;">2021-04-26</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  jsonlite          1.8.4    <span style="color: #555555;">2022-12-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  knitr             1.41     <span style="color: #555555;">2022-11-18</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  labeling          0.4.2    <span style="color: #555555;">2020-10-20</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  labelled          2.10.0   <span style="color: #555555;">2022-09-14</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  lattice           0.20-45  <span style="color: #555555;">2021-09-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
-<span><span class="co">#&gt;  lifecycle         1.0.3    <span style="color: #555555;">2022-10-07</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  lubridate         1.9.0    <span style="color: #555555;">2022-11-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  magrittr          2.0.3    <span style="color: #555555;">2022-03-30</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  MASS              7.3-58.1 <span style="color: #555555;">2022-08-03</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
-<span><span class="co">#&gt;  Matrix            1.5-3    <span style="color: #555555;">2022-11-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  MatrixModels      0.5-1    <span style="color: #555555;">2022-09-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  mcmc              0.9-7    <span style="color: #555555;">2020-03-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  MCMCpack          1.6-3    <span style="color: #555555;">2022-04-13</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  memoise           2.0.1    <span style="color: #555555;">2021-11-26</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  MetBrewer         0.2.0    <span style="color: #555555;">2022-03-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  mosaicCore        0.9.2.1  <span style="color: #555555;">2022-09-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  munsell           0.5.0    <span style="color: #555555;">2018-06-12</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  pillar            1.8.1    <span style="color: #555555;">2022-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  pins              1.0.3    <span style="color: #555555;">2022-09-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  pkgconfig         2.0.3    <span style="color: #555555;">2019-09-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  pkgdown           2.0.7    <span style="color: #555555;">2022-12-14</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  plyr              1.8.8    <span style="color: #555555;">2022-11-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  polyclip          1.10-4   <span style="color: #555555;">2022-10-20</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  purrr             1.0.0    <span style="color: #555555;">2022-12-20</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  quantreg          5.94     <span style="color: #555555;">2022-07-20</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  R6                2.5.1    <span style="color: #555555;">2021-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  ragg              1.2.4    <span style="color: #555555;">2022-10-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  rappdirs          0.3.3    <span style="color: #555555;">2021-01-31</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  Rcpp              1.0.9    <span style="color: #555555;">2022-07-08</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  RCurl             1.98-1.9 <span style="color: #555555;">2022-10-03</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  readr             2.1.3    <span style="color: #555555;">2022-10-01</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  readxl            1.4.1    <span style="color: #555555;">2022-08-17</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  reshape2          1.4.4    <span style="color: #555555;">2020-04-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  rlang             1.0.6    <span style="color: #555555;">2022-09-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  rmarkdown         2.19     <span style="color: #555555;">2022-12-15</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  rprojroot         2.0.3    <span style="color: #555555;">2022-04-02</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  rstudioapi        0.14     <span style="color: #555555;">2022-08-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  sass              0.4.4    <span style="color: #555555;">2022-11-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  scales            1.2.1    <span style="color: #555555;">2022-08-20</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  sessioninfo       1.2.2    <span style="color: #555555;">2021-12-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  SparseM           1.81     <span style="color: #555555;">2021-02-18</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  stringi           1.7.8    <span style="color: #555555;">2022-07-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  stringr           1.5.0    <span style="color: #555555;">2022-12-02</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  survival          3.4-0    <span style="color: #555555;">2022-08-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
-<span><span class="co">#&gt;  systemfonts       1.0.4    <span style="color: #555555;">2022-02-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  textshaping       0.3.6    <span style="color: #555555;">2021-10-13</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  tibble            3.1.8    <span style="color: #555555;">2022-07-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  tidyr             1.2.1    <span style="color: #555555;">2022-09-08</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  tidyselect        1.2.0    <span style="color: #555555;">2022-10-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  timechange        0.1.1    <span style="color: #555555;">2022-11-04</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  tweenr            2.0.2    <span style="color: #555555;">2022-09-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  tzdb              0.3.0    <span style="color: #555555;">2022-03-28</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  utf8              1.2.2    <span style="color: #555555;">2021-07-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  vctrs             0.5.1    <span style="color: #555555;">2022-11-16</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  vroom             1.6.0    <span style="color: #555555;">2022-09-30</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  withr             2.5.0    <span style="color: #555555;">2022-03-03</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
-<span><span class="co">#&gt;  xfun              0.36     <span style="color: #555555;">2022-12-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
-<span><span class="co">#&gt;  yaml              2.3.6    <span style="color: #555555;">2022-10-18</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
+<span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">package        </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version  </span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span></span>
+<span><span class="co">#&gt;  assertthat        0.2.1     <span style="color: #555555;">2019-03-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  bit               4.0.5     <span style="color: #555555;">2022-11-15</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
+<span><span class="co">#&gt;  bit64             4.0.5     <span style="color: #555555;">2020-08-30</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  bitops            1.0-7     <span style="color: #555555;">2021-04-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  blob              1.2.3     <span style="color: #555555;">2022-04-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  bslib             0.4.2     <span style="color: #555555;">2022-12-16</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  cachem            1.0.6     <span style="color: #555555;">2021-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  cellranger        1.1.0     <span style="color: #555555;">2016-07-27</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  cli               3.6.0     <span style="color: #555555;">2023-01-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  coarseDataTools   0.6-6     <span style="color: #555555;">2021-12-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  coda              0.19-4    <span style="color: #555555;">2020-09-30</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  colorspace        2.1-0     <span style="color: #555555;">2023-01-23</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  covidmx         * 0.7.6     <span style="color: #555555;">2023-02-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  crayon            1.5.2     <span style="color: #555555;">2022-09-29</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  curl              5.0.0     <span style="color: #555555;">2023-01-12</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  DBI               1.1.3     <span style="color: #555555;">2022-06-18</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  dbplyr            2.3.0     <span style="color: #555555;">2023-01-16</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  desc              1.4.2     <span style="color: #555555;">2022-09-08</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  digest            0.6.31    <span style="color: #555555;">2022-12-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
+<span><span class="co">#&gt;  dplyr           * 1.1.0     <span style="color: #555555;">2023-01-29</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  duckdb            0.7.0     <span style="color: #555555;">2023-02-14</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  ellipsis          0.3.2     <span style="color: #555555;">2021-04-29</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  EpiEstim          2.2-4     <span style="color: #555555;">2021-01-07</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  evaluate          0.20      <span style="color: #555555;">2023-01-17</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  fansi             1.0.4     <span style="color: #555555;">2023-01-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  farver            2.1.1     <span style="color: #555555;">2022-07-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  fastmap           1.1.0     <span style="color: #555555;">2021-01-25</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  fitdistrplus      1.1-8     <span style="color: #555555;">2022-03-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  forcats           1.0.0     <span style="color: #555555;">2023-01-29</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  fs                1.6.1     <span style="color: #555555;">2023-02-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  generics          0.1.3     <span style="color: #555555;">2022-07-05</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  ggforce           0.4.1     <span style="color: #555555;">2022-10-04</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
+<span><span class="co">#&gt;  ggformula         0.10.2    <span style="color: #555555;">2022-09-01</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  ggplot2         * 3.4.1     <span style="color: #555555;">2023-02-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  ggridges          0.5.4     <span style="color: #555555;">2022-09-26</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  ggstance          0.3.6     <span style="color: #555555;">2022-11-16</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
+<span><span class="co">#&gt;  ggstream          0.1.0     <span style="color: #555555;">2021-05-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  glue              1.6.2     <span style="color: #555555;">2022-02-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  gridExtra         2.3       <span style="color: #555555;">2017-09-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  gtable            0.3.1     <span style="color: #555555;">2022-09-01</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  haven             2.5.1     <span style="color: #555555;">2022-08-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  highr             0.10      <span style="color: #555555;">2022-12-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
+<span><span class="co">#&gt;  hms               1.1.2     <span style="color: #555555;">2022-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  htmltools         0.5.4     <span style="color: #555555;">2022-12-07</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
+<span><span class="co">#&gt;  httr              1.4.4     <span style="color: #555555;">2022-08-17</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  incidence         1.7.3     <span style="color: #555555;">2020-11-04</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  jquerylib         0.1.4     <span style="color: #555555;">2021-04-26</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  jsonlite          1.8.4     <span style="color: #555555;">2022-12-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  knitr             1.42      <span style="color: #555555;">2023-01-25</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  labeling          0.4.2     <span style="color: #555555;">2020-10-20</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  labelled          2.10.0    <span style="color: #555555;">2022-09-14</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  lattice           0.20-45   <span style="color: #555555;">2021-09-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  lifecycle         1.0.3     <span style="color: #555555;">2022-10-07</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
+<span><span class="co">#&gt;  lubridate         1.9.2     <span style="color: #555555;">2023-02-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  magrittr          2.0.3     <span style="color: #555555;">2022-03-30</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  MASS              7.3-58.2  <span style="color: #555555;">2023-01-23</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  Matrix            1.5-3     <span style="color: #555555;">2022-11-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  MatrixModels      0.5-1     <span style="color: #555555;">2022-09-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  mcmc              0.9-7     <span style="color: #555555;">2020-03-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  MCMCpack          1.6-3     <span style="color: #555555;">2022-04-13</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  memoise           2.0.1     <span style="color: #555555;">2021-11-26</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  MetBrewer         0.2.0     <span style="color: #555555;">2022-03-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  mosaicCore        0.9.2.1   <span style="color: #555555;">2022-09-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  munsell           0.5.0     <span style="color: #555555;">2018-06-12</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  pillar            1.8.1     <span style="color: #555555;">2022-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  pins              1.1.0     <span style="color: #555555;">2023-01-21</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  pkgconfig         2.0.3     <span style="color: #555555;">2019-09-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  pkgdown           2.0.7     <span style="color: #555555;">2022-12-14</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  plyr              1.8.8     <span style="color: #555555;">2022-11-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  polyclip          1.10-4    <span style="color: #555555;">2022-10-20</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  purrr             1.0.1     <span style="color: #555555;">2023-01-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  quantreg          5.94      <span style="color: #555555;">2022-07-20</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  R6                2.5.1     <span style="color: #555555;">2021-08-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  ragg              1.2.5     <span style="color: #555555;">2023-01-12</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  rappdirs          0.3.3     <span style="color: #555555;">2021-01-31</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  Rcpp              1.0.10    <span style="color: #555555;">2023-01-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  RCurl             1.98-1.10 <span style="color: #555555;">2023-01-27</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  readr             2.1.4     <span style="color: #555555;">2023-02-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  readxl            1.4.2     <span style="color: #555555;">2023-02-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  reshape2          1.4.4     <span style="color: #555555;">2020-04-09</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  rlang             1.0.6     <span style="color: #555555;">2022-09-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  rmarkdown         2.20      <span style="color: #555555;">2023-01-19</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  rprojroot         2.0.3     <span style="color: #555555;">2022-04-02</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  rstudioapi        0.14      <span style="color: #555555;">2022-08-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  sass              0.4.5     <span style="color: #555555;">2023-01-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  scales            1.2.1     <span style="color: #555555;">2022-08-20</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  sessioninfo       1.2.2     <span style="color: #555555;">2021-12-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  SparseM           1.81      <span style="color: #555555;">2021-02-18</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  stringi           1.7.12    <span style="color: #555555;">2023-01-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  stringr           1.5.0     <span style="color: #555555;">2022-12-02</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.1)</span></span></span>
+<span><span class="co">#&gt;  survival          3.5-3     <span style="color: #555555;">2023-02-12</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  systemfonts       1.0.4     <span style="color: #555555;">2022-02-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  textshaping       0.3.6     <span style="color: #555555;">2021-10-13</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  tibble            3.1.8     <span style="color: #555555;">2022-07-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  tidyr             1.3.0     <span style="color: #555555;">2023-01-24</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  tidyselect        1.2.0     <span style="color: #555555;">2022-10-10</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  timechange        0.2.0     <span style="color: #555555;">2023-01-11</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  tweenr            2.0.2     <span style="color: #555555;">2022-09-06</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  tzdb              0.3.0     <span style="color: #555555;">2022-03-28</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  utf8              1.2.3     <span style="color: #555555;">2023-01-31</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  vctrs             0.5.2     <span style="color: #555555;">2023-01-23</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  vroom             1.6.1     <span style="color: #555555;">2023-01-22</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  withr             2.5.0     <span style="color: #555555;">2022-03-03</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.0)</span></span></span>
+<span><span class="co">#&gt;  xfun              0.37      <span style="color: #555555;">2023-01-31</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
+<span><span class="co">#&gt;  yaml              2.3.7     <span style="color: #555555;">2023-01-23</span> <span style="color: #555555;">[2]</span> <span style="color: #555555;">CRAN (R 4.2.2)</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #555555;"> [1] /private/var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T/RtmpBCYX2y/temp_libpathc6b91fd5757a</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;"> [1] /private/var/folders/42/2kdf45dd1qz5n7kf9lm8ld9r0000gn/T/RtmpQeTePG/temp_libpath141b01031a31c</span></span></span>
 <span><span class="co">#&gt; <span style="color: #555555;"> [2] /Library/Frameworks/R.framework/Versions/4.2/Resources/library</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">──────────────────────────────────────────────────────────────────────────────</span></span></span></code></pre></div>
