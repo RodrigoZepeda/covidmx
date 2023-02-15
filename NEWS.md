@@ -1,3 +1,7 @@
+# covidmx 0.7.7
+
+* Se cambió `donttest` a `dontrun` donde generaba error en el check para release. 
+
 # covidmx 0.7.6
 
 * Se arregló el `Suggests` de `tidyverse` a solicitud de correo masivo de RStudio
