@@ -1,3 +1,7 @@
+# v0.7.7
+
+Fixed error in the [current version for R release](https://www.stats.ox.ac.uk/pub/bdr/donttest/covidmx.out)
+
 # v0.7.1.2000
 
 ```

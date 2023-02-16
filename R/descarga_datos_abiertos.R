@@ -183,28 +183,43 @@
 #' \donttest{
 #' # Descarga de la base de datos junto con diccionario en duckdb y la guarda en
 #' # un archivo temporal.
-#' # Puede cambiarse el dlink por el adecuado o dejarse en blanco.
-#' # quita la opción de sites.covid para descargar los de la DGE. Esto es sólo un ejemplo.
+#' # Puede cambiarse el dlink por el adecuado o dejarse en blanco
+#' # quita la opción de sites.covid t site.covid.dic para descargar los de la DGE. 
+#' # Esto es solo un ejemplo.
 #' file_duck <- tempfile(fileext = ".duckdb")
-#' dlink <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
-#' datos_covid <- descarga_datos_abiertos(
-#'   dbdir = file_duck,
-#'   sites.covid = dlink, show_warnings = FALSE
-#' )
+#' 
+#' #Estos links deben omitirse en una corrida normal. Se incluyen por ahora como ejemplo
+#' #pero las opciones site.covid.dic y sites.covid deben eliminarse de abajo.
+#' dlink     <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
+#' diclink   <- "https://github.com/RodrigoZepeda/covidmx/raw/main/diccionario_datos_covid19.zip"
+#' 
+#' #En el ejemplo de R por normas de CRAN tenemos que hacerlo así pero en tu
+#' #computadora puedes solo usar descargar datos sin el if else
+#' if (RCurl::url.exists(dlink) & RCurl::url.exists(diclink)){
+#'   datos_covid <- descarga_datos_abiertos(
+#'     dbdir = file_duck,
+#'     sites.covid = dlink, 
+#'     site.covid.dic = diclink,
+#'     show_warnings = FALSE
+#'   )
+#'   # Luego haces algo con esos datos...
 #'
-#' # Luego haces algo con esos datos...
+#'   # Cuando terminas cierras la sesion:
+#'   datos_covid$disconnect()
 #'
-#' # Cuando terminas cierras la sesion:
-#' datos_covid$disconnect()
+#'   # Despues podras leerlos con read_datos_abiertos cuando quieras:
+#'   datos_covid <- read_datos_abiertos(dbdir = file_duck, site.covid.dic = diclink)
+#'   datos_covid$disconnect()
 #'
-#' # Despues podras leerlos con read_datos_abiertos cuando quieras:
-#' datos_covid <- read_datos_abiertos(dbdir = file_duck)
-#' datos_covid$disconnect()
+#'   # Si no pones `dbdir` nota que los datos se guardan en un archivo temporal que se elimina
+#'   # al cerrar tu sesion
+#'   datos_covid <- descarga_datos_abiertos(sites.covid = dlink, show_warnings = FALSE,
+#'                       site.covid.dic = diclink)
 #'
-#' # Si no pones `dbdir` nota que los datos se guardan en un archivo temporal que se elimina
-#' # al cerrar tu sesion
-#' datos_covid <- descarga_datos_abiertos(sites.covid = dlink, show_warnings = FALSE)
-#'
+#' } else {
+#'   datos_covid <- datosabiertos
+#' }
+#' 
 #' # Desconectamos
 #' datos_covid$disconnect()
 #' }

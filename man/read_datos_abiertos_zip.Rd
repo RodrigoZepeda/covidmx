@@ -217,47 +217,69 @@ Para guardar tu base con \code{duckdb} cambia el \code{dbdir} a un archivo \code
 \examples{
 \donttest{
 # Lee los datos de duckdb una vez descargados
-# quita la opción de sites.covid para descargar los de la DGE. Esto es sólo un ejemplo.
+# quita la opción de sites.covid para descargar los de la DGE. 
+# Esto es solo un ejemplo.
 file_ejemplo <- tempfile(fileext = ".duckdb")
-dlink <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
-datos_covid <- descarga_datos_abiertos(
-  dbdir = file_ejemplo,
-  sites.covid = dlink, show_warnings = FALSE
-)
-datos_covid$disconnect()
 
-datos_covid <- read_datos_abiertos(file_ejemplo, show_warnings = FALSE)
-datos_covid$disconnect()
+#Estos links deben omitirse en una corrida normal. Se incluyen por ahora como ejemplo
+#pero las opciones site.covid.dic y sites.covid deben eliminarse de abajo.
+dlink        <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
+diclink      <- "https://github.com/RodrigoZepeda/covidmx/raw/main/diccionario_datos_covid19.zip"
 
-# Es lo mismo que:
-datos_covid <- read_datos_abiertos_duckdb(file_ejemplo, show_warnings = FALSE)
-datos_covid$disconnect()
+#En el ejemplo de R por normas de CRAN tenemos que hacerlo así pero en tu
+#computadora puedes solo usar descargar datos sin el if else
+if (RCurl::url.exists(dlink) & RCurl::url.exists(diclink)){
 
-# Descarga los datos y lee de un zip guardandolos a la vez en
-# base de nombre datos_desde_zip.duckdb
-direccion_zip <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = FALSE)
-datos_covid <- read_datos_abiertos(direccion_zip,
-  dbdir = file_ejemplo,
-  show_warnings = FALSE
-)
-datos_covid$disconnect()
+  #Necesitamos la base para verificar los reads
+  datos_covid <- descarga_datos_abiertos(
+    dbdir = file_ejemplo,
+    sites.covid = dlink, 
+    site.covid.dic = diclink,
+    show_warnings = FALSE
+  )
+  datos_covid$disconnect()
+  
+  datos_covid <- read_datos_abiertos(file_ejemplo, show_warnings = FALSE, 
+                    site.covid.dic = diclink)
+  datos_covid$disconnect()
 
-# Es lo mismo que:
-datos_covid <- read_datos_abiertos_zip(direccion_zip,
-  dbdir = file_ejemplo,
-  show_warnings = FALSE
-)
-datos_covid$disconnect()
+   # Es lo mismo que:
+  datos_covid <- read_datos_abiertos_duckdb(file_ejemplo, show_warnings = FALSE,
+                                            site.covid.dic = diclink)
+  datos_covid$disconnect()
 
-# Descarga los datos y lee de un csv
-direccion_zip <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = FALSE)
-direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
-datos_covid <- read_datos_abiertos(direccion_csv, show_warnings = FALSE)
-datos_covid$disconnect()
+  # Descarga los datos y lee de un zip guardandolos a la vez en
+  # base de nombre datos_desde_zip.duckdb
+  direccion_zip <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = FALSE,
+                                                  site.covid.dic = diclink)
+                                                 
+  datos_covid <- read_datos_abiertos(direccion_zip,
+    dbdir = file_ejemplo,
+    site.covid.dic = diclink,
+    show_warnings = FALSE
+  )
+  datos_covid$disconnect()
 
-# Es lo mismo que:
-direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
-datos_covid <- read_datos_abiertos_csv(direccion_csv, show_warnings = FALSE)
-datos_covid$disconnect()
+  # Es lo mismo que:
+  datos_covid <- read_datos_abiertos_zip(direccion_zip,
+    site.covid.dic = diclink,
+    dbdir = file_ejemplo,
+    show_warnings = FALSE
+  )
+  datos_covid$disconnect()
+
+  # Descarga los datos y lee de un csv
+  direccion_zip <- descarga_db_datos_abiertos_tbl(sites.covid = dlink, show_warnings = FALSE)
+  direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
+  datos_covid   <- read_datos_abiertos(direccion_csv, show_warnings = FALSE, 
+                                          site.covid.dic = diclink)
+  datos_covid$disconnect()
+
+  # Es lo mismo que:
+  direccion_csv <- unzip_db_datos_abiertos_tbl(direccion_zip)
+  datos_covid   <- read_datos_abiertos_csv(direccion_csv, show_warnings = FALSE,
+                          site.covid.dic = diclink)
+  datos_covid$disconnect()
+}
 }
 }

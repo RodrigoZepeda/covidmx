@@ -1,6 +1,6 @@
 # covidmx 0.7.7
 
-* Se cambió `donttest` a `dontrun` donde generaba error en el check para release. 
+* Se cambió `donttest` issue #15 donde generaba error en el (check para release)[https://github.com/RodrigoZepeda/covidmx/issues/15]. 
 
 # covidmx 0.7.6
 

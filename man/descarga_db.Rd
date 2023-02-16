@@ -266,36 +266,45 @@ de \code{\link[=read_datos_abiertos]{read_datos_abiertos()}}.
 }
 \examples{
 \donttest{
-# Descarga solo el diccionario
-diccionario <- descarga_diccionario(show_warnings = FALSE)
+#Estos links deben omitirse en una corrida normal. Se incluyen por ahora como ejemplo
+#pero las opciones site.covid.dic y sites.covid deben eliminarse de abajo.
+diclink   <- "https://github.com/RodrigoZepeda/covidmx/raw/main/diccionario_datos_covid19.zip"
+dlink     <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
 
-# O bien descarga solo los datos abiertos de ejemplo desde Github
-# omite el dlink (o cámbialo por el vínculo correcto) para descargar los datos de la DGE
-dlink <- "https://github.com/RodrigoZepeda/covidmx/raw/main/datos_abiertos_covid19.zip"
-datos_abiertos <- descarga_db(sites.covid = dlink, show_warnings = FALSE)
+#' #En el ejemplo de R por normas de CRAN tenemos que hacerlo así pero en tu
+#computadora puedes solo usar descargar datos sin el if else
+if (RCurl::url.exists(dlink) & RCurl::url.exists(diclink)){
+  
+  # Descarga solo el diccionario no oficial (omite el site.covid.dic para el de DGE)
+  diccionario <- descarga_diccionario(show_warnings = FALSE, site.covid.dic = diclink)
 
-# Pegalos en el formato que se necesita para el resto de funciones
-datos_covid <- pega_db_datos_abiertos_tbl_y_diccionario(datos_abiertos, diccionario)
+  # O bien descarga solo los datos abiertos de ejemplo desde Github
+  # omite el dlink (o cámbialo por el vínculo correcto) para descargar los datos de la DGE
+  datos_abiertos <- descarga_db(sites.covid = dlink, show_warnings = FALSE)
 
-# Desconectamos
-datos_covid$disconnect()
+  # Pegalos en el formato que se necesita para el resto de funciones
+  datos_covid <- pega_db_datos_abiertos_tbl_y_diccionario(datos_abiertos, diccionario)
 
-# Tambien puedes descargar paso por paso
-datos_abiertos <- descarga_db_datos_abiertos_tbl(
-  sites.covid = dlink,
-  show_warnings = FALSE
-) |> # Descarga
+  # Desconectamos
+  datos_covid$disconnect()
+
+  # Tambien puedes descargar paso por paso
+  datos_abiertos <- descarga_db_datos_abiertos_tbl(
+    sites.covid = dlink,
+    show_warnings = FALSE
+  ) |> # Descarga
   unzip_db_datos_abiertos_tbl() |> # Unzippea
   parse_db_datos_abiertos_tbl() # Duckdb
 
-# O bien el diccionario
-diccionario <- descarga_db_diccionario_ssa() |> # Descarga
+  # O bien el diccionario
+  diccionario <- descarga_db_diccionario_ssa(site.covid.dic = diclink) |> # Descarga
   unzip_db_diccionario_ssa() |> # Unzippea
   parse_db_diccionario_ssa() # Tibble
 
-# Si descargaste cada uno por separado necesitas la funcion pega para
-# juntarlos en un unico objeto
-datos_covid <- pega_db_datos_abiertos_tbl_y_diccionario(datos_abiertos, diccionario)
+  # Si descargaste cada uno por separado necesitas la funcion pega para
+  # juntarlos en un unico objeto
+  datos_covid <- pega_db_datos_abiertos_tbl_y_diccionario(datos_abiertos, diccionario)
+}
 }
 }
 \seealso{
