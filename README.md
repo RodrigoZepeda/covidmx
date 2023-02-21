@@ -33,7 +33,7 @@ variantes   <- descarga_datos_variantes_GISAID("nacional")
 #Datos de ocupación hopsitalaria de Red IRAG ('Estatal' o 'Unidad Médica')
 ocupacion   <- descarga_datos_red_irag("Estatal")
 
-#Descarga datos abiertos de covid, guarda en duckdb (mi_archivo/de_datos.duckdb) 
+#Descarga datos abiertos de covid, guarda en duckdb (mi_archivo_de_datos.duckdb) 
 # y te da una conexión
 datos_covid <- descarga_datos_abiertos(dbdir = "mi_archivo/de_datos.duckdb") 
 ```
