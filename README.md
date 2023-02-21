@@ -35,7 +35,7 @@ ocupacion   <- descarga_datos_red_irag("Estatal")
 
 #Descarga datos abiertos de covid, guarda en duckdb (mi_archivo_de_datos.duckdb) 
 # y te da una conexión
-datos_covid <- descarga_datos_abiertos(dbdir = "mi_archivo/de_datos.duckdb") 
+datos_covid <- descarga_datos_abiertos(dbdir = "mi_archivo_de_datos.duckdb") 
 ```
 
 Todas las descargas del paquete son inteligentes y si ha pasado poco tiempo desde tu
@@ -44,7 +44,7 @@ Todas las descargas del paquete son inteligentes y si ha pasado poco tiempo desd
 Puedes volver a leer tu base descargada haciendo:
 
 ```{r}
-datos_covid <- read_datos_abiertos(dbdir = "mi_archivo/de_datos.duckdb") 
+datos_covid <- read_datos_abiertos(dbdir = "mi_archivo_de_datos.duckdb") 
 ```
 
 Las funciones principales del paquete son:
