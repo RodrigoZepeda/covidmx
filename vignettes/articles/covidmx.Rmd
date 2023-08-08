@@ -45,7 +45,7 @@ datos_covid <- covidmx::datosabiertos #Uso de los datos precargados
 Lo más importante es comenzar descargando la base de datos abiertos. Esto lo puedes hacer como sigue:
 
 ```{r descarga, eval = FALSE}
-datos_covid <- descarga_datos_abiertos()
+datos_covid <- descarga_datos_abiertos(pragma_memory_limit="2GB")
 ```
 
 Para propósito de este tutorial trabajaremos con una base de datos más pequeña disponible en el repositorio de [Github](https://github.com/RodrigoZepeda/covidmx) la cual guardaremos en `duckdb` bajo el nombre de **tutorial**. 

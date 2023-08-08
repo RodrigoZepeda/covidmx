@@ -1,3 +1,7 @@
+# covidmx 0.7.8
+
+* Se corrigió que la lectura de datos abiertos no funcionaba con el nuevo archivo `.zip`
+
 # covidmx 0.7.7
 
 * Se cambió `donttest` issue #15 donde generaba error en el (check para release)[https://github.com/RodrigoZepeda/covidmx/issues/15]. 
