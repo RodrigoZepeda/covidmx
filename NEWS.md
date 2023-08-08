@@ -1,6 +1,7 @@
 # covidmx 0.7.8
 
 * Se corrigió que la lectura de datos abiertos no funcionaba con el nuevo archivo `.zip`
+* Se corrigió que cambió el link de datos del 2022. 
 
 # covidmx 0.7.7
 

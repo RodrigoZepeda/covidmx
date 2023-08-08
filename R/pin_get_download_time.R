@@ -93,9 +93,14 @@ get_col_class <- function() {
 
 get_sites_covid <- function() {
   c(
-    "2022" = paste0(
+    "2023" = paste0(
       "http://datosabiertos.salud.gob.mx/gobmx/salud",
       "/datos_abiertos/datos_abiertos_covid19.zip"
+    ),
+    "2022" = paste0(
+      "https://datosabiertos.salud.gob.mx/gobmx/salud",
+      "/datos_abiertos/historicos/2022/",
+      "COVID19MEXICO2022.zip"
     ),
     "2021" = paste0(
       "https://datosabiertos.salud.gob.mx/gobmx/salud",
