@@ -1,3 +1,8 @@
+# covidmx 0.7.9
+
+* Se corrigió que cambió el link de datos del 2023. 
+* Se agregó dependencia a `duckdb >= 1.0.0` para que se pueda leer entre versiones.
+
 # covidmx 0.7.8
 
 * Se corrigió que la lectura de datos abiertos no funcionaba con el nuevo archivo `.zip`

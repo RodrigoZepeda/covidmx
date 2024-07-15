@@ -41,12 +41,12 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Language: es
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Imports:
     cli,
     DBI,
     dplyr,
-    duckdb (>= 0.4.0),
+    duckdb (>= 1.0.0),
     fs,
     pins (>= 1.0.1),
     RCurl,
