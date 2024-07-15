@@ -613,7 +613,7 @@ parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALS
     append(
       list("RESULTADO_LAB" = readxl::read_excel(diccionario_unzipped_path,
         sheet = "Cat\u00e1logo RESULTADO_LAB",
-        col_types = c("numeric", "text")
+        col_types = c("numeric", "text","text","text")
       ))
     ) |>
     append(
@@ -622,9 +622,16 @@ parse_db_diccionario_ssa <- function(diccionario_unzipped_path, clear_csv = FALS
         col_types = c("numeric", "text")
       ))
     ) |>
+    #FIXME: Starting in July 2024 they included two classifications
     append(
-      list("CLASIFICACION_FINAL" = readxl::read_excel(diccionario_unzipped_path,
-        sheet = "Cat\u00e1logo CLASIFICACION_FINAL",
+      list("CLASIFICACION_FINAL_COVID" = readxl::read_excel(diccionario_unzipped_path,
+        sheet = "Cat CLASIFICACION_FINAL_COVID",
+        col_types = c("numeric", "text", "text")
+      ))
+    ) |>
+    append(
+      list("CLASIFICACION_FINAL_FLU" = readxl::read_excel(diccionario_unzipped_path,
+        sheet = "Cat CLASIFICACION_FINAL_FLU",
         col_types = c("numeric", "text", "text")
       ))
     ) |>

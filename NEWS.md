@@ -1,6 +1,7 @@
 # covidmx 0.7.9
 
 * Se corrigió que cambió el link de datos del 2023. 
+* Se agregaron las nuevas clasificaciones finales para COVID y FLU.
 * Se agregó dependencia a `duckdb >= 1.0.0` para que se pueda leer entre versiones.
 
 # covidmx 0.7.8

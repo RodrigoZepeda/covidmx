@@ -93,10 +93,10 @@ get_col_class <- function() {
 
 get_sites_covid <- function() {
   c(
-    "2024" = paste0(
-      "https://datosabiertos.salud.gob.mx/gobmx/salud/",
-      "datos_abiertos/datos_abiertos_influenza_covid19.zip"
-    ),
+    # "2024" = paste0(
+    #   "https://datosabiertos.salud.gob.mx/gobmx/salud/",
+    #   "datos_abiertos/datos_abiertos_influenza_covid19.zip"
+    # ),
     "2023" = paste0(
       "https://datosabiertos.salud.gob.mx/gobmx/salud",
       "/datos_abiertos/historicos/2023/",
@@ -122,10 +122,7 @@ get_sites_covid <- function() {
 
 get_site_dic <- function() {
   paste0(
-    "http://datosabiertos.salud.",
-    "gob.mx/gobmx/salud/datos_a",
-    "biertos/diccionario_datos_",
-    "covid19.zip"
+    "https://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/diccionario_datos_abiertos.zip"
   )
 }
 
